@@ -1,15 +1,19 @@
 package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Entity
-@Table(name = "rubrica")
+@Table(name = "ra_programa")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rubrica {
+public class RAProgramaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +23,8 @@ public class Rubrica {
     private String descripcion;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_ra", referencedColumnName = "id")
-    private RAAsignatura resultadoAprendizaje;
+    @JoinColumn(name = "id_competencia", referencedColumnName = "id")
+    private CompetenciaProgramaEntity competencia;
 
     @Column(nullable = false)
     private boolean activado;

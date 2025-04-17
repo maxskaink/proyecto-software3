@@ -6,18 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
-@Table(name = "periodo")
+@Table(name = "asignatura")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Periodo {
+public class AsignaturaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 50)
-    private String periodo;
+    @Column(nullable = false, length = 100)
+    private String nombre;
+
+    @Column(nullable = false, length = 500)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private boolean activado;
 }

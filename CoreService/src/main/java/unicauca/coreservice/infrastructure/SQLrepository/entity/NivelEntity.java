@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Nivel {
+public class NivelEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,5 @@ public class Nivel {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_criterio", referencedColumnName = "id")
-    private Criterio criterio;
+    private CriterioEntity criterio;
 }

@@ -4,21 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "criterio")
+@Table(name = "asignacion_evaluador")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Criterio {
+public class AsignacionEvaluadorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private Double ponderacion;
+    @Column(name = "id_evaluador", nullable = false)
+    private Integer idEvaluador;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
-    private Rubrica rubrica;
+    private RubricaEntity rubrica;
 }

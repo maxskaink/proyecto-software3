@@ -7,14 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Entity
-@Table(name = "ra_asignatura")
+@Table(name = "competencia_programa")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RAAsignatura {
+public class CompetenciaProgramaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +22,8 @@ public class RAAsignatura {
     @Column(nullable = false, length = 500)
     private String descripcion;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_competencia", referencedColumnName = "id")
-    private CompetenciaAsignatura competencia;
+    @Column(nullable = false, length = 100)
+    private String nivel;
 
     @Column(nullable = false)
     private boolean activado;

@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompetenciaProgramaAsignatura {
+public class CompetenciaProgramaAsignaturaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +17,15 @@ public class CompetenciaProgramaAsignatura {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_competencia", referencedColumnName = "id")
-    private CompetenciaAsignatura competencia;
+    private CompetenciaAsignaturaEntity competencia;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_asignatura", referencedColumnName = "id")
-    private Asignatura asignatura;
+    private AsignaturaEntity asignatura;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_periodo", referencedColumnName = "id")
-    private Periodo periodo;
+    private PeriodoEntity periodo;
 
     @Column(nullable = false)
     private boolean activado;
