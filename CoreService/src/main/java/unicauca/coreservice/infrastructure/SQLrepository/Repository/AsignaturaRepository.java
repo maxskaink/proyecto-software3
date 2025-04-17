@@ -21,6 +21,7 @@ public class AsignaturaRepository implements AsignaturaRepositoryOut {
     public OptionalWrapper<Asignatura> addAsignatura(Asignatura newAsignatura) {
 
         try{
+            newAsignatura.setId(null);
             AsignaturaEntity result = this.JPAasignatura.save(AsignaturaMapper.toEntity(newAsignatura));
             return new OptionalWrapper<>(AsignaturaMapper.toAsignatura(result));
         }catch (Exception e){

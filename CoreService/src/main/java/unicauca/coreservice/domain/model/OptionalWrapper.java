@@ -30,4 +30,9 @@ public class OptionalWrapper<T> {
         this.value = Optional.empty();
         this.exception = exception;
     }
+
+    public OptionalWrapper(Optional<T> optional) {
+        this.value = optional;
+        this.exception = null;
+    }
 }

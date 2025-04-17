@@ -22,7 +22,7 @@ public class RAProgramaEntity {
     @Column(nullable = false, length = 500)
     private String descripcion;
 
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     @JoinColumn(name = "id_competencia", referencedColumnName = "id")
     private CompetenciaProgramaEntity competencia;
 
