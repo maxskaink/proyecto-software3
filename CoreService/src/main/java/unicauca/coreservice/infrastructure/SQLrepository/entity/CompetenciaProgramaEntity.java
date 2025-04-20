@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +27,9 @@ public class CompetenciaProgramaEntity {
 
     @Column(nullable = false, length = 100)
     private String nivel;
+
+    @OneToMany(mappedBy = "competenciaPrograma", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompetenciaAsignaturaEntity> competenciasAsignatura = new ArrayList<>();
 
     @OneToOne(mappedBy = "competencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private RAProgramaEntity resultadosAprendizaje;

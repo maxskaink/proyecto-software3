@@ -2,14 +2,17 @@ package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import unicauca.coreservice.domain.model.RAAsignatura;
+
+import java.util.List;
 
 @Entity
-@Table(name = "competencia_programa_asignatura")
+@Table(name = "asignacion_competencia_asignatura")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompetenciaProgramaAsignaturaEntity {
+public class AsignacionCompetenciaAsignaturaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +32,8 @@ public class CompetenciaProgramaAsignaturaEntity {
 
     @Column(nullable = false)
     private boolean activado;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<RAAsignaturaEntity> RAAsignaturas;
+
 }

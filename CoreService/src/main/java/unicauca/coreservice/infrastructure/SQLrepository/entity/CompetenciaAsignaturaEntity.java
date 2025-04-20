@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "competencia_asignatura")
 @Data
@@ -25,7 +28,7 @@ public class CompetenciaAsignaturaEntity {
     private String nivel;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_competencia_peograma", referencedColumnName = "id")
+    @JoinColumn(name = "id_competencia_peograma", nullable = false)
     private CompetenciaProgramaEntity competenciaPrograma;
 
     @Column(nullable = false)

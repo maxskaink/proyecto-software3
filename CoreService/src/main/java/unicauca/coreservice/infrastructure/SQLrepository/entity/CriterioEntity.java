@@ -18,6 +18,9 @@ public class CriterioEntity {
     @Column(nullable = false)
     private Double ponderacion;
 
+    @Column(nullable = false, length = 100)
+    private String nombre;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
     private RubricaEntity rubrica;

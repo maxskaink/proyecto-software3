@@ -24,8 +24,8 @@ public class RAAsignaturaEntity {
     private String descripcion;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_competencia", referencedColumnName = "id")
-    private CompetenciaAsignaturaEntity competencia;
+    @JoinColumn(name = "id_competencia", nullable = false)
+    private AsignacionCompetenciaAsignaturaEntity AsignacionCompetencia;
 
     @Column(nullable = false)
     private boolean activado;
