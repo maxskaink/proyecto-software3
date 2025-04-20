@@ -182,6 +182,18 @@ public class CompAndRaAsignaturaRepository implements CompAndRAAsignaturaReposit
     }
 
     @Override
+    public List<RAAsignatura> listRAAsignaturaByCompetencia(Integer idCompetencia) {
+        ConfiguracionEntity conf = repositoryConfiguracion.getReferenceById(1);
+
+        return repositoryAsignacion.findAllByCompetenciaId(idCompetencia).stream()
+                .filter(asignacion -> Objects.equals(conf.getPeriodoActual().getId(), asignacion.getPeriodo().getId()))
+                .flatMap(asignacion -> asignacion.getRAAsignaturas().stream())
+                .filter(RAAsignaturaEntity::isActivado)
+                .map(RAAsignaturaMapper::toRAAsignatura)
+                .toList();
+    }
+
+    @Override
     public OptionalWrapper<RAAsignatura> getByIdRAAsignatura(Integer id) {
         try{
             return new OptionalWrapper<>(RAAsignaturaMapper.toRAAsignatura(

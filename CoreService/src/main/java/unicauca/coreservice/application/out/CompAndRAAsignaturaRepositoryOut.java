@@ -105,6 +105,13 @@ public interface CompAndRAAsignaturaRepositoryOut {
     List<RAAsignatura> listRAAsignatura(Integer idAsignatura);
 
     /**
+     * Retrieves a list of RAAsignatura associated with a specific Competencia.
+     *
+     * @param idCompetencia The unique identifier of the Competencia.
+     * @return A list of RAAsignatura objects associated with the specified Competencia.
+     */
+    List<RAAsignatura> listRAAsignaturaByCompetencia(Integer idCompetencia);
+    /**
      * Retrieves a RAAsignatura by its unique identifier.
      *
      * @param id The ID of the RAAsignatura to retrieve.

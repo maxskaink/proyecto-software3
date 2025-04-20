@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface JPAAsignacionCompetenciaAsignaturaRepository extends JpaRepository<AsignacionCompetenciaAsignaturaEntity, Integer> {
     List<AsignacionCompetenciaAsignaturaEntity> findAllByAsignaturaId(Integer asignaturaId);
+    List<AsignacionCompetenciaAsignaturaEntity> findAllByCompetenciaId(Integer competenciaId);
 }
