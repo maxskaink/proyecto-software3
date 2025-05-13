@@ -5,14 +5,14 @@ import unicauca.coreservice.domain.model.RAPrograma;
 
 import java.util.List;
 
-public interface CompAndRaProgramaUsesCase {
+public interface ProgramCompetenceAndOutcomeInt {
 
     /**
      * Add a new CompetenciaPrograma in the system; it also adds the RA associated to it
      * @param newCompetenciaPrograma instance of the new CompetenciaPrograma
      * @return The CompetenciaPrograma added or the exception if it fails.
      */
-    CompetenciaPrograma addCompPrograma(CompetenciaPrograma newCompetenciaPrograma) throws Exception;
+    CompetenciaPrograma addProgramCompetence(CompetenciaPrograma newCompetenciaPrograma) throws Exception;
 
     /**
      * Get all the CompetenciaPrograma activated in the system

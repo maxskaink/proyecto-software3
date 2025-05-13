@@ -1,6 +1,6 @@
 package unicauca.coreservice.domain.useCase;
 
-import unicauca.coreservice.application.in.CompAndRaProgramaUsesCase;
+import unicauca.coreservice.application.in.ProgramCompetenceAndOutcomeInt;
 import unicauca.coreservice.application.out.CompAndRAProgramaRepositoryOut;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.model.CompetenciaPrograma;
@@ -9,16 +9,16 @@ import unicauca.coreservice.domain.model.RAPrograma;
 
 import java.util.List;
 
-public class CompAndRAProgramaService implements CompAndRaProgramaUsesCase {
+public class ProgramCompetenceAndRAProgramaService implements ProgramCompetenceAndOutcomeInt {
 
     private final CompAndRAProgramaRepositoryOut repository;
 
-    public CompAndRAProgramaService(CompAndRAProgramaRepositoryOut repository) {
+    public ProgramCompetenceAndRAProgramaService(CompAndRAProgramaRepositoryOut repository) {
         this.repository = repository;
     }
 
     @Override
-    public CompetenciaPrograma addCompPrograma(CompetenciaPrograma newCompetenciaPrograma) throws Exception {
+    public CompetenciaPrograma addProgramCompetence(CompetenciaPrograma newCompetenciaPrograma) throws Exception {
         OptionalWrapper<CompetenciaPrograma> response = repository.addCompPrograma(newCompetenciaPrograma);
 
         return response.getValue()
