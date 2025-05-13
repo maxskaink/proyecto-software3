@@ -5,7 +5,7 @@ import unicauca.coreservice.domain.model.RAPrograma;
 
 import java.util.List;
 
-public interface CompetenciaAndRAProgramaUsesCase {
+public interface CompAndRaProgramaUsesCase {
 
     /**
      * Add a new CompetenciaPrograma in the system; it also adds the RA associated to it

@@ -3,7 +3,7 @@ package unicauca.coreservice.infrastructure.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unicauca.coreservice.application.in.CompetenciaAndRAProgramaUsesCase;
+import unicauca.coreservice.application.in.CompAndRaProgramaUsesCase;
 import unicauca.coreservice.domain.model.CompetenciaPrograma;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/competencia/programa")
 @AllArgsConstructor
 public class CompetenciaProgramaController {
-    private final CompetenciaAndRAProgramaUsesCase service;
+    private final CompAndRaProgramaUsesCase service;
 
     @PostMapping
     public ResponseEntity<CompetenciaPrograma> createCompetenciaPrograma(

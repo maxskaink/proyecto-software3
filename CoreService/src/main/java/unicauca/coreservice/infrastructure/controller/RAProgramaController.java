@@ -3,7 +3,7 @@ package unicauca.coreservice.infrastructure.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unicauca.coreservice.application.in.CompetenciaAndRAProgramaUsesCase;
+import unicauca.coreservice.application.in.CompAndRaProgramaUsesCase;
 import unicauca.coreservice.domain.model.RAPrograma;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RAProgramaController {
 
-    private final CompetenciaAndRAProgramaUsesCase service;
+    private final CompAndRaProgramaUsesCase service;
 
     @GetMapping
     public ResponseEntity<List<RAPrograma>> listRAPrograma(){

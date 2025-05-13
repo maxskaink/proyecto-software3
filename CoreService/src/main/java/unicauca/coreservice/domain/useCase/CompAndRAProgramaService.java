@@ -1,6 +1,6 @@
 package unicauca.coreservice.domain.useCase;
 
-import unicauca.coreservice.application.in.CompetenciaAndRAProgramaUsesCase;
+import unicauca.coreservice.application.in.CompAndRaProgramaUsesCase;
 import unicauca.coreservice.application.out.CompAndRAProgramaRepositoryOut;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.model.CompetenciaPrograma;
@@ -9,7 +9,7 @@ import unicauca.coreservice.domain.model.RAPrograma;
 
 import java.util.List;
 
-public class CompAndRAProgramaService implements CompetenciaAndRAProgramaUsesCase {
+public class CompAndRAProgramaService implements CompAndRaProgramaUsesCase {
 
     private final CompAndRAProgramaRepositoryOut repository;
 

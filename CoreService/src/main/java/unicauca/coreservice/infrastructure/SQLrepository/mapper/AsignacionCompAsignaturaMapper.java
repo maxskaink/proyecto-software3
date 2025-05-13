@@ -13,7 +13,8 @@ public class AsignacionCompAsignaturaMapper {
                         entity.getId(),
                         CompAsignaturaMapper.toCompAsignatura(entity.getCompetencia()),
                         AsignaturaMapper.toAsignatura(entity.getAsignatura()),
-                        PeriodoMapper.toPeriodo(entity.getPeriodo())
+                        PeriodoMapper.toPeriodo(entity.getPeriodo()),
+                        entity.getRAAsignaturas().stream().map(RAAsignaturaMapper::toRAAsignatura).toList()
                 );
     }
 }

@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
 
+import java.util.List;
+import java.util.Objects;
+
 @Getter
 @Setter
 public class AsignacionCompetenciaAsignatura {
@@ -11,17 +14,20 @@ public class AsignacionCompetenciaAsignatura {
     private CompetenciaAsignatura competencia;
     private Asignatura asignatura;
     private Periodo periodo;
+    private List<RAAsignatura> RAAsignaturas;
 
     public AsignacionCompetenciaAsignatura(
             Integer id,
             CompetenciaAsignatura competencia,
             Asignatura asignatura,
-            Periodo periodo
+            Periodo periodo,
+            List<RAAsignatura> RAAsignaturas
     ){
         setId(id);
         setCompetencia(competencia);
         setAsignatura(asignatura);
         setPeriodo(periodo);
+        setRAAsignaturas(RAAsignaturas);
     }
 
     public void setCompetencia(CompetenciaAsignatura competencia){
@@ -39,5 +45,8 @@ public class AsignacionCompetenciaAsignatura {
         if(null==periodo)
             throw new InvalidValue("El periodo no puede ser nulo");
         this.periodo = periodo;
+    }
+    public void setRAAsignaturas(List<RAAsignatura> RAAsignaturas){
+        this.RAAsignaturas = Objects.requireNonNullElseGet(RAAsignaturas, List::of);
     }
 }
