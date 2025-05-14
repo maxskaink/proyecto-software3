@@ -1,13 +1,13 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
-import unicauca.coreservice.domain.model.AssignCompetencyToSubject;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.domain.model.CompetencyToSubjectAssignment;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyAssignmentEntity;
 
 public class AsignacionCompAsignaturaMapper {
 
-    public static AssignCompetencyToSubject toAsignacionCompAsignatura(AssignSubjectCompetencyEntity entity){
+    public static CompetencyToSubjectAssignment toAsignacionCompAsignatura(SubjectCompetencyAssignmentEntity entity){
         return null==entity?null:
-                new AssignCompetencyToSubject(
+                new CompetencyToSubjectAssignment(
                         entity.getId(),
                         CompAsignaturaMapper.toCompAsignatura(entity.getCompetency()),
                         AsignaturaMapper.toAsignatura(entity.getSubject()),

@@ -5,6 +5,6 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectOutcomeEn
 
 import java.util.Optional;
 
-public interface JPARaAsignaturaRepository extends JpaRepository<SubjectOutcomeEntity, Integer> {
-    Optional<SubjectOutcomeEntity> findByIdAndActivadoTrue(Integer integer);
+public interface JPASubjectOutcomeRepository extends JpaRepository<SubjectOutcomeEntity, Integer> {
+    Optional<SubjectOutcomeEntity> findActiveSubjectOutcomeById(Integer integer);
 }

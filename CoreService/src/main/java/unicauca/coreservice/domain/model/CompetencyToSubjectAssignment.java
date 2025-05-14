@@ -9,14 +9,14 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class AssignCompetencyToSubject {
+public class CompetencyToSubjectAssignment {
     private Integer id;
     private SubjectCompetency competency;
     private Subject subject;
     private Term term;
     private List<SubjectOutcome> SubjectOutcomes;
 
-    public AssignCompetencyToSubject(
+    public CompetencyToSubjectAssignment(
             Integer id,
             SubjectCompetency competency,
             Subject subject,

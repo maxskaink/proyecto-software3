@@ -6,7 +6,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetenc
 import java.util.List;
 import java.util.Optional;
 
-public interface JPACompetenciaAsignaturaRepository extends JpaRepository<SubjectCompetencyEntity, Integer> {
-    List<SubjectCompetencyEntity> findAllByActivadoTrue();
-    Optional<SubjectCompetencyEntity> findByIdAndActivadoTrue(Integer integer);
+public interface JPASubjectCompetencyRepository extends JpaRepository<SubjectCompetencyEntity, Integer> {
+    List<SubjectCompetencyEntity> findAllActiveSubjectCompetencies();
+    Optional<SubjectCompetencyEntity> findActiveSubjectCompetencyById(Integer integer);
 }

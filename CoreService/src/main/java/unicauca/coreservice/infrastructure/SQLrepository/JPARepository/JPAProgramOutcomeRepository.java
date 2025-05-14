@@ -6,7 +6,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramOutcomeEn
 import java.util.List;
 import java.util.Optional;
 
-public interface JPARaProgramaRepository extends JpaRepository<ProgramOutcomeEntity, Integer> {
-    List<ProgramOutcomeEntity> findAllByActivadoTrue();
-    Optional<ProgramOutcomeEntity> findByIdAndActivadoTrue(Integer integer);
+public interface JPAProgramOutcomeRepository extends JpaRepository<ProgramOutcomeEntity, Integer> {
+    List<ProgramOutcomeEntity> findAllActiveProgramOutcomes();
+    Optional<ProgramOutcomeEntity> findActiveProgramOutcomeById(Integer integer);
 }

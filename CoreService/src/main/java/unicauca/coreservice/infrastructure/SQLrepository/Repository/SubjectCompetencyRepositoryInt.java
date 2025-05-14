@@ -6,11 +6,11 @@ import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.SubjectCompetency;
 import unicauca.coreservice.domain.model.OptionalWrapper;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAAsignacionCompetenciaAsignaturaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACompetenciaAsignaturaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACompetenciaProgramaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfiguracionRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPASubjectCompetencyAssignmentRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPASubjectCompetencyRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAProgramCompetencyRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfigurationRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyAssignmentEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramCompetencyEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfigurationEntity;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 @Repository
 @AllArgsConstructor
 public class SubjectCompetencyRepositoryInt implements SubjectCompetencyRepositoryOutInt {
-    private final JPACompetenciaProgramaRepository repositoryCompPrograma;
-    private final JPACompetenciaAsignaturaRepository repositoryCompAsignatura;
-    private final JPAAsignacionCompetenciaAsignaturaRepository repositoryAsignacion;
-    private final JPAConfiguracionRepository repositoryConfiguracion;
+    private final JPAProgramCompetencyRepository repositoryCompPrograma;
+    private final JPASubjectCompetencyRepository repositoryCompAsignatura;
+    private final JPASubjectCompetencyAssignmentRepository repositoryAsignacion;
+    private final JPAConfigurationRepository repositoryConfiguracion;
 
     @Override
     public OptionalWrapper<SubjectCompetency> add(SubjectCompetency newSubjectCompetency) {
@@ -35,7 +35,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
 
             SubjectCompetencyEntity newComp = CompAsignaturaMapper.toEntity(newSubjectCompetency);
 
-            ProgramCompetencyEntity compProg = repositoryCompPrograma.findByIdAndActivadoTrue(
+            ProgramCompetencyEntity compProg = repositoryCompPrograma.findActiveProgramCompetencyById(
                     newSubjectCompetency.getSubjectCompetencyId()
             ).orElseThrow(()->new NotFound("Competencia Programa con id " + newSubjectCompetency.getSubjectCompetencyId() + " no encontrada"));
 
@@ -51,7 +51,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
 
     @Override
     public List<SubjectCompetency> listAll() {
-        return repositoryCompAsignatura.findAllByActivadoTrue().stream()
+        return repositoryCompAsignatura.findAllActiveSubjectCompetencies().stream()
                 .map(CompAsignaturaMapper::toCompAsignatura)
                 .collect(Collectors.toList());
     }
@@ -61,7 +61,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
         ConfigurationEntity conf = repositoryConfiguracion.getReferenceById(1);
         return repositoryAsignacion.findAllBySubjectId(subjectId).stream()
                 .filter(asignacion -> Objects.equals(conf.getActiveTerm().getId(), asignacion.getTerm().getId()))
-                .map(AssignSubjectCompetencyEntity::getCompetency)
+                .map(SubjectCompetencyAssignmentEntity::getCompetency)
                 .filter(SubjectCompetencyEntity::isIsActivated)
                 .map(CompAsignaturaMapper::toCompAsignatura)
                 .toList();
@@ -71,7 +71,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     public OptionalWrapper<SubjectCompetency> getById(Integer id) {
         try{
             return new OptionalWrapper<>(CompAsignaturaMapper.toCompAsignatura(
-                    repositoryCompAsignatura.findByIdAndActivadoTrue(id)
+                    repositoryCompAsignatura.findActiveSubjectCompetencyById(id)
                             .orElseThrow(() -> new NotFound("Competencia Subject con id " + id + " no encontrada"))
             ));
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> update(Integer id, SubjectCompetency newSubjectCompetency) {
         try{
-            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
+            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findActiveSubjectCompetencyById(id)
                     .orElseThrow(()-> new NotFound("Competencia Subject con id " + id + " no encontrada"));
 
             actualComp.setDescription(newSubjectCompetency.getDescription());
@@ -99,7 +99,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> remove(Integer id) {
         try{
-            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
+            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findActiveSubjectCompetencyById(id)
                     .orElseThrow(()-> new NotFound("Competencia Subject con id " + id + " no encontrada"));
             actualComp.setIsActivated(false);
             return new OptionalWrapper<>(

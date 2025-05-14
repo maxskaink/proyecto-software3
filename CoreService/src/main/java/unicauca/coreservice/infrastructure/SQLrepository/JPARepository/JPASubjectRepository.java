@@ -5,6 +5,6 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectEntity;
 
 import java.util.Optional;
 
-public interface JPAAsignaturaRepository extends JpaRepository<SubjectEntity, Integer> {
-    Optional<SubjectEntity> findByIdAndActivadoTrue(Integer id);
+public interface JPASubjectRepository extends JpaRepository<SubjectEntity, Integer> {
+    Optional<SubjectEntity> findActiveSubjectById(Integer id);
 }

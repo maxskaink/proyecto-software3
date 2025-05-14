@@ -8,7 +8,7 @@ import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.*;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyAssignmentEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfigurationEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectOutcomeEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.RAAsignaturaMapper;
@@ -20,14 +20,14 @@ import java.util.Objects;
 @AllArgsConstructor
 public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutInt {
 
-    private final JPAAsignacionCompetenciaAsignaturaRepository repositoryAsignacion;
-    private final JPARaAsignaturaRepository repositoryRaAsignatura;
-    private final JPAConfiguracionRepository repositoryConfiguracion;
+    private final JPASubjectCompetencyAssignmentRepository repositoryAsignacion;
+    private final JPASubjectOutcomeRepository repositoryRaAsignatura;
+    private final JPAConfigurationRepository repositoryConfiguracion;
 
     @Override
     public OptionalWrapper<SubjectOutcome> add(SubjectOutcome newSubjectOutcome, Integer asignacionCompetencia) {
         try{
-            AssignSubjectCompetencyEntity asignacion =
+            SubjectCompetencyAssignmentEntity asignacion =
                     repositoryAsignacion.getReferenceById(asignacionCompetencia);
 
             // Verificar si ya existe un RA con la misma descripción para esta asignación
@@ -82,7 +82,7 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     public OptionalWrapper<SubjectOutcome> getBySubjectId(Integer id) {
         try{
             return new OptionalWrapper<>(RAAsignaturaMapper.toRAAsignatura(
-                    repositoryRaAsignatura.findByIdAndActivadoTrue(id)
+                    repositoryRaAsignatura.findActiveSubjectOutcomeById(id)
                             .orElseThrow(() -> new NotFound("SubjectOutcome con id " + id + " no encontrada"))
             ));
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public OptionalWrapper<SubjectOutcome> update(Integer id, SubjectOutcome newSubjectOutcome) {
         try{
-            SubjectOutcomeEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
+            SubjectOutcomeEntity actual = repositoryRaAsignatura.findActiveSubjectOutcomeById(id)
                     .orElseThrow(() -> new NotFound("SubjectOutcome con id " + id + " no encontrada"));
             actual.setDescription(newSubjectOutcome.getDescription());
 
@@ -108,7 +108,7 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public OptionalWrapper<SubjectOutcome> remove(Integer id) {
         try{
-            SubjectOutcomeEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
+            SubjectOutcomeEntity actual = repositoryRaAsignatura.findActiveSubjectOutcomeById(id)
                     .orElseThrow(() -> new NotFound("SubjectOutcome con id " + id + " no encontrada"));
             actual.setIsActivated(false);
             return new OptionalWrapper<>( RAAsignaturaMapper.toRAAsignatura(

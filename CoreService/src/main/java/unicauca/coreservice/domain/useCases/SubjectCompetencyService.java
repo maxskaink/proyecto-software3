@@ -3,7 +3,7 @@ package unicauca.coreservice.domain.useCases;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
-import unicauca.coreservice.application.out.AssignCompetencyToSubjectRepositoryOutInt;
+import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.exception.InvalidValue;
@@ -17,7 +17,7 @@ import java.util.List;
 public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     private final SubjectCompetencyRepositoryOutInt competencyRepository;
-    private final AssignCompetencyToSubjectRepositoryOutInt assignRepository;
+    private final CompetencyToSubjectAssignmentRepositoryOutInt assignRepository;
     private final TermRepositoryInt termRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
 
@@ -42,14 +42,14 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
         SubjectCompetency competency = responseCreate.getValue()
                 .orElseThrow(responseCreate::getException);
         //Asociate in the active term with subject
-        AssignCompetencyToSubject assignation = new AssignCompetencyToSubject(
+        CompetencyToSubjectAssignment assignation = new CompetencyToSubjectAssignment(
                 null,
                 competency,
                 subject,
                 activeTerm,
                 null
         );
-        OptionalWrapper<AssignCompetencyToSubject> responseAssignation =
+        OptionalWrapper<CompetencyToSubjectAssignment> responseAssignation =
                 assignRepository.add(assignation);
 
         SubjectCompetency response = responseAssignation.getValue()
@@ -94,10 +94,10 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Override
     public SubjectCompetency remove(Integer id) throws Exception {
         //Get the assignation of the active term
-        OptionalWrapper<AssignCompetencyToSubject> assignationWrapper =
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper =
                 assignRepository.getBySubjectId(id);
 
-        AssignCompetencyToSubject assignation= assignationWrapper.getValue()
+        CompetencyToSubjectAssignment assignation= assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
 
         assignation.getSubjectOutcomes().forEach(ra -> {
@@ -105,7 +105,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
         });
         competencyRepository.remove(id);
 
-        OptionalWrapper<AssignCompetencyToSubject> response =
+        OptionalWrapper<CompetencyToSubjectAssignment> response =
                 assignRepository.remove(assignation.getId());
 
         return response.getValue().orElseThrow(response::getException).getCompetency();

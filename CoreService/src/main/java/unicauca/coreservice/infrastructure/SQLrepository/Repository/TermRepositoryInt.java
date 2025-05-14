@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import unicauca.coreservice.application.out.TermRepositoryOutInt;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Term;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfiguracionRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAPeriodoRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfigurationRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPATermRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.PeriodoMapper;
 
@@ -16,8 +16,8 @@ import java.util.List;
 @Repository
 public class TermRepositoryInt implements TermRepositoryOutInt {
 
-    private final JPAPeriodoRepository repository;
-    private final JPAConfiguracionRepository repositoryConfiguracion;
+    private final JPATermRepository repository;
+    private final JPAConfigurationRepository repositoryConfiguracion;
 
     @Override
     public OptionalWrapper<Term> add(Term newTerm) {

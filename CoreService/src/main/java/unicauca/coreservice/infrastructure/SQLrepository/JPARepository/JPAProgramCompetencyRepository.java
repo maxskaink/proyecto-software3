@@ -6,7 +6,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramCompetenc
 import java.util.List;
 import java.util.Optional;
 
-public interface JPACompetenciaProgramaRepository extends JpaRepository<ProgramCompetencyEntity, Integer> {
-    List<ProgramCompetencyEntity> findAllByActivadoTrue();
-    Optional<ProgramCompetencyEntity> findByIdAndActivadoTrue(Integer integer);
+public interface JPAProgramCompetencyRepository extends JpaRepository<ProgramCompetencyEntity, Integer> {
+    List<ProgramCompetencyEntity> findAllActiveProgramCompetencies();
+    Optional<ProgramCompetencyEntity> findActiveProgramCompetencyById(Integer integer);
 }

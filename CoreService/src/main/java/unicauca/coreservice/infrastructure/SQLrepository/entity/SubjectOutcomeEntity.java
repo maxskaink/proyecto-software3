@@ -25,7 +25,7 @@ public class SubjectOutcomeEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_competencia", nullable = false)
-    private AssignSubjectCompetencyEntity competencyAssignment;
+    private SubjectCompetencyAssignmentEntity competencyAssignment;
 
     @Column(nullable = false)
     private boolean isActivated;
