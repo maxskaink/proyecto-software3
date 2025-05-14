@@ -1,4 +1,4 @@
-package unicauca.coreservice.domain.useCase;
+package unicauca.coreservice.domain.useCases;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,77 +14,77 @@ import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermReposito
 import java.util.List;
 
 @AllArgsConstructor
-public class CompAsignaturaService implements SubjectCompetencyInt {
+public class SubjectCompetencyService implements SubjectCompetencyInt {
 
-    private final SubjectCompetencyRepositoryOutInt repositoryComp;
-    private final AssignCompetencyToSubjectRepositoryOutInt repositoryAsignacion;
-    private final TermRepositoryInt repositoryPeriodo;
-    private final SubjectOutcomeRepositoryOutInt repositoryRaAsignatura;
+    private final SubjectCompetencyRepositoryOutInt competencyRepository;
+    private final AssignCompetencyToSubjectRepositoryOutInt assignRepository;
+    private final TermRepositoryInt termRepository;
+    private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
 
     @Override
     @Transactional
-    public SubjectCompetency addCompetency(SubjectCompetency newCompetenciaAsignatura, SubjectOutcome initialOutcome, Integer idAsignatura) throws Exception {
+    public SubjectCompetency add(SubjectCompetency newSubjectCompetency, SubjectOutcome initialOutcome, Integer subjectId) throws Exception {
         //TODO Mirar como hacer para que valide que ya tenga una RA
         //Validate some information
-        if(null==newCompetenciaAsignatura || null == idAsignatura)
-            throw new InvalidValue("Instance de Competencia es invalida, no puede ser nula");
+        if(null==newSubjectCompetency || null == subjectId)
+            throw new InvalidValue("Instance of competency is not valid, it can not be null");
         if(null== initialOutcome)
-            throw new InvalidValue("Instance de RA es invalida, no puede ser nula");
+            throw new InvalidValue("Instance of Outcome is not valid, it can not be null");
 
-        Term acutalTerm = repositoryPeriodo.getActualPeriodo().getValue()
-                .orElseThrow(()->new RuntimeException("Actual Period doesnt exist"));
+        Term activeTerm = termRepository.getActiveTerm().getValue()
+                .orElseThrow(()->new RuntimeException("Active term doesnt exists"));
 
-        //MAchetazo,perdon :c
-        Subject subject = new Subject(idAsignatura, "nombre", "descripcion");
+        //TODO FIX THIS LATER
+        Subject subject = new Subject(subjectId, "name", "description");
 
-        //Create competencia in the main table
-        OptionalWrapper<SubjectCompetency> responseCreate = repositoryComp.add(newCompetenciaAsignatura);
-        SubjectCompetency competencia = responseCreate.getValue()
+        //Create competency in the main table
+        OptionalWrapper<SubjectCompetency> responseCreate = competencyRepository.add(newSubjectCompetency);
+        SubjectCompetency competency = responseCreate.getValue()
                 .orElseThrow(responseCreate::getException);
-        //Asociate in the actual period with subject
-        AssignCompetencyToSubject asignacion = new AssignCompetencyToSubject(
+        //Asociate in the active term with subject
+        AssignCompetencyToSubject assignation = new AssignCompetencyToSubject(
                 null,
-                competencia,
+                competency,
                 subject,
-                acutalTerm,
+                activeTerm,
                 null
         );
-        OptionalWrapper<AssignCompetencyToSubject> responseAsignacion =
-                repositoryAsignacion.add(asignacion);
+        OptionalWrapper<AssignCompetencyToSubject> responseAssignation =
+                assignRepository.add(assignation);
 
-        SubjectCompetency response = responseAsignacion.getValue()
-                .orElseThrow(responseAsignacion::getException).getCompetency();
+        SubjectCompetency response = responseAssignation.getValue()
+                .orElseThrow(responseAssignation::getException).getCompetency();
 
-        //Add First RA to the competencia
-        OptionalWrapper<SubjectOutcome> responseAddFirstRA =
-                repositoryRaAsignatura.add(initialOutcome, response.getId());
-        responseAddFirstRA.getValue().orElseThrow(responseAddFirstRA::getException);
+        //Add First RA to the competency
+        OptionalWrapper<SubjectOutcome> responseAddFirstOutcome =
+                subjectOutcomeRepository.add(initialOutcome, response.getId());
+        responseAddFirstOutcome.getValue().orElseThrow(responseAddFirstOutcome::getException);
 
         return response;
     }
 
     @Override
-    public List<SubjectCompetency> listSubjectCompetencies(Integer idAsignatura) {
-        if(null==idAsignatura)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
-        return repositoryComp.listAllBySubjectId(idAsignatura);
+    public List<SubjectCompetency> listAllBySubjectId(Integer subjectId) {
+        if(null==subjectId)
+            throw new InvalidValue("The id is not valid, it can not be null");
+        return competencyRepository.listAllBySubjectId(subjectId);
     }
 
     @Override
-    public SubjectCompetency getCompetencyById(Integer id) {
+    public SubjectCompetency getById(Integer id) {
         if(null==id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
-        return repositoryComp.getById(id).getValue()
-                .orElseThrow(()->new NotFound("Competencia con id " + id + " no existe"));
+            throw new InvalidValue("The id is not valid, it can not be null");
+        return competencyRepository.getById(id).getValue()
+                .orElseThrow(()->new NotFound("The competency with the id " + id + " doesnt exists"));
     }
 
     @Override
-    public SubjectCompetency updateCompetencyById(Integer id, SubjectCompetency newSubjectCompetency) throws Exception {
+    public SubjectCompetency update(Integer id, SubjectCompetency newSubjectCompetency) throws Exception {
         if(null == id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         if(null == newSubjectCompetency)
-            throw new InvalidValue("Instance de Competencia es invalida, no puede ser nula");
-        OptionalWrapper<SubjectCompetency> response = repositoryComp.update(id, newSubjectCompetency);
+            throw new InvalidValue("Instance of competency is invalid, it can not be null");
+        OptionalWrapper<SubjectCompetency> response = competencyRepository.update(id, newSubjectCompetency);
 
         return response.getValue()
                 .orElseThrow(response::getException);
@@ -92,22 +92,21 @@ public class CompAsignaturaService implements SubjectCompetencyInt {
 
     @Transactional
     @Override
-    public SubjectCompetency removeSubjectCompetency(Integer id) throws Exception {
-        //obtener la asignacion en el periodo actual, la competencia y las ra de asignaturas asociadas
+    public SubjectCompetency remove(Integer id) throws Exception {
+        //Get the assignation of the active term
+        OptionalWrapper<AssignCompetencyToSubject> assignationWrapper =
+                assignRepository.getBySubjectId(id);
 
-        OptionalWrapper<AssignCompetencyToSubject> asignacionWrapper =
-                repositoryAsignacion.getBySubjectId(id);
+        AssignCompetencyToSubject assignation= assignationWrapper.getValue()
+                .orElseThrow(assignationWrapper::getException);
 
-        AssignCompetencyToSubject asignacion= asignacionWrapper.getValue()
-                .orElseThrow(asignacionWrapper::getException);
-
-        asignacion.getSubjectOutcomes().forEach(ra -> {
-            repositoryRaAsignatura.remove(ra.getId());
+        assignation.getSubjectOutcomes().forEach(ra -> {
+            subjectOutcomeRepository.remove(ra.getId());
         });
-        repositoryComp.remove(id);
+        competencyRepository.remove(id);
 
         OptionalWrapper<AssignCompetencyToSubject> response =
-                repositoryAsignacion.remove(asignacion.getId());
+                assignRepository.remove(assignation.getId());
 
         return response.getValue().orElseThrow(response::getException).getCompetency();
     }

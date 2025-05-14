@@ -6,19 +6,20 @@ import unicauca.coreservice.domain.exception.InvalidValue;
 
 @Getter
 @Setter
-public class Periodo {
+public class Term {
     private Integer id;
-    private String descripcion;
+    private String description;
 
-    public Periodo(Integer id, String descripcion){
+    public Term(Integer id, String description){
         setId(id);
-        setDescripcion(descripcion);
+        setDescription(description);
     }
 
-    public void setDescripcion(String descripcion){
-        if(null==descripcion)
-            throw new InvalidValue("La descripcion de un periodo no puede ser nula");
-        if(descripcion.trim().isEmpty())
-            throw new InvalidValue("La descripcion de un periodo no puede estar vacia");
+    public void setDescription(String description){
+        if(null==description)
+            throw new InvalidValue("The term description can not be null");
+        if(description.trim().isEmpty())
+            throw new InvalidValue("The term description can not be empty");
     }
+
 }

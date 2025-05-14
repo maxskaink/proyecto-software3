@@ -9,16 +9,16 @@ import unicauca.coreservice.domain.model.ProgramOutcome;
 
 import java.util.List;
 
-public class ProgramCompetencyAndRAProgramaService implements ProgramCompetencyAndOutcomeInt {
+public class ProgramCompetencyAndOutcomeService implements ProgramCompetencyAndOutcomeInt {
 
     private final ProgramCompetencyAndOutcomeRepositoryOutInt repository;
 
-    public ProgramCompetencyAndRAProgramaService(ProgramCompetencyAndOutcomeRepositoryOutInt repository) {
+    public ProgramCompetencyAndOutcomeService(ProgramCompetencyAndOutcomeRepositoryOutInt repository) {
         this.repository = repository;
     }
 
     @Override
-    public ProgramCompetency addProgramCompetency(ProgramCompetency newProgramCompetency) throws Exception {
+    public ProgramCompetency add(ProgramCompetency newProgramCompetency) throws Exception {
         OptionalWrapper<ProgramCompetency> response = repository.add(newProgramCompetency);
 
         return response.getValue()
@@ -26,14 +26,14 @@ public class ProgramCompetencyAndRAProgramaService implements ProgramCompetencyA
     }
 
     @Override
-    public List<ProgramCompetency> getProgramCompetencies() {
+    public List<ProgramCompetency> listAllProgramCompetencies() {
         return repository.listAll();
     }
 
     @Override
-    public ProgramCompetency getCompetencyById(Integer id) throws Exception {
+    public ProgramCompetency getProgramCompetencyById(Integer id) throws Exception {
         if(null == id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         OptionalWrapper<ProgramCompetency> response = repository.getCompetencyById(id);
         return response.getValue()
                 .orElseThrow(response::getException);
@@ -42,9 +42,9 @@ public class ProgramCompetencyAndRAProgramaService implements ProgramCompetencyA
     @Override
     public ProgramCompetency updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) throws Exception {
         if(null==id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         if(null== newProgramCompetency)
-            throw new InvalidValue("Instance de competencia es invalida, no puede ser nula");
+            throw new InvalidValue("Instance of competency is invalid, it can not be null");
 
         OptionalWrapper<ProgramCompetency> response = repository.updateProgramCompetency(id, newProgramCompetency);
         return response.getValue()
@@ -52,36 +52,35 @@ public class ProgramCompetencyAndRAProgramaService implements ProgramCompetencyA
     }
 
     @Override
-    public ProgramCompetency deleteProgramCompetency(Integer id) throws Exception {
+    public ProgramCompetency remove(Integer id) throws Exception {
         if(null==id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         OptionalWrapper<ProgramCompetency> response = repository.remove(id);
 
-        ProgramCompetency compDeleted = response.getValue()
+        return response.getValue()
                 .orElseThrow(response::getException);
-        return compDeleted;
     }
 
     @Override
-    public List<ProgramOutcome> getProgramOutcomes() {
+    public List<ProgramOutcome> listAllProgramOutcomes() {
         return repository.getProgramOutcome();
     }
 
     @Override
-    public ProgramOutcome getProgramOutcomesById(Integer id) throws Exception {
+    public ProgramOutcome getProgramOutcomeById(Integer id) throws Exception {
         if(null==id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         OptionalWrapper<ProgramOutcome> response = repository.getProgramOutcomeById(id);
         return response.getValue()
                 .orElseThrow(response::getException);
     }
 
     @Override
-    public ProgramOutcome updateProgramOutcomes(Integer id, ProgramOutcome newProgramOutcome) throws Exception {
+    public ProgramOutcome updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome) throws Exception {
         if(null==id)
-            throw new InvalidValue("id es invalido, no puede ser nulo");
+            throw new InvalidValue("The id is not valid, it can not be null");
         if(null== newProgramOutcome)
-            throw new InvalidValue("Instance de RA es invalida, no puede ser nula");
+            throw new InvalidValue("Instance of outcome is invalid, it can not be null");
         OptionalWrapper<ProgramOutcome> response = repository.updateProgramOutcome(id, newProgramOutcome);
         return response.getValue()
                 .orElseThrow(response::getException);

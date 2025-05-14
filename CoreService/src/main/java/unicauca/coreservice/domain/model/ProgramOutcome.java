@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class RAPrograma {
+public class ProgramOutcome {
     private Integer id;
-    private String descripcion;
+    private String description;
 }

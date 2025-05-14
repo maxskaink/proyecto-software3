@@ -2,9 +2,9 @@ package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import unicauca.coreservice.application.out.PeriodoRepositoryOut;
+import unicauca.coreservice.application.out.TermRepositoryOutInt;
 import unicauca.coreservice.domain.model.OptionalWrapper;
-import unicauca.coreservice.domain.model.Periodo;
+import unicauca.coreservice.domain.model.Term;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfiguracionRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAPeriodoRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.PeriodoEntity;
@@ -14,16 +14,16 @@ import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class PeriodoRepository implements PeriodoRepositoryOut {
+public class TermRepositoryInt implements TermRepositoryOutInt {
 
     private final JPAPeriodoRepository repository;
     private final JPAConfiguracionRepository repositoryConfiguracion;
 
     @Override
-    public OptionalWrapper<Periodo> addPeriodo(Periodo newPeriodo) {
+    public OptionalWrapper<Term> add(Term newTerm) {
         try{
-            newPeriodo.setId(null);
-            PeriodoEntity periodo = PeriodoMapper.toEntity(newPeriodo);
+            newTerm.setId(null);
+            PeriodoEntity periodo = PeriodoMapper.toEntity(newTerm);
             return new OptionalWrapper<>(
                     PeriodoMapper.toPeriodo(repository.save(periodo))
                     );
@@ -33,14 +33,14 @@ public class PeriodoRepository implements PeriodoRepositoryOut {
     }
 
     @Override
-    public List<Periodo> listPeriodo() {
+    public List<Term> listAll() {
         return repository.findAll().stream()
                 .map(PeriodoMapper::toPeriodo)
                 .toList();
     }
 
     @Override
-    public OptionalWrapper<Periodo> getActualPeriodo() {
+    public OptionalWrapper<Term> getActiveTerm() {
         PeriodoEntity actualPeriodo = repositoryConfiguracion.getReferenceById(1).getPeriodoActual();
         return new OptionalWrapper<>(PeriodoMapper.toPeriodo(actualPeriodo));
     }

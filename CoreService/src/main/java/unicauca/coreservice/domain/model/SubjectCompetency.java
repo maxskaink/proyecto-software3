@@ -4,47 +4,45 @@ import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class CompetenciaAsignatura {
+public class SubjectCompetency {
     private Integer id;
-    private String descripcion;
-    private String nivel;
-    private Integer idCompetenciaPrograma;
+    private String description;
+    private String level;
+    private Integer subjectCompetencyId;
 
-    public CompetenciaAsignatura(
+    public SubjectCompetency(
             Integer id,
-            String descripcion,
-            String nivel,
-            Integer idCompetenciaPrograma
+            String description,
+            String level,
+            Integer subjectCompetencyId
     ){
         setId(id);
-        setDescripcion(descripcion);
-        setNivel(nivel);
-        setIdCompetenciaPrograma(idCompetenciaPrograma);
+        setDescription(description);
+        setLevel(level);
+        setSubjectCompetencyId(subjectCompetencyId);
     }
 
-    public void setDescripcion(String descripcion){
-        if(descripcion == null)
-            throw new InvalidValue("La descripcion de una competencia de asignatura no puede ser nulo");
-        if(descripcion.trim().isEmpty())
-            throw new InvalidValue("La descripcion de una competencia no puede estar vacia");
-        this.descripcion = descripcion;
+    public void setDescription(String description){
+        if(description == null)
+            throw new InvalidValue("The competency description can not be null");
+        if(description.trim().isEmpty())
+            throw new InvalidValue("The competency description can not be empty");
+        this.description = description;
     }
-    public void setNivel(String nivel){
-        if(null==nivel)
-            throw new InvalidValue("La nivel de una competencia no puede ser nulo");
-        if(nivel.trim().isEmpty())
-            throw new InvalidValue("El nivel no puede estar vacio");
+    public void setLevel(String level){
+        if(null==level)
+            throw new InvalidValue("The competency level can not be null");
+        if(level.trim().isEmpty())
+            throw new InvalidValue("The competency level can not be empty");
 
-        this.nivel = nivel;
+        this.level = level;
     }
 
-    public void setIdCompetenciaPrograma(Integer idCompetenciaPrograma){
-        if(null==idCompetenciaPrograma)
+    public void setSubjectCompetencyId(Integer subjectCompetencyId){
+        if(null==subjectCompetencyId)
             throw new InvalidValue("El id de la competencia no puede ser nulo");
-        this.idCompetenciaPrograma = idCompetenciaPrograma;
+        this.subjectCompetencyId = subjectCompetencyId;
     }
 }

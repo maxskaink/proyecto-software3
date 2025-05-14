@@ -9,44 +9,44 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class AsignacionCompetenciaAsignatura {
+public class AssignCompetencyToSubject {
     private Integer id;
-    private CompetenciaAsignatura competencia;
-    private Asignatura asignatura;
-    private Periodo periodo;
-    private List<RAAsignatura> RAAsignaturas;
+    private SubjectCompetency competency;
+    private Subject subject;
+    private Term term;
+    private List<SubjectOutcome> SubjectOutcomes;
 
-    public AsignacionCompetenciaAsignatura(
+    public AssignCompetencyToSubject(
             Integer id,
-            CompetenciaAsignatura competencia,
-            Asignatura asignatura,
-            Periodo periodo,
-            List<RAAsignatura> RAAsignaturas
+            SubjectCompetency competency,
+            Subject subject,
+            Term term,
+            List<SubjectOutcome> SubjectOutcomes
     ){
         setId(id);
-        setCompetencia(competencia);
-        setAsignatura(asignatura);
-        setPeriodo(periodo);
-        setRAAsignaturas(RAAsignaturas);
+        setCompetency(competency);
+        setSubject(subject);
+        setTerm(term);
+        setSubjectOutcomes(SubjectOutcomes);
     }
 
-    public void setCompetencia(CompetenciaAsignatura competencia){
-        if(null==competencia)
-            throw new InvalidValue("La competencia no puede ser nula");
-        this.competencia = competencia;
+    public void setCompetency(SubjectCompetency competency){
+        if(null== competency)
+            throw new InvalidValue("The competency can not be null");
+        this.competency = competency;
     }
 
-    public void setAsignatura(Asignatura asignatura){
-        if(null==asignatura)
-            throw new InvalidValue("La asignatura no puede ser nula");
-        this.asignatura = asignatura;
+    public void setSubject(Subject subject){
+        if(null== subject)
+            throw new InvalidValue("The subject can not be null");
+        this.subject = subject;
     }
-    public void setPeriodo(Periodo periodo){
-        if(null==periodo)
-            throw new InvalidValue("El periodo no puede ser nulo");
-        this.periodo = periodo;
+    public void setTerm(Term term){
+        if(null== term)
+            throw new InvalidValue("The term can not be null");
+        this.term = term;
     }
-    public void setRAAsignaturas(List<RAAsignatura> RAAsignaturas){
-        this.RAAsignaturas = Objects.requireNonNullElseGet(RAAsignaturas, List::of);
+    public void setSubjectOutcomes(List<SubjectOutcome> SubjectOutcomes){
+        this.SubjectOutcomes = Objects.requireNonNullElseGet(SubjectOutcomes, List::of);
     }
 }

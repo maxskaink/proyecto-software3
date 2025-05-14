@@ -1,63 +1,63 @@
 package unicauca.coreservice.application.in;
 
-import unicauca.coreservice.domain.model.CompetenciaAsignatura;
-import unicauca.coreservice.domain.model.RAAsignatura;
+import unicauca.coreservice.domain.model.SubjectCompetency;
+import unicauca.coreservice.domain.model.SubjectOutcome;
 
 import java.util.List;
 
-public interface CompAsignaturaUsesCase {
+public interface SubjectCompetencyInt {
     /**
-     * Adds a new CompetenciaAsignatura to the specified Asignatura in the actual period.
+     * Adds a new SubjectCompetency to the specified Subject in the actual period.
      *
-     * @param newCompetenciaAsignatura the instance of the new CompetenciaAsignatura to be added
-     * @param firstRA First RA of the competence
-     * @param idAsignatura             the ID of the Asignatura to which the CompetenciaAsignatura will be added
-     * @return the added CompetenciaAsignatura
+     * @param newProgramCompetency the instance of the new SubjectCompetency to be added
+     * @param initialOutcome Initial Outcome of the competence
+     * @param subjectId             the ID of the Subject to which the SubjectCompetency will be added
+     * @return the added SubjectCompetency
      */
-    CompetenciaAsignatura addCompetencia(CompetenciaAsignatura newCompetenciaAsignatura, RAAsignatura firstRA, Integer idAsignatura) throws Exception;
+    SubjectCompetency add(SubjectCompetency newProgramCompetency, SubjectOutcome initialOutcome, Integer subjectId) throws Exception;
 
     /**
-     * Retrieves a list of CompetenciaAsignatura associated with a specific Asignatura.
+     * Retrieves a list of SubjectCompetency associated with a specific Subject.
      *
-     * @param idAsignatura the ID of the Asignatura whose associated CompetenciaAsignatura are being retrieved
-     * @return a list of CompetenciaAsignatura linked to the given Asignatura
+     * @param subjectId the ID of the Subject whose associated SubjectCompetency are being retrieved
+     * @return a list of SubjectCompetency linked to the given Subject
      */
-    List<CompetenciaAsignatura> listCompetenciaAsignatura(Integer idAsignatura);
+    List<SubjectCompetency> listAllBySubjectId(Integer subjectId);
 
     /**
-     * Retrieves a CompetenciaAsignatura by its unique identifier.
+     * Retrieves a SubjectCompetency by its unique identifier.
      *
-     * @param id the unique identifier of the CompetenciaAsignatura to retrieve
-     * @return the CompetenciaAsignatura corresponding to the given ID
+     * @param id the unique identifier of the SubjectCompetency to retrieve
+     * @return the SubjectCompetency corresponding to the given ID
      */
-    CompetenciaAsignatura getCompetenciaById(Integer id);
+    SubjectCompetency getById(Integer id);
 
     /**
-     * Updates an existing CompetenciaAsignatura identified by its unique ID with new details.
-     * It only update the description.
+     * Updates an existing SubjectCompetency identified by its unique ID with new details.
+     * It only updateProgramCompetency the description.
      *
-     * @param id the unique identifier of the CompetenciaAsignatura to be updated
-     * @param newCompetenciaAsignatura an instance of CompetenciaAsignatura containing the updated information
-     * @return the updated CompetenciaAsignatura instance
+     * @param id the unique identifier of the SubjectCompetency to be updated
+     * @param newProgramCompetency an instance of SubjectCompetency containing the updated information
+     * @return the updated SubjectCompetency instance
      */
-    CompetenciaAsignatura updateCompetenciaById(Integer id, CompetenciaAsignatura newCompetenciaAsignatura) throws Exception;
+    SubjectCompetency update(Integer id, SubjectCompetency newProgramCompetency) throws Exception;
 
     /**
-     * Desactivate a CompetenciaAsignatura identified by its unique ID, and desactivate all associated RA's in the system.
+     * Desactivate a SubjectCompetency identified by its unique ID, and desactivate all associated RA's in the system.
      *
-     * @param id the unique identifier of the CompetenciaAsignatura to be removed
-     * @return the removed CompetenciaAsignatura instance
+     * @param id the unique identifier of the SubjectCompetency to be removed
+     * @return the removed SubjectCompetency instance
      */
-    CompetenciaAsignatura removeCompetenciaAsignatura(Integer id) throws Exception;
+    SubjectCompetency remove(Integer id) throws Exception;
 
     /**
-     * Adds a new RAAsignatura associated with a specific CompetenciaAsignatura and Asignatura.
+     * Adds a new SubjectOutcome associated with a specific SubjectCompetency and Subject.
      * It in the actual period.
      *
-     * @param newRAAsignatura the RAAsignatura instance to be added
-     * @param idCompetencia the unique identifier of the CompetenciaAsignatura associated with the RAAsignatura
-     * @param idAsignatura the unique identifier of the Asignatura associated with the RAAsignatura
-     * @return the newly added RAAsignatura instance
+     * @param newRAAsignatura the SubjectOutcome instance to be added
+     * @param idCompetencia the unique identifier of the SubjectCompetency associated with the SubjectOutcome
+     * @param subjectId the unique identifier of the Subject associated with the SubjectOutcome
+     * @return the newly added SubjectOutcome instance
      */
 
 }

@@ -9,37 +9,37 @@ import unicauca.coreservice.domain.model.ProgramCompetency;
 import java.util.List;
 
 @RestController
-@RequestMapping("/competencia/programa")
+@RequestMapping("/competency/program")
 @AllArgsConstructor
-public class CompetenciaProgramaController {
+public class ProgramCompetencyController {
     private final ProgramCompetencyAndOutcomeInt service;
 
     @PostMapping
-    public ResponseEntity<ProgramCompetency> createCompetenciaPrograma(
+    public ResponseEntity<ProgramCompetency> add(
             @RequestBody ProgramCompetency dtoIN
     ) throws Exception {
-        ProgramCompetency response = service.addProgramCompetency(dtoIN);
+        ProgramCompetency response = service.add(dtoIN);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProgramCompetency>> listCompetenciaPrograma(){
+    public ResponseEntity<List<ProgramCompetency>> listAllProgramCompetencies(){
         return ResponseEntity.ok(
-                service.getProgramCompetencies()
+                service.listAllProgramCompetencies()
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProgramCompetency> getByIdCompetenciaPrograma(
+    public ResponseEntity<ProgramCompetency> getProgramCompetencyById(
             @PathVariable Integer id
     ) throws Exception {
         return ResponseEntity.ok(
-                service.getCompetencyById(id)
+                service.getProgramCompetencyById(id)
         );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProgramCompetency> updateCompetenciaPrograma(
+    public ResponseEntity<ProgramCompetency> updateProgramCompetency(
             @PathVariable Integer id,
             @RequestBody ProgramCompetency dtoIN
     ) throws Exception {
@@ -48,10 +48,10 @@ public class CompetenciaProgramaController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProgramCompetency> deleteCompetenciaPrograma(
+    public ResponseEntity<ProgramCompetency> remove(
             @PathVariable Integer id
     ) throws Exception {
-        ProgramCompetency response = service.deleteProgramCompetency(id);
+        ProgramCompetency response = service.remove(id);
         return ResponseEntity.ok(
                 response
         );

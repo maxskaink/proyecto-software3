@@ -1,43 +1,43 @@
 package unicauca.coreservice.application.out;
 
-import unicauca.coreservice.domain.model.Asignatura;
+import unicauca.coreservice.domain.model.Subject;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 
 import java.util.List;
 
-public interface AsignaturaRepositoryOut {
+public interface SubjectRepositoryOutInt {
     /**
-     * Add Asignatura to the DB
-     * @param newAsignatura instance of the new Asignatura
+     * Add Subject to the DB
+     * @param newSubject instance of the new Subject
      * @return The OptionalWrapper for robust response.
      */
-    OptionalWrapper<Asignatura> addAsignatura(Asignatura newAsignatura);
+    OptionalWrapper<Subject> add(Subject newSubject);
 
     /**
-     * Get all the Asignatura in DB.
-     * @return the List of the Asignatura
+     * Get all the Subject in DB.
+     * @return the List of the Subject
      */
-    List<Asignatura> getAsignaturas();
+    List<Subject> listAll();
 
     /**
-     * Get an Asignatura by his ID
+     * Get an Subject by his ID
      * @param id id to search in DB
      * @return The OptionalWrapper for robust response
      */
-    OptionalWrapper<Asignatura> getById(Integer id);
+    OptionalWrapper<Subject> getById(Integer id);
 
     /**
-     * Update the Asignatura in DB
-     * @param id id of the Asignatura to update
-     * @param newAsignatura instance of the new Aisnatura
+     * Update the Subject in DB
+     * @param id id of the Subject to updateProgramCompetency
+     * @param newSubject instance of the new Aisnatura
      * @return The OptionalWrapper for robust response
      */
-    OptionalWrapper<Asignatura> updateById(Integer id, Asignatura newAsignatura);
+    OptionalWrapper<Subject> update(Integer id, Subject newSubject);
 
     /**
-     * Deactivate the Asignatura in DB
-     * @param id Id of the Asignatura to delet
+     * Deactivate the Subject in DB
+     * @param id Id of the Subject to delet
      * @return The OptionalWrapper for robust response
      */
-    OptionalWrapper<Asignatura> removeAsignatura(Integer id);
+    OptionalWrapper<Subject> remove(Integer id);
 }

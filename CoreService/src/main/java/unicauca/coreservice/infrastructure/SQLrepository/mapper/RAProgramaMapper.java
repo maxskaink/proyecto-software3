@@ -1,13 +1,13 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
-import unicauca.coreservice.domain.model.RAPrograma;
+import unicauca.coreservice.domain.model.ProgramOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.RAProgramaEntity;
 
 public class RAProgramaMapper {
-    public static RAPrograma toRAPrograma(RAProgramaEntity entity){
+    public static ProgramOutcome toRAPrograma(RAProgramaEntity entity){
         if(entity == null)
             return null;
-        return new RAPrograma(
+        return new ProgramOutcome(
                 entity.getId(),
                 entity.getDescripcion()
         );
@@ -15,15 +15,15 @@ public class RAProgramaMapper {
 
     /**
      * WARNING: It can lose the reference to the competence
-     * @param programa the instance of RAPrograma
+     * @param programa the instance of ProgramOutcome
      * @return The RAProgramaEntity
      */
-    public static RAProgramaEntity toRAProgramaEntity(RAPrograma programa){
+    public static RAProgramaEntity toRAProgramaEntity(ProgramOutcome programa){
         if(programa == null)
             return null;
         return new RAProgramaEntity(
                 programa.getId(),
-                programa.getDescripcion(),
+                programa.getDescription(),
                 null,
                 true
         );

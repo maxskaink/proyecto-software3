@@ -1,77 +1,70 @@
 package unicauca.coreservice.application.out;
 
-import unicauca.coreservice.domain.model.CompetenciaPrograma;
+import unicauca.coreservice.domain.model.ProgramCompetency;
 import unicauca.coreservice.domain.model.OptionalWrapper;
-import unicauca.coreservice.domain.model.RAPrograma;
+import unicauca.coreservice.domain.model.ProgramOutcome;
 
 import java.util.List;
 
 /**
  * It is the repository for all the Competencias and RA of programa
  */
-public interface CompAndRAProgramaRepositoryOut {
+public interface ProgramCompetencyAndOutcomeRepositoryOutInt {
 
     /**
-     * Add a new CompetenciaPrograma in DB; it also adds the RA associated to it
-     * @param newCompetenciaPrograma instance of the new CompetenciaPrograma
-     * @return The CompetenciaPrograma added or the exception if it fails.
+     * Add a new ProgramCompetency in DB; it also adds the RA associated to it
+     * @param newProgramCompetency instance of the new ProgramCompetency
+     * @return The ProgramCompetency added or the exception if it fails.
      */
-    OptionalWrapper<CompetenciaPrograma> addCompPrograma(CompetenciaPrograma newCompetenciaPrograma);
+    OptionalWrapper<ProgramCompetency> add(ProgramCompetency newProgramCompetency);
 
     /**
-     * Get all the CompetenciaPrograma in DB
+     * Get all the ProgramCompetency in DB
      * @return the list of CompetenciaProgramas
      */
-    List<CompetenciaPrograma> getCompetenciaProgramas();
+    List<ProgramCompetency> listAll();
 
     /**
-     * Get the CompetenciaPrograma by his ID
+     * Get the ProgramCompetency by his
      * @param id ID to search
-     * @return the CompetenciaPrograma found
+     * @return the ProgramCompetency found
      */
-    OptionalWrapper<CompetenciaPrograma> getCompById(Integer id);
+    OptionalWrapper<ProgramCompetency> getCompetencyById(Integer id);
 
     /**
-     * Update a CompetenciaPrograma in DB, it can fail if break some rules
-     * @param id id of the CompetenciaPrograma to update
-     * @param newCompetenciaPrograma instance of the new CompetenciaPrograma
-     * @return the CompetenciaPrograma saved in DB or the exception if it fails
+     * Update a ProgramCompetency in DB, it can fail if break some rules
+     * @param id id of the ProgramCompetency to updateProgramCompetency
+     * @param newProgramCompetency instance of the new ProgramCompetency
+     * @return the ProgramCompetency saved in DB or the exception if it fails
      */
-    OptionalWrapper<CompetenciaPrograma> updateCompPrograma(Integer id, CompetenciaPrograma newCompetenciaPrograma);
+    OptionalWrapper<ProgramCompetency> updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency);
 
     /**
-     * Desactivate the CompetenciaPrograma in DB
+     * Desactivate the ProgramCompetency in DB
      * @param id the id of the ComptenciaPrograma to desactivate
-     * @return the CompetenciaPrograma desactivated
+     * @return the ProgramCompetency desactivated
      */
-    OptionalWrapper<CompetenciaPrograma> deleteCompPrograma(Integer id);
+    OptionalWrapper<ProgramCompetency> remove(Integer id);
 
     /**
      * Get all the RA of Programas
      * @return A list of RAProgramas
      */
-    List<RAPrograma> getRAPrograma();
+    List<ProgramOutcome> getProgramOutcome();
 
     /**
-     * Get a RAPrograma by ID
+     * Get a ProgramOutcome by ID
      * @param id id to search
-     * @return the RAPrograma found, or the exception if it fails
+     * @return the ProgramOutcome found, or the exception if it fails
      */
-    OptionalWrapper<RAPrograma> getRAById(Integer id);
+    OptionalWrapper<ProgramOutcome> getProgramOutcomeById(Integer id);
 
     /**
-     * update an RAPrograma in DB
-     * @param id id of the RAPrograma to update
-     * @param newRAPrograma the instance of the RAPrograma to update
-     * @return the RAPrograma updated in DB or the exception if it fails
+     * updateProgramCompetency an ProgramOutcome in DB
+     * @param id id of the ProgramOutcome to updateProgramCompetency
+     * @param newProgramOutcome the instance of the ProgramOutcome to updateProgramCompetency
+     * @return the ProgramOutcome updated in DB or the exception if it fails
      */
-    OptionalWrapper<RAPrograma> updateRAPrograma(Integer id, RAPrograma newRAPrograma);
-
-    /**
-     * Deactivate an RAPrograma in DB
-     * @param id id of the RAPrograma to deactivate
-     * @return The RAPrograma deactivated
-     */
-    OptionalWrapper<RAPrograma> deleteRAPrograma(Integer id);
+    OptionalWrapper<ProgramOutcome> updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome);
 
 }

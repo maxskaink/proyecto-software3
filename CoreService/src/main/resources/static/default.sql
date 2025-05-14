@@ -1,12 +1,12 @@
 -- Insertar periodos académicos
-INSERT INTO periodo (periodo) VALUES
+INSERT INTO term (term) VALUES
                                   ('2024-1'),
                                   ('2024-2'),
                                   ('2025-1');
 INSERT INTO configuracion (periodo_actual_id) VALUES (1);
 
 -- Insertar asignaturas
-INSERT INTO asignatura (nombre, descripcion, activado) VALUES
+INSERT INTO subject (nombre, descripcion, activado) VALUES
                                                            ('Programación I', 'Fundamentos de programación en Java', true),
                                                            ('Estructuras de Datos', 'Uso de estructuras básicas como listas, pilas, colas y árboles', true);
 

@@ -2,17 +2,17 @@ package unicauca.coreservice.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import unicauca.coreservice.application.in.CompAndRaProgramaUsesCase;
-import unicauca.coreservice.application.out.CompAndRAProgramaRepositoryOut;
-import unicauca.coreservice.domain.useCase.CompAndRAProgramaService;
+import unicauca.coreservice.application.in.ProgramCompetencyAndOutcomeInt;
+import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositoryOutInt;
+import unicauca.coreservice.domain.useCases.ProgramCompetencyAndOutcomeService;
 
 @Configuration
 public class BeanConfiguration {
 
     @Bean
-    public CompAndRaProgramaUsesCase createCompetenciaAndRAProgramaUsesCase(
-            CompAndRAProgramaRepositoryOut repository
+    public ProgramCompetencyAndOutcomeInt createProgramCompetencyAndOutcome(
+            ProgramCompetencyAndOutcomeRepositoryOutInt repository
     ){
-        return new CompAndRAProgramaService(repository);
+        return new ProgramCompetencyAndOutcomeService(repository);
     }
 }

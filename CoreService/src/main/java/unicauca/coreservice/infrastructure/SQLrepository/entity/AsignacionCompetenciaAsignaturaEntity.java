@@ -2,7 +2,6 @@ package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import unicauca.coreservice.domain.model.RAAsignatura;
 
 import java.util.List;
 

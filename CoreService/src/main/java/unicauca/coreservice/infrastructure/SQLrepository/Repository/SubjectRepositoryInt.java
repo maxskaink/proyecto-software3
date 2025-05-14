@@ -2,8 +2,8 @@ package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import unicauca.coreservice.application.out.AsignaturaRepositoryOut;
-import unicauca.coreservice.domain.model.Asignatura;
+import unicauca.coreservice.application.out.SubjectRepositoryOutInt;
+import unicauca.coreservice.domain.model.Subject;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAAsignaturaRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignaturaEntity;
@@ -13,16 +13,16 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class AsignaturaRepository implements AsignaturaRepositoryOut {
+public class SubjectRepositoryInt implements SubjectRepositoryOutInt {
 
     private final JPAAsignaturaRepository JPAasignatura;
 
     @Override
-    public OptionalWrapper<Asignatura> addAsignatura(Asignatura newAsignatura) {
+    public OptionalWrapper<Subject> add(Subject newSubject) {
 
         try{
-            newAsignatura.setId(null);
-            AsignaturaEntity result = this.JPAasignatura.save(AsignaturaMapper.toEntity(newAsignatura));
+            newSubject.setId(null);
+            AsignaturaEntity result = this.JPAasignatura.save(AsignaturaMapper.toEntity(newSubject));
             return new OptionalWrapper<>(AsignaturaMapper.toAsignatura(result));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
@@ -30,22 +30,22 @@ public class AsignaturaRepository implements AsignaturaRepositoryOut {
     }
 
     @Override
-    public List<Asignatura> getAsignaturas() {
+    public List<Subject> listAll() {
         return List.of();
     }
 
     @Override
-    public OptionalWrapper<Asignatura> getById(Integer id) {
+    public OptionalWrapper<Subject> getById(Integer id) {
         return null;
     }
 
     @Override
-    public OptionalWrapper<Asignatura> updateById(Integer id, Asignatura newAsignatura) {
+    public OptionalWrapper<Subject> update(Integer id, Subject newSubject) {
         return null;
     }
 
     @Override
-    public OptionalWrapper<Asignatura> removeAsignatura(Integer id) {
+    public OptionalWrapper<Subject> remove(Integer id) {
         return null;
     }
 }

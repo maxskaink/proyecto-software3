@@ -1,66 +1,66 @@
 package unicauca.coreservice.application.in;
 
-import unicauca.coreservice.domain.model.CompetenciaPrograma;
-import unicauca.coreservice.domain.model.RAPrograma;
+import unicauca.coreservice.domain.model.ProgramCompetency;
+import unicauca.coreservice.domain.model.ProgramOutcome;
 
 import java.util.List;
 
-public interface ProgramCompetenceAndOutcomeInt {
+public interface ProgramCompetencyAndOutcomeInt {
 
     /**
-     * Add a new CompetenciaPrograma in the system; it also adds the RA associated to it
-     * @param newCompetenciaPrograma instance of the new CompetenciaPrograma
-     * @return The CompetenciaPrograma added or the exception if it fails.
+     * Add a new ProgramCompetency in the system; it also adds the RA associated to it
+     * @param newProgramCompetency instance of the new ProgramCompetency
+     * @return The ProgramCompetency added or the exception if it fails.
      */
-    CompetenciaPrograma addProgramCompetence(CompetenciaPrograma newCompetenciaPrograma) throws Exception;
+    ProgramCompetency add(ProgramCompetency newProgramCompetency) throws Exception;
 
     /**
-     * Get all the CompetenciaPrograma activated in the system
+     * Get all the ProgramCompetency activated in the system
      * @return the list of CompetenciaProgramas
      */
-    List<CompetenciaPrograma> getCompetenciaProgramas();
+    List<ProgramCompetency> listAllProgramCompetencies();
 
     /**
-     * Get the CompetenciaPrograma by his ID
+     * Get the ProgramCompetency by his ID
      * @param id ID to search
-     * @return the CompetenciaPrograma found
+     * @return the ProgramCompetency found
      */
-    CompetenciaPrograma getCompById(Integer id) throws Exception;
+    ProgramCompetency getProgramCompetencyById(Integer id) throws Exception;
 
     /**
-     * Update a CompetenciaPrograma in system, it can fail if break some rules
-     * @param id id of the CompetenciaPrograma to update
-     * @param newCompetenciaPrograma instance of the new CompetenciaPrograma
-     * @return the CompetenciaPrograma saved in DB or the exception if it fails
+     * Update a ProgramCompetency in system, it can fail if break some rules
+     * @param id id of the ProgramCompetency to updateProgramCompetency
+     * @param newProgramCompetency instance of the new ProgramCompetency
+     * @return the ProgramCompetency saved in DB or the exception if it fails
      */
-    CompetenciaPrograma updateCompPrograma(Integer id, CompetenciaPrograma newCompetenciaPrograma) throws Exception;
+    ProgramCompetency updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) throws Exception;
 
     /**
-     * Desactivate the CompetenciaPrograma and his RA in a system
+     * Desactivate the ProgramCompetency and his RA in a system
      * @param id the id of the ComptenciaPrograma to desactivate
-     * @return the CompetenciaPrograma desactivated
+     * @return the ProgramCompetency desactivated
      */
-    CompetenciaPrograma deleteCompPrograma(Integer id) throws Exception;
+    ProgramCompetency remove(Integer id) throws Exception;
 
     /**
      * Get all the RA of the program
      * @return A list of RAProgramas
      */
-    List<RAPrograma> getRAProgramas();
+    List<ProgramOutcome> listAllProgramOutcomes();
 
     /**
-     * Get a RAPrograma by ID
+     * Get a ProgramOutcome by ID
      * @param id id to search
-     * @return the RAPrograma found, or the exception if it fails
+     * @return the ProgramOutcome found, or the exception if it fails
      */
-    RAPrograma getRAById(Integer id) throws Exception;
+    ProgramOutcome getProgramOutcomeById(Integer id) throws Exception;
 
     /**
-     * update an RAPrograma in system
-     * @param id id of the RAPrograma to update
-     * @param newRAPrograma the instance of the RAPrograma to update
-     * @return the RAPrograma updated in DB or the exception if it fails
+     * updateProgramCompetency an ProgramOutcome in system
+     * @param id id of the ProgramOutcome to updateProgramCompetency
+     * @param newProgramOutcome the instance of the ProgramOutcome to updateProgramCompetency
+     * @return the ProgramOutcome updated in DB or the exception if it fails
      */
-    RAPrograma updateRAPrograma(Integer id, RAPrograma newRAPrograma) throws Exception;
+    ProgramOutcome updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome) throws Exception;
 
 }

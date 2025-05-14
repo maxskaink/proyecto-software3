@@ -1,57 +1,57 @@
 package unicauca.coreservice.application.out;
 
-import unicauca.coreservice.domain.model.CompetenciaAsignatura;
+import unicauca.coreservice.domain.model.SubjectCompetency;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 
 import java.util.List;
 
-public interface CompAsignaturaRepositoryOut {
+public interface SubjectCompetencyRepositoryOutInt {
     /**
-     * Adds a new CompetenciaAsignatura to the repository.
+     * Adds a new SubjectCompetency to the repository.
      *
-     * @param newCompetenciaAsignatura The CompetenciaAsignatura to be added.
-     * @return An {@link OptionalWrapper} containing the added CompetenciaAsignatura or an exception if the process fails.
+     * @param newSubjectCompetency The SubjectCompetency to be added.
+     * @return An {@link OptionalWrapper} containing the added SubjectCompetency or an exception if the process fails.
      */
-    OptionalWrapper<CompetenciaAsignatura> addCompetenciaAsignatura(CompetenciaAsignatura newCompetenciaAsignatura);
+    OptionalWrapper<SubjectCompetency> add(SubjectCompetency newSubjectCompetency);
 
     /**
-     * Retrieves all CompetenciaAsignatura entities from the repository.
+     * Retrieves all SubjectCompetency entities from the repository.
      *
-     * @return A {@link List} of all CompetenciaAsignatura entities.
+     * @return A {@link List} of all SubjectCompetency entities.
      */
-    List<CompetenciaAsignatura> listCompetenciaAsignatura();
+    List<SubjectCompetency> listAll();
 
     /**
-     * Retrieves a list of CompetenciaAsignatura associated with a specific Asignatura.
+     * Retrieves a list of SubjectCompetency associated with a specific Subject.
      *
-     * @param idAsignatura The unique identifier of the Asignatura whose associated CompetenciaAsignatura entities are to be retrieved.
-     * @return A list of CompetenciaAsignatura objects associated with the specified Asignatura.
+     * @param subjectId The unique identifier of the Subject whose associated SubjectCompetency entities are to be retrieved.
+     * @return A list of SubjectCompetency objects associated with the specified Subject.
      */
-    List<CompetenciaAsignatura> listCompetenciaAsignatura(Integer idAsignatura);
+    List<SubjectCompetency> listAllBySubjectId(Integer subjectId);
     /**
-     * Retrieves a CompetenciaAsignatura by its unique identifier.
+     * Retrieves a SubjectCompetency by its unique identifier.
      *
-     * @param id The ID of the CompetenciaAsignatura to retrieve.
-     * @return An {@link OptionalWrapper} containing the found CompetenciaAsignatura or an exception if not found.
+     * @param id The ID of the SubjectCompetency to retrieve.
+     * @return An {@link OptionalWrapper} containing the found SubjectCompetency or an exception if not found.
      */
-    OptionalWrapper<CompetenciaAsignatura> getCompetenciaById(Integer id);
+    OptionalWrapper<SubjectCompetency> getById(Integer id);
 
     /**
-     * Updates an existing CompetenciaAsignatura by its unique identifier.
+     * Updates an existing SubjectCompetency by its unique identifier.
      *
-     * @param id                       The ID of the CompetenciaAsignatura to update.
-     * @param newCompetenciaAsignatura The updated CompetenciaAsignatura entity.
-     * @return An {@link OptionalWrapper} containing the updated CompetenciaAsignatura or an exception if the update fails.
+     * @param id                       The ID of the SubjectCompetency to updateProgramCompetency.
+     * @param newSubjectCompetency The updated SubjectCompetency entity.
+     * @return An {@link OptionalWrapper} containing the updated SubjectCompetency or an exception if the updateProgramCompetency fails.
      */
-    OptionalWrapper<CompetenciaAsignatura> updateCompetenciaById(Integer id, CompetenciaAsignatura newCompetenciaAsignatura);
+    OptionalWrapper<SubjectCompetency> update(Integer id, SubjectCompetency newSubjectCompetency);
 
     /**
-     * Removes a CompetenciaAsignatura from the repository by its unique identifier.
+     * Removes a SubjectCompetency from the repository by its unique identifier.
      *
-     * @param id The ID of the CompetenciaAsignatura to remove.
+     * @param id The ID of the SubjectCompetency to remove.
      * @return An {@link OptionalWrapper} indicating the outcome of the operation, or an exception if the removal fails.
      */
-    OptionalWrapper<CompetenciaAsignatura> removeCompetenciaAsignatura(Integer id);
+    OptionalWrapper<SubjectCompetency> remove(Integer id);
 
 
 }

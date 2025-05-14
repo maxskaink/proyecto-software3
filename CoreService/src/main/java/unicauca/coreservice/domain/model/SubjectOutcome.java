@@ -6,24 +6,24 @@ import unicauca.coreservice.domain.exception.InvalidValue;
 
 @Getter
 @Setter
-public class RAAsignatura {
+public class SubjectOutcome {
     private Integer id;
-    private String descripcion;
+    private String description;
 
-    public RAAsignatura(
+    public SubjectOutcome(
             Integer id,
-            String descripcion
+            String description
     ){
         setId(id);
-        setDescripcion(descripcion);
+        setDescription(description);
     }
 
-    public void setDescripcion(String descripcion){
-        if(null==descripcion)
-            throw new InvalidValue("La descripcion de un RA de asignatura no puede ser nulo");
-        if(descripcion.trim().isEmpty())
-            throw new InvalidValue("La descripcion de un RA no puede estar vacia");
+    public void setDescription(String description){
+        if(null==description)
+            throw new InvalidValue("The subject description can not be null or empty");
+        if(description.trim().isEmpty())
+            throw new InvalidValue("The outcome description can not be empty");
 
-        this.descripcion = descripcion;
+        this.description = description;
     }
 }

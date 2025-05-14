@@ -1,24 +1,24 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
-import unicauca.coreservice.domain.model.Asignatura;
+import unicauca.coreservice.domain.model.Subject;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignaturaEntity;
 
 public class AsignaturaMapper {
-    public static AsignaturaEntity toEntity(Asignatura asignatura) {
-        if (asignatura == null) {
+    public static AsignaturaEntity toEntity(Subject subject) {
+        if (subject == null) {
             return null;
         }
         return new AsignaturaEntity(
-                asignatura.getId(),
-                asignatura.getNombre(),
-                asignatura.getDescripcion(),
+                subject.getId(),
+                subject.getName(),
+                subject.getDescription(),
                 true);
     }
 
-    public static Asignatura toAsignatura(AsignaturaEntity asignaturaEntity) {
+    public static Subject toAsignatura(AsignaturaEntity asignaturaEntity) {
         if (asignaturaEntity == null)
             return null;
-        return new Asignatura(
+        return new Subject(
                 asignaturaEntity.getId(),
                 asignaturaEntity.getNombre(),
                 asignaturaEntity.getDescripcion()

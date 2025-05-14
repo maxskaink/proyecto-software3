@@ -1,72 +1,72 @@
 package unicauca.coreservice.application.in;
 
-import unicauca.coreservice.domain.model.RAAsignatura;
+import unicauca.coreservice.domain.model.SubjectOutcome;
 
 import java.util.List;
 
-public interface RaAsignaturaUsesCase {
+public interface SubjectOutcomeInt {
 
-    RAAsignatura addRAAsignatura(RAAsignatura newRAAsignatura, Integer idCompetencia, Integer idAsignatura);
+    SubjectOutcome addSubjectOutcome(SubjectOutcome newSubjectOutcome, Integer competencyId, Integer subjectId);
 
     /**
-     * Retrieves a list of RAAsignatura objects associated with a specific Asignatura.
+     * Retrieves a list of SubjectOutcome objects associated with a specific Subject.
      * It retrieves all the periods.
      *
-     * @param idAsignatura the unique identifier of the Asignatura whose associated RAAsignatura are being retrieved
-     * @return a list of RAAsignatura linked to the specified Asignatura
+     * @param subjectId the unique identifier of the Subject whose associated SubjectOutcome are being retrieved
+     * @return a list of SubjectOutcome linked to the specified Subject
      */
-    List<RAAsignatura> listRAAsignatura(Integer idAsignatura);
+    List<SubjectOutcome> listAll(Integer subjectId);
 
     /**
-     * Retrieves a list of RAAsignatura entities associated with the specified Asignatura for the current period.
+     * Retrieves a list of SubjectOutcome entities associated with the specified Subject for the current period.
      *
-     * @param idAsignatura the unique identifier of the Asignatura whose RAAsignatura entities for the current period are being retrieved
-     * @return a list of RAAsignatura entities linked to the given Asignatura in the current period
+     * @param subjectId the unique identifier of the Subject whose SubjectOutcome entities for the current period are being retrieved
+     * @return a list of SubjectOutcome entities linked to the given Subject in the current period
      */
-    List<RAAsignatura> listRAAsignaturaActualPeriod(Integer idAsignatura);
+    List<SubjectOutcome> listAllInCurrentPeriod(Integer subjectId);
 
     /**
-     * Retrieves a list of RAAsignatura associated with a specific CompetenciaAsignatura in the actual period.
+     * Retrieves a list of SubjectOutcome associated with a specific SubjectCompetency in the actual period.
      *
-     * @param idCompetencia the unique identifier of the CompetenciaAsignatura for which the associated RAAsignatura will be retrieved
-     * @return a list of RAAsignatura linked to the specified CompetenciaAsignatura
+     * @param competencyId the unique identifier of the SubjectCompetency for which the associated SubjectOutcome will be retrieved
+     * @return a list of SubjectOutcome linked to the specified SubjectCompetency
      */
-    List<RAAsignatura> listRAAsignaturaByCompetencia(Integer idCompetencia);
+    List<SubjectOutcome> listAllByCompetencyId(Integer competencyId);
 
     /**
-     * Retrieves an RAAsignatura entity by its unique identifier.
+     * Retrieves an SubjectOutcome entity by its unique identifier.
      *
-     * @param id the unique identifier of the RAAsignatura to retrieve
-     * @return the RAAsignatura corresponding to the given ID
+     * @param id the unique identifier of the SubjectOutcome to retrieve
+     * @return the SubjectOutcome corresponding to the given ID
      */
-    RAAsignatura getByIdRAAsignatura(Integer id);
+    SubjectOutcome getById(Integer id);
 
     /**
-     * Updates an existing RAAsignatura identified by its unique ID with new details.
+     * Updates an existing SubjectOutcome identified by its unique ID with new details.
      *
-     * @param id the unique identifier of the RAAsignatura to be updated
-     * @param newRAAsignatura an instance of RAAsignatura containing the updated information
-     * @return the updated RAAsignatura instance
+     * @param id the unique identifier of the SubjectOutcome to be updated
+     * @param newSubjectOutcome an instance of SubjectOutcome containing the updated information
+     * @return the updated SubjectOutcome instance
      */
-    RAAsignatura updateByIdRAAsignatura(Integer id, RAAsignatura newRAAsignatura);
+    SubjectOutcome update(Integer id, SubjectOutcome newSubjectOutcome);
 
     /**
-     * Desactivate a RAAsignatura identified by its unique ID from the system.
+     * Desactivate a SubjectOutcome identified by its unique ID from the system.
      *
-     * @param id the unique identifier of the RAAsignatura to be removed
-     * @return the removed RAAsignatura instance
+     * @param id the unique identifier of the SubjectOutcome to be removed
+     * @return the removed SubjectOutcome instance
      */
-    RAAsignatura removeRAAsignatura(Integer id);
+    SubjectOutcome remove(Integer id);
 
     /**
-     * Creates a copy of an existing RAAsignatura, associating it with a new Competencia and Asignatura.
+     * Creates a copy of an existing SubjectOutcome, associating it with a new Competencia and Subject.
      * The RAAOriginal has to be of the past period, and it's going to copy in the actual period.
      *
-     * @param idRAAOriginal the unique identifier of the original RAAsignatura to be copied
-     * @param idCompetencia the unique identifier of the new CompetenciaAsignatura to associate with the copied RAAsignatura
-     * @param idAsignatura the unique identifier of the new Asignatura to associate with the copied RAAsignatura
-     * @return a new RAAsignatura instance representing the copied object
+     * @param idRAAOriginal the unique identifier of the original SubjectOutcome to be copied
+     * @param competencyId the unique identifier of the new SubjectCompetency to associate with the copied SubjectOutcome
+     * @param subjectId the unique identifier of the new Subject to associate with the copied SubjectOutcome
+     * @return a new SubjectOutcome instance representing the copied object
      */
-    RAAsignatura copyRAAsignatura(Integer idRAAOriginal, Integer idCompetencia, Integer idAsignatura);
+    SubjectOutcome copy(Integer idRAAOriginal, Integer competencyId, Integer subjectId);
 
 }

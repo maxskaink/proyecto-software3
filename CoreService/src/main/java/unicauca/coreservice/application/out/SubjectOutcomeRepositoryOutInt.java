@@ -1,59 +1,59 @@
 package unicauca.coreservice.application.out;
 
 import unicauca.coreservice.domain.model.OptionalWrapper;
-import unicauca.coreservice.domain.model.RAAsignatura;
+import unicauca.coreservice.domain.model.SubjectOutcome;
 
 import java.util.List;
 
-public interface RaAsignaturaRepositoryOut {
+public interface SubjectOutcomeRepositoryOutInt {
 
     /**
-     * Adds a new RAAsignatura to the repository associated with a specific AsignacionCompetencia.
+     * Adds a new SubjectOutcome to the repository associated with a specific competencyAssigned.
      *
-     * @param newRAAsignatura The RAAsignatura to be added.
-     * @param asignacionCompetencia The identifier of the AsignacionCompetencia to associate with the RAAsignatura.
-     * @return An {@code OptionalWrapper} containing the added RAAsignatura if successful, or an exception if the operation fails.
+     * @param NewSubjectOutcome The SubjectOutcome to be added.
+     * @param competencyAssigned The identifier of the competencyAssigned to associate with the SubjectOutcome.
+     * @return An {@code OptionalWrapper} containing the added SubjectOutcome if successful, or an exception if the operation fails.
      */
-    OptionalWrapper<RAAsignatura> addRAAsignatura(RAAsignatura newRAAsignatura, Integer asignacionCompetencia);
+    OptionalWrapper<SubjectOutcome> add(SubjectOutcome NewSubjectOutcome, Integer competencyAssigned);
 
     /**
-     * Retrieves a list of RAAsignatura associated with a specific Asignatura.
+     * Retrieves a list of SubjectOutcome associated with a specific Subject.
      *
-     * @param idAsignatura The unique identifier of the Asignatura whose associated RAAsignatura entities are to be retrieved.
-     * @return A list of RAAsignatura objects associated with the specified Asignatura.
+     * @param subjectId The unique identifier of the Subject whose associated SubjectOutcome entities are to be retrieved.
+     * @return A list of SubjectOutcome objects associated with the specified Subject.
      */
-    List<RAAsignatura> listRAAsignatura(Integer idAsignatura);
+    List<SubjectOutcome> listAllBySubjectId(Integer subjectId);
 
     /**
-     * Retrieves a list of RAAsignatura associated with a specific Competencia.
+     * Retrieves a list of SubjectOutcome associated with a specific Competencia.
      *
-     * @param idCompetencia The unique identifier of the Competencia.
-     * @return A list of RAAsignatura objects associated with the specified Competencia.
+     * @param competencyId The unique identifier of the Competencia.
+     * @return A list of SubjectOutcome objects associated with the specified Competencia.
      */
-    List<RAAsignatura> listRAAsignaturaByCompetencia(Integer idCompetencia);
+    List<SubjectOutcome> listAllByCompetencyId(Integer competencyId);
     /**
-     * Retrieves a RAAsignatura by its unique identifier.
+     * Retrieves a SubjectOutcome by its unique identifier.
      *
-     * @param id The ID of the RAAsignatura to retrieve.
-     * @return An {@link OptionalWrapper} containing the found RAAsignatura or an exception if not found.
+     * @param id The ID of the SubjectOutcome to retrieve.
+     * @return An {@link OptionalWrapper} containing the found SubjectOutcome or an exception if not found.
      */
-    OptionalWrapper<RAAsignatura> getByIdRAAsignatura(Integer id);
+    OptionalWrapper<SubjectOutcome> getBySubjectId(Integer id);
 
     /**
-     * Updates an existing RAAsignatura by its unique identifier.
+     * Updates an existing SubjectOutcome by its unique identifier.
      *
-     * @param id              The ID of the RAAsignatura to update.
-     * @param newRAAsignatura The updated RAAsignatura entity.
-     * @return An {@link OptionalWrapper} containing the updated RAAsignatura or an exception if the update fails.
+     * @param id              The ID of the SubjectOutcome to updateProgramCompetency.
+     * @param NewSubjectOutcome The updated SubjectOutcome entity.
+     * @return An {@link OptionalWrapper} containing the updated SubjectOutcome or an exception if the updateProgramCompetency fails.
      */
-    OptionalWrapper<RAAsignatura> updateByIdRAAsignatura(Integer id, RAAsignatura newRAAsignatura);
+    OptionalWrapper<SubjectOutcome> update(Integer id, SubjectOutcome NewSubjectOutcome);
 
     /**
-     * Removes a RAAsignatura from the repository by its unique identifier.
+     * Removes a SubjectOutcome from the repository by its unique identifier.
      *
-     * @param id The ID of the RAAsignatura to remove.
+     * @param id The ID of the SubjectOutcome to remove.
      * @return An {@link OptionalWrapper} indicating the outcome of the operation, or an exception if the removal fails.
      */
-    OptionalWrapper<RAAsignatura> removeRAAsignatura(Integer id);
+    OptionalWrapper<SubjectOutcome> remove(Integer id);
 
 }

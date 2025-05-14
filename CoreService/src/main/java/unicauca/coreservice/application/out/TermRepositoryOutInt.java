@@ -1,30 +1,30 @@
 package unicauca.coreservice.application.out;
 
 import unicauca.coreservice.domain.model.OptionalWrapper;
-import unicauca.coreservice.domain.model.Periodo;
+import unicauca.coreservice.domain.model.Term;
 
 import java.util.List;
 
-public interface PeriodoRepositoryOut {
+public interface TermRepositoryOutInt {
     /**
-     * Adds a new Periodo to the repository.
+     * Adds a new Term to the repository.
      *
-     * @param newPeriodo the instance of the new Periodo to be added
-     * @return an OptionalWrapper containing the added Periodo instance or the exception if the operation fails
+     * @param newTerm the instance of the new Term to be added
+     * @return an OptionalWrapper containing the added Term instance or the exception if the operation fails
      */
-    OptionalWrapper<Periodo> addPeriodo(Periodo newPeriodo);
+    OptionalWrapper<Term> add(Term newTerm);
 
     /**
-     * Retrieves a list of all available Periodo instances.
+     * Retrieves a list of all available Term instances.
      *
-     * @return a List of Periodo instances or an empty list if no Periodo instances are available.
+     * @return a List of Term instances or an empty list if no Term instances are available.
      */
-    List<Periodo> listPeriodo();
+    List<Term> listAll();
 
     /**
-     * Retrieves the current active Periodo.
+     * Retrieves the current active Term.
      *
-     * @return an OptionalWrapper containing the active Periodo instance, or an exception if the retrieval fails.
+     * @return an OptionalWrapper containing the active Term instance, or an exception if the retrieval fails.
      */
-    OptionalWrapper<Periodo> getActualPeriodo();
+    OptionalWrapper<Term> getActiveTerm();
 }
