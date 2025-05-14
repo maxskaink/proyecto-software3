@@ -1,6 +1,5 @@
 package unicauca.coreservice.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
@@ -14,14 +13,14 @@ public class CompetenciaPrograma {
     private Integer id;
     private String descripcion;
     private String nivel;
-    private RAPrograma raPrograma;
-    private List<CompetenciaAsignatura> competenciasAsignatura;
+    private ProgramOutcome programOutcome;
+    private List<SubjectCompetency> competenciasAsignatura;
 
-    public CompetenciaPrograma(Integer id, String descripcion, String nivel, RAPrograma raPrograma, List<CompetenciaAsignatura> competenciasAsignatura) {
+    public CompetenciaPrograma(Integer id, String descripcion, String nivel, ProgramOutcome programOutcome, List<SubjectCompetency> competenciasAsignatura) {
         setId(id);
         setDescripcion(descripcion);
         setNivel(nivel);
-        setRaPrograma(raPrograma);
+        setProgramOutcome(programOutcome);
         setCompetenciasAsignatura(competenciasAsignatura);
     }
 
@@ -39,7 +38,7 @@ public class CompetenciaPrograma {
             throw new InvalidValue("El nivel de la competencia no puede ser mayor a 100 caracteres");
         this.nivel = nivel;
     }
-    public void setCompetenciasAsignatura(List<CompetenciaAsignatura> competenciasAsignatura) {
+    public void setCompetenciasAsignatura(List<SubjectCompetency> competenciasAsignatura) {
         if(competenciasAsignatura == null){
             this.competenciasAsignatura = new ArrayList<>();
             return;
