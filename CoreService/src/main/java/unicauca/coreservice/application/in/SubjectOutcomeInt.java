@@ -51,7 +51,7 @@ public interface SubjectOutcomeInt {
     SubjectOutcome update(Integer id, SubjectOutcome newSubjectOutcome);
 
     /**
-     * Desactivate a SubjectOutcome identified by its unique ID from the system.
+     * Deactivate a SubjectOutcome identified by its unique ID from the system.
      *
      * @param id the unique identifier of the SubjectOutcome to be removed
      * @return the removed SubjectOutcome instance
@@ -59,7 +59,7 @@ public interface SubjectOutcomeInt {
     SubjectOutcome remove(Integer id);
 
     /**
-     * Creates a copy of an existing SubjectOutcome, associating it with a new Competencia and Subject.
+     * Creates a copy of an existing SubjectOutcome, associating it with a new Competency and Subject.
      * The RAAOriginal has to be of the past period, and it's going to copy in the actual period.
      *
      * @param idRAAOriginal the unique identifier of the original SubjectOutcome to be copied

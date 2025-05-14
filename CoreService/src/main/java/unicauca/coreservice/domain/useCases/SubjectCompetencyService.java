@@ -24,7 +24,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Override
     @Transactional
     public SubjectCompetency add(SubjectCompetency newSubjectCompetency, SubjectOutcome initialOutcome, Integer subjectId) throws Exception {
-        //TODO Mirar como hacer para que valide que ya tenga una RA
+        //TODO Analyze how to validate if the outcome exists
         //Validate some information
         if(null==newSubjectCompetency || null == subjectId)
             throw new InvalidValue("Instance of competency is not valid, it can not be null");
@@ -41,7 +41,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
         OptionalWrapper<SubjectCompetency> responseCreate = competencyRepository.add(newSubjectCompetency);
         SubjectCompetency competency = responseCreate.getValue()
                 .orElseThrow(responseCreate::getException);
-        //Asociate in the active term with subject
+        //Associate in the active term with the subject
         CompetencyToSubjectAssignment assignation = new CompetencyToSubjectAssignment(
                 null,
                 competency,
@@ -95,14 +95,12 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     public SubjectCompetency remove(Integer id) throws Exception {
         //Get the assignation of the active term
         OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper =
-                assignRepository.getBySubjectId(id);
+                assignRepository.getByCompetencyId(id);
 
         CompetencyToSubjectAssignment assignation= assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
 
-        assignation.getSubjectOutcomes().forEach(ra -> {
-            subjectOutcomeRepository.remove(ra.getId());
-        });
+        assignation.getSubjectOutcomes().forEach(ra -> subjectOutcomeRepository.remove(ra.getId()));
         competencyRepository.remove(id);
 
         OptionalWrapper<CompetencyToSubjectAssignment> response =

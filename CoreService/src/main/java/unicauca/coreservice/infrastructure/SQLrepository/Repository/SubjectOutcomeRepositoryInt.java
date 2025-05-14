@@ -36,7 +36,7 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
                     .anyMatch(ra -> ra.getDescription().equalsIgnoreCase(newSubjectOutcome.getDescription()));
 
             if (exists)
-                return new OptionalWrapper<>(new DuplicateInformation("Ya existe un RA con esta descripción para la competencia " + assignment.getCompetency().getDescription() + " en el periodo actual"));
+                return new OptionalWrapper<>(new DuplicateInformation("There is an outcome with this description in the competency " + assignment.getCompetency().getDescription() + " added in the active Term"));
 
             SubjectOutcomeEntity newRa = SubjectOutcomeMapper.toSubjectOutcomeEntity(newSubjectOutcome);
 

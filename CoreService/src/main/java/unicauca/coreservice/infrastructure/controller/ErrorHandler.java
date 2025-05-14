@@ -86,7 +86,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorDTO> handlerDuplicated(DataIntegrityViolationException exception, WebRequest request){
         ErrorDTO response = new ErrorDTO(
-                "Violacion a la integridad de los datos",
+                "Data integrity is being violated",
                 exception.getMessage()
         );
         return ResponseEntity

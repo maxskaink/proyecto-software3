@@ -15,16 +15,16 @@ public interface CompetencyToSubjectAssignmentRepositoryOutInt {
     OptionalWrapper<CompetencyToSubjectAssignment> add(CompetencyToSubjectAssignment newCompetencyToSubject);
 
     /**
-     * Find an CompetencyToSubjectAssignment by the given Competencia ID.
+     * Find an CompetencyToSubjectAssignment by the given ID.
      *
-     * @param subjectId the unique identifier of the Competencia whose associated CompetencyToSubjectAssignment is to be deleted
+     * @param competencyId the unique identifier of the Competency whose associated CompetencyToSubjectAssignment is to be deleted
      * @return an OptionalWrapper containing the deleted CompetencyToSubjectAssignment if successful,
      *         or an exception if the operation fails
      */
-    OptionalWrapper<CompetencyToSubjectAssignment> getBySubjectId(Integer subjectId);
+    OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId);
 
     /**
-     * Deletes an CompetencyToSubjectAssignment entity identified by the specified ID.
+     * Deletes a CompetencyToSubjectAssignment entity identified by the specified ID.
      *
      * @param CompetencyToSubjectId The unique identifier of the CompetencyToSubjectAssignment to be deleted.
      * @return An {@code OptionalWrapper} containing the deleted CompetencyToSubjectAssignment if the operation is successful,

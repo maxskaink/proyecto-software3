@@ -20,7 +20,7 @@ public interface SubjectRepositoryOutInt {
     List<Subject> listAll();
 
     /**
-     * Get an Subject by his ID
+     * Get a Subject by his ID
      * @param id id to search in DB
      * @return The OptionalWrapper for robust response
      */
@@ -29,14 +29,14 @@ public interface SubjectRepositoryOutInt {
     /**
      * Update the Subject in DB
      * @param id id of the Subject to updateProgramCompetency
-     * @param newSubject instance of the new Aisnatura
+     * @param newSubject instance of the new Subject
      * @return The OptionalWrapper for robust response
      */
     OptionalWrapper<Subject> update(Integer id, Subject newSubject);
 
     /**
      * Deactivate the Subject in DB
-     * @param id Id of the Subject to delet
+     * @param id of the Subject to remove
      * @return The OptionalWrapper for robust response
      */
     OptionalWrapper<Subject> remove(Integer id);

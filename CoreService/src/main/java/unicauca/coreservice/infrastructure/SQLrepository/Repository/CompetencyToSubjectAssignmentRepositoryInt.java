@@ -74,7 +74,7 @@ public class CompetencyToSubjectAssignmentRepositoryInt implements CompetencyToS
     }
 
     @Override
-    public OptionalWrapper<CompetencyToSubjectAssignment> getBySubjectId(Integer competencyId) {
+    public OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId) {
         try{
             SubjectCompetencyAssignmentEntity assignment =
                     subjectCompetencyAssigmentRepository.findAllByCompetencyId(competencyId).stream()

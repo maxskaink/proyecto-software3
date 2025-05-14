@@ -60,7 +60,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     public List<SubjectCompetency> listAllBySubjectId(Integer subjectId) {
         ConfigurationEntity conf = configurationRepository.getReferenceById(1);
         return subjectCompetencyAssignmentRepository.findAllBySubjectId(subjectId).stream()
-                .filter(asignacion -> Objects.equals(conf.getActiveTerm().getId(), asignacion.getTerm().getId()))
+                .filter(assignment -> Objects.equals(conf.getActiveTerm().getId(), assignment.getTerm().getId()))
                 .map(SubjectCompetencyAssignmentEntity::getCompetency)
                 .filter(SubjectCompetencyEntity::isActivated)
                 .map(SubjectCompetencyMapper::toSubjectCompetency)

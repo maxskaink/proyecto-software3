@@ -42,7 +42,7 @@ public class SubjectCompetency {
 
     public void setSubjectCompetencyId(Integer subjectCompetencyId){
         if(null==subjectCompetencyId)
-            throw new InvalidValue("El id de la competencia no puede ser nulo");
+            throw new InvalidValue("The competency Id can not be null");
         this.subjectCompetencyId = subjectCompetencyId;
     }
 }

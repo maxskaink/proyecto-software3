@@ -25,10 +25,10 @@ public interface SubjectOutcomeRepositoryOutInt {
     List<SubjectOutcome> listAllBySubjectId(Integer subjectId);
 
     /**
-     * Retrieves a list of SubjectOutcome associated with a specific Competencia.
+     * Retrieves a list of SubjectOutcome associated with a specific Competency.
      *
-     * @param competencyId The unique identifier of the Competencia.
-     * @return A list of SubjectOutcome objects associated with the specified Competencia.
+     * @param competencyId The unique identifier of the Competency.
+     * @return A list of SubjectOutcome objects associated with the specified Competency.
      */
     List<SubjectOutcome> listAllByCompetencyId(Integer competencyId);
     /**

@@ -43,21 +43,12 @@ public interface SubjectCompetencyInt {
     SubjectCompetency update(Integer id, SubjectCompetency newProgramCompetency) throws Exception;
 
     /**
-     * Desactivate a SubjectCompetency identified by its unique ID, and desactivate all associated RA's in the system.
+     * Deactivate a SubjectCompetency identified by its unique ID, and deactivate all associated RA's in the system.
      *
      * @param id the unique identifier of the SubjectCompetency to be removed
      * @return the removed SubjectCompetency instance
      */
     SubjectCompetency remove(Integer id) throws Exception;
 
-    /**
-     * Adds a new SubjectOutcome associated with a specific SubjectCompetency and Subject.
-     * It in the actual period.
-     *
-     * @param newRAAsignatura the SubjectOutcome instance to be added
-     * @param idCompetencia the unique identifier of the SubjectCompetency associated with the SubjectOutcome
-     * @param subjectId the unique identifier of the Subject associated with the SubjectOutcome
-     * @return the newly added SubjectOutcome instance
-     */
 
 }

@@ -7,64 +7,71 @@ import unicauca.coreservice.domain.model.ProgramOutcome;
 import java.util.List;
 
 /**
- * It is the repository for all the Competencias and RA of programa
+ * Repository interface for managing program competencies and program outcomes.
  */
 public interface ProgramCompetencyAndOutcomeRepositoryOutInt {
 
     /**
-     * Add a new ProgramCompetency in DB; it also adds the RA associated to it
-     * @param newProgramCompetency instance of the new ProgramCompetency
-     * @return The ProgramCompetency added or the exception if it fails.
+     * Adds a new ProgramCompetency to the database, including its associated program outcomes.
+     *
+     * @param newProgramCompetency the ProgramCompetency to be added
+     * @return the added ProgramCompetency wrapped in an OptionalWrapper, or an exception if the operation fails
      */
     OptionalWrapper<ProgramCompetency> add(ProgramCompetency newProgramCompetency);
 
     /**
-     * Get all the ProgramCompetency in DB
-     * @return the list of CompetenciaProgramas
+     * Retrieves all ProgramCompetency records from the database.
+     *
+     * @return a list of all ProgramCompetency instances
      */
     List<ProgramCompetency> listAll();
 
     /**
-     * Get the ProgramCompetency by his
-     * @param id ID to search
-     * @return the ProgramCompetency found
+     * Retrieves a ProgramCompetency by its ID.
+     *
+     * @param id the ID of the ProgramCompetency to retrieve
+     * @return the corresponding ProgramCompetency wrapped in an OptionalWrapper, or an exception if not found
      */
     OptionalWrapper<ProgramCompetency> getCompetencyById(Integer id);
 
     /**
-     * Update a ProgramCompetency in DB, it can fail if break some rules
-     * @param id id of the ProgramCompetency to updateProgramCompetency
-     * @param newProgramCompetency instance of the new ProgramCompetency
-     * @return the ProgramCompetency saved in DB or the exception if it fails
+     * Updates an existing ProgramCompetency in the database.
+     *
+     * @param id the ID of the ProgramCompetency to update
+     * @param newProgramCompetency the new ProgramCompetency data
+     * @return the updated ProgramCompetency wrapped in an OptionalWrapper, or an exception if the operation fails
      */
     OptionalWrapper<ProgramCompetency> updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency);
 
     /**
-     * Desactivate the ProgramCompetency in DB
-     * @param id the id of the ComptenciaPrograma to desactivate
-     * @return the ProgramCompetency desactivated
+     * Deactivates a ProgramCompetency in the database.
+     *
+     * @param id the ID of the ProgramCompetency to deactivate
+     * @return the deactivated ProgramCompetency wrapped in an OptionalWrapper
      */
     OptionalWrapper<ProgramCompetency> remove(Integer id);
 
     /**
-     * Get all the RA of Programas
-     * @return A list of RAProgramas
+     * Retrieves all ProgramOutcome records from the database.
+     *
+     * @return a list of all ProgramOutcome instances
      */
     List<ProgramOutcome> getProgramOutcome();
 
     /**
-     * Get a ProgramOutcome by ID
-     * @param id id to search
-     * @return the ProgramOutcome found, or the exception if it fails
+     * Retrieves a ProgramOutcome by its ID.
+     *
+     * @param id the ID of the ProgramOutcome to retrieve
+     * @return the corresponding ProgramOutcome wrapped in an OptionalWrapper, or an exception if not found
      */
     OptionalWrapper<ProgramOutcome> getProgramOutcomeById(Integer id);
 
     /**
-     * updateProgramCompetency an ProgramOutcome in DB
-     * @param id id of the ProgramOutcome to updateProgramCompetency
-     * @param newProgramOutcome the instance of the ProgramOutcome to updateProgramCompetency
-     * @return the ProgramOutcome updated in DB or the exception if it fails
+     * Updates an existing ProgramOutcome in the database.
+     *
+     * @param id the ID of the ProgramOutcome to update
+     * @param newProgramOutcome the new ProgramOutcome data
+     * @return the updated ProgramOutcome wrapped in an OptionalWrapper, or an exception if the operation fails
      */
     OptionalWrapper<ProgramOutcome> updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome);
-
 }

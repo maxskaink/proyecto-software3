@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProgramCompetencyAndOutcomeInt {
 
     /**
-     * Add a new ProgramCompetency in the system; it also adds the RA associated to it
+     * Add a new ProgramCompetency in the system; it also adds the RA associated with it
      * @param newProgramCompetency instance of the new ProgramCompetency
      * @return The ProgramCompetency added or the exception if it fails.
      */
@@ -16,7 +16,7 @@ public interface ProgramCompetencyAndOutcomeInt {
 
     /**
      * Get all the ProgramCompetency activated in the system
-     * @return the list of CompetenciaProgramas
+     * @return the list of ProgramCompetency
      */
     List<ProgramCompetency> listAllProgramCompetencies();
 
@@ -36,15 +36,15 @@ public interface ProgramCompetencyAndOutcomeInt {
     ProgramCompetency updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) throws Exception;
 
     /**
-     * Desactivate the ProgramCompetency and his RA in a system
-     * @param id the id of the ComptenciaPrograma to desactivate
-     * @return the ProgramCompetency desactivated
+     * Deactivate the ProgramCompetency and his RA in a system
+     * @param id the id of the ProgramCompetency to deactivate
+     * @return the ProgramCompetency deactivated
      */
     ProgramCompetency remove(Integer id) throws Exception;
 
     /**
      * Get all the RA of the program
-     * @return A list of RAProgramas
+     * @return A list of ProgramOutcome
      */
     List<ProgramOutcome> listAllProgramOutcomes();
 
@@ -56,7 +56,7 @@ public interface ProgramCompetencyAndOutcomeInt {
     ProgramOutcome getProgramOutcomeById(Integer id) throws Exception;
 
     /**
-     * updateProgramCompetency an ProgramOutcome in system
+     * updateProgramCompetency an ProgramOutcome
      * @param id id of the ProgramOutcome to updateProgramCompetency
      * @param newProgramOutcome the instance of the ProgramOutcome to updateProgramCompetency
      * @return the ProgramOutcome updated in DB or the exception if it fails
