@@ -6,31 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "competencia_asignatura")
+@Table(name = "ra_programa")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompetenciaAsignaturaEntity {
+public class ProgramOutcomeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 500)
-    private String descripcion;
+    private String description;
 
-    @Column(nullable = false, length = 100)
-    private String nivel;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_competencia_peograma", nullable = false)
-    private CompetenciaProgramaEntity competenciaPrograma;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "id_competencia", referencedColumnName = "id")
+    private ProgramCompetencyEntity competency;
 
     @Column(nullable = false)
-    private boolean activado;
+    private boolean isActivated;
 }

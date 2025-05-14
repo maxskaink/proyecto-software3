@@ -9,8 +9,8 @@ import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.ProgramOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACompetenciaProgramaRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPARaProgramaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.CompetenciaProgramaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.RAProgramaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramOutcomeEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.CompProgramaMapper;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.RAProgramaMapper;
 
@@ -29,10 +29,10 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
 
         try{
             newProgramCompetency.setId(null);
-            CompetenciaProgramaEntity compProg = CompProgramaMapper.toCompProgramaEntity(newProgramCompetency);
-            compProg.getResultadosAprendizaje().setCompetencia(compProg);
+            ProgramCompetencyEntity compProg = CompProgramaMapper.toCompProgramaEntity(newProgramCompetency);
+            compProg.getLearningOutcomes().setCompetency(compProg);
 
-            CompetenciaProgramaEntity response = this.JPAcompPrograma.save(compProg);
+            ProgramCompetencyEntity response = this.JPAcompPrograma.save(compProg);
             return new OptionalWrapper<>(CompProgramaMapper.toCompPrograma(response));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
@@ -42,7 +42,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public List<ProgramCompetency> listAll() {
         List<ProgramCompetency> response = new ArrayList<>();
-        for(CompetenciaProgramaEntity comp : this.JPAcompPrograma.findAllByActivadoTrue())
+        for(ProgramCompetencyEntity comp : this.JPAcompPrograma.findAllByActivadoTrue())
             response.add(CompProgramaMapper.toCompPrograma(comp));
         return response;
     }
@@ -50,7 +50,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public OptionalWrapper<ProgramCompetency> getCompetencyById(Integer id) {
         try{
-            CompetenciaProgramaEntity response = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
+            ProgramCompetencyEntity response = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
                     .orElseThrow(()-> new NotFound("Competencia con id " + id + " no se encuentra") );
 
             return new OptionalWrapper<>(CompProgramaMapper.toCompPrograma(response));
@@ -62,11 +62,11 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public OptionalWrapper<ProgramCompetency> updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) {
         try{
-            CompetenciaProgramaEntity response = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
+            ProgramCompetencyEntity response = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("Competencia con id " + id + " no se encuentra"));
-            CompetenciaProgramaEntity newComp = CompProgramaMapper.toCompProgramaEntity(newProgramCompetency);
+            ProgramCompetencyEntity newComp = CompProgramaMapper.toCompProgramaEntity(newProgramCompetency);
             newComp.setId(response.getId());
-            newComp.setResultadosAprendizaje(response.getResultadosAprendizaje());
+            newComp.setLearningOutcomes(response.getLearningOutcomes());
 
             return new OptionalWrapper<>(CompProgramaMapper.toCompPrograma(this.JPAcompPrograma.save(newComp)));
         }catch (Exception e){
@@ -78,10 +78,10 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public OptionalWrapper<ProgramCompetency> remove(Integer id) {
         try{
-            CompetenciaProgramaEntity actualComp = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
+            ProgramCompetencyEntity actualComp = this.JPAcompPrograma.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("Competencia con id " + id + " no se encuentra"));
-            actualComp.setActivado(false);
-            actualComp.setDescripcion(actualComp.getDescripcion() + " (Eliminada)" + System.nanoTime());
+            actualComp.setIsActivated(false);
+            actualComp.setDescription(actualComp.getDescription() + " (Eliminada)" + System.nanoTime());
             return new OptionalWrapper<>(CompProgramaMapper.toCompPrograma(this.JPAcompPrograma.save(actualComp)));
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
@@ -92,7 +92,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     public List<ProgramOutcome> getProgramOutcome() {
 
         List<ProgramOutcome> response = new ArrayList<>();
-        for(RAProgramaEntity ra : this.JPARaPrograma.findAllByActivadoTrue())
+        for(ProgramOutcomeEntity ra : this.JPARaPrograma.findAllByActivadoTrue())
             response.add(RAProgramaMapper.toRAPrograma(ra));
         return response;
     }
@@ -100,7 +100,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public OptionalWrapper<ProgramOutcome> getProgramOutcomeById(Integer id) {
         try{
-            RAProgramaEntity response = this.JPARaPrograma.findByIdAndActivadoTrue(id)
+            ProgramOutcomeEntity response = this.JPARaPrograma.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("RA con id " + id + " no se encuentra"));
             return new OptionalWrapper<>(RAProgramaMapper.toRAPrograma(response));
         } catch (Exception e) {
@@ -111,12 +111,12 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public OptionalWrapper<ProgramOutcome> updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome) {
         try{
-            RAProgramaEntity response = this.JPARaPrograma.findByIdAndActivadoTrue(id)
+            ProgramOutcomeEntity response = this.JPARaPrograma.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("RA con id " + id + " no se encuentra"));
-            RAProgramaEntity newRa = RAProgramaMapper.toRAProgramaEntity(newProgramOutcome);
+            ProgramOutcomeEntity newRa = RAProgramaMapper.toRAProgramaEntity(newProgramOutcome);
 
             newRa.setId(response.getId());
-            newRa.setCompetencia(response.getCompetencia());
+            newRa.setCompetency(response.getCompetency());
 
             return new OptionalWrapper<>(RAProgramaMapper.toRAPrograma(this.JPARaPrograma.save(newRa)));
         } catch (Exception e) {

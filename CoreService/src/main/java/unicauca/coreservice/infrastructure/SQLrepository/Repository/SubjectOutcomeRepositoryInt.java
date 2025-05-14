@@ -8,9 +8,9 @@ import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.*;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignacionCompetenciaAsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfiguracionEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.RAAsignaturaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfigurationEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectOutcomeEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.RAAsignaturaMapper;
 
 import java.util.List;
@@ -27,20 +27,20 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public OptionalWrapper<SubjectOutcome> add(SubjectOutcome newSubjectOutcome, Integer asignacionCompetencia) {
         try{
-            AsignacionCompetenciaAsignaturaEntity asignacion =
+            AssignSubjectCompetencyEntity asignacion =
                     repositoryAsignacion.getReferenceById(asignacionCompetencia);
 
             // Verificar si ya existe un RA con la misma descripción para esta asignación
-            boolean exists = asignacion.getRAAsignaturas().stream()
-                    .filter(RAAsignaturaEntity::isActivado)
-                    .anyMatch(ra -> ra.getDescripcion().equalsIgnoreCase(newSubjectOutcome.getDescription()));
+            boolean exists = asignacion.getSubjectOutcomes().stream()
+                    .filter(SubjectOutcomeEntity::isIsActivated)
+                    .anyMatch(ra -> ra.getDescription().equalsIgnoreCase(newSubjectOutcome.getDescription()));
 
             if (exists)
-                return new OptionalWrapper<>(new DuplicateInformation("Ya existe un RA con esta descripción para la competencia " + asignacion.getCompetencia().getDescripcion() + " en el periodo actual"));
+                return new OptionalWrapper<>(new DuplicateInformation("Ya existe un RA con esta descripción para la competencia " + asignacion.getCompetency().getDescription() + " en el periodo actual"));
 
-            RAAsignaturaEntity newRa = RAAsignaturaMapper.toEntity(newSubjectOutcome);
+            SubjectOutcomeEntity newRa = RAAsignaturaMapper.toEntity(newSubjectOutcome);
 
-            newRa.setAsignacionCompetencia(asignacion);
+            newRa.setCompetencyAssignment(asignacion);
 
             return new OptionalWrapper<>(
                     RAAsignaturaMapper.toRAAsignatura(
@@ -56,24 +56,24 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public List<SubjectOutcome> listAllBySubjectId(Integer subjectId) {
 
-        ConfiguracionEntity conf = repositoryConfiguracion.getReferenceById(1);
+        ConfigurationEntity conf = repositoryConfiguracion.getReferenceById(1);
 
-        return repositoryAsignacion.findAllByAsignaturaId(subjectId).stream()
-                .filter(asignacion -> Objects.equals(conf.getPeriodoActual().getId(), asignacion.getPeriodo().getId()))
-                .flatMap(asignacion -> asignacion.getRAAsignaturas().stream())
-                .filter(RAAsignaturaEntity::isActivado)
+        return repositoryAsignacion.findAllBySubjectId(subjectId).stream()
+                .filter(asignacion -> Objects.equals(conf.getActiveTerm().getId(), asignacion.getTerm().getId()))
+                .flatMap(asignacion -> asignacion.getSubjectOutcomes().stream())
+                .filter(SubjectOutcomeEntity::isIsActivated)
                 .map(RAAsignaturaMapper::toRAAsignatura)
                 .toList();
     }
 
     @Override
     public List<SubjectOutcome> listAllByCompetencyId(Integer competencyId) {
-        ConfiguracionEntity conf = repositoryConfiguracion.getReferenceById(1);
+        ConfigurationEntity conf = repositoryConfiguracion.getReferenceById(1);
 
-        return repositoryAsignacion.findAllByCompetenciaId(competencyId).stream()
-                .filter(asignacion -> Objects.equals(conf.getPeriodoActual().getId(), asignacion.getPeriodo().getId()))
-                .flatMap(asignacion -> asignacion.getRAAsignaturas().stream())
-                .filter(RAAsignaturaEntity::isActivado)
+        return repositoryAsignacion.findAllByCompetencyId(competencyId).stream()
+                .filter(asignacion -> Objects.equals(conf.getActiveTerm().getId(), asignacion.getTerm().getId()))
+                .flatMap(asignacion -> asignacion.getSubjectOutcomes().stream())
+                .filter(SubjectOutcomeEntity::isIsActivated)
                 .map(RAAsignaturaMapper::toRAAsignatura)
                 .toList();
     }
@@ -93,9 +93,9 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public OptionalWrapper<SubjectOutcome> update(Integer id, SubjectOutcome newSubjectOutcome) {
         try{
-            RAAsignaturaEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
+            SubjectOutcomeEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("SubjectOutcome con id " + id + " no encontrada"));
-            actual.setDescripcion(newSubjectOutcome.getDescription());
+            actual.setDescription(newSubjectOutcome.getDescription());
 
             return new OptionalWrapper<>( RAAsignaturaMapper.toRAAsignatura(
                     repositoryRaAsignatura.save(actual)
@@ -108,9 +108,9 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     @Override
     public OptionalWrapper<SubjectOutcome> remove(Integer id) {
         try{
-            RAAsignaturaEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
+            SubjectOutcomeEntity actual = repositoryRaAsignatura.findByIdAndActivadoTrue(id)
                     .orElseThrow(() -> new NotFound("SubjectOutcome con id " + id + " no encontrada"));
-            actual.setActivado(false);
+            actual.setIsActivated(false);
             return new OptionalWrapper<>( RAAsignaturaMapper.toRAAsignatura(
                     repositoryRaAsignatura.save(actual)
             ));

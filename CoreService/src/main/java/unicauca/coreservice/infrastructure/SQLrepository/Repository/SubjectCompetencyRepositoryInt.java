@@ -10,10 +10,10 @@ import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAAsigna
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACompetenciaAsignaturaRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACompetenciaProgramaRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfiguracionRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignacionCompetenciaAsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.CompetenciaAsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.CompetenciaProgramaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfiguracionEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfigurationEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.CompAsignaturaMapper;
 
 import java.util.List;
@@ -33,13 +33,13 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
         try{
             newSubjectCompetency.setId(null);
 
-            CompetenciaAsignaturaEntity newComp = CompAsignaturaMapper.toEntity(newSubjectCompetency);
+            SubjectCompetencyEntity newComp = CompAsignaturaMapper.toEntity(newSubjectCompetency);
 
-            CompetenciaProgramaEntity compProg = repositoryCompPrograma.findByIdAndActivadoTrue(
+            ProgramCompetencyEntity compProg = repositoryCompPrograma.findByIdAndActivadoTrue(
                     newSubjectCompetency.getSubjectCompetencyId()
             ).orElseThrow(()->new NotFound("Competencia Programa con id " + newSubjectCompetency.getSubjectCompetencyId() + " no encontrada"));
 
-            newComp.setCompetenciaPrograma(compProg);
+            newComp.setProgramCompetency(compProg);
 
             return new OptionalWrapper<>( CompAsignaturaMapper.toCompAsignatura(
                     repositoryCompAsignatura.save(newComp)
@@ -58,11 +58,11 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
 
     @Override
     public List<SubjectCompetency> listAllBySubjectId(Integer subjectId) {
-        ConfiguracionEntity conf = repositoryConfiguracion.getReferenceById(1);
-        return repositoryAsignacion.findAllByAsignaturaId(subjectId).stream()
-                .filter(asignacion -> Objects.equals(conf.getPeriodoActual().getId(), asignacion.getPeriodo().getId()))
-                .map(AsignacionCompetenciaAsignaturaEntity::getCompetencia)
-                .filter(CompetenciaAsignaturaEntity::isActivado)
+        ConfigurationEntity conf = repositoryConfiguracion.getReferenceById(1);
+        return repositoryAsignacion.findAllBySubjectId(subjectId).stream()
+                .filter(asignacion -> Objects.equals(conf.getActiveTerm().getId(), asignacion.getTerm().getId()))
+                .map(AssignSubjectCompetencyEntity::getCompetency)
+                .filter(SubjectCompetencyEntity::isIsActivated)
                 .map(CompAsignaturaMapper::toCompAsignatura)
                 .toList();
     }
@@ -82,11 +82,11 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> update(Integer id, SubjectCompetency newSubjectCompetency) {
         try{
-            CompetenciaAsignaturaEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
+            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
                     .orElseThrow(()-> new NotFound("Competencia Subject con id " + id + " no encontrada"));
 
-            actualComp.setDescripcion(newSubjectCompetency.getDescription());
-            actualComp.setNivel(newSubjectCompetency.getLevel());
+            actualComp.setDescription(newSubjectCompetency.getDescription());
+            actualComp.setLevel(newSubjectCompetency.getLevel());
 
             return new OptionalWrapper<>(
                     CompAsignaturaMapper.toCompAsignatura(repositoryCompAsignatura.save(actualComp)
@@ -99,9 +99,9 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> remove(Integer id) {
         try{
-            CompetenciaAsignaturaEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
+            SubjectCompetencyEntity actualComp = repositoryCompAsignatura.findByIdAndActivadoTrue(id)
                     .orElseThrow(()-> new NotFound("Competencia Subject con id " + id + " no encontrada"));
-            actualComp.setActivado(false);
+            actualComp.setIsActivated(false);
             return new OptionalWrapper<>(
                     CompAsignaturaMapper.toCompAsignatura(repositoryCompAsignatura.save(actualComp)
                     ));

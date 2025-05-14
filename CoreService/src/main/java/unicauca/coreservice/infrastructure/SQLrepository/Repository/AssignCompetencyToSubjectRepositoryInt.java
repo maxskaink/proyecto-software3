@@ -8,10 +8,10 @@ import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.AssignCompetencyToSubject;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.*;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignacionCompetenciaAsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.CompetenciaAsignaturaEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.PeriodoEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.AsignacionCompAsignaturaMapper;
 
 import java.util.Objects;
@@ -32,33 +32,33 @@ public class AssignCompetencyToSubjectRepositoryInt implements AssignCompetencyT
             newAsignacion.setId(null);
 
             // Verificar si ya existe una competencia con la misma descripción para esta asignatura y periodo
-            boolean exists = repositoryAsignacion.findAllByAsignaturaId(newAsignacion.getSubject().getId()).stream()
-                    .filter(asignacion -> asignacion.getPeriodo().getId().equals(newAsignacion.getTerm().getId()))
-                    .filter(asignacion -> asignacion.isActivado())
-                    .anyMatch(asignacion -> asignacion.getCompetencia().getDescripcion()
+            boolean exists = repositoryAsignacion.findAllBySubjectId(newAsignacion.getSubject().getId()).stream()
+                    .filter(asignacion -> asignacion.getTerm().getId().equals(newAsignacion.getTerm().getId()))
+                    .filter(asignacion -> asignacion.isIsActivated())
+                    .anyMatch(asignacion -> asignacion.getCompetency().getDescription()
                             .equalsIgnoreCase(newAsignacion.getCompetency().getDescription()));
 
             if (exists)
                 return new OptionalWrapper<>(new DuplicateInformation("Ya existe una competencia con esta descripción para esta asignatura en el periodo actual"));
 
 
-            AsignaturaEntity asignatura =
+            SubjectEntity asignatura =
                     repositoryAsignatura.findByIdAndActivadoTrue(
                             newAsignacion.getSubject().getId()
                     ).orElseThrow(()-> new NotFound("Subject con id " + newAsignacion.getSubject().getId() + " no encontrada"));
 
-            CompetenciaAsignaturaEntity competencia =
+            SubjectCompetencyEntity competencia =
                     repositoryCompAsignatura.findByIdAndActivadoTrue(
                             newAsignacion.getCompetency().getId()
                     ).orElseThrow(() -> new NotFound("Competencia con id "+ newAsignacion.getCompetency().getId()+ " no existe"));
 
-            PeriodoEntity periodo =
+            TermEntity periodo =
                     repositoryPeriodo.getReferenceById(
                             newAsignacion.getTerm().getId()
                     );
 
-            AsignacionCompetenciaAsignaturaEntity finalAsignacion =
-                    AsignacionCompetenciaAsignaturaEntity.builder()
+            AssignSubjectCompetencyEntity finalAsignacion =
+                    AssignSubjectCompetencyEntity.builder()
                             .asignatura(asignatura)
                             .competencia(competencia)
                             .periodo(periodo)
@@ -76,9 +76,9 @@ public class AssignCompetencyToSubjectRepositoryInt implements AssignCompetencyT
     @Override
     public OptionalWrapper<AssignCompetencyToSubject> getBySubjectId(Integer idCompetencia) {
         try{
-            AsignacionCompetenciaAsignaturaEntity asignacion =
-                    repositoryAsignacion.findAllByCompetenciaId(idCompetencia).stream()
-                            .filter(a -> Objects.equals(a.getCompetencia().getId(), idCompetencia))
+            AssignSubjectCompetencyEntity asignacion =
+                    repositoryAsignacion.findAllByCompetencyId(idCompetencia).stream()
+                            .filter(a -> Objects.equals(a.getCompetency().getId(), idCompetencia))
                             .findFirst().orElseThrow(()-> new NotFound("No se encuentra una asignacion de la competencia con id " + idCompetencia));
             return new OptionalWrapper<>(AsignacionCompAsignaturaMapper.toAsignacionCompAsignatura(asignacion));
         } catch (Exception e) {
@@ -89,12 +89,12 @@ public class AssignCompetencyToSubjectRepositoryInt implements AssignCompetencyT
     @Override
     public OptionalWrapper<AssignCompetencyToSubject> remove(Integer idAsignacion) {
         try{
-            AsignacionCompetenciaAsignaturaEntity acutalEntity = repositoryAsignacion.getReferenceById(idAsignacion);
+            AssignSubjectCompetencyEntity acutalEntity = repositoryAsignacion.getReferenceById(idAsignacion);
 
-            if(!acutalEntity.isActivado())
+            if(!acutalEntity.isIsActivated())
                 throw new NotFound("Asignacion con id " + idAsignacion + " no encontrada");
 
-            acutalEntity.setActivado(false);
+            acutalEntity.setIsActivated(false);
 
             return new OptionalWrapper<>(AsignacionCompAsignaturaMapper.toAsignacionCompAsignatura(repositoryAsignacion.save(acutalEntity)));
 

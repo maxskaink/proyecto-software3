@@ -16,24 +16,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompetenciaProgramaEntity {
+public class ProgramCompetencyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 500, unique = true)
-    private String descripcion;
+    private String description;
 
     @Column(nullable = false, length = 100)
-    private String nivel;
+    private String level;
 
-    @OneToMany(mappedBy = "competenciaPrograma", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CompetenciaAsignaturaEntity> competenciasAsignatura = new ArrayList<>();
+    @OneToMany(mappedBy = "programCompetency", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubjectCompetencyEntity> subjectCompetencies = new ArrayList<>();
 
-    @OneToOne(mappedBy = "competencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private RAProgramaEntity resultadosAprendizaje;
+    @OneToOne(mappedBy = "competency", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ProgramOutcomeEntity learningOutcomes;
 
     @Column(nullable = false)
-    private boolean activado;
+    private boolean isActivated;
 }

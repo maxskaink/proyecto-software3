@@ -1,18 +1,18 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
 import unicauca.coreservice.domain.model.AssignCompetencyToSubject;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignacionCompetenciaAsignaturaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.AssignSubjectCompetencyEntity;
 
 public class AsignacionCompAsignaturaMapper {
 
-    public static AssignCompetencyToSubject toAsignacionCompAsignatura(AsignacionCompetenciaAsignaturaEntity entity){
+    public static AssignCompetencyToSubject toAsignacionCompAsignatura(AssignSubjectCompetencyEntity entity){
         return null==entity?null:
                 new AssignCompetencyToSubject(
                         entity.getId(),
-                        CompAsignaturaMapper.toCompAsignatura(entity.getCompetencia()),
-                        AsignaturaMapper.toAsignatura(entity.getAsignatura()),
-                        PeriodoMapper.toPeriodo(entity.getPeriodo()),
-                        entity.getRAAsignaturas().stream().map(RAAsignaturaMapper::toRAAsignatura).toList()
+                        CompAsignaturaMapper.toCompAsignatura(entity.getCompetency()),
+                        AsignaturaMapper.toAsignatura(entity.getSubject()),
+                        PeriodoMapper.toPeriodo(entity.getTerm()),
+                        entity.getSubjectOutcomes().stream().map(RAAsignaturaMapper::toRAAsignatura).toList()
                 );
     }
 }

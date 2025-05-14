@@ -7,7 +7,7 @@ import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Term;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfiguracionRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAPeriodoRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.PeriodoEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.PeriodoMapper;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class TermRepositoryInt implements TermRepositoryOutInt {
     public OptionalWrapper<Term> add(Term newTerm) {
         try{
             newTerm.setId(null);
-            PeriodoEntity periodo = PeriodoMapper.toEntity(newTerm);
+            TermEntity periodo = PeriodoMapper.toEntity(newTerm);
             return new OptionalWrapper<>(
                     PeriodoMapper.toPeriodo(repository.save(periodo))
                     );
@@ -41,7 +41,7 @@ public class TermRepositoryInt implements TermRepositoryOutInt {
 
     @Override
     public OptionalWrapper<Term> getActiveTerm() {
-        PeriodoEntity actualPeriodo = repositoryConfiguracion.getReferenceById(1).getPeriodoActual();
+        TermEntity actualPeriodo = repositoryConfiguracion.getReferenceById(1).getActiveTerm();
         return new OptionalWrapper<>(PeriodoMapper.toPeriodo(actualPeriodo));
     }
 }

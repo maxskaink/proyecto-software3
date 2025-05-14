@@ -1,21 +1,23 @@
 package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "configuracion")
+@Table(name = "periodo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ConfiguracionEntity {
+public class TermEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "periodo_actual_id", referencedColumnName = "id")
-    private PeriodoEntity periodoActual;
+    @Column(nullable = false, length = 50)
+    private String term;
 }

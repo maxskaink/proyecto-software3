@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AsignacionCompetenciaAsignaturaEntity {
+public class AssignSubjectCompetencyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,20 +19,20 @@ public class AsignacionCompetenciaAsignaturaEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_competencia", referencedColumnName = "id")
-    private CompetenciaAsignaturaEntity competencia;
+    private SubjectCompetencyEntity competency;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_asignatura", referencedColumnName = "id")
-    private AsignaturaEntity asignatura;
+    private SubjectEntity subject;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_periodo", referencedColumnName = "id")
-    private PeriodoEntity periodo;
+    private TermEntity term;
 
     @Column(nullable = false)
-    private boolean activado;
+    private boolean isActivated;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<RAAsignaturaEntity> RAAsignaturas;
+    private List<SubjectOutcomeEntity> subjectOutcomes;
 
 }

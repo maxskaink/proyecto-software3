@@ -9,19 +9,19 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CriterioEntity {
+public class CriterionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private Double ponderacion;
+    private Double weight;
 
     @Column(nullable = false, length = 100)
-    private String nombre;
+    private String name;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
-    private RubricaEntity rubrica;
+    private RubricEntity rubric;
 }

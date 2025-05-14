@@ -4,27 +4,24 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "nivel")
+@Table(name = "rubrica")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NivelEntity {
+public class RubricEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 500)
-    private String categoria;
-
-    @Column(nullable = false, length = 500)
-    private String descripcion;
-
-    @Column(nullable = false)
-    private Integer porcentaje;
+    private String description;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_criterio", referencedColumnName = "id")
-    private CriterioEntity criterio;
+    @JoinColumn(name = "id_ra", referencedColumnName = "id")
+    private SubjectOutcomeEntity learningOutcome;
+
+    @Column(nullable = false)
+    private boolean isActivated;
 }

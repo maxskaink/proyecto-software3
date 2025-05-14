@@ -1,12 +1,12 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
 import unicauca.coreservice.domain.model.SubjectOutcome;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.RAAsignaturaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectOutcomeEntity;
 
 public class RAAsignaturaMapper {
-    public static RAAsignaturaEntity toEntity(SubjectOutcome ra) {
+    public static SubjectOutcomeEntity toEntity(SubjectOutcome ra) {
         return null==ra? null:
-                new RAAsignaturaEntity(
+                new SubjectOutcomeEntity(
                         ra.getId(),
                         ra.getDescription(),
                         null,
@@ -14,11 +14,11 @@ public class RAAsignaturaMapper {
                 );
     }
 
-    public static SubjectOutcome toRAAsignatura(RAAsignaturaEntity entity){
+    public static SubjectOutcome toRAAsignatura(SubjectOutcomeEntity entity){
         return null==entity?null:
                 new SubjectOutcome(
                         entity.getId(),
-                        entity.getDescripcion()
+                        entity.getDescription()
                 );
     }
 }

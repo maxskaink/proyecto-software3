@@ -1,21 +1,21 @@
 package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 
 import unicauca.coreservice.domain.model.Term;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.PeriodoEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
 
 public class PeriodoMapper {
-    public static PeriodoEntity toEntity(Term term){
+    public static TermEntity toEntity(Term term){
         return null== term ?null:
-                new PeriodoEntity(
+                new TermEntity(
                         term.getId(),
                         term.getDescription()
                 );
     }
-    public static Term toPeriodo(PeriodoEntity entity){
+    public static Term toPeriodo(TermEntity entity){
         return null==entity?null:
             new Term(
                     entity.getId(),
-                    entity.getPeriodo()
+                    entity.getTerm()
             );
     }
 }

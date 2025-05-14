@@ -1,12 +1,12 @@
 package unicauca.coreservice.infrastructure.SQLrepository.JPARepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.CompetenciaAsignaturaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface JPACompetenciaAsignaturaRepository extends JpaRepository<CompetenciaAsignaturaEntity, Integer> {
-    List<CompetenciaAsignaturaEntity> findAllByActivadoTrue();
-    Optional<CompetenciaAsignaturaEntity> findByIdAndActivadoTrue(Integer integer);
+public interface JPACompetenciaAsignaturaRepository extends JpaRepository<SubjectCompetencyEntity, Integer> {
+    List<SubjectCompetencyEntity> findAllByActivadoTrue();
+    Optional<SubjectCompetencyEntity> findByIdAndActivadoTrue(Integer integer);
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AsignacionDocenteEntity {
+public class AssignTeacherEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,12 +17,12 @@ public class AsignacionDocenteEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_periodo", referencedColumnName = "id")
-    private PeriodoEntity periodo;
+    private TermEntity term;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_asignatura", referencedColumnName = "id")
-    private AsignaturaEntity asignatura;
+    private SubjectEntity subject;
 
     @Column(nullable = false, name = "id_docente")
-    private Integer idDocente;
+    private Integer teacherId;
 }

@@ -7,24 +7,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
 @Entity
-@Table(name = "asignatura")
+@Table(name = "ra_asignatura")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AsignaturaEntity {
+public class SubjectOutcomeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
-    private String nombre;
-
     @Column(nullable = false, length = 500)
-    private String descripcion;
+    private String description;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_competencia", nullable = false)
+    private AssignSubjectCompetencyEntity competencyAssignment;
 
     @Column(nullable = false)
-    private boolean activado;
+    private boolean isActivated;
 }

@@ -6,7 +6,7 @@ import unicauca.coreservice.application.out.SubjectRepositoryOutInt;
 import unicauca.coreservice.domain.model.Subject;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAAsignaturaRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.AsignaturaEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.AsignaturaMapper;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class SubjectRepositoryInt implements SubjectRepositoryOutInt {
 
         try{
             newSubject.setId(null);
-            AsignaturaEntity result = this.JPAasignatura.save(AsignaturaMapper.toEntity(newSubject));
+            SubjectEntity result = this.JPAasignatura.save(AsignaturaMapper.toEntity(newSubject));
             return new OptionalWrapper<>(AsignaturaMapper.toAsignatura(result));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
