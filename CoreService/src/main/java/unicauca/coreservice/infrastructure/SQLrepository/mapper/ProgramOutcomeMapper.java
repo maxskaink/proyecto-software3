@@ -3,8 +3,8 @@ package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 import unicauca.coreservice.domain.model.ProgramOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramOutcomeEntity;
 
-public class RAProgramaMapper {
-    public static ProgramOutcome toRAPrograma(ProgramOutcomeEntity entity){
+public class ProgramOutcomeMapper {
+    public static ProgramOutcome toProgramOutcome(ProgramOutcomeEntity entity){
         if(entity == null)
             return null;
         return new ProgramOutcome(
@@ -15,15 +15,15 @@ public class RAProgramaMapper {
 
     /**
      * WARNING: It can lose the reference to the competence
-     * @param programa the instance of ProgramOutcome
+     * @param program the instance of ProgramOutcome
      * @return The ProgramOutcomeEntity
      */
-    public static ProgramOutcomeEntity toRAProgramaEntity(ProgramOutcome programa){
-        if(programa == null)
+    public static ProgramOutcomeEntity toProgramOutcomeEntity(ProgramOutcome program){
+        if(program == null)
             return null;
         return new ProgramOutcomeEntity(
-                programa.getId(),
-                programa.getDescription(),
+                program.getId(),
+                program.getDescription(),
                 null,
                 true
         );

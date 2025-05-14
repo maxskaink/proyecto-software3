@@ -8,7 +8,7 @@ import unicauca.coreservice.domain.model.Term;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAConfigurationRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPATermRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
-import unicauca.coreservice.infrastructure.SQLrepository.mapper.PeriodoMapper;
+import unicauca.coreservice.infrastructure.SQLrepository.mapper.TermMapper;
 
 import java.util.List;
 
@@ -16,16 +16,16 @@ import java.util.List;
 @Repository
 public class TermRepositoryInt implements TermRepositoryOutInt {
 
-    private final JPATermRepository repository;
-    private final JPAConfigurationRepository repositoryConfiguracion;
+    private final JPATermRepository termRepository;
+    private final JPAConfigurationRepository configurationRepository;
 
     @Override
     public OptionalWrapper<Term> add(Term newTerm) {
         try{
             newTerm.setId(null);
-            TermEntity periodo = PeriodoMapper.toEntity(newTerm);
+            TermEntity periodo = TermMapper.toTermEntity(newTerm);
             return new OptionalWrapper<>(
-                    PeriodoMapper.toPeriodo(repository.save(periodo))
+                    TermMapper.toTerm(termRepository.save(periodo))
                     );
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
@@ -34,14 +34,14 @@ public class TermRepositoryInt implements TermRepositoryOutInt {
 
     @Override
     public List<Term> listAll() {
-        return repository.findAll().stream()
-                .map(PeriodoMapper::toPeriodo)
+        return termRepository.findAll().stream()
+                .map(TermMapper::toTerm)
                 .toList();
     }
 
     @Override
     public OptionalWrapper<Term> getActiveTerm() {
-        TermEntity actualPeriodo = repositoryConfiguracion.getReferenceById(1).getActiveTerm();
-        return new OptionalWrapper<>(PeriodoMapper.toPeriodo(actualPeriodo));
+        TermEntity actualPeriodo = configurationRepository.getReferenceById(1).getActiveTerm();
+        return new OptionalWrapper<>(TermMapper.toTerm(actualPeriodo));
     }
 }

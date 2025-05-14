@@ -5,22 +5,22 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.ProgramCompetenc
 
 import java.util.stream.Collectors;
 
-public class CompProgramaMapper {
-    public static ProgramCompetency toCompPrograma(ProgramCompetencyEntity entity) {
+public class ProgramCompetencyMapper {
+    public static ProgramCompetency toProgramCompetency(ProgramCompetencyEntity entity) {
         if(entity == null)
             return null;
         return new ProgramCompetency(
                 entity.getId(),
                 entity.getDescription(),
                 entity.getLevel(),
-                RAProgramaMapper.toRAPrograma(entity.getLearningOutcomes()),
+                ProgramOutcomeMapper.toProgramOutcome(entity.getLearningOutcomes()),
                 entity.getSubjectCompetencies().stream()
-                        .map(CompAsignaturaMapper::toCompAsignatura)
+                        .map(SubjectCompetencyMapper::toSubjectCompetency)
                         .collect(Collectors.toList())
         );
     }
 
-    public static ProgramCompetencyEntity toCompProgramaEntity(ProgramCompetency comp) {
+    public static ProgramCompetencyEntity toProgramCompetencyEntity(ProgramCompetency comp) {
         if (comp == null)
             return null;
         return new ProgramCompetencyEntity(
@@ -28,9 +28,9 @@ public class CompProgramaMapper {
                 comp.getDescription(),
                 comp.getLevel(),
                 comp.getSubjectCompetency().stream()
-                        .map(CompAsignaturaMapper::toEntity)
+                        .map(SubjectCompetencyMapper::toSubjectCompetencyEntity)
                         .collect(Collectors.toList()),
-                RAProgramaMapper.toRAProgramaEntity(comp.getProgramOutcome()),
+                ProgramOutcomeMapper.toProgramOutcomeEntity(comp.getProgramOutcome()),
                 true
         );
     }

@@ -3,8 +3,8 @@ package unicauca.coreservice.infrastructure.SQLrepository.mapper;
 import unicauca.coreservice.domain.model.SubjectCompetency;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyEntity;
 
-public class CompAsignaturaMapper {
-    public static SubjectCompetency toCompAsignatura(SubjectCompetencyEntity entity){
+public class SubjectCompetencyMapper {
+    public static SubjectCompetency toSubjectCompetency(SubjectCompetencyEntity entity){
         return null==entity?null:
                 new SubjectCompetency(
                     entity.getId(),
@@ -13,12 +13,12 @@ public class CompAsignaturaMapper {
                         entity.getProgramCompetency().getId()
                 );
     }
-    public static SubjectCompetencyEntity toEntity(SubjectCompetency compAsignatura){
-        return null==compAsignatura?null:
+    public static SubjectCompetencyEntity toSubjectCompetencyEntity(SubjectCompetency subjectCompetency){
+        return null==subjectCompetency?null:
                 new SubjectCompetencyEntity(
-                        compAsignatura.getId(),
-                        compAsignatura.getDescription(),
-                        compAsignatura.getLevel(),
+                        subjectCompetency.getId(),
+                        subjectCompetency.getDescription(),
+                        subjectCompetency.getLevel(),
                         null,
                         true
                 );
