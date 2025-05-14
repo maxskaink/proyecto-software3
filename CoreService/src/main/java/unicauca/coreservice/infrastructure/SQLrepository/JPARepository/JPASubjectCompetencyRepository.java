@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JPASubjectCompetencyRepository extends JpaRepository<SubjectCompetencyEntity, Integer> {
-    List<SubjectCompetencyEntity> findAllActiveSubjectCompetencies();
+    List<SubjectCompetencyEntity> findByIsActivatedTrue();
     Optional<SubjectCompetencyEntity> findActiveSubjectCompetencyById(Integer integer);
 }

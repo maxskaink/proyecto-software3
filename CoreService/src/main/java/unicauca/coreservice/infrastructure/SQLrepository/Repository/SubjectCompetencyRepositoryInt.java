@@ -51,7 +51,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
 
     @Override
     public List<SubjectCompetency> listAll() {
-        return subjectCompetencyRepository.findAllActiveSubjectCompetencies().stream()
+        return subjectCompetencyRepository.findByIsActivatedTrue().stream()
                 .map(SubjectCompetencyMapper::toSubjectCompetency)
                 .collect(Collectors.toList());
     }

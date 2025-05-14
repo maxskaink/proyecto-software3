@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JPAProgramCompetencyRepository extends JpaRepository<ProgramCompetencyEntity, Integer> {
-    List<ProgramCompetencyEntity> findAllActiveProgramCompetencies();
+    List<ProgramCompetencyEntity> findByIsActivatedTrue();
     Optional<ProgramCompetencyEntity> findActiveProgramCompetencyById(Integer integer);
 }

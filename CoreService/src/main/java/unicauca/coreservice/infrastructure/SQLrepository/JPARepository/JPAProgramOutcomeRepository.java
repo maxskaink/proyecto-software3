@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JPAProgramOutcomeRepository extends JpaRepository<ProgramOutcomeEntity, Integer> {
-    List<ProgramOutcomeEntity> findAllActiveProgramOutcomes();
+    List<ProgramOutcomeEntity> findByIsActivatedTrue();
     Optional<ProgramOutcomeEntity> findActiveProgramOutcomeById(Integer integer);
 }

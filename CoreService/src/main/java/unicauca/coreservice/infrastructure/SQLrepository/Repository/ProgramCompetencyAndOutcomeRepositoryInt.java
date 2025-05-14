@@ -42,7 +42,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     @Override
     public List<ProgramCompetency> listAll() {
         List<ProgramCompetency> response = new ArrayList<>();
-        for(ProgramCompetencyEntity comp : this.programCompetencyRepository.findAllActiveProgramCompetencies())
+        for(ProgramCompetencyEntity comp : this.programCompetencyRepository.findByIsActivatedTrue())
             response.add(ProgramCompetencyMapper.toProgramCompetency(comp));
         return response;
     }
@@ -92,7 +92,7 @@ public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompeten
     public List<ProgramOutcome> getProgramOutcome() {
 
         List<ProgramOutcome> response = new ArrayList<>();
-        for(ProgramOutcomeEntity ra : this.programOutcomeRepository.findAllActiveProgramOutcomes())
+        for(ProgramOutcomeEntity ra : this.programOutcomeRepository.findByIsActivatedTrue())
             response.add(ProgramOutcomeMapper.toProgramOutcome(ra));
         return response;
     }
