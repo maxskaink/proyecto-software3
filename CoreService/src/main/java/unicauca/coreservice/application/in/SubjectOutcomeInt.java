@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SubjectOutcomeInt {
 
-    SubjectOutcome addSubjectOutcome(SubjectOutcome newSubjectOutcome, Integer competencyId, Integer subjectId);
+    SubjectOutcome addSubjectOutcome(SubjectOutcome newSubjectOutcome, Integer competencyId, Integer subjectId) throws Exception;
 
     /**
      * Retrieves a list of SubjectOutcome objects associated with a specific Subject.
