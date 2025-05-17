@@ -20,10 +20,10 @@ public interface SubjectOutcomeRepositoryOutInt {
      * Retrieves a list of SubjectOutcome associated with a specific Subject.
      *
      * @param subjectId The unique identifier of the Subject whose associated SubjectOutcome entities are to be retrieved.
+     * @param activeTerm If it is true, return all the SubjectOutcome in the active ter. If its doesn't return all the SubjectOutcome
      * @return A list of SubjectOutcome objects associated with the specified Subject.
      */
-    List<SubjectOutcome> listAllBySubjectId(Integer subjectId);
-
+    List<SubjectOutcome> listAllBySubjectId(Integer subjectId, boolean activeTerm);
     /**
      * Retrieves a list of SubjectOutcome associated with a specific Competency.
      *
@@ -37,7 +37,7 @@ public interface SubjectOutcomeRepositoryOutInt {
      * @param id The ID of the SubjectOutcome to retrieve.
      * @return An {@link OptionalWrapper} containing the found SubjectOutcome or an exception if not found.
      */
-    OptionalWrapper<SubjectOutcome> getBySubjectId(Integer id);
+    OptionalWrapper<SubjectOutcome> getById(Integer id);
 
     /**
      * Updates an existing SubjectOutcome by its unique identifier.

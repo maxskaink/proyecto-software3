@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.exception.DuplicateInformation;
@@ -54,16 +55,22 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     }
 
     @Override
-    public List<SubjectOutcome> listAllBySubjectId(Integer subjectId) {
-
-        ConfigurationEntity conf = configurationRepository.getReferenceById(1);
-
-        return assignmentRepository.findAllBySubjectId(subjectId).stream()
+    public List<SubjectOutcome> listAllBySubjectId(Integer subjectId, boolean activeTerm) {
+        if (activeTerm){
+            ConfigurationEntity conf = configurationRepository.getReferenceById(1);
+            return assignmentRepository.findAllBySubjectId(subjectId).stream()
                 .filter(assignment -> Objects.equals(conf.getActiveTerm().getId(), assignment.getTerm().getId()))
                 .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
                 .filter(SubjectOutcomeEntity::isActivated)
                 .map(SubjectOutcomeMapper::toSubjectOutcome)
                 .toList();
+        }
+        else
+            return assignmentRepository.findAllBySubjectId(subjectId).stream()
+                    .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
+                    .filter(SubjectOutcomeEntity::isActivated)
+                    .map(SubjectOutcomeMapper::toSubjectOutcome)
+                    .toList();
     }
 
     @Override
@@ -79,7 +86,7 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     }
 
     @Override
-    public OptionalWrapper<SubjectOutcome> getBySubjectId(Integer id) {
+    public OptionalWrapper<SubjectOutcome> getById(Integer id) {
         try{
             return new OptionalWrapper<>(SubjectOutcomeMapper.toSubjectOutcome(
                     subjectOutcomeRepository.findActiveSubjectOutcomeById(id)
@@ -110,6 +117,14 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
         try{
             SubjectOutcomeEntity actual = subjectOutcomeRepository.findActiveSubjectOutcomeById(id)
                     .orElseThrow(() -> new NotFound("SubjectOutcome with id " + id + " was not found"));
+
+            int amountOutcomes = actual.getCompetencyAssignment().getSubjectOutcomes().stream()
+                    .filter(SubjectOutcomeEntity::isActivated).toList().size();
+
+            if( amountOutcomes== 1)
+                throw new DataIntegrityViolationException("Competency with id "+ actual.getCompetencyAssignment().getCompetency().getId() +
+                        " must be have, at least one active outcome");
+
             actual.setActivated(false);
             return new OptionalWrapper<>( SubjectOutcomeMapper.toSubjectOutcome(
                     subjectOutcomeRepository.save(actual)

@@ -1,8 +1,10 @@
 package unicauca.coreservice.infrastructure.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -93,4 +95,47 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
+
+    /**
+     * Handler for validation failures on method/service arguments.
+     * Triggered when a method parameter annotated with @NotNull, @Size, etc. is invalid.
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorDTO> handleConstraintViolation(ConstraintViolationException exception, WebRequest request) {
+        String message = exception.getConstraintViolations()
+                .stream()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                .findFirst()
+                .orElse("Validation error");
+
+        ErrorDTO response = new ErrorDTO(
+                "Validation failed for service parameters",
+                message
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
+    /**
+     * Handler for validation failures on request bodies (DTOs).
+     * Triggered when @Valid fails in controller method parameters.
+     */
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDTO> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, WebRequest request) {
+        String message = exception.getBindingResult().getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .findFirst()
+                .orElse("Invalid input");
+
+        ErrorDTO response = new ErrorDTO(
+                "Validation failed for request body",
+                message
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
 }

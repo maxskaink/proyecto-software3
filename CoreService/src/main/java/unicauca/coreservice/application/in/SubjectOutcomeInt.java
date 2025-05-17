@@ -23,7 +23,7 @@ public interface SubjectOutcomeInt {
      * @param subjectId the unique identifier of the Subject whose SubjectOutcome entities for the current period are being retrieved
      * @return a list of SubjectOutcome entities linked to the given Subject in the current period
      */
-    List<SubjectOutcome> listAllInCurrentPeriod(Integer subjectId);
+    List<SubjectOutcome> listAllInCurrentTerm(Integer subjectId);
 
     /**
      * Retrieves a list of SubjectOutcome associated with a specific SubjectCompetency in the actual period.
@@ -39,7 +39,7 @@ public interface SubjectOutcomeInt {
      * @param id the unique identifier of the SubjectOutcome to retrieve
      * @return the SubjectOutcome corresponding to the given ID
      */
-    SubjectOutcome getById(Integer id);
+    SubjectOutcome getById(Integer id) throws Exception;
 
     /**
      * Updates an existing SubjectOutcome identified by its unique ID with new details.
@@ -48,7 +48,7 @@ public interface SubjectOutcomeInt {
      * @param newSubjectOutcome an instance of SubjectOutcome containing the updated information
      * @return the updated SubjectOutcome instance
      */
-    SubjectOutcome update(Integer id, SubjectOutcome newSubjectOutcome);
+    SubjectOutcome update(Integer id, SubjectOutcome newSubjectOutcome) throws Exception;
 
     /**
      * Deactivate a SubjectOutcome identified by its unique ID from the system.
@@ -56,7 +56,7 @@ public interface SubjectOutcomeInt {
      * @param id the unique identifier of the SubjectOutcome to be removed
      * @return the removed SubjectOutcome instance
      */
-    SubjectOutcome remove(Integer id);
+    SubjectOutcome remove(Integer id) throws Exception;
 
     /**
      * Creates a copy of an existing SubjectOutcome, associating it with a new Competency and Subject.
@@ -67,6 +67,6 @@ public interface SubjectOutcomeInt {
      * @param subjectId the unique identifier of the new Subject to associate with the copied SubjectOutcome
      * @return a new SubjectOutcome instance representing the copied object
      */
-    SubjectOutcome copy(Integer idRAAOriginal, Integer competencyId, Integer subjectId);
+    SubjectOutcome copy(Integer idRAAOriginal, Integer competencyId, Integer subjectId) throws Exception;
 
 }
