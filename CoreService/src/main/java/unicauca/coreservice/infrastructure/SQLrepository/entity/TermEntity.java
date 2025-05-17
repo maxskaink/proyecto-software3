@@ -20,4 +20,5 @@ public class TermEntity {
 
     @Column(nullable = false, length = 50)
     private String term;
+
 }
