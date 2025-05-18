@@ -36,8 +36,8 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
             SubjectCompetencyEntity newComp = SubjectCompetencyMapper.toSubjectCompetencyEntity(newSubjectCompetency);
 
             ProgramCompetencyEntity compProg = programCompetencyRepository.findActiveProgramCompetencyById(
-                    newSubjectCompetency.getSubjectCompetencyId()
-            ).orElseThrow(()->new NotFound("Program competency with id " + newSubjectCompetency.getSubjectCompetencyId() + " was not found"));
+                    newSubjectCompetency.getProgramCompetencyId()
+            ).orElseThrow(()->new NotFound("Program competency with id " + newSubjectCompetency.getProgramCompetencyId() + " was not found"));
 
             newComp.setProgramCompetency(compProg);
 

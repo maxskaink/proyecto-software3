@@ -28,6 +28,4 @@ public class LevelEntity {
     @JoinColumn(name = "id_criterio", referencedColumnName = "id")
     private CriterionEntity criterion;
 
-    @Column(nullable = false)
-    private boolean isActivated;
 }

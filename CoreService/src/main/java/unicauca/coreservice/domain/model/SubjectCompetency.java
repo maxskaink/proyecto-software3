@@ -10,18 +10,18 @@ public class SubjectCompetency {
     private Integer id;
     private String description;
     private String level;
-    private Integer subjectCompetencyId;
+    private Integer programCompetencyId;
 
     public SubjectCompetency(
             Integer id,
             String description,
             String level,
-            Integer subjectCompetencyId
+            Integer programCompetencyId
     ){
         setId(id);
         setDescription(description);
         setLevel(level);
-        setSubjectCompetencyId(subjectCompetencyId);
+        setProgramCompetencyId(programCompetencyId);
     }
 
     public void setDescription(String description){
@@ -40,9 +40,9 @@ public class SubjectCompetency {
         this.level = level;
     }
 
-    public void setSubjectCompetencyId(Integer subjectCompetencyId){
-        if(null==subjectCompetencyId)
-            throw new InvalidValue("The competency Id can not be null");
-        this.subjectCompetencyId = subjectCompetencyId;
+    public void setProgramCompetencyId(Integer programCompetencyId){
+        if(null== programCompetencyId)
+            throw new InvalidValue("The program competency Id can not be null");
+        this.programCompetencyId = programCompetencyId;
     }
 }

@@ -23,9 +23,9 @@ public class TermRepositoryInt implements TermRepositoryOutInt {
     public OptionalWrapper<Term> add(Term newTerm) {
         try{
             newTerm.setId(null);
-            TermEntity periodo = TermMapper.toTermEntity(newTerm);
+            TermEntity termEntity = TermMapper.toTermEntity(newTerm);
             return new OptionalWrapper<>(
-                    TermMapper.toTerm(termRepository.save(periodo))
+                    TermMapper.toTerm(termRepository.save(termEntity))
                     );
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
@@ -41,7 +41,7 @@ public class TermRepositoryInt implements TermRepositoryOutInt {
 
     @Override
     public OptionalWrapper<Term> getActiveTerm() {
-        TermEntity actualPeriodo = configurationRepository.getReferenceById(1).getActiveTerm();
-        return new OptionalWrapper<>(TermMapper.toTerm(actualPeriodo));
+        TermEntity activeTerm = configurationRepository.getReferenceById(1).getActiveTerm();
+        return new OptionalWrapper<>(TermMapper.toTerm(activeTerm));
     }
 }

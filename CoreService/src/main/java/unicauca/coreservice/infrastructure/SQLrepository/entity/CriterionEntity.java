@@ -25,6 +25,4 @@ public class CriterionEntity {
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
     private RubricEntity rubric;
 
-    @Column(nullable = false)
-    private boolean isActivated;
 }
