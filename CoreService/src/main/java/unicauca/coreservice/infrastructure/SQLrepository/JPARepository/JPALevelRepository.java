@@ -8,6 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JPALevelRepository extends JpaRepository<LevelEntity, Integer> {
-    Optional<LevelEntity> findActiveLevelById(Integer id);
-    List<LevelEntity> findByIsActivatedTrue();
+
 }

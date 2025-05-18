@@ -8,7 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JPACriterionRepository extends JpaRepository<CriterionEntity, Integer> {
-    List<CriterionEntity> findByIsActivatedTrue();
-    Optional<CriterionEntity> findActiveCriterionById(String id);
 
 }
