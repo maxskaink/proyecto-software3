@@ -9,7 +9,7 @@ import unicauca.coreservice.domain.model.ProgramOutcome;
 import java.util.List;
 
 @RestController
-@RequestMapping("/outcome/program")
+@RequestMapping("/program/outcome")
 @AllArgsConstructor
 public class ProgramOutcomeController {
 

@@ -9,7 +9,7 @@ import unicauca.coreservice.domain.model.ProgramCompetency;
 import java.util.List;
 
 @RestController
-@RequestMapping("/competency/program")
+@RequestMapping("/program/competency")
 @AllArgsConstructor
 public class ProgramCompetencyController {
     private final ProgramCompetencyAndOutcomeInt service;
