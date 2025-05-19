@@ -10,13 +10,13 @@ import unicauca.coreservice.infrastructure.dto.InitialSubjectCompetencyDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subject/competency")
+@RequestMapping("/subject")
 @AllArgsConstructor
 public class SubjectCompetencyController {
 
     private final SubjectCompetencyInt serviceSubjectComp;
 
-    @PostMapping("/{subjectId}")
+    @PostMapping("/{subjectId}/competency")
     public ResponseEntity<SubjectCompetency> add(
             @PathVariable Integer subjectId,
             @RequestBody InitialSubjectCompetencyDTO initialSubjectCompetencyDTO
@@ -29,7 +29,7 @@ public class SubjectCompetencyController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{subjectId}")
+    @GetMapping("/{subjectId}/competency")
     public ResponseEntity<List<SubjectCompetency>> listAllBySubjectId(
             @PathVariable Integer subjectId
     ) {
@@ -38,7 +38,7 @@ public class SubjectCompetencyController {
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/competency/{id}")
     public ResponseEntity<SubjectCompetency> getById(
             @PathVariable Integer id
     ) {
@@ -47,7 +47,7 @@ public class SubjectCompetencyController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/competency/{id}")
     public ResponseEntity<SubjectCompetency> update(
             @PathVariable Integer id,
             @RequestBody SubjectCompetency dtoIN
@@ -56,7 +56,7 @@ public class SubjectCompetencyController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/competency/{id}")
     public ResponseEntity<SubjectCompetency> remove(
             @PathVariable Integer id
     ) throws Exception {

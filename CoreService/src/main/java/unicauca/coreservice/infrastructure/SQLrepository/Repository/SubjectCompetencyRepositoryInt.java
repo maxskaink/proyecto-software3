@@ -71,7 +71,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     public OptionalWrapper<SubjectCompetency> getById(Integer id) {
         try{
             return new OptionalWrapper<>(SubjectCompetencyMapper.toSubjectCompetency(
-                    subjectCompetencyRepository.findActiveSubjectCompetencyById(id)
+                    subjectCompetencyRepository.findByIdAndIsActivatedTrue(id)
                             .orElseThrow(() -> new NotFound("Subject competency with id " + id + " was not found"))
             ));
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> update(Integer id, SubjectCompetency newSubjectCompetency) {
         try{
-            SubjectCompetencyEntity actualComp = subjectCompetencyRepository.findActiveSubjectCompetencyById(id)
+            SubjectCompetencyEntity actualComp = subjectCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(()-> new NotFound("Subject competency with id " + id + " was not found"));
 
             actualComp.setDescription(newSubjectCompetency.getDescription());
@@ -99,7 +99,7 @@ public class SubjectCompetencyRepositoryInt implements SubjectCompetencyReposito
     @Override
     public OptionalWrapper<SubjectCompetency> remove(Integer id) {
         try{
-            SubjectCompetencyEntity actualComp = subjectCompetencyRepository.findActiveSubjectCompetencyById(id)
+            SubjectCompetencyEntity actualComp = subjectCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(()-> new NotFound("Subject competency with id " + id + " was not found"));
             actualComp.setActivated(false);
             return new OptionalWrapper<>(

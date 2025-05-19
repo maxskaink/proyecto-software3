@@ -1,6 +1,5 @@
 package unicauca.coreservice.domain.useCases;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.SubjectOutcomeInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
@@ -17,11 +16,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public SubjectOutcome addSubjectOutcome(
-            @NotNull(message="The new subject outcome can not be null")
             SubjectOutcome newSubjectOutcome,
-            @NotNull(message="The competency id can not be null")
             Integer competencyId,
-            @NotNull(message="The subject id can not be null")
             Integer subjectId
     ) throws Exception {
         List<SubjectOutcome> outcomes = repositorySubjectOutcome.listAllBySubjectId(subjectId, true);
@@ -39,7 +35,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public List<SubjectOutcome> listAll(
-            @NotNull(message="The subject id can not be null")
             Integer subjectId
     ) {
         return repositorySubjectOutcome.listAllBySubjectId(subjectId, false);
@@ -47,7 +42,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public List<SubjectOutcome> listAllInCurrentTerm(
-            @NotNull(message="The subject id can not be null")
             Integer subjectId
     ) {
         return repositorySubjectOutcome.listAllBySubjectId(subjectId, true);
@@ -55,7 +49,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public List<SubjectOutcome> listAllByCompetencyId(
-            @NotNull(message="The competency id can not be null")
             Integer competencyId
     ) {
         return repositorySubjectOutcome.listAllByCompetencyId(competencyId);
@@ -63,7 +56,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public SubjectOutcome getById(
-            @NotNull(message="The id can not be null")
             Integer id
     ) throws Exception {
         OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.getById(id);
@@ -73,9 +65,7 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public SubjectOutcome update(
-            @NotNull(message="the subject outcome id can not be null")
             Integer id,
-            @NotNull(message="The subject outcome can not be null")
             SubjectOutcome newSubjectOutcome
     ) throws Exception {
 
@@ -86,7 +76,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public SubjectOutcome remove(
-            @NotNull(message="The subject outcome id can not be null")
             Integer id
     ) throws Exception {
 
@@ -98,11 +87,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
 
     @Override
     public SubjectOutcome copy(
-            @NotNull(message="The id of the original outcome can not be null")
             Integer idOutcomeOriginal,
-            @NotNull(message="The id of the competency can not be null")
             Integer competencyId,
-            @NotNull(message="The id of the subject id can not be null")
             Integer subjectId
     ) throws Exception {
 

@@ -1,9 +1,8 @@
 package unicauca.coreservice.domain.useCases;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Propagation;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
 import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
@@ -15,7 +14,6 @@ import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermReposito
 import java.util.List;
 
 @AllArgsConstructor
-@Validated
 public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     private final SubjectCompetencyRepositoryOutInt competencyRepository;
@@ -26,11 +24,8 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Override
     @Transactional
     public SubjectCompetency add(
-            @NotNull(message ="The new Subject competency can not be null")
             SubjectCompetency newSubjectCompetency,
-            @NotNull(message = "The initial outcome can not be null")
             SubjectOutcome initialOutcome,
-            @NotNull(message=" The subject id can not be null")
             Integer subjectId
     )throws Exception {
 
@@ -55,20 +50,19 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
         OptionalWrapper<CompetencyToSubjectAssignment> responseAssignation =
                 assignRepository.add(assignation);
 
-        SubjectCompetency response = responseAssignation.getValue()
-                .orElseThrow(responseAssignation::getException).getCompetency();
+        CompetencyToSubjectAssignment response = responseAssignation.getValue()
+                .orElseThrow(responseAssignation::getException);
 
         //Add First RA to the competency
         OptionalWrapper<SubjectOutcome> responseAddFirstOutcome =
                 subjectOutcomeRepository.add(initialOutcome, response.getId());
         responseAddFirstOutcome.getValue().orElseThrow(responseAddFirstOutcome::getException);
 
-        return response;
+        return response.getCompetency();
     }
 
     @Override
     public List<SubjectCompetency> listAllBySubjectId(
-            @NotNull(message="The id is not valid, it can not be null")
             Integer subjectId
     ) {
         return competencyRepository.listAllBySubjectId(subjectId);
@@ -76,7 +70,6 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     @Override
     public SubjectCompetency getById(
-            @NotNull(message="The id is not valid, it can not be null")
             Integer id
     ) {
         return competencyRepository.getById(id).getValue()
@@ -85,9 +78,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     @Override
     public SubjectCompetency update(
-            @NotNull(message="The id is no valid, it can not be null")
             Integer id,
-            @NotNull(message="Instance of competency is invalid, it can not be null")
             SubjectCompetency newSubjectCompetency
     ) throws Exception {
         OptionalWrapper<SubjectCompetency> response = competencyRepository.update(id, newSubjectCompetency);
@@ -99,7 +90,6 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Transactional
     @Override
     public SubjectCompetency remove(
-            @NotNull(message = "The id is invalid, it can not be null")
             Integer id
     ) throws Exception {
         //Get the assignation of the active term

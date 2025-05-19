@@ -14,6 +14,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetenc
 import unicauca.coreservice.infrastructure.SQLrepository.entity.TermEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.CompetencyToSubjectAssigmentMapper;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Repository
@@ -48,7 +49,7 @@ public class CompetencyToSubjectAssignmentRepositoryInt implements CompetencyToS
                     ).orElseThrow(()-> new NotFound("Subject with id " + newAssignment.getSubject().getId() + " not found"));
 
             SubjectCompetencyEntity competency =
-                    subjectCompetencyRepository.findActiveSubjectCompetencyById(
+                    subjectCompetencyRepository.findByIdAndIsActivatedTrue(
                             newAssignment.getCompetency().getId()
                     ).orElseThrow(() -> new NotFound("Competency with id "+ newAssignment.getCompetency().getId()+ " doesn't exists"));
 
@@ -62,12 +63,12 @@ public class CompetencyToSubjectAssignmentRepositoryInt implements CompetencyToS
                             .subject(subject)
                             .competency(competency)
                             .term(term)
+                            .isActivated(true)
+                            .subjectOutcomes(new ArrayList<>())
                             .build();
 
-            return new OptionalWrapper<>(
-                    CompetencyToSubjectAssigmentMapper.toSubjectCompetencyAssignment(
-                            subjectCompetencyAssigmentRepository.save(finalAssignment)
-                    ));
+            SubjectCompetencyAssignmentEntity savedEntity = subjectCompetencyAssigmentRepository.save(finalAssignment);
+            return new OptionalWrapper<>(CompetencyToSubjectAssigmentMapper.toSubjectCompetencyAssignment(savedEntity));
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
         }

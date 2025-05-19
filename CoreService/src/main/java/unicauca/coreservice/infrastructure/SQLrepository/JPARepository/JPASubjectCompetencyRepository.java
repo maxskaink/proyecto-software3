@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface JPASubjectCompetencyRepository extends JpaRepository<SubjectCompetencyEntity, Integer> {
     List<SubjectCompetencyEntity> findByIsActivatedTrue();
-    Optional<SubjectCompetencyEntity> findActiveSubjectCompetencyById(Integer integer);
+    Optional<SubjectCompetencyEntity> findByIdAndIsActivatedTrue(Integer integer);
 }

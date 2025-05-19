@@ -29,7 +29,8 @@ public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutI
     public OptionalWrapper<SubjectOutcome> add(SubjectOutcome newSubjectOutcome, Integer competencyAssignment) {
         try{
             SubjectCompetencyAssignmentEntity assignment =
-                    assignmentRepository.getReferenceById(competencyAssignment);
+                    assignmentRepository.findByIdAndIsActivatedTrue(competencyAssignment)
+                            .orElseThrow(()-> new NotFound("Competency assignment with id " + competencyAssignment + " was not found"));
 
             // verify if exists a learning outcome with the same description for this competency in this term
             boolean exists = assignment.getSubjectOutcomes().stream()

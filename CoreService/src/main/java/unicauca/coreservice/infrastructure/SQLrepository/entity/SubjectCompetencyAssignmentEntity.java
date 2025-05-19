@@ -3,6 +3,7 @@ package unicauca.coreservice.infrastructure.SQLrepository.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class SubjectCompetencyAssignmentEntity {
     @Column(nullable = false)
     private boolean isActivated;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<SubjectOutcomeEntity> subjectOutcomes;
+    @OneToMany(mappedBy = "competencyAssignment", cascade = CascadeType.ALL)
+    private List<SubjectOutcomeEntity> subjectOutcomes = new ArrayList<>();
 
 }
