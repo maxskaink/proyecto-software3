@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
 
-import java.util.Optional;
-
 @Getter
 @Setter
 public class SubjectOutcome {

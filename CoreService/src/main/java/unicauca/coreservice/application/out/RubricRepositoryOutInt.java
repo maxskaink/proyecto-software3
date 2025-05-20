@@ -1,9 +1,7 @@
 package unicauca.coreservice.application.out;
 
-import org.springframework.data.repository.Repository;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Rubric;
-import unicauca.coreservice.infrastructure.SQLrepository.entity.RubricEntity;
 
 import java.util.List;
 

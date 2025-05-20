@@ -10,7 +10,10 @@ public class RubricMapper {
                 new Rubric(
                         rubricEntity.getId(),
                         rubricEntity.getDescription(),
-                        SubjectOutcomeMapper.toSubjectOutcome(rubricEntity.getLearningOutcome())
+                        SubjectOutcomeMapper.toSubjectOutcome(rubricEntity.getLearningOutcome()),
+                        rubricEntity.getCriteria().stream()
+                                .map(CriterionMapper::toCriterion)
+                                .toList()
                 );
     }
 
@@ -19,6 +22,9 @@ public class RubricMapper {
                 rubric.getId(),
                 rubric.getDescription(),
                 SubjectOutcomeMapper.toSubjectOutcomeEntity(rubric.getSubjectOutcome()),
+                rubric.getCriteria().stream()
+                        .map(CriterionMapper::toCriterionEntity)
+                        .toList(),
                 true
         );
     }

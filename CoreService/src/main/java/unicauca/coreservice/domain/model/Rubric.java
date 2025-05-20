@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,6 +14,7 @@ public class Rubric {
     private Integer id;
     private String description;
     private SubjectOutcome subjectOutcome;
+    private List<Criterion> criteria;
 
     public void setDescription(String description) {
         if(null==description)

@@ -34,6 +34,7 @@ public class SubjectCompetencyAssignmentEntity {
     private boolean isActivated;
 
     @OneToMany(mappedBy = "competencyAssignment", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<SubjectOutcomeEntity> subjectOutcomes = new ArrayList<>();
 
 }

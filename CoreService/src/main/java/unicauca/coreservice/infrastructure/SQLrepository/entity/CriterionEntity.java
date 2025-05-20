@@ -1,5 +1,8 @@
 package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +27,9 @@ public class CriterionEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
     private RubricEntity rubric;
+    
+    @OneToMany(mappedBy = "criterion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<LevelEntity> levels = new ArrayList<>();
 
 }

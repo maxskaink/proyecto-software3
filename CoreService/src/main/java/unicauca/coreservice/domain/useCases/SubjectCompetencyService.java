@@ -2,7 +2,6 @@ package unicauca.coreservice.domain.useCases;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.transaction.annotation.Propagation;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
 import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
