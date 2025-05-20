@@ -53,7 +53,7 @@ public class SubjectOutcomeController {
         );
     }
 
-    @GetMapping("/subject/outcome/{id}")
+    @GetMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> getById(
             @PathVariable Integer id
     ) throws Exception {
@@ -62,7 +62,7 @@ public class SubjectOutcomeController {
         );
     }
 
-    @PutMapping("/subject/outcome/{id}")
+    @PutMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> update(
             @PathVariable Integer id,
             @RequestBody SubjectOutcome newSubjectOutcome
@@ -71,7 +71,7 @@ public class SubjectOutcomeController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/subject/outcome/{id}")
+    @DeleteMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> remove(
             @PathVariable Integer id
     ) throws Exception {

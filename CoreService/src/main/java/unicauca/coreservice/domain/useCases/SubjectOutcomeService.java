@@ -20,8 +20,7 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             Integer competencyId,
             Integer subjectId
     ) throws Exception {
-        List<SubjectOutcome> outcomes = repositorySubjectOutcome.listAllBySubjectId(subjectId, true);
-
+        List<SubjectOutcome> outcomes = repositorySubjectOutcome.listAllByCompetencyId(competencyId);
         if(outcomes.size() >= 3){
             throw new InvalidValue("The subject has already 3 learning outcomes assigned int the active term1");
         }
