@@ -27,4 +27,12 @@ public interface TermRepositoryOutInt {
      * @return an OptionalWrapper containing the active Term instance, or an exception if the retrieval fails.
      */
     OptionalWrapper<Term> getActiveTerm();
+
+    /**
+     * Sets the active Term in the repository based on the provided term ID.
+     *
+     * @param termId the unique identifier of the Term to be set as active
+     * @return an OptionalWrapper containing the updated active Term, or an exception if the operation fails
+     */
+    OptionalWrapper<Term> setActiveTerm(Integer termId);
 }
