@@ -11,7 +11,7 @@ public interface CriterionRepositoryOutInt {
     /**
      * Adds a new Criterion to the Repository
      *
-     * @param criterion The instance of the new Criterion to be added
+     * @param newCriterion The instance of the new Criterion to be added
      * @return an OptionalWrapper containing the added Criterion or the Exception if it fails
      */
     OptionalWrapper<Criterion> add(Criterion newCriterion);

@@ -10,7 +10,7 @@ public class CriterionMapper {
                 criterion.getWeight(),
                 criterion.getName(),
                 RubricMapper.toRubricEntity(criterion.getRubric()),
-                null //TODO: Add the correct value fwhen level is implemented
+                criterion.getLevels().stream().map(LevelMapper::toLevelEntity).toList()
         );
     }
     
@@ -19,7 +19,8 @@ public class CriterionMapper {
                 criterionEntity.getId(),
                 criterionEntity.getWeight(),
                 criterionEntity.getName(),
-                RubricMapper.toRubric(criterionEntity.getRubric())
+                RubricMapper.toRubric(criterionEntity.getRubric()),
+                criterionEntity.getLevels().stream().map(LevelMapper::toLevel).toList()
         );
     }
 }

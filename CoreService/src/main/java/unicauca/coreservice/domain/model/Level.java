@@ -1,7 +1,5 @@
 package unicauca.coreservice.domain.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,10 +7,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Criterion {
+public class Level {
     private Integer id;
-    private Double weight;
-    private String name;
-    private Rubric rubric;
-    private List<Level> levels;
+    private String category;
+    private String description;
+    private Integer percentage;
+    private Criterion criterion;
 }
