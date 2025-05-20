@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import unicauca.coreservice.application.in.TermInt;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Term;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepositoryInt;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Validated
 public class TermService implements TermInt {
 
-    private final TermRepositoryInt repositoryTerm;
+    private final TermRepository repositoryTerm;
 
     @Override
     public Term add(Term term) throws Exception {

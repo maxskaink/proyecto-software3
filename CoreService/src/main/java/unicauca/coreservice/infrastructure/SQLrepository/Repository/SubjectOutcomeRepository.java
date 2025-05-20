@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Repository
 @AllArgsConstructor
-public class SubjectOutcomeRepositoryInt implements SubjectOutcomeRepositoryOutInt {
+public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt {
 
     private final JPASubjectCompetencyAssignmentRepository assignmentRepository;
     private final JPASubjectOutcomeRepository subjectOutcomeRepository;

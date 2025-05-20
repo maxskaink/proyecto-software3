@@ -13,7 +13,7 @@ import unicauca.coreservice.domain.useCases.ProgramCompetencyAndOutcomeService;
 import unicauca.coreservice.domain.useCases.SubjectCompetencyService;
 import unicauca.coreservice.domain.useCases.SubjectOutcomeService;
 import unicauca.coreservice.domain.useCases.TermService;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepositoryInt;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
 @Configuration
 public class BeanConfiguration {
@@ -29,7 +29,7 @@ public class BeanConfiguration {
     public SubjectCompetencyInt createSubjectCompetency(
             SubjectCompetencyRepositoryOutInt competencyRepository,
             CompetencyToSubjectAssignmentRepositoryOutInt assignRepository,
-            TermRepositoryInt termRepository,
+            TermRepository termRepository,
             SubjectOutcomeRepositoryOutInt subjectOutcomeRepository
     ){
         return new SubjectCompetencyService(
@@ -48,7 +48,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public TermInt createTerm(TermRepositoryInt repository){
+    public TermInt createTerm(TermRepository repository){
         return new TermService(repository);
     }
 }

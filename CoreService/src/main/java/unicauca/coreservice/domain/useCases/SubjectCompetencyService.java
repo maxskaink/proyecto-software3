@@ -8,7 +8,7 @@ import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.*;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepositoryInt;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     private final SubjectCompetencyRepositoryOutInt competencyRepository;
     private final CompetencyToSubjectAssignmentRepositoryOutInt assignRepository;
-    private final TermRepositoryInt termRepository;
+    private final TermRepository termRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
 
     @Override

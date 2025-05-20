@@ -19,7 +19,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class ProgramCompetencyAndOutcomeRepositoryInt implements ProgramCompetencyAndOutcomeRepositoryOutInt {
+public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyAndOutcomeRepositoryOutInt {
 
     private final JPAProgramCompetencyRepository programCompetencyRepository;
     private final JPAProgramOutcomeRepository programOutcomeRepository;

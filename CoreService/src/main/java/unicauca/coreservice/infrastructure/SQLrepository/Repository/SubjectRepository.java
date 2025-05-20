@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class SubjectRepositoryInt implements SubjectRepositoryOutInt {
+public class SubjectRepository implements SubjectRepositoryOutInt {
 
     private final JPASubjectRepository subjectRepository;
 

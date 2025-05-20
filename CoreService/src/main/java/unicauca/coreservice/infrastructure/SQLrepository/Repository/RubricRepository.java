@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Repository
-public class RubricRepositoryInt implements RubricRepositoryOutInt {
+public class RubricRepository implements RubricRepositoryOutInt {
     private final JPARubricRepository rubricRepository;
 
     @Override

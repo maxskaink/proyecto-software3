@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Repository
-public class CriterionRepositoryInt implements CriterionRepositoryOutInt {
+public class CriterionRepository implements CriterionRepositoryOutInt {
 
     private final JPACriterionRepository criterionRepository;
     @Override

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
-public class SubjectCompetencyRepositoryInt implements SubjectCompetencyRepositoryOutInt {
+public class SubjectCompetencyRepository implements SubjectCompetencyRepositoryOutInt {
     private final JPAProgramCompetencyRepository programCompetencyRepository;
     private final JPASubjectCompetencyRepository subjectCompetencyRepository;
     private final JPASubjectCompetencyAssignmentRepository subjectCompetencyAssignmentRepository;

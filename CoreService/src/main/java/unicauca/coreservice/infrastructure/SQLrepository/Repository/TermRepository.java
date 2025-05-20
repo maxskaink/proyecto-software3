@@ -16,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class TermRepositoryInt implements TermRepositoryOutInt {
+public class TermRepository implements TermRepositoryOutInt {
 
     private final JPATermRepository termRepository;
     private final JPAConfigurationRepository configurationRepository;

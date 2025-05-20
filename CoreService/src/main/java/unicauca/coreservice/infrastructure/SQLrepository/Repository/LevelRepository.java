@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Repository
-public class LevelRepositoryInt implements LevelRepositoryOutInt {
+public class LevelRepository implements LevelRepositoryOutInt {
     private final JPALevelRepository levelRepository;
 
     @Override
