@@ -15,11 +15,11 @@ public interface RubricRepositoryOutInt {
     OptionalWrapper<Rubric> add(Rubric newRubric);
 
     /**
-     * Retrieves a list of all available Rubric instances
+     * Retrieves a list of all available Rubric instances in the subject
      *
      * @return a List of Rubric instances or an Empty List if no Rubric instances are available
      */
-    List<Rubric> listAll();
+    List<Rubric> listAllBySubjectId(Integer subjectId);
 
     /**
      * Retrieves a Rubric by its unique identifier
@@ -37,6 +37,14 @@ public interface RubricRepositoryOutInt {
      */
     OptionalWrapper<Rubric> getBySubjectOutcomeId(Integer subjectOutcomeId);
 
+    /**
+     * Updates a Rubric in the repository
+     * 
+     * @param id Identifier of the rubric instance
+     * @param newRubric The new Rubric instance to be updated
+     * @return an OptionalWrapper containing the updated Rubric or the Exception if it fails
+     */
+    OptionalWrapper<Rubric> update(Integer id, Rubric newRubric);
 
     /**
      * Removes a Rubric from the repository by its unique id

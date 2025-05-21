@@ -12,14 +12,14 @@ public interface SubjectCompetencyInt {
     /**
      * Adds a new SubjectCompetency to the specified Subject in the actual period.
      *
-     * @param newProgramCompetency the instance of the new SubjectCompetency to be added
+     * @param newSubjectCompetency the instance of the new SubjectCompetency to be added
      * @param initialOutcome Initial Outcome of the competence
      * @param subjectId             the ID of the Subject to which the SubjectCompetency will be added
      * @return the added SubjectCompetency
      */
     SubjectCompetency add(
             @NotNull(message ="The new Subject competency can not be null")
-            SubjectCompetency newProgramCompetency,
+            SubjectCompetency newSubjectCompetency,
             @NotNull(message = "The initial outcome can not be null")
             SubjectOutcome initialOutcome,
             @NotNull(message=" The subject id can not be null")

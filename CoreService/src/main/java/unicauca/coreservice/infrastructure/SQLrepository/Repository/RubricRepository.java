@@ -35,9 +35,11 @@ public class RubricRepository implements RubricRepositoryOutInt {
     }
 
     @Override
-    public List<Rubric> listAll() {
+    public List<Rubric> listAllBySubjectId(Integer subjectId) {
         return rubricRepository.findByIsActivatedTrue().
-                stream().map(RubricMapper::toRubric).collect(Collectors.toList());
+                stream().
+                filter( rubric -> Objects.equals(rubric.getLearningOutcome().getCompetencyAssignment().getSubject().getId(), subjectId)).
+                map(RubricMapper::toRubric).collect(Collectors.toList());
     }
 
     @Override
@@ -58,6 +60,18 @@ public class RubricRepository implements RubricRepositoryOutInt {
             return new OptionalWrapper<>(rubricRepository.findByIsActivatedTrue().
                     stream().filter( rubric -> Objects.equals(rubric.getLearningOutcome().getId(),subjectOutcomeId))
                     .map(RubricMapper::toRubric).findFirst());
+        }catch (Exception e){
+            return new OptionalWrapper<>(e);
+        }
+    }
+
+    @Override
+    public OptionalWrapper<Rubric> update(Integer id, Rubric newRubric) {
+        try{
+            RubricEntity activeRubric = rubricRepository.findActiveRubricById(id)
+                    .orElseThrow(()-> new NotFound("Rubric with id " + id + " was not found"));
+            activeRubric.setDescription(newRubric.getDescription());
+            return new OptionalWrapper<>(RubricMapper.toRubric(rubricRepository.save(activeRubric)));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
         }
