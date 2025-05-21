@@ -32,7 +32,7 @@ public class ProgramCompetencyEntity {
     @Builder.Default
     private List<SubjectCompetencyEntity> subjectCompetencies = new ArrayList<>();
 
-    @OneToOne(mappedBy = "programOutcome", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "competency", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProgramOutcomeEntity learningOutcomes;
 
     @Column(nullable = false)
