@@ -1,8 +1,10 @@
 package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositoryOutInt;
+import unicauca.coreservice.domain.exception.DuplicateInformation;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.ProgramCompetency;
 import unicauca.coreservice.domain.model.OptionalWrapper;
@@ -29,12 +31,16 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
 
         try{
             newProgramCompetency.setId(null);
+            newProgramCompetency.getProgramOutcome().setId(null);
             ProgramCompetencyEntity compProg = ProgramCompetencyMapper.toProgramCompetencyEntity(newProgramCompetency);
             compProg.getLearningOutcomes().setCompetency(compProg);
 
             ProgramCompetencyEntity response = this.programCompetencyRepository.save(compProg);
             return new OptionalWrapper<>(ProgramCompetencyMapper.toProgramCompetency(response));
-        }catch (Exception e){
+        }catch(DataIntegrityViolationException e){
+            return new OptionalWrapper<>(new DuplicateInformation("The Competency " + newProgramCompetency.getDescription() + " allready exist"));
+        }
+        catch (Exception e) {
             return new OptionalWrapper<>(e);
         }
     }
@@ -50,7 +56,7 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
     @Override
     public OptionalWrapper<ProgramCompetency> getCompetencyById(Integer id) {
         try{
-            ProgramCompetencyEntity response = this.programCompetencyRepository.findActiveProgramCompetencyById(id)
+            ProgramCompetencyEntity response = this.programCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(()-> new NotFound("Competency with id " + id + " was not found") );
 
             return new OptionalWrapper<>(ProgramCompetencyMapper.toProgramCompetency(response));
@@ -62,7 +68,7 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
     @Override
     public OptionalWrapper<ProgramCompetency> updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) {
         try{
-            ProgramCompetencyEntity response = this.programCompetencyRepository.findActiveProgramCompetencyById(id)
+            ProgramCompetencyEntity response = this.programCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(() -> new NotFound("Competency with id " + id + " was not found"));
             ProgramCompetencyEntity newComp = ProgramCompetencyMapper.toProgramCompetencyEntity(newProgramCompetency);
             newComp.setId(response.getId());
@@ -78,11 +84,14 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
     @Override
     public OptionalWrapper<ProgramCompetency> remove(Integer id) {
         try{
-            ProgramCompetencyEntity actualComp = this.programCompetencyRepository.findActiveProgramCompetencyById(id)
+            ProgramCompetencyEntity actualComp = this.programCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(() -> new NotFound("Competency with id " + id + " was not found"));
             actualComp.setActivated(false);
-            actualComp.setDescription(actualComp.getDescription() + " (Removed)" + System.nanoTime());
-            return new OptionalWrapper<>(ProgramCompetencyMapper.toProgramCompetency(this.programCompetencyRepository.save(actualComp)));
+            String originalDescription =actualComp.getDescription();
+            actualComp.setDescription(originalDescription + " (Removed)" + System.nanoTime());
+            this.programCompetencyRepository.save(actualComp);
+            actualComp.setDescription(originalDescription);
+            return new OptionalWrapper<>(ProgramCompetencyMapper.toProgramCompetency(actualComp));
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
         }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface JPAProgramCompetencyRepository extends JpaRepository<ProgramCompetencyEntity, Integer> {
     List<ProgramCompetencyEntity> findByIsActivatedTrue();
-    Optional<ProgramCompetencyEntity> findActiveProgramCompetencyById(Integer integer);
+    Optional<ProgramCompetencyEntity> findByIdAndIsActivatedTrue(Integer integer);
 }

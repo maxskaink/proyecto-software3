@@ -19,8 +19,11 @@ public class ProgramCompetencyAndOutcomeService implements ProgramCompetencyAndO
 
     @Override
     public ProgramCompetency add(ProgramCompetency newProgramCompetency) throws Exception {
+        if(newProgramCompetency == null)
+            throw new InvalidValue("new Program can not be null");
+        if(null == newProgramCompetency.getProgramOutcome())
+            throw new InvalidValue("first outcome fo the competency can not be null");
         OptionalWrapper<ProgramCompetency> response = repository.add(newProgramCompetency);
-
         return response.getValue()
                 .orElseThrow(response::getException);
     }

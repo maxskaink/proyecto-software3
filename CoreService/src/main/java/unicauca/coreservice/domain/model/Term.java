@@ -20,6 +20,7 @@ public class Term {
             throw new InvalidValue("The term description can not be null");
         if(description.trim().isEmpty())
             throw new InvalidValue("The term description can not be empty");
+        this.description = description;
     }
 
 }
