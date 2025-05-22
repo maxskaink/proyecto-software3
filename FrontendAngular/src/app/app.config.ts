@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, inject, PLATFORM_ID } from '@angular/core';
+import { ApplicationConfig, inject, PLATFORM_ID, provideAppInitializer } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -43,14 +43,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(),
     provideOAuthClient(),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (oauthService: OAuthService) => {
+    provideAppInitializer(() => {
+        const initializerFn = ((oauthService: OAuthService) => {
         const platformId = inject(PLATFORM_ID);
         return initializeOAuth(oauthService, platformId);
-      },
-      multi: true,
-      deps: [OAuthService]
-    }
+      })(inject(OAuthService));
+        return initializerFn();
+      })
   ]
 };

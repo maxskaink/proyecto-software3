@@ -4,11 +4,10 @@ import { Location } from '@angular/common';
 
 
 @Component({
-  selector: 'app-molecule-back-header',
-  standalone: true,
-  imports: [CommonModule ],
-  templateUrl: './molecule-back-header.component.html',
-  styleUrl: './molecule-back-header.component.css'
+    selector: 'app-molecule-back-header',
+    imports: [CommonModule],
+    templateUrl: './molecule-back-header.component.html',
+    styleUrl: './molecule-back-header.component.css'
 })
 export class MoleculeBackHeaderComponent {
   constructor(private location: Location) {}

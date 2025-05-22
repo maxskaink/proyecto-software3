@@ -13,19 +13,19 @@ import { AsignatureService } from '../../services/asignature.service';
 
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [ 
-    HeaderComponent,
-    FooterComponent,
-    MoleculeBlockComponent,
-    MoleculeSearchBarComponent,
-    NgClass,
-    CommonModule,
-    RouterLink, 
-    FormsModule ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [
+        HeaderComponent,
+        FooterComponent,
+        MoleculeBlockComponent,
+        MoleculeSearchBarComponent,
+        NgClass,
+        CommonModule,
+        RouterLink,
+        FormsModule
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
   

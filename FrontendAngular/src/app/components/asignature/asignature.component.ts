@@ -8,14 +8,13 @@ import { CommonModule } from '@angular/common';
 import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
 
 @Component({
-  selector: 'app-asignature',
-  standalone: true,
-  imports: [MoleculeBackHeaderComponent, 
-    MoleculeBlockUserComponent,
-    MoleculueCompetencySectionComponent,
-    CommonModule],
-  templateUrl: './asignature.component.html',
-  styleUrl: './asignature.component.css'
+    selector: 'app-asignature',
+    imports: [MoleculeBackHeaderComponent,
+        MoleculeBlockUserComponent,
+        MoleculueCompetencySectionComponent,
+        CommonModule],
+    templateUrl: './asignature.component.html',
+    styleUrl: './asignature.component.css'
 })
 export class AsignatureComponent {
   description: string = 'description';
