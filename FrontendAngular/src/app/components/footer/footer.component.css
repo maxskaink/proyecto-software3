@@ -1,0 +1,18 @@
+.footerClass{
+    background-color: #D9D9D9;
+    padding: 5px;
+}
+.container-fluid.d-flex {
+    display: flex;
+    justify-content: space-between; /* Distribuye el espacio entre los hijos */
+    padding: 0; /* Mantienes el padding en 0 como en tu HTML */
+}
+
+.footer-left {
+    /* Puedes añadir estilos específicos para el bloque izquierdo si lo necesitas */
+}
+
+.footer-right {
+    text-align: right; /* Alinea el texto a la derecha dentro de este bloque */
+    /* Puedes añadir estilos específicos para el bloque derecho si lo necesitas */
+}

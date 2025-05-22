@@ -1,0 +1,64 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 100% del alto del viewport */
+  }
+
+.main-content {
+    flex: 1; /* esto empuja el footer hacia abajo */
+  }
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    
+    gap: 1rem;
+  }
+  
+  .carousel-container {
+    max-width: 90vw;
+    overflow: hidden;
+  }
+  .search-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 2rem;
+    gap: 1rem;
+    margin-top: 3%;
+  }
+  
+  .carousel-scroll {
+    display: flex;
+    gap: 4rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    height: 25rem;
+  }
+  
+  .carousel-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .card-item {
+    flex: 0 0 auto;
+  }
+  
+  .nav {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    z-index: 1;
+  }
+  
+  .nav:hover {
+    background-color: #f0f0f0;
+  }
+  

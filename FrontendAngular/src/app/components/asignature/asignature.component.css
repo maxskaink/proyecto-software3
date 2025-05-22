@@ -1,0 +1,19 @@
+.sectionInfo{
+    height: 50rem;
+}
+.row{
+    margin: 0;
+}
+.infoBasicAsignature{
+    padding: 4rem;
+}
+.sectionCompetency{
+    background-color: #C5C5C5;
+    height: 50rem;
+}
+
+.divider {
+    background-color: white; /* Color blanco */
+    height: 10px;           /* Grosor de la línea (ajústalo a tu preferencia) */
+    margin-top:-1px ;
+  }

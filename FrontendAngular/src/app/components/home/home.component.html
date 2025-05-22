@@ -1,0 +1,29 @@
+<app-header></app-header>
+<!-- Barra de búsqueda -->
+<div class="container-fluid search-container  text-center">
+  <app-molecule-search-bar
+    placeholder="Buscar asignatura..."
+    (search)="onSearch($event)">
+  </app-molecule-search-bar>
+</div>
+<div class="carousel-wrapper main-content">
+  <button class="nav left" (click)="scrollLeft()">&lt;</button>
+
+  <div class="carousel-container" #carousel>
+    <div class="carousel-scroll">
+      <app-molecule-block
+        *ngFor="let asignature of asignaturesFilters"
+        [title]="asignature.title"
+        [description]="asignature.description"
+        [titleColor]="asignature.titleColor"
+        [bodyColor] = "asignature.bodyColor"
+        class="card-item"
+        (click)="goToAsignature(asignature.id)">
+      </app-molecule-block>
+    </div>
+  </div>
+
+  <button class="nav right" (click)="scrollRight()">&gt;</button>
+</div>
+
+<app-footer></app-footer>
