@@ -6,13 +6,18 @@ import unicauca.coreservice.application.out.RubricRepositoryOutInt;
 import unicauca.coreservice.domain.exception.DuplicateInformation;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Rubric;
+import unicauca.coreservice.domain.model.SubjectOutcome;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.SubjectOutcomeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class RubricService implements RubricInt{
 
+
     private final RubricRepositoryOutInt rubricRepository;
+    private final SubjectOutcomeRepository subjectOutcomeRepository;
 
 
     @Override
@@ -23,6 +28,16 @@ public class RubricService implements RubricInt{
                 "The subject outcome with id " + subjectOutcomeId + " already has a rubric associated with it."
             );
         }
+        OptionalWrapper<SubjectOutcome> subjectOutcomeWrapper = subjectOutcomeRepository.getById(subjectOutcomeId);
+        Optional<SubjectOutcome> subjectOutcomeOpt = subjectOutcomeWrapper.getValue();
+
+
+        if (subjectOutcomeOpt.isEmpty()) {
+            throw subjectOutcomeWrapper.getException();
+        }
+
+        newRubric.setSubjectOutcome(subjectOutcomeOpt.get());
+        subjectOutcomeOpt.get().setRubric(newRubric);
 
         OptionalWrapper<Rubric> response = rubricRepository.add(newRubric);
         

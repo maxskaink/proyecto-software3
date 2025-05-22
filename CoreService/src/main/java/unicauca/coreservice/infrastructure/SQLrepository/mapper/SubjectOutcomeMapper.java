@@ -10,6 +10,7 @@ public class SubjectOutcomeMapper {
                         subjectOutcome.getId(),
                         subjectOutcome.getDescription(),
                         null,
+                        RubricMapper.toRubricEntity(subjectOutcome.getRubric()),
                         true
                 );
     }
@@ -18,7 +19,8 @@ public class SubjectOutcomeMapper {
         return null==subjectOutcomeEntity?null:
                 new SubjectOutcome(
                         subjectOutcomeEntity.getId(),
-                        subjectOutcomeEntity.getDescription()
+                        subjectOutcomeEntity.getDescription(),
+                        RubricMapper.toRubric(subjectOutcomeEntity.getRubric())
                 );
     }
 }

@@ -1,23 +1,18 @@
 package unicauca.coreservice.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import unicauca.coreservice.domain.exception.InvalidValue;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class SubjectOutcome {
     private Integer id;
     private String description;
     private Rubric rubric;
 
-    public SubjectOutcome(
-            Integer id,
-            String description
-    ){
-        setId(id);
-        setDescription(description);
-    }
 
     public void setDescription(String description){
         if(null==description)

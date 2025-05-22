@@ -8,8 +8,13 @@ import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.Rubric;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPARubricRepository;
 
+import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPASubjectOutcomeRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.RubricEntity;
+import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectOutcomeEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.RubricMapper;
+import unicauca.coreservice.infrastructure.SQLrepository.mapper.SubjectOutcomeMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -18,34 +23,50 @@ import java.util.stream.Collectors;
 @Repository
 public class RubricRepository implements RubricRepositoryOutInt {
     private final JPARubricRepository rubricRepository;
+    private final JPASubjectOutcomeRepository subjectOutcomeRepository;
 
     @Override
     public OptionalWrapper<Rubric> add(Rubric newRubric) {
-        try{
-            newRubric.setId(null);
-
+        try {
+            newRubric.setId(null); // Ensure it's a new entity
+            newRubric.setCriteria(new ArrayList<>()); // Initialize criteria
+    
+            // Map domain to entity
             RubricEntity rubricEntity = RubricMapper.toRubricEntity(newRubric);
-            return new OptionalWrapper<>(
-                    RubricMapper.toRubric(rubricRepository.save(rubricEntity))
-            );
-
-        }catch (Exception e){
+    
+            // Get reference to subject outcome
+            Integer subjectOutcomeId = newRubric.getSubjectOutcome().getId();
+            SubjectOutcomeEntity subjectOutcomeEntity = subjectOutcomeRepository.getReferenceById(subjectOutcomeId);
+    
+            // Link both sides manually
+            rubricEntity.setSubjectOutcomeId(subjectOutcomeId);
+            subjectOutcomeEntity.setRubric(rubricEntity);
+    
+            // Save rubric
+            RubricEntity saved = rubricRepository.save(rubricEntity);
+    
+            // Use centralized mapping method
+            return new OptionalWrapper<>(mapWithSubjectOutcome(saved));
+        } catch (Exception e) {
             return new OptionalWrapper<>(e);
         }
     }
+    
+    
 
     @Override
     public List<Rubric> listAllBySubjectId(Integer subjectId) {
         return rubricRepository.findByIsActivatedTrue().
                 stream().
-                filter( rubric -> Objects.equals(rubric.getLearningOutcome().getCompetencyAssignment().getSubject().getId(), subjectId)).
-                map(RubricMapper::toRubric).collect(Collectors.toList());
+                filter( rubric -> Objects.equals(subjectOutcomeRepository.getReferenceById(rubric.getSubjectOutcomeId()) 
+                .getCompetencyAssignment().getSubject().getId(), subjectId)).
+                map(this::mapWithSubjectOutcome).collect(Collectors.toList());
     }
 
     @Override
     public OptionalWrapper<Rubric> getById(Integer id) {
         try{
-            return new OptionalWrapper<>(RubricMapper.toRubric(
+            return new OptionalWrapper<>(mapWithSubjectOutcome(
                     rubricRepository.findById(id).
                             orElseThrow( () -> new NotFound("Rubric with id " + id + " was not found") )
             ));
@@ -58,8 +79,8 @@ public class RubricRepository implements RubricRepositoryOutInt {
     public OptionalWrapper<Rubric> getBySubjectOutcomeId(Integer subjectOutcomeId) {
         try{
             return new OptionalWrapper<>(rubricRepository.findByIsActivatedTrue().
-                    stream().filter( rubric -> Objects.equals(rubric.getLearningOutcome().getId(),subjectOutcomeId))
-                    .map(RubricMapper::toRubric).findFirst());
+                    stream().filter( rubric -> Objects.equals(rubric.getSubjectOutcomeId(),subjectOutcomeId))
+                    .map(this::mapWithSubjectOutcome).findFirst());
         }catch (Exception e){
             return new OptionalWrapper<>(e);
         }
@@ -71,7 +92,7 @@ public class RubricRepository implements RubricRepositoryOutInt {
             RubricEntity activeRubric = rubricRepository.findActiveRubricById(id)
                     .orElseThrow(()-> new NotFound("Rubric with id " + id + " was not found"));
             activeRubric.setDescription(newRubric.getDescription());
-            return new OptionalWrapper<>(RubricMapper.toRubric(rubricRepository.save(activeRubric)));
+            return new OptionalWrapper<>(mapWithSubjectOutcome(rubricRepository.save(activeRubric)));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
         }
@@ -83,9 +104,22 @@ public class RubricRepository implements RubricRepositoryOutInt {
             RubricEntity activeRubric = rubricRepository.findActiveRubricById(id)
                     .orElseThrow(()-> new NotFound("Rubric with id " + id + " was not found"));
             activeRubric.setActivated(false);
-            return new OptionalWrapper<>(RubricMapper.toRubric(rubricRepository.save(activeRubric)));
+            return new OptionalWrapper<>(mapWithSubjectOutcome(rubricRepository.save(activeRubric)));
         }catch (Exception e){
             return new OptionalWrapper<>(e);
         }
     }
+
+    private Rubric mapWithSubjectOutcome(RubricEntity rubricEntity) {
+        Rubric rubric = RubricMapper.toRubric(rubricEntity);
+        rubric.setSubjectOutcome(
+                SubjectOutcomeMapper.toSubjectOutcome(
+                        subjectOutcomeRepository.getReferenceById(rubricEntity.getSubjectOutcomeId())
+                )
+        );
+
+        System.out.println(rubric.toString());
+        return rubric;
+    }
+    
 }

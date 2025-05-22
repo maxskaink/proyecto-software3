@@ -5,12 +5,15 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.RubricEntity;
 
 
 public class RubricMapper {
+
+        
+
     public static Rubric toRubric(RubricEntity rubricEntity)  {
         return null==rubricEntity?null:
                 new Rubric(
                         rubricEntity.getId(),
                         rubricEntity.getDescription(),
-                        SubjectOutcomeMapper.toSubjectOutcome(rubricEntity.getLearningOutcome()),
+                        null,
                         rubricEntity.getCriteria().stream()
                                 .map(CriterionMapper::toCriterion)
                                 .toList()
@@ -21,7 +24,7 @@ public class RubricMapper {
         return null==rubric?null:new RubricEntity(
                 rubric.getId(),
                 rubric.getDescription(),
-                SubjectOutcomeMapper.toSubjectOutcomeEntity(rubric.getSubjectOutcome()),
+                rubric.getSubjectOutcome().getId(),
                 rubric.getCriteria().stream()
                         .map(CriterionMapper::toCriterionEntity)
                         .toList(),

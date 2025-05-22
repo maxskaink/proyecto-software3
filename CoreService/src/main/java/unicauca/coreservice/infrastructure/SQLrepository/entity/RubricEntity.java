@@ -21,9 +21,9 @@ public class RubricEntity {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_ra", referencedColumnName = "id")
-    private SubjectOutcomeEntity learningOutcome;
+    @Column(name = "subject_outcome_id")
+    private Integer subjectOutcomeId;
+
 
     @OneToMany(mappedBy = "rubric", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

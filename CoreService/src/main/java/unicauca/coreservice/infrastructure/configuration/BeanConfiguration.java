@@ -12,6 +12,7 @@ import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.useCases.*;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.RubricRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.SubjectOutcomeRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
 @Configuration
@@ -52,5 +53,5 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public RubricInt createRubric(RubricRepository repository){ return new RubricService(repository); }
+    public RubricInt createRubric(RubricRepository repository, SubjectOutcomeRepository outcomeRepository){ return new RubricService(repository, outcomeRepository); }
 }
