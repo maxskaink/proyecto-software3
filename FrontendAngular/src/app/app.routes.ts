@@ -9,7 +9,7 @@ import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     {path: '', component:LoginComponent},
-    {path: 'home',component: HomeComponent,   canActivate: [authGuard], data: ['Teacher', 'Coordinator']},
+    {path: 'home',component: HomeComponent, data: ['Teacher', 'Coordinator']},
     { path: 'asignatures/:id', component:AsignatureComponent,   canActivate: [authGuard] }
 
 

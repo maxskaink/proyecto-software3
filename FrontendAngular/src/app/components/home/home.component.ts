@@ -19,24 +19,22 @@ import { AsignatureService } from '../../services/asignature.service';
         FooterComponent,
         MoleculeBlockComponent,
         MoleculeSearchBarComponent,
-        NgClass,
         CommonModule,
-        RouterLink,
         FormsModule
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  
+
   asignatures: (AsignatureDTO & { titleColor: string; bodyColor: string })[] = [];
   asignaturesFilters: (AsignatureDTO & { titleColor: string; bodyColor: string })[] = [];
   wordSearch: string = '';
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
-  
+
 
   constructor(
-    private asignatureService: AsignatureService, 
+    private asignatureService: AsignatureService,
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -47,7 +45,7 @@ export class HomeComponent implements OnInit{
     ];
     this.getAsignature(colors2);
     this.asignaturesFilters = [...this.asignatures];
-    
+
  }
  getAsignature(colors2: any): void{
   this.asignatureService.getAsignature().subscribe(data => {

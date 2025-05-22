@@ -8,47 +8,11 @@ import { AuthConfig, OAuthModule, OAuthService, provideOAuthClient } from 'angul
 import { resolve } from 'node:path';
 import { isPlatformBrowser } from '@angular/common';
 
-export const authCodeFlowConfig: AuthConfig = {
-  issuer: 'http://localhost:8080/realms/SERA',
-  clientId: 'angularSERA-client',
-  scope: 'openid profile email',
-  strictDiscoveryDocumentValidation: false,
-  requireHttps: false // Permitir HTTP en localhost
-};
-
-
-function initializeOAuth(oauthService: OAuthService, platformId: Object): () => Promise<void | boolean> {
-  return () => {
-    // Only run OAuth initialization in the browser environment
-    if (isPlatformBrowser(platformId)) {
-      // Configure redirectUri dynamically
-      authCodeFlowConfig.redirectUri = window.location.origin;
-      
-      oauthService.configure(authCodeFlowConfig);
-      oauthService.setupAutomaticSilentRefresh();
-      
-      // Solo cargar el documento de descubrimiento sin iniciar login automático
-      return oauthService.loadDiscoveryDocumentAndTryLogin();
-        
-    }
-    
-    // Return resolved promise for server-side rendering
-    return Promise.resolve();
-  };
-}
-
-export const appConfig: ApplicationConfig = { 
+export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(),
-    provideOAuthClient(),
-    provideAppInitializer(() => {
-        const initializerFn = ((oauthService: OAuthService) => {
-        const platformId = inject(PLATFORM_ID);
-        return initializeOAuth(oauthService, platformId);
-      })(inject(OAuthService));
-        return initializerFn();
-      })
+    provideOAuthClient()
   ]
 };
