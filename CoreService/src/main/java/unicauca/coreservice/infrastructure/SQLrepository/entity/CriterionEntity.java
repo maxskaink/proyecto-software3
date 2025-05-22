@@ -24,8 +24,8 @@ public class CriterionEntity {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "rubric_id", nullable = false)
     private RubricEntity rubric;
     
     @OneToMany(mappedBy = "criterion", cascade = CascadeType.ALL, orphanRemoval = true)

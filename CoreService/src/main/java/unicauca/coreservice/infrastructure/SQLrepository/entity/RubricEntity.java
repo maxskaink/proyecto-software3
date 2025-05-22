@@ -1,5 +1,6 @@
 package unicauca.coreservice.infrastructure.SQLrepository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class RubricEntity {
 
     @OneToMany(mappedBy = "rubric", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
     private List<CriterionEntity> criteria = new ArrayList<>();
 
     @Column(nullable = false)

@@ -2,15 +2,13 @@ package unicauca.coreservice.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import unicauca.coreservice.application.in.ProgramCompetencyAndOutcomeInt;
-import unicauca.coreservice.application.in.RubricInt;
-import unicauca.coreservice.application.in.SubjectCompetencyInt;
-import unicauca.coreservice.application.in.TermInt;
+import unicauca.coreservice.application.in.*;
 import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
 import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.useCases.*;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.CriterionRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.RubricRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.SubjectOutcomeRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
@@ -54,4 +52,7 @@ public class BeanConfiguration {
 
     @Bean
     public RubricInt createRubric(RubricRepository repository, SubjectOutcomeRepository outcomeRepository){ return new RubricService(repository, outcomeRepository); }
+
+    @Bean
+    public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository){return new CriterionService(repository, rubricRepository);}
 }

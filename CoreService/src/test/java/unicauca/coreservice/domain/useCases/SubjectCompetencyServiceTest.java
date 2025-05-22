@@ -85,7 +85,7 @@ class SubjectCompetencyServiceTest {
     void add_shouldReturnAddedSubjectCompetency() throws Exception {
         // Arrange
         SubjectCompetency competency = new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId());
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
         // Act
         SubjectCompetency result = service.add(competency, firstOutCome, 1);
 
@@ -99,7 +99,7 @@ class SubjectCompetencyServiceTest {
     void add_shouldThrowExceptionWhenDuplicateDescription() throws Exception {
         // Arrange
         SubjectCompetency competency = new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId());
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
 
         // Act & Assert
 
@@ -123,7 +123,7 @@ class SubjectCompetencyServiceTest {
     @Test
     void listAllProgramCompetencies_shouldReturnAllCompetencies() throws Exception {
         // Arrange
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
 
         List<SubjectCompetency> expectedCompetencies = Arrays.asList(
                 new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId()),
@@ -146,7 +146,7 @@ class SubjectCompetencyServiceTest {
     void getProgramCompetencyById_shouldReturnCompetencyWhenExists() throws Exception {
         // Arrange
         SubjectCompetency competency = new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId());
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
 
         // Act
         SubjectCompetency insert = service.add(competency, firstOutCome, 1);
@@ -173,7 +173,7 @@ class SubjectCompetencyServiceTest {
         // Arrange
         SubjectCompetency competency = new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId());
         SubjectCompetency competencyUpdated = new SubjectCompetency(null, "Some description updated", "easy updated", programCompetency1.getId());
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
 
         // Act
         SubjectCompetency originalCompetency = service.add(competency, firstOutCome, 1);
@@ -189,7 +189,7 @@ class SubjectCompetencyServiceTest {
     void remove_shouldReturnRemovedCompetency() throws Exception {
         // Arrange
         SubjectCompetency competency = new SubjectCompetency(null, "Some description", "easy", programCompetency1.getId());
-        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome");
+        SubjectOutcome firstOutCome = new SubjectOutcome(null, "Test Outcome",null);
         
         // Act
         SubjectCompetency compAdded= service.add(competency, firstOutCome, 1);

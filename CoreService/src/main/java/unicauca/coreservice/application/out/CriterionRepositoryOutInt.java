@@ -37,7 +37,16 @@ public interface CriterionRepositoryOutInt {
      * @param rubricId Identifier of the rubric linked
      * @return an OptionalWrapper containing the found Criterion or the Exception if none is found
      */
-    OptionalWrapper<Criterion> getByRubricId(Integer rubricId);
+    List<Criterion> listByRubricId(Integer rubricId);
+
+    /**
+     * Updates a Criterion in the repository
+     * 
+     * @param id Identifier of the criterion instance
+     * @param newRubric The new Rubric instance to be updated
+     * @return an OptionalWrapper containing the updated Rubric or the Exception if it fails
+     */
+    OptionalWrapper<Criterion> update(Integer id, Criterion newCriterion);
 
     /**
      * Removes a Criterion from the repository by its unique id
