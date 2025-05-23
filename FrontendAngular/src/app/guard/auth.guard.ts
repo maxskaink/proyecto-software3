@@ -1,14 +1,42 @@
-import { CanActivateFn, ActivatedRouteSnapshot } from '@angular/router';
-import { inject } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from '@angular/router';
+import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 
-export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
-  const oauthService = inject(OAuthService);
-  const claims: any = oauthService.getIdentityClaims();
-  const roles = claims?.realm_access?.roles || [];
+@Injectable({ providedIn: 'root' })
+export class AuthGuard extends KeycloakAuthGuard {
+  constructor(
+    protected override readonly router: Router,
+    protected readonly keycloak: KeycloakService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    super(router, keycloak);
+  }
 
-  const allowedRoles = route.data['roles'] as string[];
+  public async isAccessAllowed(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    if (isPlatformServer(this.platformId)) return true;
 
-  // Permite acceso si el usuario tiene al menos uno de los roles requeridos
-  return allowedRoles.some(role => roles.includes(role));
-};
+    if (!this.authenticated) {
+      await this.keycloak.login({ redirectUri: window.location.origin + state.url });
+      return false;
+    }
+
+    const tokenParsed = this.keycloak.getKeycloakInstance().tokenParsed;
+    const resourceAccess = tokenParsed?.resource_access;
+    const clientRoles = (resourceAccess as any)?.['angularSERA-client']?.roles ?? [];
+    const requiredRoles = route.data['roles'];
+
+    if (!requiredRoles?.length) return true;
+
+    const hasRole = requiredRoles.some((role: string) => clientRoles.includes(role));
+    return hasRole ? true : this.router.parseUrl('/');
+  }
+}

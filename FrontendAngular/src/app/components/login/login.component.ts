@@ -1,52 +1,37 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
-    selector: 'app-login',
-    imports: [CommonModule],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.css'
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <section class="d-flex flex-column align-items-center gap-3 p-4 justify-content-center shadow boxLoguin">
+      <h1>SERA</h1>
+      <i class="bi bi-person-circle p-2 user-icon"></i>
+      <button class="btn btn-primary custom-button container-fluid" (click)="login()">Iniciar sesión con Keycloak</button>
+      <div *ngIf="errorMsg" class="alert alert-danger mt-2">{{ errorMsg }}</div>
+    </section>
+  `,
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
   errorMsg: string = '';
 
   constructor(
-    private oauthService: OAuthService,
-    private router: Router,
+    private keycloakService: KeycloakService,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+  ) {}
+
+  public async login() {
     if (isPlatformBrowser(this.platformId)) {
-      this.oauthService.setStorage(sessionStorage);
-    }
-
-  }
-
-
-
-  async login() {
-    try {
-
-      await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-
-      await this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(
-        this.username,
-        this.password
-      );
-
-      if (this.oauthService.hasValidAccessToken()) {
-        this.router.navigate(['/home']);
+      try {
+        await this.keycloakService.login();
+      } catch (error) {
+        this.errorMsg = 'Error al redirigir a Keycloak';
+        console.error('Error de login Keycloak', error);
       }
-    } catch (error) {
-      console.error('Error de login', error);
-      this.errorMsg = 'Usuario o contraseña incorrectos';
     }
-  }
-  getRoles(): string[] {
-    const claims = this.oauthService.getIdentityClaims() as any;
-    return claims?.realm_access?.roles || [];
   }
 }
