@@ -9,7 +9,6 @@ import unicauca.coreservice.domain.model.Criterion;
 import unicauca.coreservice.domain.model.Level;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,9 +56,9 @@ public class LevelService implements LevelInt {
     @Override
     public Level remove(Integer id) throws Exception {
         OptionalWrapper<Level> response = levelRepository.remove(id);
-        return response.getValue()
-                .orElseThrow(response::getException);
+        return response.getValue().orElseThrow(response::getException);
     }
+
 
 
 }

@@ -61,13 +61,11 @@ public class LevelController {
     }
 
     @DeleteMapping("{levelId}")
-    public ResponseEntity<Level> remove(
-            @PathVariable Integer levelId
-    ) throws Exception {
-        return ResponseEntity.ok(
-                levelService.remove(levelId)
-        );
+    public ResponseEntity<Void> remove(@PathVariable Integer levelId) throws Exception {
+        levelService.remove(levelId);
+        return ResponseEntity.noContent().build();
     }
+
     
     
 }

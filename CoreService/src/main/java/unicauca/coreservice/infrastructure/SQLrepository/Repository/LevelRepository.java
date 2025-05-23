@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import unicauca.coreservice.application.out.LevelRepositoryOutInt;
+import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.Level;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPACriterionRepository;
@@ -10,7 +11,6 @@ import unicauca.coreservice.infrastructure.SQLrepository.entity.LevelEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.CriterionMapper;
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.LevelMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -53,7 +53,7 @@ public class LevelRepository implements LevelRepositoryOutInt {
     public OptionalWrapper<Level> getById(Integer id) {
         try {
             LevelEntity entity = levelRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Level with id " + id + " was not found"));
+                    .orElseThrow(() -> new NotFound("Level with id " + id + " was not found"));
     
             Level level = LevelMapper.toLevel(entity);
             level.setCriterion(CriterionMapper.toCriterion(entity.getCriterion())); 
@@ -80,7 +80,7 @@ public class LevelRepository implements LevelRepositoryOutInt {
     public OptionalWrapper<Level> update(Integer levelId, Level newLevel) {
         try {
             LevelEntity levelEntity = levelRepository.findById(levelId)
-                    .orElseThrow(() -> new RuntimeException("Level with id " + levelId + " was not found"));
+                    .orElseThrow(() -> new NotFound("Level with id " + levelId + " was not found"));
     
             levelEntity.setDescription(newLevel.getDescription());
             levelEntity.setCategory(newLevel.getCategory());
@@ -99,10 +99,13 @@ public class LevelRepository implements LevelRepositoryOutInt {
     public OptionalWrapper<Level> remove(Integer id) {
         try {
             LevelEntity levelEntity = levelRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Level with id " + id + " was not found"));
-    
+                    .orElseThrow(() -> new NotFound("Level with id " + id + " was not found"));
+
+            CriterionEntity criterion = levelEntity.getCriterion();
+            criterion.getLevels().remove(levelEntity);
+
             Level level = LevelMapper.toLevel(levelEntity);
-            level.setCriterion(CriterionMapper.toCriterion(levelEntity.getCriterion())); 
+            level.setCriterion(CriterionMapper.toCriterion(levelEntity.getCriterion()));
     
             levelRepository.delete(levelEntity);
             return new OptionalWrapper<>(level);
