@@ -1,0 +1,17 @@
+.full-screen-settings {
+    background-color: #D9D9D9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+  }
+.card-item{
+    height: 100vh;
+    margin-top: auto; /* empuja hacia el fondo */
+    padding-top: 30%;
+    
+}
+
+.card-item .card{
+    color: black;
+}

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -11,4 +12,9 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
   nombre = 'Juan Pérez';
   rol = 'Administrador';
+
+  constructor(private router: Router) {}
+  goToSettings(): void {
+    this.router.navigate(['/settings']);
+  }
 }
