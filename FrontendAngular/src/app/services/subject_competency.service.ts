@@ -9,7 +9,7 @@ import { ErrorResponse } from '../models/ErrorDTO';
   providedIn: 'root'
 })
 export class SubjectCompetencyService {
-  private baseUrl = 'http://localhost:8080'; // Cambia según tu backend
+  private baseUrl = 'http://localhost:8080'; 
 
   constructor(private http: HttpClient) {}
 
