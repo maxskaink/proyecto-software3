@@ -11,7 +11,7 @@ public class LevelMapper {
                 levelEntity.getCategory(),
                 levelEntity.getDescription(),
                 levelEntity.getPercentage(),
-                CriterionMapper.toCriterion(levelEntity.getCriterion())
+                null//Caution the criterion has to be added later
         );
     }
 
@@ -21,7 +21,7 @@ public class LevelMapper {
                 level.getCategory(),
                 level.getDescription(),
                 level.getPercentage(),
-                CriterionMapper.toCriterionEntity(level.getCriterion())
+                null //Caution the criterion has to be added later
         );
     }
 }

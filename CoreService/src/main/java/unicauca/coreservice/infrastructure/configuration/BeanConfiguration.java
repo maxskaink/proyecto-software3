@@ -8,10 +8,7 @@ import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositor
 import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.useCases.*;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.CriterionRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.RubricRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.SubjectOutcomeRepository;
-import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
+import unicauca.coreservice.infrastructure.SQLrepository.Repository.*;
 
 @Configuration
 public class BeanConfiguration {
@@ -55,4 +52,7 @@ public class BeanConfiguration {
 
     @Bean
     public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository){return new CriterionService(repository, rubricRepository);}
+
+    @Bean
+    public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository){return new LevelService(repository, criterionRepository);}
 }
