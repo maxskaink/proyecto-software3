@@ -7,6 +7,7 @@ import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-bloc
 import { CommonModule } from '@angular/common';
 import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
 import { competencyDTO } from '../../models/CompetencyDTO';
+import { strict } from 'assert';
 
 @Component({
     selector: 'app-asignature',
@@ -50,6 +51,7 @@ export class AsignatureComponent {
       {  id: 2, descripcion: 'Descripcion generica2',level: 'Level', programCompetencyId: 2},
       {  id: 3, descripcion: 'Descripcion generica3',level: 'Level', programCompetencyId: 2}] 
   }
+
 /**
   loadCompetencies(): void {
     this.competencyService.getCompetenciesByAsignature(this.asignatureId)

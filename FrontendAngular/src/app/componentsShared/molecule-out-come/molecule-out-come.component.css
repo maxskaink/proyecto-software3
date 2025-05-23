@@ -1,0 +1,30 @@
+.outcome-container {
+    display: flex;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    width: 80rem;
+  }
+  
+  .outcome-label {
+    background-color: #532c58; /* púrpura */
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+  }
+  
+  .outcome-description {
+    padding: 1rem;
+    color: #532c58; /* texto en púrpura oscuro */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+  }
+  

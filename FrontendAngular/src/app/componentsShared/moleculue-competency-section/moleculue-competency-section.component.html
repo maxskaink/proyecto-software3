@@ -9,5 +9,11 @@
         <p>{{description}}</p>
         <p>{{level}}</p>
     </div>
+    <section class="raContent d-flex justify-content-center flex-column align-items-center">
+        <div *ngFor="let outCome of listOutComes; let i = index">
+          <app-molecule-out-come [outCome]="outCome"></app-molecule-out-come>
+        </div>
+      </section>
+      
     
 </div>
