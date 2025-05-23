@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { CompetencyService } from '../../services/competency.service';
 import { competencyDTO } from '../../models/CompetencyDTO';
-import { OutCome } from '../../models/OutComeDTO';
+import { OutCome } from '../../models/SubjectOutcomeDTO';
 import { MoleculeOutComeComponent } from '../molecule-out-come/molecule-out-come.component';
 
 @Component({

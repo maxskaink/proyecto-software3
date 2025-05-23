@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AsignatureDTO } from '../models/AsignatureDTO';
+import { AsignatureDTO } from '../models/SubjectDTO';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 

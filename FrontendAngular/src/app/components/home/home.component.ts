@@ -8,7 +8,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { MoleculeSearchBarComponent } from '../../componentsShared/molecule-search-bar/molecule-search-bar.component';
 import { MoleculeBlockComponent } from '../../componentsShared/molecule-block/molecule-block.component';
-import { AsignatureDTO } from '../../models/AsignatureDTO';
+import { AsignatureDTO } from '../../models/SubjectDTO';
 import { AsignatureService } from '../../services/asignature.service';
 
 

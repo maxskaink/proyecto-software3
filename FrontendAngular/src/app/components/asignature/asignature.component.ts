@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { AsignatureDTO } from '../../models/AsignatureDTO';
+import { AsignatureDTO } from '../../models/SubjectDTO';
 import { AsignatureService } from '../../services/asignature.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
