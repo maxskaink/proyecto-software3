@@ -6,6 +6,7 @@ import { AsignatureService } from '../../services/asignature.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
 import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
+import { competencyDTO } from '../../models/CompetencyDTO';
 
 @Component({
     selector: 'app-asignature',
@@ -20,7 +21,7 @@ export class AsignatureComponent {
   description: string = 'description';
   title: string= 'title';
   actualAsignature: AsignatureDTO | null = null;
-  competencies: any; 
+  listCompetency: competencyDTO[] = []; 
  
   constructor(
     private asignatureService: AsignatureService,
@@ -31,6 +32,7 @@ export class AsignatureComponent {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.getAsignatureID(+id);
+      this.loadCompetencies();
     }
   }
 
@@ -41,4 +43,24 @@ export class AsignatureComponent {
       this.description  = this.actualAsignature.description;
     });
   }
+
+  loadCompetencies(): void{
+    this.listCompetency  = [
+      {  id: 1, descripcion: 'Descripcion generica1',level: 'Level', programCompetencyId: 2}, 
+      {  id: 2, descripcion: 'Descripcion generica2',level: 'Level', programCompetencyId: 2},
+      {  id: 3, descripcion: 'Descripcion generica3',level: 'Level', programCompetencyId: 2}] 
+  }
+/**
+  loadCompetencies(): void {
+    this.competencyService.getCompetenciesByAsignature(this.asignatureId)
+      .subscribe({
+        next: (competencies: competencyDTO[]) => {
+          this.listCompetency = competencies;
+        },
+        error: (err: any) => {
+          console.error('Error cargando competencias:', err);
+        }
+      });
+  }
+ */
 }

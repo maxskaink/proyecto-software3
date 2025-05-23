@@ -12,6 +12,24 @@
       <app-molecule-block-user></app-molecule-block-user>
     </div>
   </section>
-<section class=" sectionCompetency">
- <app-moleculue-competency-section></app-moleculue-competency-section>
-</section>
+  <section class="sectionCompetency">
+    <div id="competencyCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div 
+          *ngFor="let competency of listCompetency; let i = index" 
+          class="carousel-item" 
+          [class.active]="i === 0"
+        >
+          <app-moleculue-competency-section [competency]="competency"></app-moleculue-competency-section>
+        </div>
+      </div>
+  
+      <!-- Controles opcionales -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#competencyCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#competencyCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </section>

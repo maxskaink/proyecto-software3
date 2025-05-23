@@ -8,6 +8,6 @@ export const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'access-denied', component: LoginComponent, data: { accessDenied: true }},
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuard], data: { roles: ['Teacher', 'Coordinator'] }},
-  {path: 'asignatures/:id', component: AsignatureComponent, canActivate: [AuthGuard]}
+  {path: 'home', component: HomeComponent},
+  {path: 'asignatures/:id', component: AsignatureComponent}
 ];
