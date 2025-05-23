@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { AsignatureDTO } from '../../models/SubjectDTO';
-import { AsignatureService } from '../../services/asignature.service';
+import { SubjectDTO } from '../../models/SubjectDTO';
+import { AsignatureService } from '../../services/subject.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
 import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
-import { competencyDTO } from '../../models/CompetencyDTO';
-import { strict } from 'assert';
+import { SubjectCompetencyService } from '../../services/subject_competency.service';
+import { SubjectCompetency } from '../../models/SubjectDTO';
 
 @Component({
     selector: 'app-asignature',
@@ -21,19 +21,25 @@ import { strict } from 'assert';
 export class AsignatureComponent {
   description: string = 'description';
   title: string= 'title';
-  actualAsignature: AsignatureDTO | null = null;
-  listCompetency: competencyDTO[] = []; 
- 
+  actualAsignature: SubjectDTO | null = null;
+  listCompetency: SubjectCompetency[] = []; 
+  id: number = -1;
   constructor(
     private asignatureService: AsignatureService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private competenciesSubject: SubjectCompetencyService 
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.getAsignatureID(+id);
-      this.loadCompetencies();
+    const response = this.route.snapshot.paramMap.get('id');
+    if(!response)
+      console.log("The subject doesnt exist");
+    else {
+      this.id = Number(response);
+      if (this.id) {
+        this.getAsignatureID(+this.id);
+        this.loadCompetencies();
+      }
     }
   }
 
@@ -44,25 +50,14 @@ export class AsignatureComponent {
       this.description  = this.actualAsignature.description;
     });
   }
-
+  
   loadCompetencies(): void{
-    this.listCompetency  = [
-      {  id: 1, descripcion: 'Descripcion generica1',level: 'Level', programCompetencyId: 2}, 
-      {  id: 2, descripcion: 'Descripcion generica2',level: 'Level', programCompetencyId: 2},
-      {  id: 3, descripcion: 'Descripcion generica3',level: 'Level', programCompetencyId: 2}] 
+    this.competenciesSubject.getCompetenciesByAsignature(this.id).subscribe(
+      (listCompetencies) => {
+        this.listCompetency = listCompetencies;
+      }
+    );
+  
   }
 
-/**
-  loadCompetencies(): void {
-    this.competencyService.getCompetenciesByAsignature(this.asignatureId)
-      .subscribe({
-        next: (competencies: competencyDTO[]) => {
-          this.listCompetency = competencies;
-        },
-        error: (err: any) => {
-          console.error('Error cargando competencias:', err);
-        }
-      });
-  }
- */
 }

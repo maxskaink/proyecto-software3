@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { OutCome } from '../../models/SubjectOutcomeDTO';
+import { SubjectOutcome } from '../../models/SubjectDTO';
 
 @Component({
   selector: 'app-molecule-out-come',
@@ -9,7 +9,7 @@ import { OutCome } from '../../models/SubjectOutcomeDTO';
   styleUrl: './molecule-out-come.component.css'
 })
 export class MoleculeOutComeComponent {
-  @Input() outCome!: OutCome;
+  @Input() outCome!: SubjectOutcome;
 
   title: string = '';
   description: string = '';

@@ -8,8 +8,8 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { MoleculeSearchBarComponent } from '../../componentsShared/molecule-search-bar/molecule-search-bar.component';
 import { MoleculeBlockComponent } from '../../componentsShared/molecule-block/molecule-block.component';
-import { AsignatureDTO } from '../../models/SubjectDTO';
-import { AsignatureService } from '../../services/asignature.service';
+import { SubjectDTO } from '../../models/SubjectDTO';
+import { AsignatureService } from '../../services/subject.service';
 
 
 @Component({
@@ -27,8 +27,8 @@ import { AsignatureService } from '../../services/asignature.service';
 })
 export class HomeComponent implements OnInit{
 
-  asignatures: (AsignatureDTO & { titleColor: string; bodyColor: string })[] = [];
-  asignaturesFilters: (AsignatureDTO & { titleColor: string; bodyColor: string })[] = [];
+  asignatures: (SubjectDTO & { titleColor: string; bodyColor: string })[] = [];
+  asignaturesFilters: (SubjectDTO & { titleColor: string; bodyColor: string })[] = [];
   wordSearch: string = '';
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
 
