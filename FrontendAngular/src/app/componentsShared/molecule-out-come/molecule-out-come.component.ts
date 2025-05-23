@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './molecule-out-come.component.css'
 })
 export class MoleculeOutComeComponent {
-
+    
 }
