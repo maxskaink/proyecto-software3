@@ -1,6 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-login',
@@ -20,18 +19,11 @@ export class LoginComponent {
   errorMsg: string = '';
 
   constructor(
-    private keycloakService: KeycloakService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   public async login() {
-    if (isPlatformBrowser(this.platformId)) {
-      try {
-        await this.keycloakService.login();
-      } catch (error) {
-        this.errorMsg = 'Error al redirigir a Keycloak';
-        console.error('Error de login Keycloak', error);
-      }
-    }
+
+  //TODO implementar
   }
 }
