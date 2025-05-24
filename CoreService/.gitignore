@@ -33,4 +33,5 @@ build/
 .vscode/
 
 #### KEY #####
-**/key/*.json
+**/firebase/*.json
+!**/src/main/resources/firebase/sera-ca640-firebase-adminsdk-fbsvc-bf7c318ee6.json

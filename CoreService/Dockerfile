@@ -5,8 +5,8 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Imagen final liviana con solo el JAR
-FROM eclipse-temurin:23-jdk-alpine
+# Etapa 2: Imagen final con glibc (basada en Debian)
+FROM eclipse-temurin:23-jdk
 VOLUME /tmp
 COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
