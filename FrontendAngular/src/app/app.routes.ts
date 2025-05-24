@@ -11,5 +11,4 @@ export const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'asignatures/:id', component: AsignatureComponent},
   {path: 'settings', component:SettingsComponent}
-
 ];
