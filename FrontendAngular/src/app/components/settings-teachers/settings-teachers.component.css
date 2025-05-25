@@ -1,5 +1,25 @@
 .user-icon {
-    font-size: 200px;            /* Cambia el tamaño del ícono */
-    color: #1F0D1E;               /* Color del ícono */
+    font-size: 200px;            
+    color: #1F0D1E;               
     
+}
+.section_options{
+    margin-bottom: 4%;
+}
+.section_options_value{
+    background-color: #8D538C;
+    color: #ECF4F1;
+    
+}
+.welcome_text{
+    padding: 3%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+.divider__big{
+    background-color: #8D538C;
+    height: 8rem;
+    margin-top: 5%;
+    color: #ECF4F1;
+    padding: 2rem;
 }

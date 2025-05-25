@@ -9,5 +9,8 @@ import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-bac
   styleUrl: './settings-teachers.component.css'
 })
 export class SettingsTeachersComponent {
-
+  options = [
+    { title: 'Listar docente', description: 'Visualizar docentes' },
+    { title: 'Crear docentes', description: 'Crear docentes' }
+  ];
 }

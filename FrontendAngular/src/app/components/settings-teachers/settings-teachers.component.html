@@ -1,21 +1,24 @@
-<app-molecule-back-header>
-</app-molecule-back-header>
-<div>
-    <i class="bi bi-person-circle p-1 user-icon"></i>
-    <h1 class="fs-1">Bienvenido a la gestion de docentes</h1>
-</div>
-<section class="section_options">
-    <div>
-        <h2>Listar docente</h2>
-        <p>visualizar docentes</p>
-    </div>
-    <div>
-        <h2>Crear docentes</h2>
-        <p>Crerar docentes </p>
-    </div>
-    <div class="container-fluid">
-        <p>Aqui podras encontrar toda la informaciones y opciones relacionadas con la gestion de los docentes <br>
+<app-molecule-back-header></app-molecule-back-header>
 
-            - “Lo mejo de lo mejor”</p>
+<div class="welcome_text d-flex container-fluid flex-column align-items-center text-center my-4">
+  <i class="bi bi-person-circle p-1 user-icon "></i>
+  <h1 class="fw-bold fs-1">Bienvenido a la gestión de docentes</h1>
+</div>
+
+<section class="section_options container my-4">
+  <div class="row g-4">
+    <div class="col-12 col-md-6" *ngFor="let option of options">
+      <div class="section_options_value p-4 rounded-3 h-100">
+        <h2 class="fw-bold">{{ option.title }}</h2>
+        <p>{{ option.description }}</p>
+      </div>
     </div>
+  </div>
+  
 </section>
+<div class=" text-center divider__big">
+    <p>
+      Aquí podrás encontrar toda la información y opciones relacionadas con la gestión de los docentes. <br>
+      – “Lo mejor de lo mejor”
+    </p>
+  </div>
