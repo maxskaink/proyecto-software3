@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 public class FirebaseService implements ISecurityService {
 
     private final TeacherAssignmentOutInt teacherAssignmentRepository;
-    private final TermRepositoryOutInt termRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
     private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
 
@@ -90,9 +89,8 @@ public class FirebaseService implements ISecurityService {
         if (isCoordinator(uid)) {
             return true;
         }
-        Term activeTerm = termRepository.getActiveTerm().getValue().orElseThrow(() -> new RuntimeException("No active term found"));
         // Get the assignment to the subject
-        return teacherAssignmentRepository.listByTermId(activeTerm.getId()).stream()
+        return teacherAssignmentRepository.listByActiveTerm().stream()
                 .anyMatch(assignment ->
                         assignment.getTeacherUid().equals(uid) &&
                         assignment.getSubject().getId().equals(subjectId)

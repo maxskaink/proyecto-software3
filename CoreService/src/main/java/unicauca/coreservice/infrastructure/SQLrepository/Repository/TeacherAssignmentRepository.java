@@ -24,7 +24,6 @@ import java.util.Objects;
 public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
     private final JPATeacherAssignmentRepository teacherAssignmentRepository;
     private final TermRepository termRepository;
-    private final FirebaseService firebaseService;
 
 
     @Override
@@ -33,8 +32,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             
             newTeacherAssignment.setId(null);
 
-            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
-                throw new NotFound("Teacher does not exist");
+//            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
+//                throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);
 
