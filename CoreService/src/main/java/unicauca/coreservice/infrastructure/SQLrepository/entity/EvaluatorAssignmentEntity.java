@@ -15,10 +15,12 @@ public class EvaluatorAssignmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "id_evaluador", nullable = false)
-    private Integer evaluatorId;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
     private RubricEntity rubric;
+
+    @Column(name = "id_evaluador", nullable = false)
+    private String evaluatorUid;
+
+
 }

@@ -92,12 +92,12 @@ public class CriterionRepository implements CriterionRepositoryOutInt {
                     .orElseThrow(() -> new NotFound("Criterion with id " + id + " was not found"));
 
             RubricEntity rubric = entity.getRubric();
-            rubric.getCriteria().remove(entity); // 🔑 eliminar del padre
+            rubric.getCriteria().remove(entity);
 
             Criterion criterion = CriterionMapper.toCriterion(entity);
             criterion.setRubric(RubricMapper.toRubric(rubric));
 
-            criterionRepository.delete(entity); // ahora JPA lo elimina
+            criterionRepository.delete(entity);
 
             return new OptionalWrapper<>(criterion);
         } catch (Exception e) {

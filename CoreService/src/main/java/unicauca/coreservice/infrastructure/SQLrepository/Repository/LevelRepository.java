@@ -29,14 +29,10 @@ public class LevelRepository implements LevelRepositoryOutInt {
 
             LevelEntity levelEntity = LevelMapper.toLevelEntity(newLevel);
 
-
-            // Obtener la entidad gestionada del Criterion
             CriterionEntity criterionEntity = criterionRepository.getReferenceById(newLevel.getCriterion().getId());
 
-            // Establecer la relación (sin modificar la lista en Criterion)
             levelEntity.setCriterion(criterionEntity);
 
-            // Guardar solo el hijo
             LevelEntity saved = levelRepository.save(levelEntity);
 
             Level level = LevelMapper.toLevel(saved);

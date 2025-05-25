@@ -24,5 +24,5 @@ public class TeacherAssignmentEntity {
     private SubjectEntity subject;
 
     @Column(nullable = false, name = "id_docente")
-    private Integer teacherId;
+    private String teacherUid;
 }
