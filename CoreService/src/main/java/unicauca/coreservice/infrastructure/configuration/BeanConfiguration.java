@@ -55,4 +55,7 @@ public class BeanConfiguration {
 
     @Bean
     public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository){return new LevelService(repository, criterionRepository);}
+
+    @Bean
+    public TeacherAssignmentInt createTeacherAssignment(TeacherAssignmentRepository repository, TermRepository termRepository, SubjectRepository subjectRepository){return new TeacherAssignmentService(repository, termRepository, subjectRepository);}
 }

@@ -1,6 +1,5 @@
 package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
@@ -18,13 +17,14 @@ import unicauca.coreservice.infrastructure.SQLrepository.mapper.TeacherAssignmen
 import unicauca.coreservice.infrastructure.SQLrepository.mapper.TermMapper;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @AllArgsConstructor
 public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
     private final JPATeacherAssignmentRepository teacherAssignmentRepository;
-    //TODO Consultarlo con julian despues
-    //private final FirebaseService firebaseService;
+    private final TermRepository termRepository;
+    private final FirebaseService firebaseService;
 
 
     @Override
@@ -33,8 +33,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             
             newTeacherAssignment.setId(null);
 
-//            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
-//                throw new NotFound("Teacher does not exist");
+            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
+                throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);
 
@@ -57,10 +57,71 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
     }
 
     @Override
+    public List<TeacherAssignment> listBySubjectId(Integer subjectId) {
+        return teacherAssignmentRepository.findAll().stream().
+                filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                .map(entity -> {
+                    TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+                    teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+                    teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+                    return teacherAssignment;
+                }).toList();
+    }
+
+    @Override
+    public List<TeacherAssignment> listByTeacherUid(String teacherUid) {
+        return teacherAssignmentRepository.findAll().stream().
+                filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
+                .map(entity -> {
+                    TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+                    teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+                    teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+                    return teacherAssignment;
+                }).toList();
+    }
+
+
+    @Override
+    public OptionalWrapper<TeacherAssignment> remove(Integer id) {
+        try{
+            TeacherAssignmentEntity entity = teacherAssignmentRepository.findById(id)
+                    .orElseThrow(() -> new NotFound("TeacherAssignment not found with id: " + id));
+
+            teacherAssignmentRepository.delete(entity);
+            TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+            teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+            teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+            return new OptionalWrapper<>(teacherAssignment);
+        } catch (Exception e) {
+            return new OptionalWrapper<>(e);
+        }
+    }
+
+    @Override
+    public OptionalWrapper<TeacherAssignment> removeByTeacherAndSubjectInActiveTerm(String teacherUid, Integer subjectId) {
+        try{
+            TeacherAssignmentEntity entity = teacherAssignmentRepository.findAll().stream()
+                    .filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
+                    .filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                    .findFirst()
+                    .orElseThrow(() -> new NotFound("TeacherAssignment not found with teacherUid: " + teacherUid + " and subjectId: " + subjectId));
+
+            teacherAssignmentRepository.delete(entity);
+            TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+            teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+            teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+            return new OptionalWrapper<>(teacherAssignment);
+        } catch (Exception e) {
+            return new OptionalWrapper<>(e);
+        }
+    }
+
+
+    @Override
     public OptionalWrapper<TeacherAssignment> getById(Integer id) {
         try{
             TeacherAssignmentEntity entity = teacherAssignmentRepository.findById(id)
-                    .orElseThrow(() -> new Exception("TeacherAssignment not found with id: " + id));
+                    .orElseThrow(() -> new NotFound("TeacherAssignment not found with id: " + id));
 
             TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
             teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
@@ -72,25 +133,35 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
     }
 
     @Override
-    public List<TeacherAssignment> listByTermId(Integer termId) {
-            return teacherAssignmentRepository.findAll().stream().
-                    filter(ta -> ta.getTerm() != null && ta.getTerm().getId().equals(termId))
-                    .map(entity -> {
-                        TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
-                        teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
-                        teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
-                        return teacherAssignment;
-                    }).toList();
+    public OptionalWrapper<TeacherAssignment> getByTeacherAndSubjectInActiveTerm(String teacherUid, Integer subjectId) {
+        try{
+            TeacherAssignmentEntity entity = teacherAssignmentRepository.findAll().stream()
+                    .filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
+                    .filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                    .findFirst()
+                    .orElseThrow(() -> new NotFound("TeacherAssignment not found with teacherUid: " + teacherUid + " and subjectId: " + subjectId));
+
+            TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+            teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+            teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+            return new OptionalWrapper<>(teacherAssignment);
+        } catch (Exception e) {
+            return new OptionalWrapper<>(e);
+        }
     }
 
     @Override
-    public List<TeacherAssignment> listBySubjectId(Integer subjectId) {
-        return List.of();
+    public List<TeacherAssignment> listByActiveTerm() {
+        return teacherAssignmentRepository.findAll().stream().
+                filter(ta -> ta.getTerm() != null && termRepository.getActiveTerm().getValue().isPresent()
+                        && Objects.equals(ta.getTerm().getId(), termRepository.getActiveTerm().getValue().get().getId()))
+                .map(entity -> {
+                    TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+                    teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+                    teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+                    return teacherAssignment;
+                }).toList();
     }
 
 
-    @Override
-    public OptionalWrapper<TeacherAssignment> remove(Integer id) {
-        return null;
-    }
 }

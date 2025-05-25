@@ -24,8 +24,8 @@ WHERE NOT EXISTS (SELECT 1 FROM asignatura WHERE name = 'Estructuras de Datos');
 -- Insertar asignaciones docentes con validación
 INSERT INTO asignacion_docente (id_periodo, id_asignatura, id_docente)
 SELECT 1, 1, 1
-WHERE NOT EXISTS (SELECT 1 FROM asignacion_docente WHERE id_periodo = 1 AND id_asignatura = 1 AND id_docente = 1);
+WHERE NOT EXISTS (SELECT 1 FROM asignacion_docente WHERE id_periodo = 1 AND id_asignatura = 1 AND id_docente = '1xd');
 
 INSERT INTO asignacion_docente (id_periodo, id_asignatura, id_docente)
 SELECT 1, 2, 2
-WHERE NOT EXISTS (SELECT 1 FROM asignacion_docente WHERE id_periodo = 1 AND id_asignatura = 2 AND id_docente = 2);
+WHERE NOT EXISTS (SELECT 1 FROM asignacion_docente WHERE id_periodo = 1 AND id_asignatura = 2 AND id_docente = '1xs');

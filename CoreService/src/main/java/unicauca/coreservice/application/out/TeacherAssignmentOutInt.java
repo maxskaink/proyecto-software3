@@ -24,12 +24,20 @@ public interface TeacherAssignmentOutInt {
     OptionalWrapper<TeacherAssignment> getById(Integer id);
 
     /**
-     * Lists all TeacherAssignments associated with a specific term ID.
+     * Retrieves a TeacherAssignment by its teacher UID and subject ID in the active term.
      *
-     * @param termId The ID of the term for which to list TeacherAssignments.
-     * @return An OptionalWrapper containing a list of TeacherAssignments or an exception if the operation fails.
+     * @param teacherUid The UID of the teacher.
+     * @param subjectId The ID of the subject.
+     * @return An OptionalWrapper containing the TeacherAssignment or an exception if not found.
      */
-    List<TeacherAssignment> listByTermId(Integer termId);
+    OptionalWrapper<TeacherAssignment> getByTeacherAndSubjectInActiveTerm(String teacherUid, Integer subjectId);
+
+    /**
+     * Lists all TeacherAssignments associated with the active term.
+     * 
+     * @return A list of TeacherAssignments associated with the active term.
+     */
+    List<TeacherAssignment> listByActiveTerm();
 
     /**
      * List all TeacherAssignments associated with a specific subject ID.
@@ -40,11 +48,27 @@ public interface TeacherAssignmentOutInt {
     List<TeacherAssignment> listBySubjectId(Integer subjectId);
 
     /**
+     * Lists all TeacherAssignments associated with a specific teacher UID.
+     * 
+     * @param teacherUid The UID of the teacher for which to list TeacherAssignments.
+     * @return An OptionalWrapper containing a list of TeacherAssignments or an exception if the operation fails.
+     */
+    List<TeacherAssignment> listByTeacherUid(String teacherUid);
+
+    /**
      * Removes a TeacherAssignment from the repository.
      * 
      * @param id The ID of the TeacherAssignment to remove.
      * @return An OptionalWrapper containing the removed TeacherAssignment or an exception if the operation fails.
      */
-    OptionalWrapper<TeacherAssignment> remove(Integer id);  
+    OptionalWrapper<TeacherAssignment> remove(Integer id);
 
+    /**
+     * Removes a TeacherAssignment by its teacher UID and subject ID in the active term.
+     * 
+     * @param teacherUid The UID of the teacher.
+     * @param subjectId The ID of the subject.
+     * @return An OptionalWrapper containing the removed TeacherAssignment or an exception if the operation fails.
+     */
+    OptionalWrapper<TeacherAssignment> removeByTeacherAndSubjectInActiveTerm(String teacherUid, Integer subjectId);
 }

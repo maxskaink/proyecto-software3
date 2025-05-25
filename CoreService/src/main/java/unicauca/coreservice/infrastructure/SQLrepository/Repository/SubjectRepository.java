@@ -1,6 +1,8 @@
 package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 
 import lombok.AllArgsConstructor;
+
+
 import org.springframework.stereotype.Repository;
 import unicauca.coreservice.application.out.SubjectRepositoryOutInt;
 import unicauca.coreservice.domain.model.Subject;
@@ -31,21 +33,37 @@ public class SubjectRepository implements SubjectRepositoryOutInt {
 
     @Override
     public List<Subject> listAll() {
-        return List.of();
+        return subjectRepository.findAll().stream()
+                .map(SubjectMapper::toSubject)
+                .toList();
     }
 
     @Override
     public OptionalWrapper<Subject> getById(Integer id) {
-        return null;
+        return subjectRepository.findById(id)
+                .map(SubjectMapper::toSubject)
+                .map(OptionalWrapper::new)
+                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
     }
 
     @Override
     public OptionalWrapper<Subject> update(Integer id, Subject newSubject) {
-        return null;
+        return subjectRepository.findById(id)
+                .map(entity -> {
+                    newSubject.setId(id);
+                    SubjectEntity result = this.subjectRepository.save(SubjectMapper.toSubjectEntity(newSubject));
+                    return new OptionalWrapper<>(SubjectMapper.toSubject(result));
+                })
+                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
     }
 
     @Override
     public OptionalWrapper<Subject> remove(Integer id) {
-        return null;
+        return subjectRepository.findById(id)
+                .map(entity -> {
+                    subjectRepository.delete(entity);
+                    return new OptionalWrapper<>(SubjectMapper.toSubject(entity));
+                })
+                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
     }
 }
