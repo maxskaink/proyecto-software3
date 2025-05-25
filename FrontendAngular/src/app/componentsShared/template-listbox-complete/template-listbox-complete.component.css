@@ -1,0 +1,23 @@
+.my-4{
+    width: 40%;
+    margin-left: 10%;
+    height: 3px;               /* Grosor de la línea */
+    background-color: #000000;    /* Color de la línea */
+    border: none;       
+}
+.list__Box{
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+.selector_option{
+    color: grey;
+    
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.selector_option:hover{
+    color: #1E1E1E;
+    background-color: #B1DFC0;
+    
+    
+}

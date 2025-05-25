@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 export class TemplateListboxCompleteComponent {
   textBlock= [
     {
-      title: 'lisstar competencias',
+      title: 'listar competencias',
       description: 'En esta sección se encontrarán las competencias de programa que hayas creado'
     },
     {
