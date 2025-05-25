@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MoleculeSearchBarComponent } from '../molecule-search-bar/molecule-search-bar.component';
-import { ProgramCompetencyService } from '../../services/program-competency.service';
+
 
 @Component({
   selector: 'app-template-block-grid',
@@ -11,8 +11,9 @@ import { ProgramCompetencyService } from '../../services/program-competency.serv
 })
 export class TemplateBlockGridComponent implements OnInit {
   wordSearch: string = ';';
+  @Input() listBlocks: any; 
   
-  constructor(private serviceCompProgram: ProgramCompetencyService) {}
+  constructor() {}
 
   ngOnInit(): void {
     // lógica de inicialización
@@ -21,7 +22,5 @@ export class TemplateBlockGridComponent implements OnInit {
   onSearch(value: string): void {
     this.wordSearch = value;
   }
-  getCompetencyProgram(): void{
-    this.serviceCompProgram.getAll
-  }
+ 
 }
