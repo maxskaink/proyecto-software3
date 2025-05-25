@@ -7,7 +7,8 @@ import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-bloc
 import { CommonModule } from '@angular/common';
 import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
-import { SubjectCompetency } from '../../models/SubjectDTO';
+import { SubjectCompetency } from '../../models/SubjectCompetency';
+
 
 @Component({
     selector: 'app-asignature',

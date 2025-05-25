@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { SubjectCompetency } from '../models/SubjectDTO';
+
 import { ErrorResponse } from '../models/ErrorDTO';
+import { SubjectCompetency } from '../models/SubjectCompetency';
 
 @Injectable({
   providedIn: 'root'

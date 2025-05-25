@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MoleculeOutComeComponent } from '../molecule-out-come/molecule-out-come.component';
-import { SubjectCompetency, SubjectOutcome } from '../../models/SubjectDTO';
+
 import { SubjectOutomeService } from '../../services/subject_outcome.service';
 import { ProgramCompetencyService } from '../../services/program-competency.service';
+import { SubjectCompetency } from '../../models/SubjectCompetency';
+import { SubjectOutcome } from '../../models/SubjectOutcome';
 
 @Component({
     selector: 'app-moleculue-competency-section',

@@ -1,10 +1,10 @@
 import { CriterionDTO } from "./CirterionDTO";
-import { OutCome } from "./SubjectOutcomeDTO";
+import { SubjectOutcome } from "./SubjectOutcome";
 
 export interface RubricDTO{
     id: number,
     description: string,
-    subjectOutcome: OutCome,
+    subjectOutcome: SubjectOutcome,
     criteria: CriterionDTO[]
 
 }

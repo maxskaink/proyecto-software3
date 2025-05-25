@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SubjectOutcome } from '../../models/SubjectDTO';
+import { SubjectOutcome } from '../../models/SubjectOutcome';
+
 
 @Component({
   selector: 'app-molecule-out-come',

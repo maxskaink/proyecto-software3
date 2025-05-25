@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { SubjectOutcome } from '../models/SubjectDTO';
+
 import { ErrorResponse } from '../models/ErrorDTO';
+import { SubjectOutcome } from '../models/SubjectOutcome';
 
 @Injectable({ providedIn: 'root' })
 export class SubjectOutomeService {

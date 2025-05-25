@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MoleculeSearchBarComponent } from '../molecule-search-bar/molecule-search-bar.component';
+import { ProgramCompetencyService } from '../../services/program-competency.service';
 
 @Component({
   selector: 'app-template-block-grid',
@@ -8,6 +9,19 @@ import { MoleculeSearchBarComponent } from '../molecule-search-bar/molecule-sear
   templateUrl: './template-block-grid.component.html',
   styleUrl: './template-block-grid.component.css'
 })
-export class TemplateBlockGridComponent {
+export class TemplateBlockGridComponent implements OnInit {
+  wordSearch: string = ';';
+  
+  constructor(private serviceCompProgram: ProgramCompetencyService) {}
 
+  ngOnInit(): void {
+    // lógica de inicialización
+  }
+
+  onSearch(value: string): void {
+    this.wordSearch = value;
+  }
+  getCompetencyProgram(): void{
+    this.serviceCompProgram.getAll
+  }
 }
