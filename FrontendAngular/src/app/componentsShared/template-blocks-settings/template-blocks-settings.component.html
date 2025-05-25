@@ -3,7 +3,8 @@
       <div class="col-12 col-lg-4" *ngFor="let block of configBlocks">
         <app-molecule-block-configuration
           [title]="block.title"
-          [description]="block.description">
+          [description]="block.description"
+          [route] = "block.route">
         </app-molecule-block-configuration>
       </div>
     </div>

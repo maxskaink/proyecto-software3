@@ -14,15 +14,18 @@ export class SettingsComponent {
   configBlocks = [
     {
       title: 'Programa',
-      description: 'En esta sección podrás listar y crear competencias de programa'
+      description: 'En esta sección podrás listar y crear competencias de programa',
+      route: 'settings/competencyProgram'
     },
     {
       title: 'Asignatura',
-      description: 'En esta sección podrás listar y crear competencias de asignatura'
+      description: 'En esta sección podrás listar y crear competencias de asignatura',
+      route: ''
     },
     {
       title: 'Docentes',
-      description: 'En esta sección podrás listar y crear competencias de docentes'
+      description: 'En esta sección podrás listar y crear competencias de docentes',
+      route: ''
     }
   ];
 }

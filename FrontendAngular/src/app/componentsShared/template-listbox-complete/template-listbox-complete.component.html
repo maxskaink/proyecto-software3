@@ -1,0 +1,11 @@
+<hr class="my-4">
+<section class="container">
+  <div class="row g-4">
+    <div class="col-12 col-lg-6" *ngFor="let block of textBlock">
+      <div class="p-4 rounded-4 bg-success-subtle h-100">
+        <h2 class="fw-bold">{{ block.title }}</h2>
+        <p>{{ block.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

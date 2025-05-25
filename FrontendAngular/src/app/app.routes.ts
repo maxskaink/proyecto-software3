@@ -3,6 +3,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AsignatureComponent } from './components/asignature/asignature.component';
 import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SettingsCompProgramComponent } from './components/settings-comp-program/settings-comp-program.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -10,5 +11,6 @@ export const routes: Routes = [
   {path: 'access-denied', component: LoginComponent, data: { accessDenied: true }},
   {path: 'home', component: HomeComponent},
   {path: 'asignatures/:id', component: AsignatureComponent},
-  {path: 'settings', component:SettingsComponent}
+  {path: 'settings', component:SettingsComponent},
+  {path: 'settings/competencyProgram', component: SettingsCompProgramComponent}
 ];

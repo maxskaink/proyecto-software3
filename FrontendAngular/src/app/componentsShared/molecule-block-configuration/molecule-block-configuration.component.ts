@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-molecule-block-configuration',
@@ -11,7 +12,11 @@ export class MoleculeBlockConfigurationComponent {
 
   @Input() title: string = '';
   @Input() description: string = '';
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
-
-  
+  @Input() route: string='';
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {}
+  navigateToRoute() {
+    if (this.route) {
+      this.router.navigate([this.route]);
+    }
+  }
 }
