@@ -1,9 +1,10 @@
-.input__description{
-    height: 100px;
-    background-color: antiquewhite;
 
-}
 .title{
     padding-left: 10%;
     font-size: 60px;
+}
+.input_size{
+    height: 10rem;
+    width: 50%;
+    margin-left: 10% ;
 }
