@@ -41,6 +41,7 @@ export class AsignatureComponent {
         this.loadCompetencies();
       }
     }
+    console.log(this.title)
   }
 
   getAsignatureID(id: number): void {

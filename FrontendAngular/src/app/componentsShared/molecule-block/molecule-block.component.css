@@ -4,19 +4,20 @@
   color: white;
   cursor: pointer;
 }
-.cardBody {
-  width: 370px;
+.card__Body_small {
+  width: 400px;
   height: 100%;
   
 }
-.cardBody p{
+
+.card__Body p{
   display: flex;
   align-items: center;
   flex-direction: row;
   padding: 5%;
   font-weight: 1000;
 }
-.blockTitleCard {
+.Card__blockTitle {
     width: 100%;
     height: 30%;
     margin: 0 auto;
@@ -26,8 +27,10 @@
     padding-left: 5%;
 }
 
+
 .divider {
   background-color: white; /* Color blanco */
   height: 10px;           /* Grosor de la línea (ajústalo a tu preferencia) */
   margin-top:-1px ;
 }
+

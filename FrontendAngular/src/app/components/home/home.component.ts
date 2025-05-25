@@ -27,8 +27,8 @@ import { AsignatureService } from '../../services/subject.service';
 })
 export class HomeComponent implements OnInit{
 
-  asignatures: (SubjectDTO & { titleColor: string; bodyColor: string })[] = [];
-  asignaturesFilters: (SubjectDTO & { titleColor: string; bodyColor: string })[] = [];
+  asignatures: (SubjectDTO )[] = [];
+  asignaturesFilters: (SubjectDTO )[] = [];
   wordSearch: string = '';
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
 
@@ -38,23 +38,16 @@ export class HomeComponent implements OnInit{
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const colors2 = [
-      { titleColor: '#60315C', bodyColor: '#8D538C' },
-      { titleColor: '#3C866A', bodyColor: '#5E9E73' },
-      { titleColor: '#4E4D6E', bodyColor: '#7474BB' }
-    ];
-    this.getAsignature(colors2);
+
+    this.getAsignature();
     this.asignaturesFilters = [...this.asignatures];
 
  }
- getAsignature(colors2: any): void{
+ getAsignature(): void{
   this.asignatureService.getAsignature().subscribe(data => {
-    this.asignatures = data.map(asignature => {
-      const randomColor = colors2[Math.floor(Math.random() * colors2.length)];
+    this.asignatures = data.map(asignature => {     
       return {
         ...asignature,
-        titleColor: randomColor.titleColor,
-        bodyColor: randomColor.bodyColor
       };
     });
   });
