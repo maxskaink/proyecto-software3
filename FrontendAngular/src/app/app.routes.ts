@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsCompProgramComponent } from './components/settings-comp-program/settings-comp-program.component';
 import { SettingsAsignatureComponent } from './components/settings-asignature/settings-asignature.component';
+import { SettingsTeachersComponent } from './components/settings-teachers/settings-teachers.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -14,5 +15,6 @@ export const routes: Routes = [
   {path: 'asignatures/:id', component: AsignatureComponent},
   {path: 'settings', component:SettingsComponent},
   {path: 'settings/competencyProgram', component: SettingsCompProgramComponent},
-  {path: 'settings/asignatures', component: SettingsAsignatureComponent}
+  {path: 'settings/asignatures', component: SettingsAsignatureComponent},
+  {path: 'settings/teacher', component: SettingsTeachersComponent}
 ];

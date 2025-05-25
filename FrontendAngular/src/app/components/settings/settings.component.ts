@@ -25,7 +25,7 @@ export class SettingsComponent {
     {
       title: 'Docentes',
       description: 'En esta sección podrás listar y crear competencias de docentes',
-      route: ''
+      route: 'settings/teacher'
     }
   ];
 }
