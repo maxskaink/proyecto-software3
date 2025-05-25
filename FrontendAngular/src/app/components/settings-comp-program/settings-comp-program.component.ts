@@ -16,11 +16,20 @@ import { subscribe } from 'diagnostics_channel';
 })
 export class SettingsCompProgramComponent implements OnInit {
   listCompetency: ProgramCompetency[] = [];
-
+  textBlock= [
+    {
+      title: 'listar competencias',
+      description: 'En esta sección se encontrarán las competencias de programa que hayas creado'
+    },
+    {
+      title: 'Crear competencias',
+      description: 'Crea las competencias de programa que necesites'
+    },
+  ];
   constructor(private serviceProgCompetency: ProgramCompetencyService) {}
 
   ngOnInit(): void {
-    this.getCompetency();
+    //this.getCompetency();
   }
 
   getCompetency(): void {

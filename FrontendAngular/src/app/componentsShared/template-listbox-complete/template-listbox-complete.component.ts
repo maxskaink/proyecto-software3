@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-template-listbox-complete',
@@ -8,14 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './template-listbox-complete.component.css'
 })
 export class TemplateListboxCompleteComponent {
-  textBlock= [
-    {
-      title: 'listar competencias',
-      description: 'En esta sección se encontrarán las competencias de programa que hayas creado'
-    },
-    {
-      title: 'Crear competencias',
-      description: 'Crea las competencias de programa que necesites'
-    },
-  ];
+  @Input() textBlock: any;
 }
