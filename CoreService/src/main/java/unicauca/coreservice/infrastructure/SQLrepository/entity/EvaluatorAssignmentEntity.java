@@ -16,8 +16,8 @@ public class EvaluatorAssignmentEntity {
     private Integer id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_rubrica", referencedColumnName = "id")
-    private RubricEntity rubric;
+    @JoinColumn(name = "id_ra", referencedColumnName = "id")
+    private SubjectOutcomeEntity subjectOutcome;
 
     @Column(name = "id_evaluador", nullable = false)
     private String evaluatorUid;

@@ -20,7 +20,8 @@ public class SubjectOutcomeMapper {
                 new SubjectOutcome(
                         subjectOutcomeEntity.getId(),
                         subjectOutcomeEntity.getDescription(),
-                        RubricMapper.toRubric(subjectOutcomeEntity.getRubric())
+                        RubricMapper.toRubric(subjectOutcomeEntity.getRubric()),
+                        CompetencyToSubjectAssigmentMapper.toSubjectCompetencyAssignment(subjectOutcomeEntity.getCompetencyAssignment())
                 );
     }
 }

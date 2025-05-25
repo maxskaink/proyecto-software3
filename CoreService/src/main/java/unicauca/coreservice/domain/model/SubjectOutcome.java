@@ -12,6 +12,7 @@ public class SubjectOutcome {
     private Integer id;
     private String description;
     private Rubric rubric;
+    private CompetencyToSubjectAssignment competencyAssignment;
 
 
     public void setDescription(String description){
