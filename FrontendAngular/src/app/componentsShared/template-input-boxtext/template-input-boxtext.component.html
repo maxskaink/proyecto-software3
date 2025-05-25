@@ -1,5 +1,6 @@
 <p>{{description}}</p>
-<input class="input__box" type="text">
+<input class="input__box" type="text"  [(ngModel)]="inputValue" (blur)="onBlur()">
+<p *ngIf="touched && !inputValue.trim()" class="error-message">Este campo es obligatorio</p>
 <div>
     <button class="button_save">Guardar</button>
     <button class="buton_cancel">Cancelar</button>

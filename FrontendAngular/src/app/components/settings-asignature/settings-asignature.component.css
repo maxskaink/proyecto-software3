@@ -6,8 +6,17 @@
     padding-left: 10%;
     font-size: 60px;
 }
-.input_size{
-    height: 10rem;
+.section_input_size{
+    padding-top: 5%;
+    margin-bottom: 15%;
+    height: 30rem;
     width: 70%;
     margin-left: 10% ;
+}
+.my-4{
+    width: 40%;
+    height: 3px;     
+    margin-left: 10% ;          /* Grosor de la línea */
+    background-color: #000000;    /* Color de la línea */
+    border: none;       
 }
