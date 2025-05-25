@@ -3,7 +3,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: row;
-    gap: 10%;
+    gap: 5%;
   }
 .card-item{
     height: 100vh;

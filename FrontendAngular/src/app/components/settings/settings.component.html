@@ -2,39 +2,10 @@
 <div class="full-screen-settings">
     <app-molecule-back-header>
     </app-molecule-back-header>
-    <div>
-        <div class="card-item ">
-            <app-molecule-block
-            [title]="'Programa'"
-            [description]="'En esta seccion 
-            podras listar y crear 
-            competencias de programa'"
+    <app-template-blocks-settings
+    [configBlocks] = "configBlocks">
 
-            >
-        </app-molecule-block>
-        </div>
-    </div> 
-    <div>
-        <div class="card-item ">
-            <app-molecule-block
-            [title]="'Asignatura'"
-            [description]="'En esta seccion 
-            podras listar y crear 
-            competencias de programa'"
-     
-            >
-        </app-molecule-block>
-        </div>
-    </div>
-    <div>
-        <div class="card-item ">
-            <app-molecule-block
-            [title]="'Docentes'"
-            [description]="'En esta seccion 
-            podras listar y crear 
-            competencias de programa'"
-            >
-        </app-molecule-block>
-        </div>
-    </div>
+    </app-template-blocks-settings>
+   
+    
 </div>

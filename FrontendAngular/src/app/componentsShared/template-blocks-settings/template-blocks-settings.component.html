@@ -1,0 +1,9 @@
+<section class="container-fluid d-flex body_template ">
+    <div class="row g-5  flex-grow-1">
+      <div class="col-12 col-lg-4" *ngFor="let block of configBlocks">
+        <app-molecule-block-configuration
+          [title]="block.title"
+          [description]="block.description">
+        </app-molecule-block-configuration>
+      </div>
+    </div>
