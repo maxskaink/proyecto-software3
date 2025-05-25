@@ -4,16 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.firebase.auth.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.auth.AuthErrorCode;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
 
 import unicauca.coreservice.application.out.ISecurityService;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
@@ -25,6 +22,8 @@ import unicauca.coreservice.domain.model.SubjectOutcome;
 import unicauca.coreservice.domain.model.Term;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.TeacherAssignmentRepository;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 @AllArgsConstructor
@@ -121,5 +120,16 @@ public class FirebaseService implements ISecurityService {
         // 3. If it has assigment to the outcome
         return evaluatorAssignmentRepository.findAll().stream()
                 .anyMatch(ea -> ea.getSubjectOutcome().getId().equals(subjectOutcomeId));
+    }
+
+    @Override
+    public String extractUidFromRequest(HttpServletRequest request) throws Exception {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new InvalidValue("No se encontró el token de autenticación");
+        }
+        String token = authorizationHeader.substring(7);
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+        return decodedToken.getUid();
     }
 }

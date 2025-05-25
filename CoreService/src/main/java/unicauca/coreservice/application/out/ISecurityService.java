@@ -1,5 +1,7 @@
 package unicauca.coreservice.application.out;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface ISecurityService {
     /**
      * Assigns a role to a user identified by its unique identifier.
@@ -43,4 +45,12 @@ public interface ISecurityService {
      * @throws Exception Depends on the technology to use.
      */
     boolean canAccessSubjectOutcome(String uid, Integer subjectOutcomeId) throws Exception;
+
+    /**
+     * Extract IUD from the request
+     * @param request request to extract the token
+     * @return the UID extracted
+     * @throws Exception Depends on the technology to use.
+     */
+    String extractUidFromRequest(HttpServletRequest request) throws Exception;
 }
