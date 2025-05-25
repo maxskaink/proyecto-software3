@@ -3,11 +3,11 @@ package unicauca.coreservice.infrastructure.SQLrepository.Repository;
 import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
+import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.TeacherAssignment;
-import unicauca.coreservice.infrastructure.security.FirebaseService;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPATeacherAssignmentRepository;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.TeacherAssignmentEntity;
@@ -24,6 +24,7 @@ import java.util.Objects;
 public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
     private final JPATeacherAssignmentRepository teacherAssignmentRepository;
     private final TermRepository termRepository;
+    private final IAuthenticationService firebaseService;
 
 
     @Override
@@ -32,8 +33,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             
             newTeacherAssignment.setId(null);
 
-//            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
-//                throw new NotFound("Teacher does not exist");
+            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
+                throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);
 

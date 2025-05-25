@@ -1,5 +1,6 @@
 package unicauca.coreservice.infrastructure.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,18 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import unicauca.coreservice.infrastructure.security.FirebaseService;
+import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.infrastructure.dto.UserRoleDTO;
 
 @RestController
 @RequestMapping("/roles")
+@AllArgsConstructor
 public class UserRoleController {
 
-    private final FirebaseService firebaseService;
-
-    public UserRoleController(FirebaseService firebaseService) {
-        this.firebaseService = firebaseService;
-    }
+    private final IAuthenticationService firebaseService;
 
     @PostMapping("/assign")
     public ResponseEntity<?> assignRole(@RequestBody UserRoleDTO request) 

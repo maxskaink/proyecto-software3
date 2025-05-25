@@ -2,7 +2,7 @@ package unicauca.coreservice.application.out;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface ISecurityService {
+public interface IAuthenticationService {
     /**
      * Assigns a role to a user identified by its unique identifier.
      * @param uid uid of the user to be assigned a role.
@@ -28,29 +28,11 @@ public interface ISecurityService {
     boolean isCoordinator(String uid) throws Exception;
 
     /**
-     * Returns true if the user identified by its unique identifier has the role "Teacher" and
-     * has access to the subject, or it is "Coordinator"
-     * @param uid uid of the user to be validated.
-     * @param subjectId id of the subject to be validated.
-     * @return true if the user has the role "Teacher" and has access to the subject, or it is "Coordinator", false otherwise.
-     * @throws Exception Depends on the technology to use.
-     */
-    boolean canAccessSubject(String uid, Integer subjectId) throws Exception;
-
-    /**
-     * Returns true if the user identified by its unique identifier has the role "Teacher"
-     * @param uid uid of the user to be validated.
-     * @param subjectOutcomeId id of the subject outcome to be validated.
-     * @return true if the user has the role "Teacher" and has access to the subject outcome, false otherwise.
-     * @throws Exception Depends on the technology to use.
-     */
-    boolean canAccessSubjectOutcome(String uid, Integer subjectOutcomeId) throws Exception;
-
-    /**
      * Extract IUD from the request
      * @param request request to extract the token
      * @return the UID extracted
      * @throws Exception Depends on the technology to use.
      */
     String extractUidFromRequest(HttpServletRequest request) throws Exception;
+
 }
