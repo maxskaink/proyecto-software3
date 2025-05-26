@@ -259,7 +259,7 @@ class ProgramCompetencyAndOutcomeServiceTest {
         service.add(competency);
         List<ProgramOutcome> outcomes = service.listAllProgramOutcomes();
         ProgramOutcome firstOutcome = outcomes.getFirst();
-        ProgramOutcome result = service.updateProgramOutcome(firstOutcome.getId(), outcome);
+        ProgramOutcome result = service.updateProgramOutcome(firstOutcome.getId(), outcome, );
 
         // Assert
         assertNotNull(result);
@@ -273,7 +273,7 @@ class ProgramCompetencyAndOutcomeServiceTest {
         ProgramOutcome outcome = new ProgramOutcome(1, "Test Outcome");
         
         // Act & Assert
-        Exception exception = assertThrows(InvalidValue.class, () -> service.updateProgramOutcome(null, outcome));
+        Exception exception = assertThrows(InvalidValue.class, () -> service.updateProgramOutcome(null, outcome, ));
         
         assertEquals("The id is not valid, it can not be null", exception.getMessage());
     }
@@ -281,7 +281,7 @@ class ProgramCompetencyAndOutcomeServiceTest {
     @Test
     void updateProgramOutcome_shouldThrowExceptionWhenOutcomeIsNull() {
         // Act & Assert
-        Exception exception = assertThrows(InvalidValue.class, () -> service.updateProgramOutcome(1, null));
+        Exception exception = assertThrows(InvalidValue.class, () -> service.updateProgramOutcome(1, null, ));
         
         assertEquals("Instance of outcome is invalid, it can not be null", exception.getMessage());
     }

@@ -3,10 +3,7 @@ package unicauca.coreservice.infrastructure.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import unicauca.coreservice.application.in.*;
-import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
-import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositoryOutInt;
-import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
-import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
+import unicauca.coreservice.application.out.*;
 import unicauca.coreservice.domain.useCases.*;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.*;
 
@@ -15,9 +12,10 @@ public class BeanConfiguration {
 
     @Bean
     public ProgramCompetencyAndOutcomeInt createProgramCompetencyAndOutcome(
-            ProgramCompetencyAndOutcomeRepositoryOutInt repository
+            ProgramCompetencyAndOutcomeRepositoryOutInt repository,
+            IAuthenticationService authenticationService
     ){
-        return new ProgramCompetencyAndOutcomeService(repository);
+        return new ProgramCompetencyAndOutcomeService(repository, authenticationService);
     }
 
     @Bean

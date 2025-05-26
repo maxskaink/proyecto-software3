@@ -11,6 +11,7 @@ import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.NotFound;
+import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +79,11 @@ public class AuthenticationService implements IAuthenticationService {
             throw new InvalidValue("No se encontró el token de autenticación");
         }
         String token = authorizationHeader.substring(7);
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-        return decodedToken.getUid();
+        try{
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+            return decodedToken.getUid();
+        } catch (FirebaseAuthException e) {
+            throw new Unauthorized("Your token is invalid: " + e.getErrorCode() + " (" + e.getMessage() + ")");
+        }
     }
 }
