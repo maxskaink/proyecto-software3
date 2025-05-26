@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicauca.coreservice.application.in.SubjectOutcomeInt;
+import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -14,17 +16,21 @@ import java.util.List;
 public class SubjectOutcomeController {
 
     private final SubjectOutcomeInt serviceSubjectOutcome;
+    private final IAuthenticationService authenticationService;
 
     @PostMapping("/{subjectId}/competency/{competencyId}/outcome")
     public ResponseEntity<SubjectOutcome> addSubjectOutcome(
             @PathVariable Integer competencyId,
             @PathVariable Integer subjectId,
-            @RequestBody SubjectOutcome newSubjectOutcome
+            @RequestBody SubjectOutcome newSubjectOutcome,
+            HttpServletRequest request
     ) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
         SubjectOutcome response = serviceSubjectOutcome.addSubjectOutcome(
                 newSubjectOutcome, 
                 competencyId, 
-                subjectId
+                subjectId,
+                uid
         );
         return ResponseEntity.ok(response);
     }
@@ -32,50 +38,60 @@ public class SubjectOutcomeController {
     @GetMapping("/{subjectId}/outcome")
     public ResponseEntity<List<SubjectOutcome>> listAll(
             @PathVariable Integer subjectId,
-            @RequestParam(defaultValue="true") boolean activeTerm
-    ) {
+            @RequestParam(defaultValue="true") boolean activeTerm,
+            HttpServletRequest request
+    ) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
         if(activeTerm)
             return ResponseEntity.ok(
-                    serviceSubjectOutcome.listAllInCurrentTerm(subjectId)
+                    serviceSubjectOutcome.listAllInCurrentTerm(subjectId,uid)
             );
         else
             return ResponseEntity.ok(
-                    serviceSubjectOutcome.listAll(subjectId)
+                    serviceSubjectOutcome.listAll(subjectId,uid)
             );
     }
 
     @GetMapping("/competency/{competencyId}/outcome")
     public ResponseEntity<List<SubjectOutcome>> listAllByCompetencyId(
-            @PathVariable Integer competencyId
-    ) {
+            @PathVariable Integer competencyId,
+            HttpServletRequest request
+    ) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
         return ResponseEntity.ok(
-                serviceSubjectOutcome.listAllByCompetencyId(competencyId)
+                serviceSubjectOutcome.listAllByCompetencyId(competencyId, uid)
         );
     }
 
     @GetMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> getById(
-            @PathVariable Integer id
+            @PathVariable Integer id,
+            HttpServletRequest request
     ) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
         return ResponseEntity.ok(
-                serviceSubjectOutcome.getById(id)
+                serviceSubjectOutcome.getById(id,uid)
         );
     }
 
     @PutMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> update(
             @PathVariable Integer id,
-            @RequestBody SubjectOutcome newSubjectOutcome
+            @RequestBody SubjectOutcome newSubjectOutcome,
+            HttpServletRequest request
     ) throws Exception {
-        SubjectOutcome response = serviceSubjectOutcome.update(id, newSubjectOutcome);
+        String uid = authenticationService.extractUidFromRequest(request);
+        SubjectOutcome response = serviceSubjectOutcome.update(id, newSubjectOutcome, uid);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/outcome/{id}")
     public ResponseEntity<SubjectOutcome> remove(
-            @PathVariable Integer id
+            @PathVariable Integer id,
+            HttpServletRequest request
     ) throws Exception {
-        SubjectOutcome response = serviceSubjectOutcome.remove(id);
+        String uid = authenticationService.extractUidFromRequest(request);
+        SubjectOutcome response = serviceSubjectOutcome.remove(id,uid);
         return ResponseEntity.ok(response);
     }
 
@@ -83,9 +99,11 @@ public class SubjectOutcomeController {
     public ResponseEntity<SubjectOutcome> copy(
             @PathVariable Integer outcomeId,
             @PathVariable Integer competencyId,
-            @PathVariable Integer subjectId
+            @PathVariable Integer subjectId,
+            HttpServletRequest request
     ) throws Exception {
-        SubjectOutcome response = serviceSubjectOutcome.copy(outcomeId, competencyId, subjectId);
+        String uid = authenticationService.extractUidFromRequest(request);
+        SubjectOutcome response = serviceSubjectOutcome.copy(outcomeId, competencyId, subjectId, uid);
         return ResponseEntity.ok(response);
     }
 }

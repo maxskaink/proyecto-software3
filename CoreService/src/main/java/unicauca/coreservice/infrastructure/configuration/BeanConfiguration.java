@@ -36,10 +36,14 @@ public class BeanConfiguration {
 
     @Bean
     public SubjectOutcomeService createSubjectOutcome(
-            SubjectOutcomeRepositoryOutInt repositorySubjectOutcome
+            SubjectOutcomeRepositoryOutInt repositorySubjectOutcome,
+            CompetencyToSubjectAssignmentRepositoryOutInt assignmentCompetencyRepository,
+            IAuthorizationService authorizationServic
     ){
         return new SubjectOutcomeService(
-                repositorySubjectOutcome
+                repositorySubjectOutcome,
+                assignmentCompetencyRepository,
+                authorizationServic
         );
     }
 

@@ -55,7 +55,7 @@ public interface SubjectOutcomeInt {
             Integer subjectId,
             @NotNull(message = "The uid can not be null")
             String uid
-    );
+    ) throws Exception;
 
     /**
      * Retrieves a list of SubjectOutcome associated with a specific SubjectCompetency in the actual period.
@@ -69,7 +69,7 @@ public interface SubjectOutcomeInt {
             Integer competencyId,
             @NotNull(message = "The uid can not be null")
             String uid
-    );
+    ) throws Exception;
 
     /**
      * Retrieves an SubjectOutcome entity by its unique identifier.
