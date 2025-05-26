@@ -1,12 +1,12 @@
 package unicauca.coreservice.domain.useCases;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
-import unicauca.coreservice.application.out.CompetencyToSubjectAssignmentRepositoryOutInt;
-import unicauca.coreservice.application.out.SubjectCompetencyRepositoryOutInt;
-import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
+import unicauca.coreservice.application.out.*;
 import unicauca.coreservice.domain.exception.NotFound;
+import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.domain.model.*;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
@@ -19,17 +19,24 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     private final CompetencyToSubjectAssignmentRepositoryOutInt assignRepository;
     private final TermRepository termRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
+    private final IAuthenticationService authenticationService;
+    private final IAuthorizationService authorizationService;
 
     @Override
     @Transactional
     public SubjectCompetency add(
             SubjectCompetency newSubjectCompetency,
             SubjectOutcome initialOutcome,
-            Integer subjectId
-    )throws Exception {
+            Integer subjectId,
+            String uid)throws Exception {
 
         Term activeTerm = termRepository.getActiveTerm().getValue()
                 .orElseThrow(()->new RuntimeException("Active term doesnt exists"));
+        
+        //Validate authentication and authorization
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to add a new subject competency");
 
         //TODO FIX THIS LATER
         Subject subject = new Subject(subjectId, "name", "description");
@@ -62,15 +69,35 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
 
     @Override
     public List<SubjectCompetency> listAllBySubjectId(
-            Integer subjectId
-    ) {
+            Integer subjectId,
+            String uid) throws Exception {
+        //Validate authentication and authorization
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to add a new subject competency");
+
         return competencyRepository.listAllBySubjectId(subjectId);
     }
 
     @Override
     public SubjectCompetency getById(
-            Integer id
-    ) {
+            Integer id,
+            String uid) throws Exception {
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
+                .orElseThrow(assignationWrapper::getException);
+
+        Integer subjectId = assignation.getSubject().getId();
+
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to access this subject competency");
+
+        //Validate authentication and authorization
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to add a new subject competency");
+
         return competencyRepository.getById(id).getValue()
                 .orElseThrow(()->new NotFound("The competency with the id " + id + " doesnt exists"));
     }
@@ -78,8 +105,19 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Override
     public SubjectCompetency update(
             Integer id,
-            SubjectCompetency newSubjectCompetency
-    ) throws Exception {
+            SubjectCompetency newSubjectCompetency,
+            String uid) throws Exception {
+
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
+                .orElseThrow(assignationWrapper::getException);
+
+        Integer subjectId = assignation.getSubject().getId();
+
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to access this subject competency");
+
         OptionalWrapper<SubjectCompetency> response = competencyRepository.update(id, newSubjectCompetency);
 
         return response.getValue()
@@ -89,14 +127,20 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Transactional
     @Override
     public SubjectCompetency remove(
-            Integer id
-    ) throws Exception {
-        //Get the assignation of the active term
-        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper =
-                assignRepository.getByCompetencyId(id);
-
-        CompetencyToSubjectAssignment assignation= assignationWrapper.getValue()
+            Integer id,
+            String uid) throws Exception {
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
+
+        Integer subjectId = assignation.getSubject().getId();
+
+        if(!authenticationService.isCoordinator(uid))
+            if(!authorizationService.canAccessSubject(uid, subjectId))
+                throw new Unauthorized("You are not authorized to access this subject competency");
+
+
+        //Get the assignation of the active term
 
         assignation.getSubjectOutcomes().forEach(ra -> subjectOutcomeRepository.remove(ra.getId()));
         competencyRepository.remove(id);

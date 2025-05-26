@@ -23,11 +23,14 @@ public class BeanConfiguration {
             SubjectCompetencyRepositoryOutInt competencyRepository,
             CompetencyToSubjectAssignmentRepositoryOutInt assignRepository,
             TermRepository termRepository,
-            SubjectOutcomeRepositoryOutInt subjectOutcomeRepository
+            SubjectOutcomeRepositoryOutInt subjectOutcomeRepository,
+            IAuthenticationService authenticationService,
+            IAuthorizationService authorizationService
     ){
         return new SubjectCompetencyService(
                 competencyRepository,assignRepository,
-                termRepository,subjectOutcomeRepository
+                termRepository,subjectOutcomeRepository,
+                authenticationService,authorizationService
         );
     }
 
