@@ -88,6 +88,16 @@ public class CompetencyToSubjectAssignmentRepository implements CompetencyToSubj
     }
 
     @Override
+    public OptionalWrapper<CompetencyToSubjectAssignment> getById(Integer id) {
+        try{
+            SubjectCompetencyAssignmentEntity entity = subjectCompetencyAssigmentRepository.getReferenceById(id);
+            return new OptionalWrapper<>(CompetencyToSubjectAssigmentMapper.toSubjectCompetencyAssignment(entity));
+        } catch (Exception e) {
+            return new OptionalWrapper<>(e);
+        }
+    }
+
+    @Override
     public OptionalWrapper<CompetencyToSubjectAssignment> remove(Integer assignmentId) {
         try{
             SubjectCompetencyAssignmentEntity activeEntity = subjectCompetencyAssigmentRepository.getReferenceById(assignmentId);

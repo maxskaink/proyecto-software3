@@ -15,7 +15,7 @@ public interface CompetencyToSubjectAssignmentRepositoryOutInt {
     OptionalWrapper<CompetencyToSubjectAssignment> add(CompetencyToSubjectAssignment newCompetencyToSubject);
 
     /**
-     * Find an CompetencyToSubjectAssignment by the given ID.
+     * Find a CompetencyToSubjectAssignment by the given ID.
      *
      * @param competencyId the unique identifier of the Competency whose associated CompetencyToSubjectAssignment is to be deleted
      * @return an OptionalWrapper containing the deleted CompetencyToSubjectAssignment if successful,
@@ -23,6 +23,12 @@ public interface CompetencyToSubjectAssignmentRepositoryOutInt {
      */
     OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId);
 
+    /**
+     * Find a CompetencyToSubjectAssignment by the given ID.
+     * @param id id of the assigment
+     * @return the instance of CompetencyToSubjectAssignment identified by the given ID, or an empty OptionalWrapper if not found.
+     */
+    OptionalWrapper<CompetencyToSubjectAssignment> getById(Integer id);
     /**
      * Deletes a CompetencyToSubjectAssignment entity identified by the specified ID.
      *

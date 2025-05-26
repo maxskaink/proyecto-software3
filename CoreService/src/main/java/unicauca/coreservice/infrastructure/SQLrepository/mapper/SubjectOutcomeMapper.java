@@ -21,7 +21,7 @@ public class SubjectOutcomeMapper {
                         subjectOutcomeEntity.getId(),
                         subjectOutcomeEntity.getDescription(),
                         RubricMapper.toRubric(subjectOutcomeEntity.getRubric()),
-                        CompetencyToSubjectAssigmentMapper.toSubjectCompetencyAssignment(subjectOutcomeEntity.getCompetencyAssignment())
+                        subjectOutcomeEntity.getCompetencyAssignment().getId()
                 );
     }
 }
