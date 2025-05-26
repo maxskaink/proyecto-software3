@@ -7,7 +7,7 @@ import unicauca.coreservice.application.in.ProgramCompetencyAndOutcomeInt;
 import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.domain.model.ProgramCompetency;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

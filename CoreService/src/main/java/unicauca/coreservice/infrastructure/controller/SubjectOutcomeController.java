@@ -7,7 +7,7 @@ import unicauca.coreservice.application.in.SubjectOutcomeInt;
 import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

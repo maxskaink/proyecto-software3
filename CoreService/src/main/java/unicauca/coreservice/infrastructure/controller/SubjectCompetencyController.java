@@ -8,7 +8,7 @@ import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.domain.model.SubjectCompetency;
 import unicauca.coreservice.infrastructure.dto.InitialSubjectCompetencyDTO;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

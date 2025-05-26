@@ -14,7 +14,7 @@ import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +76,7 @@ public class AuthenticationService implements IAuthenticationService {
     public String extractUidFromRequest(HttpServletRequest request) throws Exception {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new InvalidValue("No se encontró el token de autenticación");
+            throw new Unauthorized("No se encontró el token de autenticación, no tiene permisos");
         }
         String token = authorizationHeader.substring(7);
         try{
