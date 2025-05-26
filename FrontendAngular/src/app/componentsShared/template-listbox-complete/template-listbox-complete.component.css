@@ -6,8 +6,8 @@
     border: none;       
 }
 .list__Box{
-    margin-top: 5%;
-    margin-bottom: 10%;
+    margin-top: clamp(7rem, 2vw, 10.5rem);
+    margin-bottom: clamp(10rem, 10vw, 10.5rem);
 }
 .selector_option{
     color: grey;
@@ -20,4 +20,10 @@
     background-color: #B1DFC0;
     
     
+}
+.tile{
+    font-size: clamp(1rem, 2vw, 1.5rem);
+}
+.description{
+    font-size: clamp(0.7rem, 5vw, 1rem);;
 }

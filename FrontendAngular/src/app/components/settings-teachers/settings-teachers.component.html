@@ -2,14 +2,14 @@
 
 <div class="welcome_text d-flex container-fluid flex-column align-items-center text-center my-4">
   <i class="bi bi-person-circle p-1 user-icon "></i>
-  <h1 class="fw-bold fs-1">Bienvenido a la gestión de docentes</h1>
+  <h1 class="fw-bold title">Bienvenido a la gestión de docentes</h1>
 </div>
 
 <section class="section_options container my-4">
   <div class="row g-4">
     <div class="col-12 col-md-6" *ngFor="let option of options">
       <div class="section_options_value p-4 rounded-3 h-100">
-        <h2 class="fw-bold">{{ option.title }}</h2>
+        <h2 class="fw-bold ">{{ option.title }}</h2>
         <p>{{ option.description }}</p>
       </div>
     </div>
@@ -21,4 +21,4 @@
       Aquí podrás encontrar toda la información y opciones relacionadas con la gestión de los docentes. <br>
       – “Lo mejor de lo mejor”
     </p>
-  </div>
+</div>

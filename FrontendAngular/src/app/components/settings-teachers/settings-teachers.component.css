@@ -23,3 +23,7 @@
     color: #ECF4F1;
     padding: 2rem;
 }
+.title{
+    padding-left: 10%;
+    font-size: clamp(2rem, 5vw, 3.5rem);;
+}

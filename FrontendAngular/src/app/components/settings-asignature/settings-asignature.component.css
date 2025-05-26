@@ -4,7 +4,7 @@
 }
 .title{
     padding-left: 10%;
-    font-size: 60px;
+    font-size: clamp(2rem, 5vw, 3.5rem);;
 }
 .section_input_size{
     padding-top: 5%;
