@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Firestore, collection, doc, getDoc, getDocs } from '@angular/fire/firestore';
+import { TeacherDTO } from '../models/TeacherDTO';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private userData: any = null;
@@ -42,21 +43,19 @@ export class AuthService {
       };
     }
   }
-  async getAllUsers(): Promise<any[]> {
+  async getAllUsers(): Promise<TeacherDTO[]> {
     const usersCollection = collection(this.firestore, 'SERA');
     const querySnapshot = await getDocs(usersCollection);
   
-    const users: any[] = [];
+    const users: TeacherDTO[] = [];
+  
     querySnapshot.forEach((doc) => {
-      users.push({
-        id: doc.id,
-        ...doc.data()
-      });
+      const data = doc.data() as TeacherDTO;  // 👈 Cast explícito al tipo
+      users.push(data);
     });
   
     return users;
   }
-
   get isLoggedIn(): boolean {
     return !!this.userData;
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-molecule-block-user',
@@ -7,13 +7,6 @@ import { Component } from '@angular/core';
     styleUrl: './molecule-block-user.component.css'
 })
 export class MoleculeBlockUserComponent {
-  nombre: string = 'Catalan Aguado';
-  rol: string ='Docente'
-  
-  /**
-   * get info of user for see in the frontend individual
-  **/
-  getInfoUser(id:number){
-
-  }
+  @Input() name: string = '';
+  @Input() rol: string ='';
 }
