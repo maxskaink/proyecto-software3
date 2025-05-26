@@ -28,7 +28,7 @@ public class ProgramCompetencyAndOutcomeService implements ProgramCompetencyAndO
         if(null == uid)
             throw new InvalidValue("The uid is not valid, it can not be null");
         //Validation authentication
-        if(authenticationService.isCoordinator(uid))
+        if(!authenticationService.isCoordinator(uid))
             throw new Unauthorized("You are not authorized to add a new program competency");
         OptionalWrapper<ProgramCompetency> response = repository.add(newProgramCompetency);
         return response.getValue()
