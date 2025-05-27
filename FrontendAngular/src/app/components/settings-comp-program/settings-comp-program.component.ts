@@ -11,9 +11,14 @@ import { TemplateHeaderTitleComponent } from '../../componentsShared/template-he
 import { Router } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-settings-comp-program',
-  imports: [CommonModule, TemplateListboxCompleteComponent, TemplateBlockGridComponent, TemplateHeaderTitleComponent],
+  imports: [CommonModule,
+    TemplateListboxCompleteComponent,
+    TemplateBlockGridComponent, 
+    TemplateHeaderTitleComponent,
+  ],
   templateUrl: './settings-comp-program.component.html',
   styleUrl: './settings-comp-program.component.css'
 })

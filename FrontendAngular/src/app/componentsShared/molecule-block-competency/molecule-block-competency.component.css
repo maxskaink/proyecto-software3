@@ -1,0 +1,35 @@
+.card__Body_small {
+    background-color: #c5c5c5;
+    color: black;
+    cursor: pointer;
+    width: 350px;
+    height: 100%;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .card__Body_small:hover {
+    background-color: #1E1E1E;
+    color: white;
+  }
+  .card__Body_small h2{
+    padding: 20px;
+  }
+  .card__Body_small p{
+    padding: 10px;
+  }
+  .delete-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+  }
+  
+  .card__Body_small:hover .delete-btn {
+    display: block;
+  }
+  .divider{
+    height: px;
+    width: 70%;
+  }
