@@ -33,7 +33,7 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             
             newTeacherAssignment.setId(null);
 
-            if(!firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
+            if(firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
                 throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);

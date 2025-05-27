@@ -7,12 +7,9 @@ import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import unicauca.coreservice.application.out.IAuthenticationService;
-import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
-import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.exception.Unauthorized;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,6 +20,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
+    private UserRecord getUserRecord(String uid) throws FirebaseAuthException {
+        UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
+        if (userRecord == null) {
+            throw new NotFound("User not found: " + uid);
+        }
+        return userRecord;
+    }
+
+    @Override
     public void assignRole(String uid, String role) throws FirebaseAuthException {
         if (!List.of("Teacher", "Evaluator", "Coordinator").contains(role)) {
             throw new InvalidValue("Invalid role: " + role);
@@ -41,34 +47,25 @@ public class AuthenticationService implements IAuthenticationService {
         docRef.update(updates);
     }
 
-
+    @Override
     public boolean userExists(String uid) {
-        try {
-            UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
-            return userRecord != null;
-        } catch (FirebaseAuthException e) {
-            if (AuthErrorCode.USER_NOT_FOUND.name().equals(e.getErrorCode().name())) {
-                return false;
-            }
-            throw new NotFound("User not found: " + uid + " (" + e.getErrorCode() + ")");
+        try{
+            getUserRecord(uid);
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 
     @Override
     public boolean isCoordinator(String uid) throws Exception {
         try{
-            if(!userExists(uid))
-                throw new NotFound("User not found: " + uid);
-
-            UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
+            UserRecord userRecord = getUserRecord(uid);
 
             Object roleClaim = userRecord.getCustomClaims().get("role");
             return roleClaim != null && "Coordinator".equals(roleClaim.toString());
 
         }catch (FirebaseAuthException e) {
-            if (AuthErrorCode.USER_NOT_FOUND.name().equals(e.getErrorCode().name())) {
-                return false;
-            }
             throw new NotFound("User not found: " + uid + " (" + e.getErrorCode() + ")");
         }
     }
