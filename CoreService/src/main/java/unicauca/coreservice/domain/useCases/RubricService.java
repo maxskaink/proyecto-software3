@@ -58,7 +58,7 @@ public class RubricService implements RubricInt{
 
     @Override
     public Rubric getById(Integer id, String uid) throws Exception {
-        if(authorizationService.canAccessRubric(uid, id))
+        if(!authorizationService.canAccessRubric(uid, id))
             throw new Unauthorized("You have no permission to access this rubric");
         OptionalWrapper<Rubric> response = rubricRepository.getById(id);
         return response.getValue().orElseThrow(response::getException);
@@ -74,7 +74,7 @@ public class RubricService implements RubricInt{
 
     @Override
     public Rubric update(Integer id, Rubric newRubric, String uid) throws Exception {
-        if(authorizationService.canAccessRubric(uid, id))
+        if(!authorizationService.canAccessRubric(uid, id))
             throw new Unauthorized("You have no permission to update this rubric");
         OptionalWrapper<Rubric> response = rubricRepository.update(id, newRubric);
         return response.getValue().orElseThrow(response::getException);
@@ -82,7 +82,7 @@ public class RubricService implements RubricInt{
 
     @Override
     public Rubric remove(Integer id, String uid) throws Exception {
-        if(authorizationService.canAccessRubric(uid, id))
+        if(!authorizationService.canAccessRubric(uid, id))
             throw new Unauthorized("You have no permission to remove this rubric");
         OptionalWrapper<Rubric> response = rubricRepository.remove(id);
         return response.getValue().orElseThrow(response::getException);

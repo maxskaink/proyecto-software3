@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface JPARubricRepository extends JpaRepository<RubricEntity, Integer> {
     List<RubricEntity> findByIsActivatedTrue();
-    Optional<RubricEntity> findActiveRubricById(Integer rubricId);
+    Optional<RubricEntity> findByIdAndAndIsActivatedTrue(Integer rubricId);
 }
