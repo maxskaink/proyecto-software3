@@ -32,13 +32,6 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             throw new InvalidValue("You are not authorized to add a learning outcome to this subject");
     }
 
-    private void canAccesOutcome(String uid, Integer outcomeId) throws Exception {
-        OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.getById(outcomeId);
-        SubjectOutcome outcome = response.getValue().orElseThrow(response::getException);
-        Integer idSubject = assignmentCompetencyRepository.getById(outcome.getIdCompetencyAssignment()).getValue()
-                .orElseThrow(()-> new NotFound("assigment of competency not found")).getId();
-        canAccessSubject(uid, idSubject);
-    }
 
     @Override
     public SubjectOutcome addSubjectOutcome(
@@ -95,12 +88,10 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             Integer id,
             String uid
     ) throws Exception {
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new InvalidValue("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.getById(id);
-        SubjectOutcome outcome = response.getValue().orElseThrow(response::getException);
-        Integer idSubject = assignmentCompetencyRepository.getById(outcome.getIdCompetencyAssignment()).getValue()
-                .orElseThrow(()-> new NotFound("assigment of competency not found")).getId();
-        canAccessSubject(uid, idSubject);
-        return outcome;
+        return response.getValue().orElseThrow(response::getException);
     }
 
     @Override
@@ -109,7 +100,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             SubjectOutcome newSubjectOutcome,
             String uid
     ) throws Exception {
-        canAccesOutcome(uid, id);
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new InvalidValue("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.update(id, newSubjectOutcome);
         return response.getValue().orElseThrow(response::getException);
     }
@@ -120,7 +112,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             Integer id,
             String uid
     ) throws Exception {
-        canAccesOutcome(uid, id);
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new InvalidValue("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> responseOutcome = repositorySubjectOutcome.remove(id);
         return responseOutcome.getValue()
                 .orElseThrow(responseOutcome::getException);
