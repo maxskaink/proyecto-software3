@@ -13,7 +13,7 @@ public class AuthorizationService implements IAuthorizationService {
 
     private final TeacherAssignmentRepositoryOutInt teacherAssignmentRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
-    private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
+    private final EvaluatorAssignmentRepositoryOutInt evaluatorAssignmentRepository;
     private final CompetencyToSubjectAssignmentRepositoryOutInt competencyToSubjectAssignment;
     private final IAuthenticationService authenticationService;
     private final RubricRepositoryOutInt rubricRepository;
@@ -28,15 +28,11 @@ public class AuthorizationService implements IAuthorizationService {
         if (authenticationService.isCoordinator(uid)) {
             return true;
         }
-
-        Term activeTerm = termRepository.getActiveTerm().getValue()
-                .orElseThrow(() -> new RuntimeException("No active term found"));
         // Get the assignment to the subject
         return teacherAssignmentRepository.listByActiveTerm().stream()
                 .anyMatch(assignment ->
                         assignment.getTeacherUid().equals(uid) &&
-                        assignment.getSubject().getId().equals(subjectId) &&
-                        assignment.getTerm().getId().equals(activeTerm.getId())
+                        assignment.getSubject().getId().equals(subjectId)
                 );
     }
 
@@ -45,7 +41,7 @@ public class AuthorizationService implements IAuthorizationService {
 
         // 1. If it is a coordinator having total access to all outcomes
         if (authenticationService.isCoordinator(uid)) {
-            return false;
+            return true;
         }
 
         // 2. Get the outcome and the subjectId associated
@@ -58,9 +54,9 @@ public class AuthorizationService implements IAuthorizationService {
         if(canAccessSubject(uid, subjectId))
             return true;
 
-        //TODO Validate if is an evaluator
-
-        return false;
+        return evaluatorAssignmentRepository.listByEvaluatorUid(uid).stream()
+                .anyMatch(evaluatorAssignment ->
+                        evaluatorAssignment.getSubjectOutcome().getId().equals(subjectOutcomeId));
     }
 
     @Override
@@ -72,7 +68,7 @@ public class AuthorizationService implements IAuthorizationService {
         Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
                 .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
 
-        return !canAccessSubject(uid, subjectId);
+        return canAccessSubject(uid, subjectId) || canAccessSubjectOutcome(uid, rubric.getSubjectOutcome().getId());
     }
 
     @Override
@@ -82,9 +78,7 @@ public class AuthorizationService implements IAuthorizationService {
                 .orElseThrow(() -> new NotFound("Criterion not found with id " + criterionId));
 
         Integer assignmentID = criterion.getRubric().getSubjectOutcome().getIdCompetencyAssignment();
-        Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
-                .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
-        return canAccessSubject(uid, subjectId);
+        return canAccessRubric(uid, criterion.getRubric().getId());
     }
 
     @Override
@@ -97,7 +91,7 @@ public class AuthorizationService implements IAuthorizationService {
 
         Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
                 .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
-        return canAccessSubject(uid, subjectId);
+        return canAccessSubject(uid, subjectId) || canAccessSubjectOutcome(uid, level.getCriterion().getRubric().getSubjectOutcome().getId());
     }
 
 }

@@ -7,6 +7,7 @@ import unicauca.coreservice.application.out.IAuthorizationService;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.NotFound;
+import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.domain.model.CompetencyToSubjectAssignment;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.SubjectOutcome;
@@ -88,8 +89,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             Integer id,
             String uid
     ) throws Exception {
-        if(authorizationService.canAccessSubjectOutcome(uid, id))
-            throw new InvalidValue("You are not authorized to access this learning outcome");
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new Unauthorized("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.getById(id);
         return response.getValue().orElseThrow(response::getException);
     }
@@ -100,8 +101,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             SubjectOutcome newSubjectOutcome,
             String uid
     ) throws Exception {
-        if(authorizationService.canAccessSubjectOutcome(uid, id))
-            throw new InvalidValue("You are not authorized to access this learning outcome");
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new Unauthorized("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> response = repositorySubjectOutcome.update(id, newSubjectOutcome);
         return response.getValue().orElseThrow(response::getException);
     }
@@ -112,8 +113,8 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
             Integer id,
             String uid
     ) throws Exception {
-        if(authorizationService.canAccessSubjectOutcome(uid, id))
-            throw new InvalidValue("You are not authorized to access this learning outcome");
+        if(!authorizationService.canAccessSubjectOutcome(uid, id))
+            throw new Unauthorized("You are not authorized to access this learning outcome");
         OptionalWrapper<SubjectOutcome> responseOutcome = repositorySubjectOutcome.remove(id);
         return responseOutcome.getValue()
                 .orElseThrow(responseOutcome::getException);
