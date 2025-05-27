@@ -2,7 +2,10 @@ package unicauca.coreservice.infrastructure.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import unicauca.coreservice.application.out.*;
+import unicauca.coreservice.application.out.IAuthenticationService;
+import unicauca.coreservice.application.out.IAuthorizationService;
+import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
+import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
@@ -14,7 +17,6 @@ public class AuthorizationService implements IAuthorizationService {
     private final TeacherAssignmentOutInt teacherAssignmentRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
     private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
-    private final CompetencyToSubjectAssignmentRepositoryOutInt competencyToSubjectAssignment;
     private final IAuthenticationService authenticationService;
 
     @Override
@@ -44,9 +46,7 @@ public class AuthorizationService implements IAuthorizationService {
         SubjectOutcome subjectOutcome = subjectOutcomeRepository.getById(subjectOutcomeId).getValue()
                 .orElseThrow(() -> new NotFound("Subject outcome not found with id " + subjectOutcomeId));
         // Get the id of the subject and validate y have accesses to the subject
-        Integer assignmentID = subjectOutcome.getIdCompetencyAssignment();
-        Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
-                .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
+        Integer subjectId = subjectOutcome.getCompetencyAssignment().getSubject().getId();
 
         if (subjectId != null && canAccessSubject(uid, subjectId)) {
             return true;

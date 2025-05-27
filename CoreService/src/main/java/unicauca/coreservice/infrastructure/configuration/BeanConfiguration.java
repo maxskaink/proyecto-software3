@@ -40,6 +40,7 @@ public class BeanConfiguration {
         return new SubjectOutcomeService(
                 repositorySubjectOutcome
         );
+
     }
 
     @Bean
@@ -48,14 +49,25 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public RubricInt createRubric(RubricRepository repository, SubjectOutcomeRepository outcomeRepository){ return new RubricService(repository, outcomeRepository); }
+    public RubricInt createRubric(RubricRepository repository, SubjectOutcomeRepository outcomeRepository){
+        return new RubricService(repository, outcomeRepository); }
 
     @Bean
-    public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository){return new CriterionService(repository, rubricRepository);}
+    public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository){
+        return new CriterionService(repository, rubricRepository);}
 
     @Bean
-    public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository){return new LevelService(repository, criterionRepository);}
+    public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository){
+        return new LevelService(repository, criterionRepository);}
 
     @Bean
-    public TeacherAssignmentInt createTeacherAssignment(TeacherAssignmentRepository repository, TermRepository termRepository, SubjectRepository subjectRepository){return new TeacherAssignmentService(repository, termRepository, subjectRepository);}
+    public TeacherAssignmentInt createTeacherAssignment(TeacherAssignmentRepository repository, TermRepository termRepository,
+                                                        SubjectRepository subjectRepository){
+        return new TeacherAssignmentService(repository, termRepository, subjectRepository);}
+
+    @Bean
+    public EvaluatorAssignmentInt createEvaluatorAssignment(EvaluatorAssignmentRepository repository, TermRepository termRepository,
+                                                            SubjectOutcomeRepository subjectOutcomeRepository){
+        return new EvaluatorAssignmentService(repository, termRepository, subjectOutcomeRepository);
+    }
 }

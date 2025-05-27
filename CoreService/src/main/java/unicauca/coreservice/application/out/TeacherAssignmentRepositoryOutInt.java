@@ -5,7 +5,7 @@ import java.util.List;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.TeacherAssignment;
 
-public interface TeacherAssignmentOutInt {
+public interface TeacherAssignmentRepositoryOutInt {
 
     /**
      * Adds a new TeacherAssignment to the repository.

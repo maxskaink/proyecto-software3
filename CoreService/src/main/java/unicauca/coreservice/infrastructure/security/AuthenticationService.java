@@ -7,11 +7,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import unicauca.coreservice.application.out.IAuthenticationService;
-import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
-import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
 import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.NotFound;
-import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
