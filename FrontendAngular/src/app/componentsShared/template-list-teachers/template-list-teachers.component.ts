@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MoleculeBlockUserComponent } from '../molecule-block-user/molecule-block-user.component';
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { AuthService } from '../../services/auth.service';
@@ -11,6 +11,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './template-list-teachers.component.css'
 })
 export class TemplateListTeachersComponent {
+  @Input() title?: string;
+  @Input() description?: string;
   listTeacherDTO: TeacherDTO[] = [];
 
   constructor(private authService: AuthService) {}
@@ -23,7 +25,7 @@ export class TemplateListTeachersComponent {
     try {
       this.listTeacherDTO = await this.authService.getAllUsers();
     } catch (error) {
-      console.error('Error obteniendo los usuarios:', error);
+      console.error('Error retrieving the users:', error);
     }
   }
 }

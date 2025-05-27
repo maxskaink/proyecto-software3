@@ -25,12 +25,15 @@ export class SettingsAsignatureComponent {
 
   ]
   constructor(private router: Router){}
+
   handleBlockClick(block: any) {
-    // ejemplo: redirigir según el título
     if (block.title.toLowerCase().includes('crear')) {
       document.getElementById('createAsignature')?.scrollIntoView({ behavior: 'smooth' });
     } else if (block.route) {
-      this.router.navigate([block.route]); // si usas rutas
+      this.router.navigate([block.route]); 
     }
   }
+
+
+    
 }

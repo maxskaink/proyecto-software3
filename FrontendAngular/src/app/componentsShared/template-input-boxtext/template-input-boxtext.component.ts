@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-template-input-boxtext',
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class TemplateInputBoxtextComponent {
   @Input() description: string = '';
+  //@Output() blockClick = new EventEmitter<any>();
   inputValue: string= '';
   touched: boolean = false;
   onBlur() {

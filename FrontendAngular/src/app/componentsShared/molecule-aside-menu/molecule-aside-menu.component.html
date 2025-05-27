@@ -1,0 +1,12 @@
+<div class="d-flex aside-menu-container">
+    <div class="menu-items d-flex flex-column">
+      <div
+        *ngFor="let item of menuItems; let i = index"
+        class="menu-item"
+        (click)="onItemClick(item)"
+      >
+        {{ item.title }}
+      </div>
+    </div>
+    <div class="vr divider"></div>
+</div>

@@ -19,10 +19,18 @@
 <div class=" text-center divider__big">
     <p>
       Aquí podrás encontrar toda la información y opciones relacionadas con la gestión de los docentes. <br>
-      – “Lo mejor de lo mejor”
+      “Lo mejor de lo mejor”
     </p>
 </div>
 
+<app-molecule-aside-menu
+  [menuItems]="asideMenuItems">
+</app-molecule-aside-menu>
 <section class="d-flex container-fluid flex-column align-items-center text-center  ">
-  <app-template-list-teachers></app-template-list-teachers>
+  <app-template-list-teachers 
+  [title]="'Docentes asignados'"
+  [description]="'¡Docentes asignados a este período !'"
+  ></app-template-list-teachers>
+  <button class="button_evaluators">Gestionar evaluadores</button>
 </section>
+
