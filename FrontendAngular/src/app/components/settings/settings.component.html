@@ -1,8 +1,12 @@
 
 <div class="full-screen-settings">
-    <app-molecule-back-header>
-    </app-molecule-back-header>
-    <app-template-blocks-settings
-    [configBlocks] = "configBlocks">
-    </app-template-blocks-settings>
+
+    <app-template-header-title [title]="'Configuraciones'" [description]="'Aqui podras configurar a tu gusto la aplicacion'">
+    </app-template-header-title>
+    <section >
+        <app-template-blocks-settings 
+        [configBlocks] = "configBlocks">
+        </app-template-blocks-settings>
+    </section>
+    
 </div>

@@ -1,0 +1,14 @@
+.body{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.title{
+    padding-right: 3%;
+}
+.title h1{
+    font-size: clamp(1rem, 5vw, 1.7rem);;
+}
+.title p{
+    font-size: clamp(0.5rem, 5vw, 0.8rem);;
+}
