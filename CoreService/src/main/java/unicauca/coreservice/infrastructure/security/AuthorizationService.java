@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import unicauca.coreservice.application.out.*;
 import unicauca.coreservice.domain.exception.NotFound;
-import unicauca.coreservice.domain.model.SubjectOutcome;
+import unicauca.coreservice.domain.model.*;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
 
 @Service
@@ -16,6 +16,10 @@ public class AuthorizationService implements IAuthorizationService {
     private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
     private final CompetencyToSubjectAssignmentRepositoryOutInt competencyToSubjectAssignment;
     private final IAuthenticationService authenticationService;
+    private final RubricRepositoryOutInt rubricRepository;
+    private final TermRepositoryOutInt termRepository;
+    private final CriterionRepositoryOutInt criterionRepository;
+    private final LevelRepositoryOutInt levelRepository;
 
     @Override
     public boolean canAccessSubject(String uid, Integer subjectId) throws Exception {
@@ -24,11 +28,15 @@ public class AuthorizationService implements IAuthorizationService {
         if (authenticationService.isCoordinator(uid)) {
             return true;
         }
+
+        Term activeTerm = termRepository.getActiveTerm().getValue()
+                .orElseThrow(() -> new RuntimeException("No active term found"));
         // Get the assignment to the subject
         return teacherAssignmentRepository.listByActiveTerm().stream()
                 .anyMatch(assignment ->
                         assignment.getTeacherUid().equals(uid) &&
-                                assignment.getSubject().getId().equals(subjectId)
+                        assignment.getSubject().getId().equals(subjectId) &&
+                        assignment.getTerm().getId().equals(activeTerm.getId())
                 );
     }
 
@@ -37,7 +45,7 @@ public class AuthorizationService implements IAuthorizationService {
 
         // 1. If it is a coordinator having total access to all outcomes
         if (authenticationService.isCoordinator(uid)) {
-            return true;
+            return false;
         }
 
         // 2. Get the outcome and the subjectId associated
@@ -48,13 +56,44 @@ public class AuthorizationService implements IAuthorizationService {
         Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
                 .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
 
-        if (subjectId != null && canAccessSubject(uid, subjectId)) {
-            return true;
-        }
+        return canAccessSubject(uid, subjectId);
+    }
 
-        // 3. If it has assigment to the outcome
-        return evaluatorAssignmentRepository.findAll().stream()
-                .anyMatch(ea -> ea.getSubjectOutcome().getId().equals(subjectOutcomeId));
+    @Override
+    public boolean canAccessRubric(String uid, Integer rubricId) throws Exception {
+
+        Rubric rubric = rubricRepository.getById(rubricId).getValue()
+                .orElseThrow(() -> new NotFound("Rubric not found with id " + rubricId));
+        Integer assignmentID = rubric.getSubjectOutcome().getIdCompetencyAssignment();
+        Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
+                .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
+
+        return canAccessSubject(uid, subjectId);
+    }
+
+    @Override
+    public boolean canAccessCriterion(String uid, Integer criterionId) throws Exception {
+
+        Criterion criterion = criterionRepository.getById(criterionId).getValue()
+                .orElseThrow(() -> new NotFound("Criterion not found with id " + criterionId));
+
+        Integer assignmentID = criterion.getRubric().getSubjectOutcome().getIdCompetencyAssignment();
+        Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
+                .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
+        return canAccessSubject(uid, subjectId);
+    }
+
+    @Override
+    public boolean canAccessLevel(String uid, Integer levelId) throws Exception {
+
+        Level level = levelRepository.getById(levelId).getValue()
+                .orElseThrow(()->new NotFound("Level not found with id " + levelId));
+
+        Integer assignmentID = level.getCriterion().getRubric().getSubjectOutcome().getIdCompetencyAssignment();
+
+        Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
+                .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
+        return canAccessSubject(uid, subjectId);
     }
 
 }
