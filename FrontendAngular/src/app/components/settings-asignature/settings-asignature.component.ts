@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
 import { TemplateListboxCompleteComponent } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
 import { TemplateInputBoxtextComponent } from '../../componentsShared/template-input-boxtext/template-input-boxtext.component';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-asignature',
@@ -23,4 +24,13 @@ export class SettingsAsignatureComponent {
     }
 
   ]
+  constructor(private router: Router){}
+  handleBlockClick(block: any) {
+    // ejemplo: redirigir según el título
+    if (block.title.toLowerCase().includes('crear')) {
+      document.getElementById('createAsignature')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (block.route) {
+      this.router.navigate([block.route]); // si usas rutas
+    }
+  }
 }

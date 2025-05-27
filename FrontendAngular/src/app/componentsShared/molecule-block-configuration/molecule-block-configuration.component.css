@@ -4,6 +4,7 @@
     color: #1F0D1E;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+
   }
 .card:hover {
   background-color: #1F0D1E;

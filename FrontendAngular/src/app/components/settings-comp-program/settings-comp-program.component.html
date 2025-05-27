@@ -1,10 +1,14 @@
-<app-molecule-back-header></app-molecule-back-header>
+<app-template-header-title ></app-template-header-title>
 <h1 class="fw-bold title" >Configuración de programa</h1>
-<app-template-listbox-complete 
-[textBlock]  = "textBlock">
-</app-template-listbox-complete>
+<section class="options">
+    <app-template-listbox-complete 
+    [textBlock]  = "textBlock"
+    (blockClick)="handleBlockClick($event)">
+    </app-template-listbox-complete>
+    
+</section>
 <h1 class="fw-bold  title">Competencias de programa</h1>
-<section id="section">
+<section id="createAsignature" >
     <app-template-block-grid
     ></app-template-block-grid>
 </section>
