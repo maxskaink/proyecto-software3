@@ -2,7 +2,7 @@
 <section class="container list__Box">
   <div class="row g-4">
     <div class="col-12" *ngFor="let block of textBlock">
-      <div class="p-4 rounded-4 selector_option ">
+      <div class="p-4 rounded-4 selector_option  " (click)="onBlockClick(block)">
         <div class="d-flex justify-content-between align-items-start flex-column flex-md-row">
           <h2 class="fw-bold mb-2 mb-md-0 title ">{{ block.title }}</h2>
           <p class="mb-0 w-45 description">{{ block.description }}</p>

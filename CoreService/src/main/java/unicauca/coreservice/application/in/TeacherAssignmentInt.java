@@ -20,14 +20,7 @@ public interface TeacherAssignmentInt {
     TeacherAssignment add(@NotNull(message = "The teacher assignment user id can not be null" ) String teacherUid,
                     @NotNull(message = "The teacher assignment subject id can not be null") Integer subjectId) throws Exception;
 
-    /*
-        * This method is used to update a teacher assignment in the system.
-        * @param id The id of the teacher assignment.
-        * @param teacherUid The user id of the teacher.
-        * @param termId The id of the term.
-        * @param subjectId The id of the subject.
-        * @return The teacher assignment object that was updated in the system.
-    */
+
     TeacherAssignment getById(@NotNull(message = "The teacher assignment id can not be null") Integer id) throws Exception;
 
     /*

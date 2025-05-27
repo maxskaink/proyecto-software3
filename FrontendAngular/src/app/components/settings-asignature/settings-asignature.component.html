@@ -2,7 +2,8 @@
 <h1 class="fw-bold  title">Configuracion de asignaturas</h1>
 <section class="section__Options">
     <app-template-listbox-complete 
-    [textBlock]  = "textBlock">
+    [textBlock]  = "textBlock"
+    (blockClick)="handleBlockClick($event)">
     </app-template-listbox-complete>
 </section>
 <hr class="my-4 ">

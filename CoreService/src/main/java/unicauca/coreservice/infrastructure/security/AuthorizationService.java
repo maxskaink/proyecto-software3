@@ -11,7 +11,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvalua
 @AllArgsConstructor
 public class AuthorizationService implements IAuthorizationService {
 
-    private final TeacherAssignmentOutInt teacherAssignmentRepository;
+    private final TeacherAssignmentRepositoryOutInt teacherAssignmentRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
     private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
     private final CompetencyToSubjectAssignmentRepositoryOutInt competencyToSubjectAssignment;

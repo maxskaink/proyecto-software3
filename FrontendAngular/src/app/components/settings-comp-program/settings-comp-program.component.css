@@ -1,9 +1,13 @@
 .title{
     padding-left: 10%;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 5vw, 2.5rem);
 }
 .title--botom{
     padding-left: 10%;
     font-size: 60px;
     margin-bottom: 5%;
+}
+.options{
+
+    border-radius: 20px;
 }

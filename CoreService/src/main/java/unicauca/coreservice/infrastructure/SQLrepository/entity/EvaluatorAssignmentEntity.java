@@ -16,11 +16,14 @@ public class EvaluatorAssignmentEntity {
     private Integer id;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "id_periodo", referencedColumnName = "id")
+    private TermEntity term;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_ra", referencedColumnName = "id")
     private SubjectOutcomeEntity subjectOutcome;
 
     @Column(name = "id_evaluador", nullable = false)
     private String evaluatorUid;
-
 
 }

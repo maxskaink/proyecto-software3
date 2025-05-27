@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.out.IAuthenticationService;
-import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
+import unicauca.coreservice.application.out.TeacherAssignmentRepositoryOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.TeacherAssignment;
@@ -21,10 +21,10 @@ import java.util.Objects;
 
 @Repository
 @AllArgsConstructor
-public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
+public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryOutInt {
     private final JPATeacherAssignmentRepository teacherAssignmentRepository;
     private final TermRepository termRepository;
-    private final IAuthenticationService firebaseService;
+    private final IAuthenticationService authenticationService;
 
 
     @Override
@@ -33,7 +33,7 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             
             newTeacherAssignment.setId(null);
 
-            if(firebaseService.userExists(newTeacherAssignment.getTeacherUid()))
+            if(!authenticationService.userExists(newTeacherAssignment.getTeacherUid()))
                 throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);
@@ -103,6 +103,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             TeacherAssignmentEntity entity = teacherAssignmentRepository.findAll().stream()
                     .filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
                     .filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                    .filter(ta -> ta.getTerm() != null && termRepository.getActiveTerm().getValue().isPresent()
+                            && ta.getTerm().getId().equals(termRepository.getActiveTerm().getValue().get().getId()))
                     .findFirst()
                     .orElseThrow(() -> new NotFound("TeacherAssignment not found with teacherUid: " + teacherUid + " and subjectId: " + subjectId));
 
@@ -138,6 +140,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentOutInt {
             TeacherAssignmentEntity entity = teacherAssignmentRepository.findAll().stream()
                     .filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
                     .filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                    .filter(ta -> ta.getTerm() != null && termRepository.getActiveTerm().getValue().isPresent()
+                            && ta.getTerm().getId().equals(termRepository.getActiveTerm().getValue().get().getId()))
                     .findFirst()
                     .orElseThrow(() -> new NotFound("TeacherAssignment not found with teacherUid: " + teacherUid + " and subjectId: " + subjectId));
 

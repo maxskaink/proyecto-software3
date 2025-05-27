@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { MoleculeBlockComponent } from '../../componentsShared/molecule-block/molecule-block.component';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
 import { TemplateBlocksSettingsComponent } from '../../componentsShared/template-blocks-settings/template-blocks-settings.component';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [CommonModule, TemplateBlocksSettingsComponent, MoleculeBackHeaderComponent],
+  imports: [CommonModule, TemplateBlocksSettingsComponent, TemplateHeaderTitleComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })

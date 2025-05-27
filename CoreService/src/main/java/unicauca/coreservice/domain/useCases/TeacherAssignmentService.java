@@ -3,7 +3,7 @@ package unicauca.coreservice.domain.useCases;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.TeacherAssignmentInt;
 import unicauca.coreservice.application.out.SubjectRepositoryOutInt;
-import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
+import unicauca.coreservice.application.out.TeacherAssignmentRepositoryOutInt;
 import unicauca.coreservice.application.out.TermRepositoryOutInt;
 import unicauca.coreservice.domain.exception.DuplicateInformation;
 import unicauca.coreservice.domain.model.OptionalWrapper;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class TeacherAssignmentService implements TeacherAssignmentInt{
-    private final TeacherAssignmentOutInt teacherAssignmentRepository;
+    private final TeacherAssignmentRepositoryOutInt teacherAssignmentRepository;
     private final TermRepositoryOutInt termRepository;
     private final SubjectRepositoryOutInt subjectRepository;
 
