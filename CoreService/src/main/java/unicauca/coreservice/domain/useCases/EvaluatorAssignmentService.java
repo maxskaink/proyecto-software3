@@ -32,13 +32,13 @@ public class EvaluatorAssignmentService implements EvaluatorAssignmentInt {
             throw termRepository.getActiveTerm().getException();
         }
 
-        Optional<SubjectOutcome> subject = subjectOutcomeRepository.getById(subjectId).getValue();
-        if(subject.isEmpty())
+        Optional<SubjectOutcome> subjectOutcome = subjectOutcomeRepository.getById(subjectId).getValue();
+        if(subjectOutcome.isEmpty())
         {
             throw subjectOutcomeRepository.getById(subjectId).getException();
         }
         
-        EvaluatorAssignment evaluatorAssignment = new EvaluatorAssignment(null, activeTerm.get(), subject.get(), evaluatorUid);
+        EvaluatorAssignment evaluatorAssignment = new EvaluatorAssignment(null, activeTerm.get(), subjectOutcome.get(), evaluatorUid);
         OptionalWrapper<EvaluatorAssignment> response = evaluatorAssignmentRepository.add(evaluatorAssignment);
         return response.getValue().orElseThrow(response::getException);
     }

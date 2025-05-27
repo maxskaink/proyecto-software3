@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.application.out.IAuthorizationService;
 import unicauca.coreservice.application.out.SubjectOutcomeRepositoryOutInt;
-import unicauca.coreservice.application.out.TeacherAssignmentOutInt;
+import unicauca.coreservice.application.out.TeacherAssignmentRepositoryOutInt;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvaluatorAssignmentRepository;
@@ -14,7 +14,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.JPAEvalua
 @AllArgsConstructor
 public class AuthorizationService implements IAuthorizationService {
 
-    private final TeacherAssignmentOutInt teacherAssignmentRepository;
+    private final TeacherAssignmentRepositoryOutInt teacherAssignmentRepository;
     private final SubjectOutcomeRepositoryOutInt subjectOutcomeRepository;
     private final JPAEvaluatorAssignmentRepository evaluatorAssignmentRepository;
     private final IAuthenticationService authenticationService;
@@ -46,7 +46,7 @@ public class AuthorizationService implements IAuthorizationService {
         SubjectOutcome subjectOutcome = subjectOutcomeRepository.getById(subjectOutcomeId).getValue()
                 .orElseThrow(() -> new NotFound("Subject outcome not found with id " + subjectOutcomeId));
         // Get the id of the subject and validate y have accesses to the subject
-        Integer subjectId = subjectOutcome.getCompetencyAssignment().getSubject().getId();
+        Integer subjectId = subjectOutcome.getIdCompetencyAssignment();
 
         if (subjectId != null && canAccessSubject(uid, subjectId)) {
             return true;
