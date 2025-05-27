@@ -55,8 +55,12 @@ public class AuthorizationService implements IAuthorizationService {
         Integer assignmentID = subjectOutcome.getIdCompetencyAssignment();
         Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
                 .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
+        if(canAccessSubject(uid, subjectId))
+            return true;
 
-        return canAccessSubject(uid, subjectId);
+        //TODO Validate if is an evaluator
+
+        return false;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class AuthorizationService implements IAuthorizationService {
         Integer subjectId = competencyToSubjectAssignment.getById(assignmentID)
                 .getValue().orElseThrow(()->new NotFound("Outcome no associated with a signature")).getSubject().getId();
 
-        return canAccessSubject(uid, subjectId);
+        return !canAccessSubject(uid, subjectId);
     }
 
     @Override
