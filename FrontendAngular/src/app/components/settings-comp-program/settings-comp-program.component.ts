@@ -48,7 +48,7 @@ export class SettingsCompProgramComponent implements OnInit {
   }
   handleBlockClick(block: any) {
     // ejemplo: redirigir según el título
-    if (block.title.toLowerCase().includes('crear')) {
+    if (block.title.toLowerCase().includes('listar')) {
       document.getElementById('createAsignature')?.scrollIntoView({ behavior: 'smooth' });
     } else if (block.route) {
       this.router.navigate([block.route]); 
