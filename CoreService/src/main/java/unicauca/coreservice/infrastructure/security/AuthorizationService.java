@@ -76,8 +76,6 @@ public class AuthorizationService implements IAuthorizationService {
 
         Criterion criterion = criterionRepository.getById(criterionId).getValue()
                 .orElseThrow(() -> new NotFound("Criterion not found with id " + criterionId));
-
-        Integer assignmentID = criterion.getRubric().getSubjectOutcome().getIdCompetencyAssignment();
         return canAccessRubric(uid, criterion.getRubric().getId());
     }
 

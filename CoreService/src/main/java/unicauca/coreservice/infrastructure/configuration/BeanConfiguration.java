@@ -58,8 +58,8 @@ public class BeanConfiguration {
         return new RubricService(repository, outcomeRepository, au); }
 
     @Bean
-    public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository){
-        return new CriterionService(repository, rubricRepository);}
+    public CriterionInt createCriterion(CriterionRepository repository, RubricRepository rubricRepository, IAuthorizationService au){
+        return new CriterionService(repository, rubricRepository, au);}
 
     @Bean
     public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository){
