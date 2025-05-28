@@ -7,12 +7,12 @@ import { ProgramCompetencyService } from '../../services/program-competency.serv
 
 // Models
 import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
-import { TextBlock } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
+import { TextBlock } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
 
 // Components
-import { TemplateListboxCompleteComponent } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
-import { TemplateBlockGridComponent } from '../../componentsShared/template-block-grid/template-block-grid.component';
-import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
+import { TemplateListboxCompleteComponent } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
+import { TemplateBlockGridComponent } from '../../componentsShared/templates/template-block-grid/template-block-grid.component';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 
 @Component({
   selector: 'app-settings-comp-program',

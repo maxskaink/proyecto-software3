@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { MoleculeBlockUserComponent } from '../molecule-block-user/molecule-block-user.component';
-import { TeacherDTO } from '../../models/TeacherDTO';
-import { AuthService } from '../../services/auth.service';
+import { MoleculeBlockUserComponent } from '../../molecules/molecule-block-user/molecule-block-user.component';
+import { TeacherDTO } from '../../../models/TeacherDTO';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-template-list-teachers',

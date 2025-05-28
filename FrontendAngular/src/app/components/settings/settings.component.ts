@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MoleculeBlockComponent } from '../../componentsShared/molecule-block/molecule-block.component';
-import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
-import { TemplateBlocksSettingsComponent } from '../../componentsShared/template-blocks-settings/template-blocks-settings.component';
-import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
+import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecule-block/molecule-block.component';
+import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
+import { TemplateBlocksSettingsComponent } from '../../componentsShared/templates/template-blocks-settings/template-blocks-settings.component';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 
 @Component({
   selector: 'app-settings',

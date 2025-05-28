@@ -6,8 +6,8 @@ import { title } from 'node:process';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
-import { MoleculeSearchBarComponent } from '../../componentsShared/molecule-search-bar/molecule-search-bar.component';
-import { MoleculeBlockComponent } from '../../componentsShared/molecule-block/molecule-block.component';
+import { MoleculeSearchBarComponent } from '../../componentsShared/molecules/molecule-search-bar/molecule-search-bar.component';
+import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecule-block/molecule-block.component';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { AsignatureService } from '../../services/subject.service';
 

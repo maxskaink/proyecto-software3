@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { MoleculeBackHeaderComponent } from '../molecule-back-header/molecule-back-header.component';
+import { MoleculeBackHeaderComponent } from '../../molecules/molecule-back-header/molecule-back-header.component';
 
 @Component({
   selector: 'app-template-header-title',

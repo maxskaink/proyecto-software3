@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { MoleculeBlockConfigurationComponent } from '../molecule-block-configuration/molecule-block-configuration.component';
+import { MoleculeBlockConfigurationComponent } from '../../molecules/molecule-block-configuration/molecule-block-configuration.component';
 
 export interface ConfigBlock {
   title: string;

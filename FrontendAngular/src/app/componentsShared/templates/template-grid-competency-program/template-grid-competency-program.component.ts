@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MoleculeBlockCompetencyComponent } from '../molecule-block-competency/molecule-block-competency.component';
+import { MoleculeBlockCompetencyComponent } from '../../molecules/molecule-block-competency/molecule-block-competency.component';
 
 @Component({
   selector: 'app-template-grid-competency-program',

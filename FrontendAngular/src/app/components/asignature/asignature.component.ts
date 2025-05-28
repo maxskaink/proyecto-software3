@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
+import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { AsignatureService } from '../../services/subject.service';
-import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-block-user/molecule-block-user.component';
+import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
-import { MoleculeCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
+import { MoleculeCompetencySectionComponent } from '../../componentsShared/molecules/moleculue-competency-section/moleculue-competency-section.component';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 

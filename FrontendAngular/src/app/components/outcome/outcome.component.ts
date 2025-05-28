@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MoleculeSectionOptionComponent } from '../../componentsShared/molecule-section-option/molecule-section-option.component';
-import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
+import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules/molecule-section-option/molecule-section-option.component';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 
 @Component({
   selector: 'app-outcome',

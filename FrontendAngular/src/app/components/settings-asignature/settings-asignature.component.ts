@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
-import { TemplateListboxCompleteComponent, TextBlock } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
-import { TemplateInputBoxtextComponent } from '../../componentsShared/template-input-boxtext/template-input-boxtext.component';
+import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
+import { TemplateListboxCompleteComponent, TextBlock } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
+import { TemplateInputBoxtextComponent } from '../../componentsShared/templates/template-input-boxtext/template-input-boxtext.component';
 import { Router } from '@angular/router';
 
 @Component({

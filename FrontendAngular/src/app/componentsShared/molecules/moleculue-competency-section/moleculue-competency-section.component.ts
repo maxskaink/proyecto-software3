@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable, tap, catchError, of } from 'rxjs';
+import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
+import { SubjectCompetency } from '../../../models/SubjectCompetencyDTO';
+import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
+import { ProgramCompetencyService } from '../../../services/program-competency.service';
+import { SubjectOutomeService } from '../../../services/subject_outcome.service';
 import { MoleculeOutComeComponent } from '../molecule-out-come/molecule-out-come.component';
-
-import { SubjectOutomeService } from '../../services/subject_outcome.service';
-import { ProgramCompetencyService } from '../../services/program-competency.service';
-import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
-import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
-import { catchError, Observable, of, tap } from 'rxjs';
-import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 
 @Component({
     selector: 'app-moleculue-competency-section',

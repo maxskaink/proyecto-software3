@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { MoleculeSearchBarComponent } from '../molecule-search-bar/molecule-search-bar.component';
+import { MoleculeSearchBarComponent } from '../../molecules/molecule-search-bar/molecule-search-bar.component';
 
 
 @Component({

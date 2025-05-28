@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MoleculeBackHeaderComponent } from '../../componentsShared/molecule-back-header/molecule-back-header.component';
-import { TemplateListTeachersComponent } from '../../componentsShared/template-list-teachers/template-list-teachers.component';
-import { MoleculeAsideMenuComponent } from '../../componentsShared/molecule-aside-menu/molecule-aside-menu.component';
+import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
+import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
+import { MoleculeAsideMenuComponent } from '../../componentsShared/molecules/molecule-aside-menu/molecule-aside-menu.component';
 
 @Component({
   selector: 'app-settings-teachers',

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
+import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
 
 
 @Component({

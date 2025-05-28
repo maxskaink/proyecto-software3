@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SectionOption } from '../../models/SectionOptions';
+import { SectionOption } from '../../../models/SectionOptions';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-molecule-section-option',
