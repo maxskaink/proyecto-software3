@@ -2,10 +2,10 @@
     <h2 class="fw-bold mb-2 mb-md-0 title">{{ data.title }}</h2>
     <div class="xt-start box_Information">
       <p>{{ data.description }}</p>
-      <button class="button" *ngIf="data.showButtonOne" (click)="onButtonOneClick()">
+      <button class="button" *ngIf="data.showButtonOne" (click)="onButtonOneClick(data.actionOne)">
         {{ data.buttonTextOne }}
       </button>
-      <button class="button" *ngIf="data.showButtonTwo" (click)="onButtonTwoClick()">
+      <button class="button" *ngIf="data.showButtonTwo" (click)="onButtonTwoClick(data.actionTwo)">
         {{ data.buttonTextTwo }}
       </button>
       

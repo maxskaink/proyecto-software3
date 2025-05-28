@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ValueChangeEvent } from '@angular/forms';
 import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules/molecule-section-option/molecule-section-option.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
+import { Action, SectionOption } from '../../models/SectionOptions';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-outcome',
@@ -14,13 +17,15 @@ import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/t
   styleUrl: './outcome.component.css'
 })
 export class OutcomeComponent {
-  options = [
+  constructor(private router: Router){}
+  options: SectionOption[] = [
     {
     title: 'RA1',
     description: 'Materia orientada al servicio web revisando diferentes framewoks tales como angular o Django, pasando por fronted y backend junto con su documentación  ',
     showButtonOne: true,
     buttonTextOne: 'Editar descripcion',
     showButtonTwo: false,
+
   },
   {
     title: 'Evaluadores',
@@ -28,15 +33,21 @@ export class OutcomeComponent {
     showButtonOne: true,
     buttonTextOne: 'Ver evaluadores',
     showButtonTwo: true,
-    buttonTextTwo: 'Gestionar Evaluadores'
+    buttonTextTwo: 'Gestionar Evaluadores',
+    
   },
   {
     title: 'Rubrica',
     description: 'Nuestras rubricas se manejan por criterios y niveles, los criterios te indicaran  el tema evaluado mientras que los niveles que tanto los domina',
     showButtonOne: true,
     buttonTextOne: 'Ver rubrica',
+    actionOne:{
+      type: 'scroll',
+      value: 'rubryc'
+    },
     showButtonTwo: true,
-    buttonTextTwo: 'Editar rubrica'
+    buttonTextTwo: 'Editar rubrica',
+    
   },
 ];
   
@@ -48,4 +59,5 @@ export class OutcomeComponent {
   handleBotonDos() {
     console.log('Se hizo clic en el botón 2');
   }
+ 
 }

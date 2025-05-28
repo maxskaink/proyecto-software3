@@ -15,20 +15,11 @@ export class MoleculeSectionOptionComponent {
   @Output() buttonTwoClick = new EventEmitter<void>();
 
   constructor(private router: Router){}
-  onButtonOneClick() {
-    console.log("Use button one");
-    this.buttonOneClick.emit();
-  }
-
-  onButtonTwoClick() {
-    console.log("Use button two");
-    this.buttonTwoClick.emit();
-  }
-  handleBotonUno(action: any) {
+  onButtonOneClick(action: any) {
     this.ejecutarAccion(action);
   }
   
-  handleBotonDos(action: any) {
+  onButtonTwoClick(action: any) {
     this.ejecutarAccion(action);
   }
   
@@ -45,7 +36,7 @@ export class MoleculeSectionOptionComponent {
         if (el) el.scrollIntoView({ behavior: 'smooth' });
         break;
       default:
-        console.warn('Tipo de acción no soportado');
+        
     }
   }
   
