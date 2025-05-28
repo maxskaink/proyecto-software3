@@ -1,6 +1,5 @@
 package unicauca.microsubject.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import unicauca.microsubject.domain.exception.InvalidValue;
