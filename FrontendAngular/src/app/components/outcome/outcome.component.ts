@@ -5,7 +5,7 @@ import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { Action, SectionOption } from '../../models/SectionOptions';
 import { Router } from '@angular/router';
-import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
+
 
 
 @Component({

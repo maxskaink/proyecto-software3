@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Firestore, collection, doc, getDoc, getDocs } from '@angular/fire/firestore';
@@ -67,5 +67,15 @@ export class AuthService {
   logout() {
     this.userData = null;
     return signOut(this.afAuth);
+  }
+  async getToken(): Promise<string | null> {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      return await user.getIdToken();
+    }
+
+    return null;
   }
 }

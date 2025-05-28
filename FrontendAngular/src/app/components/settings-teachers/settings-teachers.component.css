@@ -6,11 +6,32 @@
 .section_options{
     margin-bottom: 4%;
 }
-.section_options_value{
+
+.section_options_value {
+    transition: background-color 0.3s ease;
+    position: relative;  
     background-color: #8D538C;
     color: #ECF4F1;
-    
-}
+  }
+  
+.hover-square {
+    width: 20px;
+    height: 100%;
+    background-color: #30192f; /* Puedes usar tu color */
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    margin-right: 20px;
+  }
+  
+  .section_options_value:hover .hover-square {
+    opacity: 1;
+  }
+  
 .welcome_text{
     padding: 3%;
     margin-top: 5%;
