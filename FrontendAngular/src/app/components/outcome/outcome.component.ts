@@ -5,6 +5,7 @@ import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { Action, SectionOption } from '../../models/SectionOptions';
 import { Router } from '@angular/router';
+import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule,
      FormsModule,
      MoleculeSectionOptionComponent,
-     TemplateHeaderTitleComponent],
+     TemplateHeaderTitleComponent,],
   templateUrl: './outcome.component.html',
   styleUrl: './outcome.component.css'
 })
@@ -32,6 +33,10 @@ export class OutcomeComponent {
     description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
     showButtonOne: true,
     buttonTextOne: 'Ver evaluadores',
+    actionOne:{
+      type: 'scroll',
+      value: 'evaluators'
+    },
     showButtonTwo: true,
     buttonTextTwo: 'Gestionar Evaluadores',
     
