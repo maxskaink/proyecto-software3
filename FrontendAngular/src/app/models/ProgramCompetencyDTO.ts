@@ -1,5 +1,5 @@
-import { ProgramOutcome } from "./ProgramOutcome";
-import { SubjectCompetency } from "./SubjectCompetency";
+import { ProgramOutcome } from "./ProgramOutcomeDTO";
+import { SubjectCompetency } from "./SubjectCompetencyDTO";
 
 export interface ProgramCompetency {
     id: number;

@@ -1,8 +1,8 @@
 .my-4{
     width: 40%;
     margin-left: 10%;
-    height: 3px;               /* Grosor de la línea */
-    background-color: #000000;    /* Color de la línea */
+    height: 3px;               /* Line width */
+    background-color: #000000;    /* Line color */
     border: none;       
 }
 .list__Box{

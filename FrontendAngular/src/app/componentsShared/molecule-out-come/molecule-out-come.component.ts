@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SubjectOutcome } from '../../models/SubjectOutcome';
+import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
 
 
 @Component({
@@ -10,13 +10,13 @@ import { SubjectOutcome } from '../../models/SubjectOutcome';
   styleUrl: './molecule-out-come.component.css'
 })
 export class MoleculeOutComeComponent {
-  @Input() outCome!: SubjectOutcome;
+  @Input() outcome!: SubjectOutcome;
 
   title: string = '';
   description: string = '';
 
   ngOnInit(): void {
-    this.title = `RA${this.outCome.id}`;
-    this.description = this.outCome.description;
+    this.title = `RA${this.outcome.id}`;
+    this.description = this.outcome.description;
   }
 }

@@ -1,15 +1,15 @@
 <app-molecule-back-header>
 </app-molecule-back-header>
 <section class="row sectionInfo">
-    <!-- Columna izquierda con título y descripción -->
+    <!-- Left column with title and description-->
     <div class="col-6 d-flex flex-column justify-content-center infoBasicAsignature">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
     </div>
   
-    <!-- Columna derecha con botón -->
+    <!-- Right column with user block -->
     <div class="col-6 d-flex align-items-center justify-content-center">
-      <app-molecule-block-user [name]="'NProv'" [rol]="'rol'"></app-molecule-block-user>
+      <app-molecule-block-user [name]="'NProv'" [role]="'rol'"></app-molecule-block-user>
     </div>
   </section>
   <section class="sectionCompetency">
@@ -24,7 +24,7 @@
         </div>
       </div>
   
-      <!-- Controles opcionales -->
+      <!-- Carousel controls -->
       <button class="carousel-control-prev" type="button" data-bs-target="#competencyCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
       </button>

@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+export interface TextBlock {
+  title: string;
+  description: string;
+  route?: string;
+}
+
 @Component({
   selector: 'app-template-listbox-complete',
   imports: [CommonModule],
@@ -8,10 +14,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './template-listbox-complete.component.css'
 })
 export class TemplateListboxCompleteComponent {
-  @Input() textBlock: any;
-  @Output() blockClick = new EventEmitter<any>();
+  @Input() textBlock: TextBlock[] = [];
+  @Output() blockClick = new EventEmitter<TextBlock>();
 
-  onBlockClick(block: any) {
+  onBlockClick(block: TextBlock) {
     this.blockClick.emit(block);
   }
 }

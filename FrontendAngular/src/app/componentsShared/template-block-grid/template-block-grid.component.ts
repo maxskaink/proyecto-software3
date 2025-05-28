@@ -11,12 +11,12 @@ import { MoleculeSearchBarComponent } from '../molecule-search-bar/molecule-sear
 })
 export class TemplateBlockGridComponent implements OnInit {
   wordSearch: string = ';';
-  @Input() listBlocks: any; 
+  @Input() listBlocks: any; // Under construction, should be replaced with a specific type later
   
   constructor() {}
 
   ngOnInit(): void {
-    // lógica de inicialización
+    // Initialize the listBlocks if not provided
   }
 
   onSearch(value: string): void {
