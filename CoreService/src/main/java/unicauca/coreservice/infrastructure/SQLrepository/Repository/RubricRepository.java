@@ -67,7 +67,7 @@ public class RubricRepository implements RubricRepositoryOutInt {
     public OptionalWrapper<Rubric> getById(Integer id) {
         try{
             return new OptionalWrapper<>(mapWithSubjectOutcome(
-                    rubricRepository.findById(id).
+                    rubricRepository.findByIdAndAndIsActivatedTrue(id).
                             orElseThrow( () -> new NotFound("Rubric with id " + id + " was not found") )
             ));
         }catch (Exception e){
@@ -78,9 +78,11 @@ public class RubricRepository implements RubricRepositoryOutInt {
     @Override
     public OptionalWrapper<Rubric> getBySubjectOutcomeId(Integer subjectOutcomeId) {
         try{
-            return new OptionalWrapper<>(rubricRepository.findByIsActivatedTrue().
+            Rubric result = rubricRepository.findByIsActivatedTrue().
                     stream().filter( rubric -> Objects.equals(rubric.getSubjectOutcomeId(),subjectOutcomeId))
-                    .map(this::mapWithSubjectOutcome).findFirst());
+                    .map(this::mapWithSubjectOutcome).findFirst()
+                    .orElseThrow( () -> new NotFound("Rubric with subject outcome id " + subjectOutcomeId + " was not found") );
+            return new OptionalWrapper<>(result);
         }catch (Exception e){
             return new OptionalWrapper<>(e);
         }
@@ -89,7 +91,7 @@ public class RubricRepository implements RubricRepositoryOutInt {
     @Override
     public OptionalWrapper<Rubric> update(Integer id, Rubric newRubric) {
         try{
-            RubricEntity activeRubric = rubricRepository.findActiveRubricById(id)
+            RubricEntity activeRubric = rubricRepository.findByIdAndAndIsActivatedTrue(id)
                     .orElseThrow(()-> new NotFound("Rubric with id " + id + " was not found"));
             activeRubric.setDescription(newRubric.getDescription());
             return new OptionalWrapper<>(mapWithSubjectOutcome(rubricRepository.save(activeRubric)));
@@ -101,7 +103,7 @@ public class RubricRepository implements RubricRepositoryOutInt {
     @Override
     public OptionalWrapper<Rubric> remove(Integer id) {
         try{
-            RubricEntity activeRubric = rubricRepository.findActiveRubricById(id)
+            RubricEntity activeRubric = rubricRepository.findByIdAndAndIsActivatedTrue(id)
                     .orElseThrow(()-> new NotFound("Rubric with id " + id + " was not found"));
             activeRubric.setActivated(false);
             return new OptionalWrapper<>(mapWithSubjectOutcome(rubricRepository.save(activeRubric)));

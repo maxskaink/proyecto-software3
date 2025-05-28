@@ -79,18 +79,30 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
             return new OptionalWrapper<>(e);
         }
     }
-    // TODO
-    // REVIEW IF THIS REMOVE REMOVE BOTH COMPETENCY AND OUTCOME
+
     @Override
     public OptionalWrapper<ProgramCompetency> remove(Integer id) {
         try{
             ProgramCompetencyEntity actualComp = this.programCompetencyRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(() -> new NotFound("Competency with id " + id + " was not found"));
+
+            //Remove competency
             actualComp.setActivated(false);
             String originalDescription =actualComp.getDescription();
             actualComp.setDescription(originalDescription + " (Removed)" + System.nanoTime());
             this.programCompetencyRepository.save(actualComp);
+
+            //Remove outcome
+            ProgramOutcomeEntity outcomeAsociated = programOutcomeRepository.findById( actualComp.getLearningOutcomes().getId() )
+                    .orElseThrow(()->new NotFound("Outcome with id " + actualComp.getLearningOutcomes().getId() + " was not found"));
+            outcomeAsociated.setActivated(false);
+            String originalDescriptionOutcome = outcomeAsociated.getDescription();
+            outcomeAsociated.setDescription(originalDescriptionOutcome + " (Removed)" + System.nanoTime());
+            this.programOutcomeRepository.save(outcomeAsociated);
+
             actualComp.setDescription(originalDescription);
+            outcomeAsociated.setDescription(originalDescriptionOutcome);
+            actualComp.setLearningOutcomes(outcomeAsociated);
             return new OptionalWrapper<>(ProgramCompetencyMapper.toProgramCompetency(actualComp));
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
@@ -109,7 +121,7 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
     @Override
     public OptionalWrapper<ProgramOutcome> getProgramOutcomeById(Integer id) {
         try{
-            ProgramOutcomeEntity response = this.programOutcomeRepository.findActiveProgramOutcomeById(id)
+            ProgramOutcomeEntity response = this.programOutcomeRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(() -> new NotFound("Outcome with id " + id + " was not found"));
             return new OptionalWrapper<>(ProgramOutcomeMapper.toProgramOutcome(response));
         } catch (Exception e) {
@@ -120,7 +132,7 @@ public class ProgramCompetencyAndOutcomeRepository implements ProgramCompetencyA
     @Override
     public OptionalWrapper<ProgramOutcome> updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome) {
         try{
-            ProgramOutcomeEntity response = this.programOutcomeRepository.findActiveProgramOutcomeById(id)
+            ProgramOutcomeEntity response = this.programOutcomeRepository.findByIdAndIsActivatedTrue(id)
                     .orElseThrow(() -> new NotFound("Learning Outcome with id  " + id + " was not found"));
             ProgramOutcomeEntity newRa = ProgramOutcomeMapper.toProgramOutcomeEntity(newProgramOutcome);
 

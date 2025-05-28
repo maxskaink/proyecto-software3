@@ -10,9 +10,10 @@ public interface ProgramCompetencyAndOutcomeInt {
     /**
      * Add a new ProgramCompetency in the system; it also adds the RA associated with it
      * @param newProgramCompetency instance of the new ProgramCompetency
+     * @param uid the unique identifier of the user who is adding the ProgramCompetency, it is used to add the RA
      * @return The ProgramCompetency added or the exception if it fails.
      */
-    ProgramCompetency add(ProgramCompetency newProgramCompetency) throws Exception;
+    ProgramCompetency add(ProgramCompetency newProgramCompetency, String uid) throws Exception;
 
     /**
      * Get all the ProgramCompetency activated in the system
@@ -31,16 +32,18 @@ public interface ProgramCompetencyAndOutcomeInt {
      * Update a ProgramCompetency in system, it can fail if break some rules
      * @param id id of the ProgramCompetency to updateProgramCompetency
      * @param newProgramCompetency instance of the new ProgramCompetency
+     * @param uid the unique identifier of the user who is updating the ProgramCompetency, it is used to update the RA if it is necessary.
      * @return the ProgramCompetency saved in DB or the exception if it fails
      */
-    ProgramCompetency updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency) throws Exception;
+    ProgramCompetency updateProgramCompetency(Integer id, ProgramCompetency newProgramCompetency, String uid) throws Exception;
 
     /**
      * Deactivate the ProgramCompetency and his RA in a system
      * @param id the id of the ProgramCompetency to deactivate
+     * @param uid the unique identifier of the user who is deactivating the ProgramCompetency, it is used to deactivate the RA if it is necessary.
      * @return the ProgramCompetency deactivated
      */
-    ProgramCompetency remove(Integer id) throws Exception;
+    ProgramCompetency remove(Integer id, String uid) throws Exception;
 
     /**
      * Get all the RA of the program
@@ -57,10 +60,12 @@ public interface ProgramCompetencyAndOutcomeInt {
 
     /**
      * updateProgramCompetency an ProgramOutcome
-     * @param id id of the ProgramOutcome to updateProgramCompetency
+     *
+     * @param id                id of the ProgramOutcome to updateProgramCompetency
      * @param newProgramOutcome the instance of the ProgramOutcome to updateProgramCompetency
+     * @param uid               the unique identifier of the user who is updating the ProgramOutcome, it is used to update the RA if it is necessary.
      * @return the ProgramOutcome updated in DB or the exception if it fails
      */
-    ProgramOutcome updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome) throws Exception;
+    ProgramOutcome updateProgramOutcome(Integer id, ProgramOutcome newProgramOutcome, String uid) throws Exception;
 
 }

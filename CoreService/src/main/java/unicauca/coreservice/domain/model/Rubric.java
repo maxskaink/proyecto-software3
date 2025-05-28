@@ -9,12 +9,18 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Rubric {
     private Integer id;
     private String description;
     private SubjectOutcome subjectOutcome;
     private List<Criterion> criteria;
+
+    public Rubric(Integer id, String description, SubjectOutcome subjectOutcome, List<Criterion> criteria) {
+        setId(id);
+        setDescription(description);
+        setSubjectOutcome(subjectOutcome);
+        setCriteria(criteria);
+    }
 
     public void setDescription(String description) {
         if(null==description)
