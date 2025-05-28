@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 export class MoleculeBlockUserComponent {
   @Input() name: string = '';
-  @Input() rol: string ='';
+  @Input() role: string ='';
 }

@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ErrorResponse } from '../models/ErrorDTO';
-import { ProgramCompetency } from '../models/ProgramCompetency';
+import { ProgramCompetency } from '../models/ProgramCompetencyDTO';
 
 @Injectable({ providedIn: 'root' })
 export class ProgramCompetencyService {

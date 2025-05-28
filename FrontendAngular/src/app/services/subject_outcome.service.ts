@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ErrorResponse } from '../models/ErrorDTO';
-import { SubjectOutcome } from '../models/SubjectOutcome';
+import { SubjectOutcome } from '../models/SubjectOutcomeDTO';
 
 @Injectable({ providedIn: 'root' })
 export class SubjectOutomeService {

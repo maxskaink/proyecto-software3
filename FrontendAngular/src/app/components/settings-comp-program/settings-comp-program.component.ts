@@ -1,32 +1,38 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
-import { TemplateListboxCompleteComponent } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
-
-import { TemplateBlockGridComponent } from '../../componentsShared/template-block-grid/template-block-grid.component';
-import { ProgramCompetencyService } from '../../services/program-competency.service';
-import { ProgramCompetency } from '../../models/ProgramCompetency';
-
-import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
 import { Router } from '@angular/router';
 
+// Services
+import { ProgramCompetencyService } from '../../services/program-competency.service';
 
+// Models
+import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
+import { TextBlock } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
+
+// Components
+import { TemplateListboxCompleteComponent } from '../../componentsShared/template-listbox-complete/template-listbox-complete.component';
+import { TemplateBlockGridComponent } from '../../componentsShared/template-block-grid/template-block-grid.component';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/template-header-title/template-header-title.component';
 
 @Component({
   selector: 'app-settings-comp-program',
-  imports: [CommonModule,
-    TemplateListboxCompleteComponent,
+  imports: [
+    CommonModule, 
+    TemplateListboxCompleteComponent, 
     TemplateBlockGridComponent, 
-    TemplateHeaderTitleComponent,
+    TemplateHeaderTitleComponent
   ],
   templateUrl: './settings-comp-program.component.html',
   styleUrl: './settings-comp-program.component.css'
 })
 export class SettingsCompProgramComponent implements OnInit {
   listCompetency: ProgramCompetency[] = [];
-  textBlock= [
+  loading = false;
+  error: string | null = null;
+  
+  textBlock: TextBlock[] = [
     {
-      title: 'listar competencias',
+      title: 'Listar competencias',
       description: 'En esta sección se encontrarán las competencias de programa que hayas creado'
     },
     {
@@ -34,29 +40,41 @@ export class SettingsCompProgramComponent implements OnInit {
       description: 'Crea las competencias de programa que necesites'
     },
   ];
-  constructor(private serviceProgCompetency: ProgramCompetencyService, private router: Router) {}
+
+  constructor(
+    private serviceProgCompetency: ProgramCompetencyService, 
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    //this.getCompetency();
+    this.getCompetency();
   }
 
   getCompetency(): void {
+    this.loading = true;
+    this.error = null;
+    
     this.serviceProgCompetency.getAll().subscribe({
       next: (data) => {
         this.listCompetency = data;
-        console.log('Competencias cargadas:', data);
+        this.loading = false;
       },
       error: (error) => {
         console.error('Error al obtener competencias:', error);
+        this.error = 'No se pudieron cargar las competencias';
+        this.loading = false;
       }
     });
   }
-  handleBlockClick(block: any) {
-    // ejemplo: redirigir según el título
+
+  handleBlockClick(block: TextBlock): void {
     if (block.title.toLowerCase().includes('listar')) {
-      document.getElementById('createAsignature')?.scrollIntoView({ behavior: 'smooth' });
+      const element = document.getElementById('createAsignature');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     } else if (block.route) {
-      this.router.navigate([block.route]); 
+      this.router.navigate([block.route]);
     }
   }
 }

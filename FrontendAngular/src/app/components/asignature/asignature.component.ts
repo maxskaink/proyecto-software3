@@ -5,19 +5,21 @@ import { SubjectDTO } from '../../models/SubjectDTO';
 import { AsignatureService } from '../../services/subject.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
-import { MoleculueCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
+import { MoleculeCompetencySectionComponent } from '../../componentsShared/moleculue-competency-section/moleculue-competency-section.component';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
-import { SubjectCompetency } from '../../models/SubjectCompetency';
+import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 
 
 @Component({
-    selector: 'app-asignature',
-    imports: [MoleculeBackHeaderComponent,
-        MoleculeBlockUserComponent,
-        MoleculueCompetencySectionComponent,
-        CommonModule],
-    templateUrl: './asignature.component.html',
-    styleUrl: './asignature.component.css'
+  selector: 'app-asignature',
+  imports: [
+      MoleculeBackHeaderComponent,
+      MoleculeBlockUserComponent,
+      MoleculeCompetencySectionComponent, // Fixed name
+      CommonModule
+  ],
+  templateUrl: './asignature.component.html',
+  styleUrl: './asignature.component.css'
 })
 export class AsignatureComponent {
   description: string = 'description';

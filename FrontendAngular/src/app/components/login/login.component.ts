@@ -24,7 +24,7 @@ export class LoginComponent {
   public async login() {
     try {
       await this.authService.login(this.email,this.password);
-      this.router.navigate(['/home']); // redirige tras login
+      this.router.navigate(['/home']); // redirect to home after successful login
     } catch (err) {
       this.errorMsg = 'Credenciales incorrectas o error de red.';
       console.error(err);

@@ -1,7 +1,7 @@
 /* Responsivo para títulos */
 .title {
     padding-left: 5%;
-    font-size: clamp(24px, 5vw, 60px); /* Tamaño adaptable entre 24px y 60px */
+    font-size: clamp(24px, 5vw, 60px); /* Responsive font size for titles between 24 and 60 px */
 }
 
 

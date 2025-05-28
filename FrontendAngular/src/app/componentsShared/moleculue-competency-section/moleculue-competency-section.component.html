@@ -1,19 +1,34 @@
 <div class="">
-    <div class="divididerUp d-flex align-items-center p-5">
-        <h2 class="titleSection">Competencia</h2>
-    </div>
-    <div class="bodyContent container-fluid ">
-        <h2>{{title}}</h2>
-        <p>Pertenece a:  {{programCompetency}}</p>
-        <hr class="m-5">
-        <p>{{description}}</p>
-        <p>{{level}}</p>
-    </div>
-    <section class="raContent d-flex justify-content-center flex-column align-items-center">
-        <div *ngFor="let outCome of listOutComes; let i = index">
-          <app-molecule-out-come [outCome]="outCome"></app-molecule-out-come>
-        </div>
-      </section>
+  <div class="divididerUp d-flex align-items-center p-5">
+      <h2 class="titleSection">Competencia</h2>
+  </div>
+  <div class="bodyContent container-fluid">
+      <h2>{{competency.description}}</h2>
       
-    
+      <!-- Program Competency with async pipe -->
+      <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
+          <p>Pertenece a: {{programComp.description}}</p>
+      </ng-container>
+      <ng-template #loadingProgramComp>
+          <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
+          <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
+      </ng-template>
+      
+      <hr class="m-5">
+      <p>{{competency.description}}</p>
+      <p>Nivel: {{competency.level}}</p>
+  </div>
+  
+  <!-- Outcomes with async pipe -->
+  <section class="raContent d-flex justify-content-center flex-column align-items-center">
+      <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+          <div *ngFor="let outcome of outcomes; let i = index">
+              <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
+          </div>
+      </ng-container>
+      <ng-template #loadingOutcomes>
+          <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+          <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
+      </ng-template>
+  </section>
 </div>
