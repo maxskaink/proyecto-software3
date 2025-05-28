@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
@@ -69,11 +70,12 @@ export class AuthService {
   }
 
   async getToken(): Promise<string | null> {
-    const user = this.afAuth.currentUser;
-    if (user) {
-      return await user.getIdToken();
-    }
-    return null;
+    const user = await firstValueFrom(
+      this.currentUser.pipe(
+        filter((u): u is User => u !== null)
+      )
+    );
+    return user.getIdToken();
   }
 
   // Placeholder para getAllUsers, implementa según tu lógica
