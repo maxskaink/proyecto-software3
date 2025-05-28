@@ -22,10 +22,13 @@ export class TemplateListTeachersComponent {
   }
 
   async getUsers(): Promise<void> {
-    try { 
-      this.listTeacherDTO = await this.authService.getAllUsers();
-    } catch (error) {
-      console.error('Error retrieving the users:', error);
-    }
+    this.authService.getAllUsers().subscribe({
+      next: (users) => {
+        this.listTeacherDTO = users;
+      },
+      error: (error) => {
+        console.error('Error retrieving the users:', error);
+      }
+    });
   }
 }
