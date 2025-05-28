@@ -1,8 +1,10 @@
 .user-icon {
-    font-size: 50px;            /* Cambia el tamaño del ícono */
+    font-size: 60px;            /* Cambia el tamaño del ícono */
     color: #1F0D1E;               /* Color del ícono */
 }
 .box{
-    max-width: 2rem;
-    min-width: 2rem;
+    min-width: 6rem;
+}
+.role{
+ font-size: clamp(0.5rem, 7vw, 1rem);
 }

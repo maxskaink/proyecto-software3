@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 export class MoleculeBlockUserComponent {
   @Input() name: string = '';
   @Input() role: string ='';
+  @Input() colorHover: string = '#8D538C'
 }

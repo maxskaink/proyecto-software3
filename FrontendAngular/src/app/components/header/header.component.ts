@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
 
 // Define an interface for the user data structure
 interface User {
@@ -11,14 +12,14 @@ interface User {
 
 @Component({
     selector: 'app-header',
-    imports: [CommonModule],
+    imports: [CommonModule,MoleculeBlockUserComponent],
     templateUrl: './header.component.html',
     styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
   user: User | null = null;
-  name = 'NO SE ENCONTRO';
-  role = 'Administrador';
+  name = '';
+  role = '';
 
   constructor(
     private router: Router, 
@@ -39,7 +40,7 @@ export class HeaderComponent implements OnInit {
 
     if (this.user) {
       this.name = this.user.name || 'Nombre no disponible';
-      this.name = this.user.role || 'Sin rol';
+      this.role = this.user.role || 'Sin rol';
     }
 
     console.log('Usuario:', this.user);
