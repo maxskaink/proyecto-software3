@@ -26,7 +26,21 @@ services:
       - "8080:8080"
     volumes:
       - maven-repo:/root/.m2
-
+  micro_subject:
+    build: ./microSubject
+    container_name: microSubject
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mi_basedatos
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8081:8080"
+    volumes:
+      - maven-repo-micro:/root/.m2
 volumes:
   pgdata:
   maven-repo:
+  maven-repo-micro:
