@@ -7,6 +7,7 @@ import { SettingsCompProgramComponent } from './components/settings-comp-program
 import { SettingsAsignatureComponent } from './components/settings-asignature/settings-asignature.component';
 import { SettingsTeachersComponent } from './components/settings-teachers/settings-teachers.component';
 import { OutcomeComponent } from './components/outcome/outcome.component';
+import { CompetencyComponent } from './components/competency/competency.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {path: 'asignatures/:id', component: AsignatureComponent},
   {path: 'settings', component:SettingsComponent},
   {path: 'settings/competencyProgram', component: SettingsCompProgramComponent},
+  {path: 'settings/competencyProgram/create', component: CompetencyComponent},
   {path: 'settings/asignatures', component: SettingsAsignatureComponent},
   {path: 'settings/teacher', component: SettingsTeachersComponent},
   {path: 'home/outcomes', component: OutcomeComponent}
