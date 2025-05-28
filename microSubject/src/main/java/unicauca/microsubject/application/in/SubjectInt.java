@@ -30,6 +30,16 @@ public interface SubjectInt {
     ) throws Exception;
 
     /**
+     * list all the assigned subjects with the uid
+     * @param uid uid of the user to validate authorization
+     * @return list of assigned subjets
+     */
+    List<Subject> listAssigned(
+            @NotNull(message = "the uid can not be null")
+            String uid
+    ) throws Exception;
+
+    /**
      * list all the subject in the system
      * @param id id of the subject to find
      * @param uid uid of the user to validate authorization

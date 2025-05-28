@@ -60,7 +60,9 @@ public class SubjectRepository implements SubjectRepositoryOutInt {
         return subjectRepository.findByIdAndIsActivatedTrue(id)
                 .map(entity -> {
                     newSubject.setId(id);
-                    SubjectEntity result = this.subjectRepository.save(SubjectMapper.toSubjectEntity(newSubject));
+                    entity.setName(newSubject.getName());
+                    entity.setDescription(newSubject.getDescription());
+                    SubjectEntity result = this.subjectRepository.save(entity);
                     return new OptionalWrapper<>(SubjectMapper.toSubject(result));
                 })
                 .orElseGet(() -> new OptionalWrapper<>(new NotFound("Subject not found")));

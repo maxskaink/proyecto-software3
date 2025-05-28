@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import unicauca.microsubject.application.in.*;
 import unicauca.microsubject.application.out.IAuthenticationService;
+import unicauca.microsubject.application.out.IAuthorizationService;
 import unicauca.microsubject.application.out.SubjectRepositoryOutInt;
+import unicauca.microsubject.application.out.TeacherAssignmentRepositoryOutInt;
 import unicauca.microsubject.domain.useCases.*;
 import unicauca.microsubject.infrastructure.SQLrepository.Repository.*;
 
@@ -24,11 +26,15 @@ public class BeanConfiguration {
     @Bean
     public SubjectInt createSubjectService(
             IAuthenticationService authenticationService,
-            SubjectRepositoryOutInt subjectRepository
+            IAuthorizationService authorizationService,
+            SubjectRepositoryOutInt subjectRepository,
+            TeacherAssignmentRepositoryOutInt assignmentRepository
     ){
         return new SubjectService(
                 authenticationService,
-                subjectRepository
+                authorizationService,
+                subjectRepository,
+                assignmentRepository
         );
     }
 }

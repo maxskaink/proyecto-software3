@@ -8,6 +8,7 @@ import unicauca.microsubject.application.out.TeacherAssignmentRepositoryOutInt;
 import unicauca.microsubject.domain.exception.NotFound;
 import unicauca.microsubject.domain.model.OptionalWrapper;
 import unicauca.microsubject.domain.model.TeacherAssignment;
+import unicauca.microsubject.domain.model.Term;
 import unicauca.microsubject.infrastructure.SQLrepository.JPARepository.JPATeacherAssignmentRepository;
 import unicauca.microsubject.infrastructure.SQLrepository.entity.SubjectEntity;
 import unicauca.microsubject.infrastructure.SQLrepository.entity.TeacherAssignmentEntity;
@@ -71,7 +72,22 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
     @Override
     public List<TeacherAssignment> listByTeacherUid(String teacherUid) {
         return teacherAssignmentRepository.findAll().stream().
-                filter(ta -> ta.getTeacherUid() != null && ta.getTeacherUid().equals(teacherUid))
+                filter(ta -> ta.getTeacherUid().equals(teacherUid))
+                .map(entity -> {
+                    TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
+                    teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
+                    teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
+                    return teacherAssignment;
+                }).toList();
+    }
+
+    @Override
+    public List<TeacherAssignment> listByTeacherUidActiveTerm(String teacherUid) throws Exception {
+        OptionalWrapper<Term> term = this.termRepository.getActiveTerm();
+        Integer idActualterm = term.getValue().orElseThrow(term::getException).getId();
+
+        return teacherAssignmentRepository.findAll().stream().
+                filter(ta -> ta.getTeacherUid().equals(teacherUid) && ta.getTerm().getId().equals(idActualterm))
                 .map(entity -> {
                     TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
                     teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));

@@ -32,6 +32,12 @@ public class SubjectController {
         return ResponseEntity.ok(subjectService.listAll(uid));
     }
 
+    @GetMapping("/assigned")
+    public ResponseEntity<List<Subject>> listAssignedSubjects(HttpServletRequest request) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
+        return ResponseEntity.ok(subjectService.listAssigned(uid));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Subject> getById(
             @PathVariable Integer id,

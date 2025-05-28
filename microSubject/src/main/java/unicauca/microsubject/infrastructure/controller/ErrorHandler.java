@@ -3,7 +3,9 @@ package unicauca.microsubject.infrastructure.controller;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -132,6 +134,35 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         ErrorDTO response = new ErrorDTO(
                 "Validation failed for request body",
                 message
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex,
+            org.springframework.http.HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request)  {
+
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            if (cause instanceof InvalidValue) {
+                ErrorDTO response = new ErrorDTO(
+                        "Invalid Value: The values sent are invalid",
+                        cause.getMessage()
+                );
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(response);
+            }
+            cause = cause.getCause();
+        }
+        ErrorDTO response = new ErrorDTO(
+                "Malformed request",
+                "Error en el formato de la solicitud: " + ex.getMostSpecificCause().getMessage()
         );
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -19,13 +19,13 @@ public class Subject {
     }
 
     public void setDescription(String description) throws InvalidValue {
-        if(description != null && !description.isEmpty()) {
+        if(description == null || description.isEmpty()) {
             throw new InvalidValue("Description cannot be empty or null");
         }
         this.description = description;
     }
     public void setName(String name) throws InvalidValue {
-        if(name != null && !name.isEmpty()) {
+        if(name == null || name.isEmpty()) {
             throw new InvalidValue("Name cannot be empty or null");
         }
         this.name = name;

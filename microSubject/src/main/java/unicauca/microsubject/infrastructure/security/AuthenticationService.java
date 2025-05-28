@@ -58,9 +58,9 @@ public class AuthenticationService implements IAuthenticationService {
     public boolean userExists(String uid) {
         try{
             getUserRecord(uid);
-            return false;
-        }catch (Exception e){
             return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

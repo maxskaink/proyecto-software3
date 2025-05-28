@@ -56,6 +56,14 @@ public interface TeacherAssignmentRepositoryOutInt {
     List<TeacherAssignment> listByTeacherUid(String teacherUid);
 
     /**
+     * Lists all TeacherAssignments associated with a specific teacher UID in the active term.
+     *
+     * @param teacherUid The UID of the teacher for which to list TeacherAssignments.
+     * @return An OptionalWrapper containing a list of TeacherAssignments or an exception if the operation fails.
+     */
+    List<TeacherAssignment> listByTeacherUidActiveTerm(String teacherUid) throws Exception;
+
+    /**
      * Removes a TeacherAssignment from the repository.
      * 
      * @param id The ID of the TeacherAssignment to remove.
