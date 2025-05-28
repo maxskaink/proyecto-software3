@@ -27,6 +27,13 @@ public interface SubjectRepositoryOutInt {
     OptionalWrapper<Subject> getById(Integer id);
 
     /**
+     * Get a Subject by his name
+     * @param name name of the subject
+     * @return instance of the subject
+     */
+    OptionalWrapper<Subject> getByName(String name);
+
+    /**
      * Update the Subject in DB
      * @param id id of the Subject to updateProgramCompetency
      * @param newSubject instance of the new Subject

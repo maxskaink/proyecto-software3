@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Repository;
 import unicauca.microsubject.application.out.SubjectRepositoryOutInt;
+import unicauca.microsubject.domain.exception.NotFound;
 import unicauca.microsubject.domain.model.Subject;
 import unicauca.microsubject.domain.model.OptionalWrapper;
 import unicauca.microsubject.infrastructure.SQLrepository.JPARepository.JPASubjectRepository;
@@ -33,33 +34,41 @@ public class SubjectRepository implements SubjectRepositoryOutInt {
 
     @Override
     public List<Subject> listAll() {
-        return subjectRepository.findAll().stream()
+        return subjectRepository.findAllByIsActivatedTrue().stream()
                 .map(SubjectMapper::toSubject)
                 .toList();
     }
 
     @Override
     public OptionalWrapper<Subject> getById(Integer id) {
-        return subjectRepository.findById(id)
+        return subjectRepository.findByIdAndIsActivatedTrue(id)
                 .map(SubjectMapper::toSubject)
                 .map(OptionalWrapper::new)
-                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
+                .orElseGet(() -> new OptionalWrapper<>(new NotFound("Subject not found")));
+    }
+
+    @Override
+    public OptionalWrapper<Subject> getByName(String name) {
+        return subjectRepository.findByName(name)
+                .map(SubjectMapper::toSubject)
+                .map(OptionalWrapper::new)
+                .orElseGet(() -> new OptionalWrapper<>(new NotFound("subject not found")));
     }
 
     @Override
     public OptionalWrapper<Subject> update(Integer id, Subject newSubject) {
-        return subjectRepository.findById(id)
+        return subjectRepository.findByIdAndIsActivatedTrue(id)
                 .map(entity -> {
                     newSubject.setId(id);
                     SubjectEntity result = this.subjectRepository.save(SubjectMapper.toSubjectEntity(newSubject));
                     return new OptionalWrapper<>(SubjectMapper.toSubject(result));
                 })
-                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
+                .orElseGet(() -> new OptionalWrapper<>(new NotFound("Subject not found")));
     }
 
     @Override
     public OptionalWrapper<Subject> remove(Integer id) {
-        return subjectRepository.findById(id)
+        return subjectRepository.findByIdAndIsActivatedTrue(id)
                 .map(entity -> {
                     subjectRepository.delete(entity);
                     return new OptionalWrapper<>(SubjectMapper.toSubject(entity));
