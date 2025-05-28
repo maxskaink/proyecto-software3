@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
-import { AsignatureService } from '../../services/subject.service';
+import { SubjectService } from '../../services/subject.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
 import { CommonModule } from '@angular/common';
-import { MoleculeCompetencySectionComponent } from '../../componentsShared/molecules/moleculue-competency-section/moleculue-competency-section.component';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
+import { TemplateCompetencyComponent } from '../../componentsShared/templates/template-competency/template-competency.component';
 
 
 @Component({
@@ -15,20 +15,20 @@ import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
   imports: [
       MoleculeBackHeaderComponent,
       MoleculeBlockUserComponent,
-      MoleculeCompetencySectionComponent, // Fixed name
+      TemplateCompetencyComponent, // Fixed name
       CommonModule
   ],
-  templateUrl: './asignature.component.html',
-  styleUrl: './asignature.component.css'
+  templateUrl: './subject.component.html',
+  styleUrl: './subject.component.css'
 })
-export class AsignatureComponent {
+export class SubjectComponent {
   description: string = 'description';
   title: string= 'title';
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
   constructor(
-    private asignatureService: AsignatureService,
+    private asignatureService: SubjectService,
     private route: ActivatedRoute,
     private competenciesSubject: SubjectCompetencyService 
   ) {}

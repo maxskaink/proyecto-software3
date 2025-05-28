@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { AsignatureComponent } from './components/asignature/asignature.component';
+import { SubjectComponent } from './components/asignature/subject.component';
 import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsCompProgramComponent } from './components/settings-comp-program/settings-comp-program.component';
@@ -14,7 +14,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'access-denied', component: LoginComponent, data: { accessDenied: true }},
   {path: 'home', component: HomeComponent},
-  {path: 'asignatures/:id', component: AsignatureComponent},
+  {path: 'asignatures/:id', component: SubjectComponent},
   {path: 'settings', component:SettingsComponent},
   {path: 'settings/competencyProgram', component: SettingsCompProgramComponent},
   {path: 'settings/competencyProgram/create', component: CompetencyComponent},
