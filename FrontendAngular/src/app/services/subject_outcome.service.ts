@@ -13,11 +13,8 @@ export class SubjectOutomeService {
   constructor(private http: HttpClient) {}
 
   // GET /subject/{subjectId}/outcome?activeTerm=true|false
-  getOutcomesBySubject(subjectId: number, activeTerm?: boolean): Observable<SubjectOutcome[]> {
+  getOutcomesBySubject(subjectId: number): Observable<SubjectOutcome[]> {
     let url = `${this.baseUrl}/subject/${subjectId}/outcome`;
-    if (activeTerm !== undefined) {
-      url += `?activeTerm=${activeTerm}`;
-    }
     return this.http.get<SubjectOutcome[]>(url).pipe(catchError(this.handleError));
   }
 
