@@ -1,0 +1,14 @@
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+    <h2 class="fw-bold mb-2 mb-md-0 title">{{ data.title }}</h2>
+    <div class="xt-start box_Information">
+      <p>{{ data.description }}</p>
+      <button class="button" *ngIf="data.showButtonOne" (click)="onButtonOneClick()">
+        {{ data.buttonTextOne }}
+      </button>
+      <button class="button" *ngIf="data.showButtonTwo" (click)="onButtonTwoClick()">
+        {{ data.buttonTextTwo }}
+      </button>
+      
+    </div>
+  </div>
+  <div class="divider"></div>

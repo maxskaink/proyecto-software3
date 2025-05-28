@@ -1,0 +1,16 @@
+<app-template-header-title [title]="'CONFIGURACIÓN DE RA'" [description]="'Configura tu ra a tu gusto'"></app-template-header-title>
+<section class="sectionOtions">
+    <div *ngFor="let option of options">
+      <app-molecule-section-option
+      [data]="option"
+      (buttonOneClick)="handleBotonUno()"
+      (buttonTwoClick)="handleBotonDos()">
+      </app-molecule-section-option>
+    </div>
+  </section>
+<section id="rubryc">
+
+</section>
+<section id="Evaluators">
+
+</section>

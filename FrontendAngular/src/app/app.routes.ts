@@ -6,6 +6,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsCompProgramComponent } from './components/settings-comp-program/settings-comp-program.component';
 import { SettingsAsignatureComponent } from './components/settings-asignature/settings-asignature.component';
 import { SettingsTeachersComponent } from './components/settings-teachers/settings-teachers.component';
+import { OutcomeComponent } from './components/outcome/outcome.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -16,5 +17,6 @@ export const routes: Routes = [
   {path: 'settings', component:SettingsComponent},
   {path: 'settings/competencyProgram', component: SettingsCompProgramComponent},
   {path: 'settings/asignatures', component: SettingsAsignatureComponent},
-  {path: 'settings/teacher', component: SettingsTeachersComponent}
+  {path: 'settings/teacher', component: SettingsTeachersComponent},
+  {path: 'home/outcomes', component: OutcomeComponent}
 ];
