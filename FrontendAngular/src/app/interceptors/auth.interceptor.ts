@@ -12,12 +12,17 @@ export const authInterceptor: HttpInterceptorFn = (
   
   return from(authService.getToken()).pipe(
     switchMap(token => {
-      const authReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return next(authReq);
+      //console.log(`Petición a: ${req.url}, Token disponible: ${!!token}`);
+      if (token) {
+        const authReq = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return next(authReq);
+      }
+      console.warn('No hay token disponible para:', req.url);
+      return next(req);
     })
   );
 };

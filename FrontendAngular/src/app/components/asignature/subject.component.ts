@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 import { TemplateCompetencyComponent } from '../../componentsShared/templates/template-competency/template-competency.component';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -27,10 +28,14 @@ export class SubjectComponent {
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
+
+  role: string ="";
+  name: string ="";
   constructor(
     private asignatureService: SubjectService,
     private route: ActivatedRoute,
-    private competenciesSubject: SubjectCompetencyService 
+    private competenciesSubject: SubjectCompetencyService ,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -44,13 +49,21 @@ export class SubjectComponent {
         this.loadCompetencies();
       }
     }
-    console.log(this.title)
+
+    this.auth.role.subscribe(role=> {
+      if(role!=null)
+        this.role=role;
+    });
+    this.auth.name.subscribe(name=>{
+      if(name!=null)
+        this.name=name;
+    })
   }
 
   getAsignatureID(id: number): void {
     this.asignatureService.getAsignatureID(id).subscribe(data => {
       this.actualAsignature = data;
-      this.title = this.actualAsignature.title;
+      this.title = this.actualAsignature.name;
       this.description  = this.actualAsignature.description;
     });
   }

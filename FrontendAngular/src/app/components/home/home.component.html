@@ -23,7 +23,7 @@
       <div class="carousel-scroll">
         <app-molecule-block
           *ngFor="let asignature of asignaturesFilters"
-          [title]="asignature.title"
+          [title]="asignature.name"
           [description]="asignature.description"
           class="card-item"
           (click)="goToAsignature(asignature.id)">

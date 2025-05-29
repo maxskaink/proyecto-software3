@@ -38,27 +38,22 @@ export class HomeComponent implements OnInit{
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-
-    this.getAsignature();
-    this.asignaturesFilters = [...this.asignatures];
-
- }
- getAsignature(): void{
-  this.asignatureService.getAsignature().subscribe(data => {
-    this.asignatures = data.map(asignature => {     
-      return {
-        ...asignature,
-      };
+    this.asignatureService.getAssignedAsignatures().subscribe({
+      next: (data) => {
+        this.asignatures = data;
+        this.asignaturesFilters = [...this.asignatures];
+      },
+      error: (error) => console.error('Error en la suscripción:', error)
     });
-  });
  }
+
   filterAsignatures(): void {
     if (!this.wordSearch) {
       this.asignaturesFilters = [...this.asignatures];
     } else {
       const termino = this.wordSearch.toLowerCase();
       this.asignaturesFilters= this.asignatures.filter(asignature =>
-        asignature.title.toLowerCase().includes(termino)
+        asignature.name.toLowerCase().includes(termino)
       );
     }
   }
