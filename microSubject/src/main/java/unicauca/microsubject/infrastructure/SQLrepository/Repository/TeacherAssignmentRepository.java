@@ -34,7 +34,7 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
             
             newTeacherAssignment.setId(null);
 
-            if(authenticationService.userExists(newTeacherAssignment.getTeacherUid()))
+            if(!authenticationService.userExists(newTeacherAssignment.getTeacherUid()))
                 throw new NotFound("Teacher does not exist");
 
             TeacherAssignmentEntity entity = TeacherAssignmentMapper.toTeacherAssignmentEntity(newTeacherAssignment);
