@@ -8,6 +8,7 @@ import { SettingsAsignatureComponent } from './components/settings-asignature/se
 import { SettingsTeachersComponent } from './components/settings-teachers/settings-teachers.component';
 import { OutcomeComponent } from './components/outcome/outcome.component';
 import { CompetencyComponent } from './components/competency/competency.component';
+import { ProgramCompetencyComponent } from './components/program-competency/program-competency.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -17,7 +18,7 @@ export const routes: Routes = [
   {path: 'asignatures/:id', component: SubjectComponent},
   {path: 'settings', component:SettingsComponent},
   {path: 'settings/competencyProgram', component: SettingsCompProgramComponent},
-  {path: 'settings/competencyProgram/create', component: CompetencyComponent},
+  {path: 'settings/competencyProgram/create', component: ProgramCompetencyComponent},
   {path: 'settings/asignatures', component: SettingsAsignatureComponent},
   {path: 'settings/teacher', component: SettingsTeachersComponent},
   {path: 'home/outcomes', component: OutcomeComponent},

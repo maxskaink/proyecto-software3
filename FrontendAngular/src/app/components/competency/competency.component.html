@@ -36,7 +36,7 @@
           <!-- For program outcomes -->
           <div *ngIf="!isSubjectSpecific" class="outcomes-container">
             <div *ngFor="let outcome of subjectOutcomes" class="mb-3">
-              <app-molecule-out-come [outcome]="outcome.description"></app-molecule-out-come>
+              <app-molecule-out-come [outcome]="outcome.description" [isEditable]="true" ></app-molecule-out-come>
             </div>
           </div>
 
