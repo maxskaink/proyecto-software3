@@ -1,31 +1,178 @@
+/* ===== CONTAINER ===== */
 .outcome-container {
-    display: flex;
-    border: 1px solid #ccc;
-    background-color: #f8f8f8;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .outcome-label {
-    background-color: #532c58; /* púrpura */
-    color: white;
-    font-weight: bold;
-    font-size: 2rem;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 100px;
-  }
-  
-  .outcome-description {
-    padding: 1rem;
-    color: #532c58; /* texto en púrpura oscuro */
-    flex: 1;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    line-height: 1.5;
-    width: 100%;
-  }
-  
+  display: flex;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ===== LABEL ===== */
+.outcome-label {
+  background-color: #532c58; /* púrpura */
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+/* ===== DESCRIPTION ===== */
+.outcome-description {
+  padding: 1.25rem 1.5rem;
+  color: #532c58; /* texto en púrpura oscuro */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem; /* Increased font size */
+  line-height: 1.6;
+  width: 100%;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  background: #f8f8f8;
+  border-left: 3px solid #532c58;
+  text-shadow: 0px 0px 1px rgba(83, 44, 88, 0.1);
+  position: relative;
+  padding-left: 2rem; /* Extra padding for quote mark */
+}
+
+.outcome-description::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 3rem;
+  color: rgba(83, 44, 88, 0.15);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+/* ===== EDITABLE STYLES ===== */
+.editable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.editable:hover {
+  background-color: #f8f8f8;
+}
+
+.edit-icon {
+  color: #532c58;
+  font-size: 0.9rem; /* Slightly larger */
+  opacity: 0.7;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ===== EDIT MODE ===== */
+.outcome-edit-container {
+  flex: 1;
+  padding: 1rem;
+  width: 100%;
+  background: #f8f8f8; /* Replaced gradient with solid color */
+  border-left: 3px solid #532c58;
+}
+
+.outcome-edit-input {
+  resize: none;
+  width: 100%;
+  color: #532c58;
+  border: none !important; /* Remove border */
+  background-color: #f8f8f8; /* Match container background */
+  padding: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 0;
+  box-shadow: none !important;
+}
+
+/* Override Bootstrap form-control border */
+.form-control.outcome-edit-input {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.outcome-edit-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #f8f8f8; /* Keep the same background on focus */
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  border-radius: 50px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.btn-primary {
+  background: #532c58; /* Replaced gradient with solid color */
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.btn-primary:hover {
+  background: #632f6b; /* Replaced gradient with solid color */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(83, 44, 88, 0.3);
+}
+
+.btn-primary:active, 
+.btn-primary:focus {
+  background: #3e2142; /* Replaced gradient with solid color */
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(83, 44, 88, 0.3);
+}
+
+.btn-secondary {
+  background-color: white;
+  border: 1px solid rgba(83, 44, 88, 0.3);
+  color: #532c58;
+  font-size: 0.85rem;
+}
+
+.btn-secondary:hover {
+  background-color: #f8f8f8; /* Changed to match container */
+  color: #3e2142;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:active,
+.btn-secondary:focus {
+  background-color: #f8f8f8; /* Changed to match container */
+  color: #3e2142;
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Add icons to buttons */
+.btn-primary::before {
+  content: "✓";
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.btn-secondary::before {
+  content: "✕";
+  margin-right: 6px;
+}

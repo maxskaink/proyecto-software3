@@ -1,4 +1,22 @@
 <div class="outcome-container">
-    <div class="outcome-label"> {{ title }} </div>
-    <div class="outcome-description"> {{ description }} </div>
+    <div class="outcome-label">{{ title }}</div>
+
+    <!-- Read-only view -->
+    <div *ngIf="!isEditMode" class="outcome-description" [class.editable]="isEditable" (click)="toggleEditMode()">
+        {{ description }}
+        <span *ngIf="isEditable" class="edit-icon ms-2">
+            <i class="bi bi-pencil-fill"></i>
+        </span>
+    </div>
+
+    <!-- Edit mode -->
+    <div *ngIf="isEditMode" class="outcome-edit-container">
+        <textarea [(ngModel)]="editedDescription" class="form-control outcome-edit-input" rows="3"
+            placeholder="Describe el resultado de aprendizaje">
+    </textarea>
+        <div class="d-flex justify-content-end mt-3">
+            <button class="btn btn-secondary me-3" (click)="cancelEdit()">Cancelar</button>
+            <button class="btn btn-primary" (click)="toggleEditMode()">Guardar</button>
+        </div>
+    </div>
 </div>
