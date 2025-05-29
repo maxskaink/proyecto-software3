@@ -4,18 +4,16 @@ import { TemplateInputBoxtextComponent } from '../../componentsShared/templates/
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { MoleculeOutComeComponent } from '../../componentsShared/molecules/molecule-out-come/molecule-out-come.component';
 import { CommonModule } from '@angular/common';
-import { ProgramOutcomeService } from '../../services/program-outcome.service';
 import { SubjectOutomeService } from '../../services/subject_outcome.service';
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
 import { ProgramOutcome } from '../../models/ProgramOutcomeDTO';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
-import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 import { ProgramCompetencyService } from '../../services/program-competency.service';
 import { FormsModule } from '@angular/forms';
 
 //This component handles both general competency data and subject-specific competency data 
-// based on the presence of a subjectId in the query parameters.
+// based on the presence of a programCompetencyId in the query parameters.
 
 @Component({
   selector: 'app-competency',
@@ -25,7 +23,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './competency.component.css'
 })
 export class CompetencyComponent implements OnInit {
-  subjectId?: number;
+  programCompetencyId?: number;
   isSubjectSpecific = false;
 
   subjectOutcomes: SubjectOutcome[] = [];
@@ -48,10 +46,10 @@ export class CompetencyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Get the subjectId from query parameters
+    // Get the programCompetencyId from query parameters
     this.route.queryParams.subscribe(params => {
-      if (params['subjectId']) {
-        this.subjectId = +params['subjectId'];
+      if (params['programCompetencyId']) {
+        this.programCompetencyId = +params['programCompetencyId'];
         this.isSubjectSpecific = true;
         this.loadSubjectSpecificData();
         this.selectLabelPlaceholder = 'Aqui puedes seleccionar la competenecia del programa a la que pertenecera';
@@ -66,11 +64,11 @@ export class CompetencyComponent implements OnInit {
   }
 
   loadSubjectSpecificData(): void {
-    if (!this.isSubjectSpecific || !this.subjectId) {
+    if (!this.isSubjectSpecific || !this.programCompetencyId) {
       return;
     }
 
-    this.subjectOutcomeService.getOutcomesBySubject(this.subjectId).subscribe({
+    this.subjectOutcomeService.getOutcomesBySubject(this.programCompetencyId).subscribe({
       next: (data) => {
         this.subjectOutcomes = data;
         console.log('Subject-specific outcomes loaded:', data);
@@ -108,7 +106,7 @@ export class CompetencyComponent implements OnInit {
   
     // If the component is subject-specific, we need to handle the subject competency
     if (this.isSubjectSpecific) {
-      if (!this.subjectId) {
+      if (!this.programCompetencyId) {
         console.error("Subject ID is missing");
         return false;
       }
@@ -125,7 +123,7 @@ export class CompetencyComponent implements OnInit {
         }
       };
   
-      this.subjectCompetencyService.assignCompetencyToSubject(this.subjectId, requestData)
+      this.subjectCompetencyService.assignCompetencyToSubject(this.programCompetencyId, requestData)
         .subscribe({
           next: (result) => {
             console.log('Competency assigned successfully:', result);
