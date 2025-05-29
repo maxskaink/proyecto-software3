@@ -61,7 +61,7 @@ export class SubjectComponent {
   }
 
   getAsignatureID(id: number): void {
-    this.asignatureService.getAsignatureID(id).subscribe(data => {
+    this.asignatureService.getSubjectID(id).subscribe(data => {
       this.actualAsignature = data;
       this.title = this.actualAsignature.name;
       this.description  = this.actualAsignature.description;

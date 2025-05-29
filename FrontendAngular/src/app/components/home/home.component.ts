@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit{
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.asignatureService.getAssignedAsignatures().subscribe({
+    this.asignatureService.getAssignedSubject().subscribe({
       next: (data) => {
         this.asignatures = data;
         this.asignaturesFilters = [...this.asignatures];
