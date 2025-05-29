@@ -15,11 +15,21 @@
         </ng-template>
         
         <hr class="m-5">
-        <input type="text" class="form-control mb-3" placeholder="Descripción de la competencia" [(ngModel)]="editedCompetency.description">
-        
+        <p class="angular-brackets helper">Ingresa la nueva description de tu competencia</p>
+        <input type="text"
+         class="form-control mb-3" 
+         placeholder="Descripción de la competencia" 
+         [(ngModel)]="editedCompetency.description"
+         [class.is-invalid]="!editedCompetency.description.trim()">
+         <p *ngIf="!editedCompetency.description?.trim()" class="text-danger validation-message">
+            La descripción es obligatoria
+        </p>
+        <p class="angular-brackets helper">Aqui puedes seleccionar el nuevo nivel del resultado de aprendizaje</p>
         <select class="form-select mb-3" 
         [(ngModel)]="editedCompetency.level"
-        name="level">
+        name="level"
+        [class.is-invalid]="!editedCompetency.level.trim()"
+        >
         <option value="" disabled>Seleccione un nivel</option>
         <option value="alto">Alto</option>
         <option value="medio">Medio</option>

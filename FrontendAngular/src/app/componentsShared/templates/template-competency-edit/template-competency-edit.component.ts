@@ -25,6 +25,8 @@ export class TemplateCompetencyEditComponent {
      
     outcomes$!: Observable<SubjectOutcome[]>;
     programCompetency$!: Observable<ProgramCompetency>;
+    validationError: string = '';
+
     
     loading = {
       outcomes: false,
@@ -77,7 +79,22 @@ export class TemplateCompetencyEditComponent {
         })
       );
     }
+    validateInputs(): boolean {
+      if (!this.editedCompetency.description || this.editedCompetency.description.trim() === '') {
+        this.validationError = 'La descripción de la competencia es obligatoria.';
+        return false;
+      }
+      if (!this.editedCompetency.programCompetencyId) {
+        this.validationError = 'Debe seleccionar una competencia de programa.';
+        return false;
+      }
+      this.validationError = '';
+      return true;
+    }
     onSaveClick(): void {
+      if (!this.validateInputs()) {
+        return; // No continuar si hay errores de validación
+      }
       this.competencyService.updateCompetency(1,this.editedCompetency).subscribe({
         next: (response) => {
           // Emitir false para volver al modo visualización

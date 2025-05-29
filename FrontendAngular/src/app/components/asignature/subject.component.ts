@@ -84,6 +84,7 @@ export class SubjectComponent {
   }
   onEditStateChange(newState: boolean): void {
     this.isEdit = newState;
+    this.loadCompetencies();
   }
   goToCompetency(): void {
     const element = document.getElementById('competencySection');
@@ -95,6 +96,21 @@ export class SubjectComponent {
     }
   }
   goToCreateCompetency(): void {
-    this.router.navigate(['']);
+    console.log('Lista de competencias:', this.listCompetency); // Debug
+    if (this.listCompetency && this.listCompetency.length > 0) {
+      console.log('ID de competencia seleccionada:', this.listCompetency[0].programCompetencyId);
+      
+      this.router.navigate(['home'], {
+          queryParams: { 
+              programCompetencyId: this.listCompetency[0].programCompetencyId
+          },
+          queryParamsHandling: 'merge'
+      });
+  } else {
+      console.error('No hay competencias disponibles. Estado actual:', {
+          listCompetency: this.listCompetency,
+          id: this.id
+      });
+  }
   }
 }

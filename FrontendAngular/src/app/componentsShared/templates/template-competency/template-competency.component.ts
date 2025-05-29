@@ -8,6 +8,7 @@ import { ProgramCompetencyService } from '../../../services/program-competency.s
 import { CommonModule } from '@angular/common';
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 import { CompetencyComponent } from '../../../components/competency/competency.component';
+import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 
 @Component({
   selector: 'app-template-competency',
@@ -20,7 +21,7 @@ export class TemplateCompetencyComponent {
   @Output() editStateChange = new EventEmitter<boolean>();
   outcomes$!: Observable<SubjectOutcome[]>;
   programCompetency$!: Observable<ProgramCompetency>;
-  
+  editedCompetency: SubjectCompetency = {} as SubjectCompetency;
   loading = {
     outcomes: false,
     programCompetency: false
@@ -33,13 +34,15 @@ export class TemplateCompetencyComponent {
 
   constructor(
     private outcomeService: SubjectOutomeService, 
-    private competencyProgramService: ProgramCompetencyService
+    private competencyProgramService: ProgramCompetencyService,
+    private competencyService: SubjectCompetencyService
   ) {}
 
   ngOnInit(): void {
     if (this.competency) {
       this.loadOutcomes();
       this.loadProgramCompetency();
+      this.editedCompetency = { ...this.competency };
     }
   }
 
@@ -69,8 +72,18 @@ export class TemplateCompetencyComponent {
     );
   }
   onSaveClick(): void {
-    // Aquí iría la lógica para guardar los cambios
-    this.editStateChange.emit(false);
+    this.competencyService.updateCompetency(this.competency.id, this.editedCompetency).subscribe({
+      next: (response) => {
+        console.log('Competencia actualizada:', response);
+        // Actualiza la competencia local con los nuevos datos
+        Object.assign(this.competency, response);
+        // Emite el evento para salir del modo edición
+        this.editStateChange.emit(false);
+      },
+      error: (error) => {
+        console.error('Error al actualizar la competencia:', error);
+      }
+    });
   }
 
   onCancelClick(): void {
