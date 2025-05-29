@@ -1,19 +1,21 @@
 <app-molecule-back-header>
 </app-molecule-back-header>
 <section class="row sectionInfo">
-    <!-- Left column with title and description-->
-    <div class="col-6 d-flex flex-column justify-content-center infoBasicAsignature">
+  <!-- Left column - will stack on small screens -->
+  <div class="col-12 col-md-6 d-flex flex-column justify-content-center infoBasicAsignature">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
-      <button class="btn" (click)="goToCompetency()"> Ver competencias</button>
-      <button class="btn"> Crear competencias</button>
-    </div>
-    
-    <!-- Right column with user block -->
-    <div class="col-6 d-flex align-items-center justify-content-center">
-      <app-molecule-block-user [name]="name" [role]="role"></app-molecule-block-user>
-    </div>
-  </section>
+      <div class="d-flex flex-column flex-sm-row gap-2">
+          <button class="btn " (click)="goToCompetency()">Ver competencias</button>
+          <button class="btn " (click)="goToCreateCompetency()">Crear competencias</button>
+      </div>
+  </div>
+  
+  <!-- Right column - will stack on small screens -->
+  <div class="col-12 col-md-6 d-flex align-items-center justify-content-center mt-4 mt-md-0">
+    <app-molecule-block-user [name]="name" [role]="role"></app-molecule-block-user>
+  </div>
+</section>
   <section  id="competencySection" class="sectionCompetency">
     <div id="competencyCarousel" class="carousel slide"    [attr.data-bs-ride]="isEdit ? 'false' : 'carousel'"
     [attr.data-bs-interval]="isEdit ? 'false' : '5000'">

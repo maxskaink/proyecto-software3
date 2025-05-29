@@ -1,6 +1,6 @@
 import { Component, viewChild, ElementRef, ViewChild} from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
@@ -41,7 +41,8 @@ export class SubjectComponent {
     private asignatureService: SubjectService,
     private route: ActivatedRoute,
     private competenciesSubject: SubjectCompetencyService ,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router  
   ) {}
 
   ngOnInit() {
@@ -92,5 +93,8 @@ export class SubjectComponent {
         block: 'start'
       });
     }
+  }
+  goToCreateCompetency(): void {
+    this.router.navigate(['']);
   }
 }
