@@ -11,7 +11,7 @@
           <!-- Dropdown estilizado -->
           <div class="mb-4">
             <label for="programCompetency" class="form-label small text-muted">
-              &lt;Elige a qué competencia de programa pertenecerá&gt;
+              &lt;{{selectLabelPlaceholder}}&gt;
             </label>
             <div class="dropdown-wrapper position-relative">
               <select class="form-select custom-select-style clickable-select" id="programCompetency" [(ngModel)]="selectedOption">
@@ -42,7 +42,7 @@
           </div>
         </section>
 
-        <!-- Sección Outcomes (Nueva sección para los outcomes) -->
+        <!-- Outcomes section -->
         <section *ngIf="hasMaxCompetencies()" class="col-12 order-3 order-lg-2 mt-3 mt-lg-0">
           <!-- For program outcomes -->
           <div *ngIf="!isSubjectSpecific" class="outcomes-container">

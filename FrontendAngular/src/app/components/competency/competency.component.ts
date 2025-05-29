@@ -38,6 +38,7 @@ export class CompetencyComponent implements OnInit {
   outcomeCreated: boolean = false;
   selectedOption: string = ''; // Default option
   selectPlaceholder: string = '';
+  selectLabelPlaceholder: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -53,10 +54,12 @@ export class CompetencyComponent implements OnInit {
         this.subjectId = +params['subjectId'];
         this.isSubjectSpecific = true;
         this.loadSubjectSpecificData();
+        this.selectLabelPlaceholder = 'Aqui puedes seleccionar la competenecia del programa a la que pertenecera';
         this.selectPlaceholder = 'Selecciona la competencia del programa a la que pertenecera';
       }
       else {
         this.isSubjectSpecific = false;
+        this.selectLabelPlaceholder = 'Aqui puedes seleccionar el nivel de la competencia del programa';
         this.selectPlaceholder = 'Seleccciona el nivel de competencia';
       }
     });

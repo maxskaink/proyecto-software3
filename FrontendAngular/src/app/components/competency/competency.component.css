@@ -1,75 +1,67 @@
-.gray-section-container {
-    background-color:  #E9E9E9;
-    /* gris claro */
-    border-radius: 12px;
-    padding: 24px;
-
-  }
-  
-  /* Caja gris para mostrar RA */
-  .gray-box {
-    height: 120px;
-    background-color: #D9D9D9;
-    border-radius: 6px;
-  }
-  
-  /* Hover del botón claro */
-  .custom-hover:hover {
-    background-color: #C3C3C3 !important;
-    color: black !important;
-  }
-  
-  /* Botones redondeados y uniformes */
-  .custom-btn {
-    border-radius: 999px;
-    font-weight: 600;
-    height: 40px;
-  }
-  
-  .form-select,
-.input-group-text {
-  border-color: #bfbfbf;
-  border-radius: 6px;
-}
-
-/* Estilo limpio, moderno y con bordes redondeados */
-.custom-select-style {
-  background-color: #D9D9D9;
-  border: 1px solid #BFBFBF;
-  border-radius: 6px;
-  height: 38px;
-  padding-right: 2.5rem; /* Espacio para el ícono */
-  font-size: 0.9rem;
-  color: #333;
-  appearance: none;
-}
-
+/* ===== LAYOUT ===== */
 .competency-container {
   min-height: 100vh;
   overflow-x: hidden;
 }
 
+/* ===== SECTIONS ===== */
+.gray-section-container {
+  background-color: #E9E9E9;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* Gray box for RA display */
 .gray-box {
-  background-color: #e9ecef;
-  border-radius: 0.5rem;
+  background-color: #D9D9D9;
+  border-radius: 6px;
+  height: 120px;
+  width: 100%;
   min-height: 200px;
 }
 
-@media (max-width: 768px) {
-  .row {
-    flex-direction: column;
-  }
-  
-  .gray-box {
-    min-height: 150px;
-  }
+.outcomes-container {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* ===== BUTTONS ===== */
+.custom-btn {
+  border-radius: 999px;
+  font-weight: 600;
+  height: 40px;
+}
+
+/* Light button hover effect */
+.custom-hover:hover {
+  background-color: #C3C3C3 !important;
+  color: black !important;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-select,
+.input-group-text {
+  border-color: #bfbfbf;
+  border-radius: 6px;
+}
+
+/* Clean, modern select with rounded borders */
+.custom-select-style {
+  background-color: #D9D9D9;
+  border: 1px solid #BFBFBF;
+  border-radius: 6px;
+  height: 38px;
+  padding-right: 2.5rem; /* Space for icon */
+  font-size: 0.9rem;
+  color: #333;
+  appearance: none;
 }
 
 .clickable-select {
   cursor: pointer;
 }
 
-/* Optional: Add these for a more interactive feel */
 .clickable-select:hover {
   border-color: #0d6efd;
 }
@@ -87,38 +79,22 @@
   border-color: #0d6efd;
 }
 
-.competency-container {
-  overflow-x: hidden;
-}
-
-.gray-section-container {
-
-  border-radius: 10px;
-}
-
-.gray-box {
-  border-radius: 0.5rem;
-  width: 100%;
-}
-
-.clickable-select {
-  cursor: pointer;
-}
-
-.outcomes-container {
-  width: 100%;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
+/* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 991px) {
-  
   .title {
     font-size: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .gray-box {
+    min-height: 150px;
+  }
+  
   .container-fluid {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
