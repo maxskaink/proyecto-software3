@@ -1,59 +1,64 @@
-<app-template-header-title></app-template-header-title>
+<div class="competency-container d-flex flex-column min-vh-100">
+  <app-template-header-title></app-template-header-title>
 
-<div class="gray-section-container p-4">
-  <div class="container py-4 general-container">
-    <h1 class="fw-bold title">{{getTitle()}}</h1>
-    <div class="d-flex justify-content-between align-items-start gap-4">
-
-      <!-- Sección Izquierda -->
-      <section class="w-50">
-        <!-- Dropdown debajo del título -->
-        <div class="mb-4">
-          <div class="input-group">
-            <select class="form-select rounded-end" id="programCompetency" [(ngModel)]="selectedOption">
-              <option value="" disabled selected>{{selectPlaceholder}}</option>
-              <option *ngFor="let opt of getOptions()" [value]="opt">{{ opt }}</option>
-            </select>
+  <div class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden">
+    <div class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column">
+      <h1 class="fw-bold title mb-3 mb-md-4">{{getTitle()}}</h1>
+      
+      <div class="row g-4 flex-grow-1">
+        <!-- Sección Izquierda -->
+        <section class="col-12 col-lg-6 order-1">
+          <!-- Dropdown estilizado -->
+          <div class="mb-4">
+            <label for="programCompetency" class="form-label small text-muted">
+              &lt;Elige a qué competencia de programa pertenecerá&gt;
+            </label>
+            <div class="dropdown-wrapper position-relative">
+              <select class="form-select custom-select-style clickable-select" id="programCompetency" [(ngModel)]="selectedOption">
+                <option value="" disabled selected>{{selectPlaceholder}}</option>
+                <option *ngFor="let opt of getOptions()" [value]="opt">{{ opt }}</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <app-template-input-boxtext [description]="'Escribe la description de la competencia'"
-          (saveClicked)="save($event)">>
-        </app-template-input-boxtext>
-      </section>
 
-      <!-- Sección Derecha -->
-      <section class="w-50">
-        <div class="d-flex mb-3">
-          <button *ngIf="" class="btn btn-light custom-hover custom-btn w-50 me-2">Reutilizar</button>
-          <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }">Crear RA</button>
-        </div>
+          <app-template-input-boxtext 
+            [description]="'Escribe la description de la competencia'"
+            (saveClicked)="save($event)">
+          </app-template-input-boxtext>
+        </section>
 
-        <!-- Show outcomes if max competencies reached -->
-        <div>
-          <!-- Show outcomes -->
-          <div *ngIf="hasMaxCompetencies()">
-            <!-- For program outcomes -->
-            <div *ngIf="!isSubjectSpecific">
-              <div *ngFor="let outcome of subjectOutcomes">
-                <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
-              </div>
-            </div>
-
-            <!-- For subject outcomes -->
-            <div *ngIf="isSubjectSpecific">
-              <div *ngFor="let outcome of subjectOutcomes">
-                <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
-              </div>
-            </div>
+        <!-- Sección Derecha (Botones y Gray Box) -->
+        <section class="col-12 col-lg-6 order-2 order-lg-2 d-flex flex-column">
+          <div class="d-flex mb-3">
+            <button *ngIf="" class="btn btn-light custom-hover custom-btn w-50 me-2">Reutilizar</button>
+            <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }">Crear RA</button>
           </div>
 
           <!-- Show gray box if max not reached -->
-          <div *ngIf="!hasMaxCompetencies()" class="gray-box d-flex justify-content-center align-items-center">
-            <span class="text-secondary fw-semibold">RA</span> 
+          <div *ngIf="!hasMaxCompetencies()" class="flex-grow-1 mt-2">
+            <div class="gray-box d-flex justify-content-center align-items-center">
+              <span class="text-secondary fw-semibold">RA</span> 
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
+        <!-- Sección Outcomes (Nueva sección para los outcomes) -->
+        <section *ngIf="hasMaxCompetencies()" class="col-12 order-3 order-lg-2 mt-3 mt-lg-0">
+          <!-- For program outcomes -->
+          <div *ngIf="!isSubjectSpecific" class="outcomes-container">
+            <div *ngFor="let outcome of subjectOutcomes" class="mb-3">
+              <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
+            </div>
+          </div>
+
+          <!-- For subject outcomes -->
+          <div *ngIf="isSubjectSpecific" class="outcomes-container">
+            <div *ngFor="let outcome of subjectOutcomes" class="mb-3">
+              <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </div>

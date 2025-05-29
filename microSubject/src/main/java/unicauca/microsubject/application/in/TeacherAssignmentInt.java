@@ -20,6 +20,11 @@ public interface TeacherAssignmentInt {
                     @NotNull(message = "The teacher assignment subject id can not be null") Integer subjectId) throws Exception;
 
 
+    /**
+     * This method is used to get a teacher assignment by its id.
+     * @param id The id of the teacher assignment.
+     * @return The teacher assignment object that was found in the system.
+     */
     TeacherAssignment getById(@NotNull(message = "The teacher assignment id can not be null") Integer id) throws Exception;
 
     /**
