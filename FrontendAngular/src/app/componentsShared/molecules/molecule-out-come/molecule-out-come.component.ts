@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
-
 
 @Component({
   selector: 'app-molecule-out-come',
@@ -10,13 +8,20 @@ import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
   styleUrl: './molecule-out-come.component.css'
 })
 export class MoleculeOutComeComponent {
-  @Input() outcome!: SubjectOutcome;
+  @Input() outcome!: string;
+  @Input() outcomeNumber?: number ;
 
   title: string = '';
   description: string = '';
 
   ngOnInit(): void {
-    this.title = `RA${this.outcome.id}`;
-    this.description = this.outcome.description;
+    if(!this.outcomeNumber) {
+      this.title = 'RA';
+    }
+    else{
+      this.title = 'RA' + this.outcomeNumber;
+    }
+
+    this.description = this.description;
   }
 }
