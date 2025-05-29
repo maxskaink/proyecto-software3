@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-template-input-boxtext',
@@ -11,11 +10,20 @@ import { EventEmitter } from 'stream';
 })
 export class TemplateInputBoxtextComponent {
   @Input() description: string = '';
-  //@Output() blockClick = new EventEmitter<any>();
-  inputValue: string= '';
+  @Output() saveClicked = new EventEmitter<string>();
+  
+  inputValue: string = '';
   touched: boolean = false;
+  
   onBlur() {
-    this.touched= true;
+    this.touched = true;
+  }
+  
+  onSave() {
+    if (this.inputValue.trim()) {
+      this.saveClicked.emit(this.inputValue);
+    } else {
+      this.touched = true;
+    }
   }
 }
-

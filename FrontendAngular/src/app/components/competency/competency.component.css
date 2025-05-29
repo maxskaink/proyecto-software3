@@ -25,3 +25,8 @@
     height: 40px;
   }
   
+  .form-select,
+.input-group-text {
+  border-color: #bfbfbf;
+  border-radius: 6px;
+}

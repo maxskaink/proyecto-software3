@@ -10,9 +10,9 @@ import { SubjectCompetency } from '../models/SubjectCompetencyDTO';
   providedIn: 'root'
 })
 export class SubjectCompetencyService {
-  private baseUrl = 'http://localhost:8080'; 
+  private baseUrl = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCompetenciesByAsignature(asignatureId: number): Observable<SubjectCompetency[]> {
     return this.http.get<SubjectCompetency[]>(`${this.baseUrl}/subject/${asignatureId}/competency`)
@@ -26,7 +26,8 @@ export class SubjectCompetencyService {
   }
 
   // POST /subject/{subjectId}/competency
-  assignCompetencyToSubject(subjectId: number, data: Partial<SubjectCompetency>): Observable<SubjectCompetency> {
+  // Any for convenience, should be replaced with a specific DTO
+  assignCompetencyToSubject(subjectId: number, data: any): Observable<SubjectCompetency> {
     return this.http.post<SubjectCompetency>(`${this.baseUrl}/subject/${subjectId}/competency`, data)
       .pipe(catchError(this.handleError));
   }

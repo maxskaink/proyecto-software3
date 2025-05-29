@@ -23,7 +23,8 @@ export class ProgramCompetencyService {
   }
 
   // POST /program/competency
-  create(data: ProgramCompetency): Observable<ProgramCompetency> {
+  // TODO: Any for convenience, should be replaced with a specific DTO
+  create(data: any): Observable<ProgramCompetency> {
     return this.http.post<ProgramCompetency>(`${this.baseUrl}/program/competency`, data).pipe(catchError(this.handleError));
   }
 
@@ -42,6 +43,7 @@ export class ProgramCompetencyService {
     if (error.error) {
       err = error.error;
     }
+    console.error('Error in ProgramCompetencyService:', err);
     return throwError(() => err);
   }
 }

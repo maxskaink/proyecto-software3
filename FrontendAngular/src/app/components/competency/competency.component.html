@@ -1,60 +1,59 @@
 <app-template-header-title></app-template-header-title>
 
 <div class="gray-section-container p-4">
-    <div class="container py-4 general-container">
-        <h1 class="fw-bold title">{{getTitle()}}</h1>
-        <div class="d-flex justify-content-between align-items-start gap-4">
-          
-          <!-- Sección Izquierda -->
-          <section class="w-50">
-            <app-template-input-boxtext
-              [description]="'Escribe la description de la competencia'">
-            </app-template-input-boxtext>
-          </section>
-          
-        <!-- Sección Derecha -->
-        <section class="w-50">
-            <div class="d-flex justify-content-between mb-3">
-              <button class="btn btn-dark custom-btn w-50 me-2">Crear RA</button>
-              <button class="btn btn-light custom-hover custom-btn w-50">Reutilizar</button>
-            </div>
-            
-            <!-- Loading state -->
-            <div *ngIf="loading" class="gray-box d-flex justify-content-center align-items-center">
-              <span class="text-secondary fw-semibold">Cargando...</span>
-            </div>
-            
-            <!-- Error state -->
-            <div *ngIf="error" class="gray-box d-flex justify-content-center align-items-center">
-              <span class="text-danger fw-semibold">{{error}}</span>
-            </div>
-            
-            <!-- Show outcomes if max competencies reached -->
-            <div *ngIf="!loading && !error">
-              <!-- Show outcomes -->
-              <div *ngIf="hasMaxCompetencies()">
-                <!-- TODO adjust the molecule later For program outcomes -->
-                <div *ngIf="!isSubjectSpecific">
-                  <div *ngFor="let outcome of subjectOutcomes">
-                    <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
-                  </div>
-                </div>
-                
-                <!-- For subject outcomes -->
-                <div *ngIf="isSubjectSpecific">
-                  <div *ngFor="let outcome of subjectOutcomes">
-                    <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Show gray box if max not reached -->
-              <div *ngIf="!hasMaxCompetencies()" class="gray-box d-flex justify-content-center align-items-center">
-                <span class="text-secondary fw-semibold">RA</span>
+  <div class="container py-4 general-container">
+    <h1 class="fw-bold title">{{getTitle()}}</h1>
+    <div class="d-flex justify-content-between align-items-start gap-4">
+
+      <!-- Sección Izquierda -->
+      <section class="w-50">
+        <!-- Dropdown debajo del título -->
+        <div class="mb-4">
+          <div class="input-group">
+            <select class="form-select rounded-end" id="programCompetency" [(ngModel)]="selectedOption">
+              <option value="" disabled selected>{{selectPlaceholder}}</option>
+              <option *ngFor="let opt of getOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+        </div>
+        <app-template-input-boxtext [description]="'Escribe la description de la competencia'"
+          (saveClicked)="save($event)">>
+        </app-template-input-boxtext>
+      </section>
+
+      <!-- Sección Derecha -->
+      <section class="w-50">
+        <div class="d-flex mb-3">
+          <button *ngIf="" class="btn btn-light custom-hover custom-btn w-50 me-2">Reutilizar</button>
+          <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }">Crear RA</button>
+        </div>
+
+        <!-- Show outcomes if max competencies reached -->
+        <div>
+          <!-- Show outcomes -->
+          <div *ngIf="hasMaxCompetencies()">
+            <!-- For program outcomes -->
+            <div *ngIf="!isSubjectSpecific">
+              <div *ngFor="let outcome of subjectOutcomes">
+                <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
               </div>
             </div>
-          </section>
-      
-      </div>
-      
+
+            <!-- For subject outcomes -->
+            <div *ngIf="isSubjectSpecific">
+              <div *ngFor="let outcome of subjectOutcomes">
+                <app-molecule-out-come [outcome]="outcome"></app-molecule-out-come>
+              </div>
+            </div>
+          </div>
+
+          <!-- Show gray box if max not reached -->
+          <div *ngIf="!hasMaxCompetencies()" class="gray-box d-flex justify-content-center align-items-center">
+            <span class="text-secondary fw-semibold">RA</span> 
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
 </div>
