@@ -8,14 +8,6 @@ import unicauca.coreservice.domain.model.TeacherAssignment;
 public interface TeacherAssignmentRepositoryOutInt {
 
     /**
-     * Adds a new TeacherAssignment to the repository.
-     *
-     * @param teacherAssignment The TeacherAssignment to be added.
-     * @return An OptionalWrapper containing the added TeacherAssignment or an exception if the operation fails.
-     */
-    OptionalWrapper<TeacherAssignment> add(TeacherAssignment teacherAssignment);
-
-    /**
      * Retrieves a TeacherAssignment by its ID.
      *
      * @param id The ID of the TeacherAssignment to retrieve.
@@ -55,20 +47,4 @@ public interface TeacherAssignmentRepositoryOutInt {
      */
     List<TeacherAssignment> listByTeacherUid(String teacherUid);
 
-    /**
-     * Removes a TeacherAssignment from the repository.
-     * 
-     * @param id The ID of the TeacherAssignment to remove.
-     * @return An OptionalWrapper containing the removed TeacherAssignment or an exception if the operation fails.
-     */
-    OptionalWrapper<TeacherAssignment> remove(Integer id);
-
-    /**
-     * Removes a TeacherAssignment by its teacher UID and subject ID in the active term.
-     * 
-     * @param teacherUid The UID of the teacher.
-     * @param subjectId The ID of the subject.
-     * @return An OptionalWrapper containing the removed TeacherAssignment or an exception if the operation fails.
-     */
-    OptionalWrapper<TeacherAssignment> removeByTeacherAndSubjectInActiveTerm(String teacherUid, Integer subjectId);
 }

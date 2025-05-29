@@ -65,14 +65,4 @@ public class BeanConfiguration {
     public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository, IAuthorizationService au){
         return new LevelService(repository, criterionRepository, au);}
 
-    @Bean
-    public TeacherAssignmentInt createTeacherAssignment(TeacherAssignmentRepository repository, TermRepository termRepository,
-                                                        SubjectRepository subjectRepository){
-        return new TeacherAssignmentService(repository, termRepository, subjectRepository);}
-
-    @Bean
-    public EvaluatorAssignmentInt createEvaluatorAssignment(EvaluatorAssignmentRepository repository, TermRepository termRepository,
-                                                            SubjectOutcomeRepository subjectOutcomeRepository){
-        return new EvaluatorAssignmentService(repository, termRepository, subjectOutcomeRepository);
-    }
 }

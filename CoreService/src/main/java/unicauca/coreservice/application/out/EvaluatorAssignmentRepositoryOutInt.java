@@ -8,14 +8,6 @@ import unicauca.coreservice.domain.model.OptionalWrapper;
 public interface EvaluatorAssignmentRepositoryOutInt {
 
     /**
-     * Adds a new EvaluatorAssignment.
-     *
-     * @param newEvaluatorAssignment the EvaluatorAssignment to add
-     * @return an OptionalWrapper containing the added EvaluatorAssignment, or empty if the operation failed
-     */
-    OptionalWrapper<EvaluatorAssignment> add(EvaluatorAssignment newEvaluatorAssignment);
-    
-    /**
      * Retrieves an EvaluatorAssignment by its ID.
      *
      * @param id the ID of the EvaluatorAssignment
@@ -56,21 +48,4 @@ public interface EvaluatorAssignmentRepositoryOutInt {
      */
     List<EvaluatorAssignment> listByEvaluatorUid(String evaluatorUid);
 
-    /**
-     * Removes an EvaluatorAssignment by its ID.
-     *
-     * @param id the ID of the EvaluatorAssignment to remove
-     * @return an OptionalWrapper containing the removed EvaluatorAssignment, or empty if not found
-     */
-    OptionalWrapper<EvaluatorAssignment> remove(Integer id);
-
-    /**
-     * Removes an EvaluatorAssignment by evaluator UID and subject outcome ID in the active term.
-     *
-     * @param evaluatorUid the UID of the evaluator
-     * @param subjectOutcomeId the ID of the subject outcome
-     * @return an OptionalWrapper containing the removed EvaluatorAssignment, or empty if not found
-     */
-    OptionalWrapper<EvaluatorAssignment> removeByEvaluatorAndSubjectOutcomeInActiveTerm(
-            String evaluatorUid, Integer subjectOutcomeId);
 }
