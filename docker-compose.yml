@@ -15,7 +15,7 @@ services:
 
   core-service:
     build: ./CoreService
-    container_name: CoreService
+    container_name: core-service
     depends_on:
       - postgres
     environment:
