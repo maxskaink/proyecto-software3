@@ -1,21 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable, tap, catchError, of } from 'rxjs';
-import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
+import { Component, Input } from '@angular/core';
 import { SubjectCompetency } from '../../../models/SubjectCompetencyDTO';
 import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
-import { ProgramCompetencyService } from '../../../services/program-competency.service';
+import { catchError, Observable, of, tap } from 'rxjs';
+import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
 import { SubjectOutomeService } from '../../../services/subject_outcome.service';
-import { MoleculeOutComeComponent } from '../molecule-out-come/molecule-out-come.component';
+import { ProgramCompetencyService } from '../../../services/program-competency.service';
+import { CommonModule } from '@angular/common';
+import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 
 @Component({
-    selector: 'app-moleculue-competency-section',
-    standalone: true,
-    imports: [CommonModule, MoleculeOutComeComponent],
-    templateUrl: './moleculue-competency-section.component.html',
-    styleUrl: './moleculue-competency-section.component.css'
+  selector: 'app-template-competency',
+  imports: [CommonModule, MoleculeOutComeComponent],
+  templateUrl: './template-competency.component.html',
+  styleUrl: './template-competency.component.css'
 })
-export class MoleculeCompetencySectionComponent implements OnInit {
+export class TemplateCompetencyComponent {
   @Input() competency!: SubjectCompetency;
   
   outcomes$!: Observable<SubjectOutcome[]>;

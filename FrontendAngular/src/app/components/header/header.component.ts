@@ -17,7 +17,6 @@ interface User {
     styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  user: User | null = null;
   name = '';
   role = '';
 
@@ -32,17 +31,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUser();
+    this.authService.role.subscribe(role => this.role = role || 'Sin rol');
+    this.authService.name.subscribe(name => this.name = name || 'Nombre no disponible');
   }
  
-  getUser(): void {
-    this.user = this.authService.currentUser as User;
-
-    if (this.user) {
-      this.name = this.user.name || 'Nombre no disponible';
-      this.role = this.user.role || 'Sin rol';
-    }
-
-    console.log('Usuario:', this.user);
-  }
 }

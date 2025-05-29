@@ -9,7 +9,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { MoleculeSearchBarComponent } from '../../componentsShared/molecules/molecule-search-bar/molecule-search-bar.component';
 import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecule-block/molecule-block.component';
 import { SubjectDTO } from '../../models/SubjectDTO';
-import { AsignatureService } from '../../services/subject.service';
+import { SubjectService } from '../../services/subject.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit{
 
 
   constructor(
-    private asignatureService: AsignatureService,
+    private asignatureService: SubjectService,
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {

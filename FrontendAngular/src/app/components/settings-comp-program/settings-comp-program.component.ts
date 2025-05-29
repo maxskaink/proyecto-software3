@@ -37,7 +37,8 @@ export class SettingsCompProgramComponent implements OnInit {
     },
     {
       title: 'Crear competencias',
-      description: 'Crea las competencias de programa que necesites'
+      description: 'Crea las competencias de programa que necesites',
+      route: '/settings/competencyProgram/create'
     },
   ];
 

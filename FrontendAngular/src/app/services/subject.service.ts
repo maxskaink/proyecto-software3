@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AsignatureService {
+export class SubjectService {
 
   //private urlEndpoint: string = 'http://localhost:5000/api/reserva';
 
