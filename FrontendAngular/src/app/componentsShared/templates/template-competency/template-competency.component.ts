@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SubjectCompetency } from '../../../models/SubjectCompetencyDTO';
 import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -7,6 +7,7 @@ import { SubjectOutomeService } from '../../../services/subject_outcome.service'
 import { ProgramCompetencyService } from '../../../services/program-competency.service';
 import { CommonModule } from '@angular/common';
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
+import { CompetencyComponent } from '../../../components/competency/competency.component';
 
 @Component({
   selector: 'app-template-competency',
@@ -16,7 +17,7 @@ import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/mole
 })
 export class TemplateCompetencyComponent {
   @Input() competency!: SubjectCompetency;
-  
+  @Output() editStateChange = new EventEmitter<boolean>();
   outcomes$!: Observable<SubjectOutcome[]>;
   programCompetency$!: Observable<ProgramCompetency>;
   
@@ -66,5 +67,16 @@ export class TemplateCompetencyComponent {
         return of({} as ProgramCompetency);
       })
     );
+  }
+  onSaveClick(): void {
+    // Aquí iría la lógica para guardar los cambios
+    this.editStateChange.emit(false);
+  }
+
+  onCancelClick(): void {
+    this.editStateChange.emit(false);
+  }
+  onEditClick():void{
+    this.editStateChange.emit(true);
   }
 }

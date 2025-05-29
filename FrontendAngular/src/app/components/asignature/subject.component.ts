@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 import { TemplateCompetencyComponent } from '../../componentsShared/templates/template-competency/template-competency.component';
+import { TemplateCompetencyEditComponent } from '../../componentsShared/templates/template-competency-edit/template-competency-edit.component';
 
 
 @Component({
@@ -16,7 +17,9 @@ import { TemplateCompetencyComponent } from '../../componentsShared/templates/te
       MoleculeBackHeaderComponent,
       MoleculeBlockUserComponent,
       TemplateCompetencyComponent, // Fixed name
-      CommonModule
+      TemplateCompetencyEditComponent,
+      CommonModule,
+
   ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.css'
@@ -27,6 +30,7 @@ export class SubjectComponent {
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
+  isEdit: boolean = false;
   constructor(
     private asignatureService: SubjectService,
     private route: ActivatedRoute,
@@ -61,7 +65,9 @@ export class SubjectComponent {
         this.listCompetency = listCompetencies;
       }
     );
-  
   }
-
+  onEditStateChange(newState: boolean): void {
+    this.isEdit = newState;
+  }
+  
 }
