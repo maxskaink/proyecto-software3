@@ -1,0 +1,46 @@
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .alert-danger {
+    border-left: 4px solid #dc3545;
+  }
+  
+
+  /* Clean, modern select with rounded borders */
+.custom-select-style {
+    background-color: #D9D9D9;
+    border: 1px solid #BFBFBF;
+    border-radius: 6px;
+    height: 38px;
+    padding-right: 2.5rem; /* Space for icon */
+    font-size: 0.9rem;
+    color: #333;
+    appearance: none;
+  }
+  
+  .clickable-select {
+    cursor: pointer;
+  }
+  
+  .clickable-select:hover {
+    border-color: #0d6efd;
+  }
+  
+  .clickable-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #0d6efd;
+  }
+  
+  .dropdown-wrapper {
+    cursor: pointer;
+  }
+  
+  .dropdown-wrapper:hover .form-select {
+    border-color: #0d6efd;
+  }

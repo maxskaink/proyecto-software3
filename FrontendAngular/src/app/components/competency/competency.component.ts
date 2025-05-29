@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateInputBoxtextComponent } from '../../componentsShared/templates/template-input-boxtext/template-input-boxtext.component';
+import { TemplateSelectInputBoxtextComponent } from '../../componentsShared/templates/template-select-input-boxtext/template-select-input-boxtext.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { MoleculeOutComeComponent } from '../../componentsShared/molecules/molecule-out-come/molecule-out-come.component';
 import { CommonModule } from '@angular/common';
@@ -17,13 +17,14 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-competency',
-  imports: [CommonModule, TemplateInputBoxtextComponent,
+  imports: [CommonModule, TemplateSelectInputBoxtextComponent,
     TemplateHeaderTitleComponent, MoleculeOutComeComponent, FormsModule],
   templateUrl: './competency.component.html',
   styleUrl: './competency.component.css'
 })
 export class CompetencyComponent implements OnInit {
   programCompetencyId?: number;
+  subjectId?: number;
   isSubjectSpecific = false;
 
   subjectOutcomes: SubjectOutcome[] = [];
@@ -34,7 +35,6 @@ export class CompetencyComponent implements OnInit {
   };
   maxOutcomes: number = 1;
   outcomeCreated: boolean = false;
-  selectedOption: string = ''; // Default option
   selectPlaceholder: string = '';
   selectLabelPlaceholder: string = '';
 
@@ -45,30 +45,35 @@ export class CompetencyComponent implements OnInit {
     private programCompetencyService: ProgramCompetencyService,
   ) { }
 
+
   ngOnInit(): void {
-    // Get the programCompetencyId from query parameters
+    // Get both subjectId and programCompetencyId from query parameters
     this.route.queryParams.subscribe(params => {
-      if (params['programCompetencyId']) {
-        this.programCompetencyId = +params['programCompetencyId'];
+      // Check for subjectId first
+      if (params['subjectId'] && params['programCompetencyId']) {
+        this.subjectId = +params['subjectId'];
         this.isSubjectSpecific = true;
+        this.programCompetencyId = +params['programCompetencyId'];
+
         this.loadSubjectSpecificData();
-        this.selectLabelPlaceholder = 'Aqui puedes seleccionar la competenecia del programa a la que pertenecera';
-        this.selectPlaceholder = 'Selecciona la competencia del programa a la que pertenecera';
+        this.selectLabelPlaceholder = 'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
+        this.selectPlaceholder = 'Selecciona la competencia del programa a la que pertenecerá';
       }
       else {
         this.isSubjectSpecific = false;
-        this.selectLabelPlaceholder = 'Aqui puedes seleccionar el nivel de la competencia del programa';
-        this.selectPlaceholder = 'Seleccciona el nivel de competencia';
+        this.selectLabelPlaceholder = 'Aquí puedes seleccionar el nivel de la competencia del programa';
+        this.selectPlaceholder = 'Selecciona el nivel de competencia';
       }
     });
   }
 
+
   loadSubjectSpecificData(): void {
-    if (!this.isSubjectSpecific || !this.programCompetencyId) {
+    if (!this.isSubjectSpecific || !this.subjectId) {
       return;
     }
 
-    this.subjectOutcomeService.getOutcomesBySubject(this.programCompetencyId).subscribe({
+    this.subjectOutcomeService.getOutcomesBySubject(this.subjectId).subscribe({
       next: (data) => {
         this.subjectOutcomes = data;
         console.log('Subject-specific outcomes loaded:', data);
@@ -97,33 +102,38 @@ export class CompetencyComponent implements OnInit {
     }
     return [];
   }
-  
-  save(description: string): boolean {
-    if (!description.trim() || this.selectedOption === '') {
+
+  save(data: { description: string, option: string }): boolean {
+    if (!data.description.trim() || data.option === '') {
       console.error('Description or selected option is invalid');
       return false;
     }
-  
+
     // If the component is subject-specific, we need to handle the subject competency
     if (this.isSubjectSpecific) {
       if (!this.programCompetencyId) {
         console.error("Subject ID is missing");
         return false;
       }
-  
+
+      if (!this.subjectId) {
+        console.error("Subject ID is missing");
+        return false;
+      }
+
       // Create the request body with nested competency and outcome objects
       const requestData = {
         competency: {
-          description: description,
+          description: data.description,
           level: "basico", // Could be removed
-          programCompetencyId: 1 // Replace with actual program competency ID
+          programCompetencyId: this.programCompetencyId // Replace with actual program competency ID
         },
         outcome: {
           description: "Outcome description" // TODO: REPLACE WITH CREATE RA
         }
       };
-  
-      this.subjectCompetencyService.assignCompetencyToSubject(this.programCompetencyId, requestData)
+
+      this.subjectCompetencyService.assignCompetencyToSubject(this.subjectId, requestData)
         .subscribe({
           next: (result) => {
             console.log('Competency assigned successfully:', result);
@@ -138,13 +148,13 @@ export class CompetencyComponent implements OnInit {
     } else {
       // Format for program competency creation
       const competencyData = {
-        description: description,
-        level: this.selectedOption.toLowerCase(),
+        description: data.description,
+        level: data.option.toLowerCase(),
         programOutcome: {
-          description: description // You can change this if outcome description is different
+          description: data.description // You can change this if outcome description is different
         }
       };
-  
+
       this.programCompetencyService.create(competencyData)
         .subscribe({
           next: (result) => {
@@ -158,7 +168,7 @@ export class CompetencyComponent implements OnInit {
           }
         });
     }
-  
+
     return false;
   }
 }

@@ -4,27 +4,16 @@
   <div class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden">
     <div class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column">
       <h1 class="fw-bold title mb-3 mb-md-4">{{getTitle()}}</h1>
-      
+
       <div class="row g-4 flex-grow-1">
         <!-- Sección Izquierda -->
         <section class="col-12 col-lg-6 order-1">
-          <!-- Dropdown estilizado -->
-          <div class="mb-4">
-            <label for="programCompetency" class="form-label small text-muted">
-              &lt;{{selectLabelPlaceholder}}&gt;
-            </label>
-            <div class="dropdown-wrapper position-relative">
-              <select class="form-select custom-select-style clickable-select" id="programCompetency" [(ngModel)]="selectedOption">
-                <option value="" disabled selected>{{selectPlaceholder}}</option>
-                <option *ngFor="let opt of getOptions()" [value]="opt">{{ opt }}</option>
-              </select>
-            </div>
-          </div>
 
-          <app-template-input-boxtext 
-            [description]="'Escribe la description de la competencia'"
-            (saveClicked)="save($event)">
-          </app-template-input-boxtext>
+          <app-template-select-input-boxtext [selectDescription]=selectLabelPlaceholder
+            [selectPlaceholder]=selectPlaceholder [textareaDescription]="'Escribe la descripción de la competencia'"
+            [options]=getOptions() (saveClicked)="save($event)">
+          </app-template-select-input-boxtext>
+
         </section>
 
         <!-- Sección Derecha (Botones y Gray Box) -->
@@ -37,7 +26,7 @@
           <!-- Show gray box if max not reached -->
           <div *ngIf="!hasMaxCompetencies()" class="flex-grow-1 mt-2">
             <div class="gray-box d-flex justify-content-center align-items-center">
-              <span class="text-secondary fw-semibold">RA</span> 
+              <span class="text-secondary fw-semibold">RA</span>
             </div>
           </div>
         </section>
