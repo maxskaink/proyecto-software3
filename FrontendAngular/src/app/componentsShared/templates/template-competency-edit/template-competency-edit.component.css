@@ -45,12 +45,17 @@
     padding: 4% 12%;
     
 }
-.raContent{
-    padding: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    
-    
+.sectionOutcomes {
+    width: 100%; /* Establece el ancho base al 100% del contenedor */
+    max-width: clamp(300px, 90%, 1200px); /* Controla el ancho máximo de forma responsiva */
+    margin: 0 auto; /* Centra el contenido */
+    padding: 0 1rem; /* Añade padding para espaciado en pantallas pequeñas */
+}
+.raContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .icon:hover{
     color: #c5c5c5;

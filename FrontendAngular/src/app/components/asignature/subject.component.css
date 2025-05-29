@@ -1,5 +1,5 @@
 .sectionInfo{
-    height: 45rem;
+    height: 50rem;
 }
 .row{
     margin: 0;
@@ -18,7 +18,7 @@
 }
 .sectionCompetency{
     background-color: #C5C5C5;
-    height: 50rem;
+    height: clamp(55rem, 70vh, 80rem);
 }
 
 .divider {
