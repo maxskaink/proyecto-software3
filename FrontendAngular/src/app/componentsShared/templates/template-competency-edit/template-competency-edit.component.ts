@@ -7,10 +7,12 @@ import { SubjectOutomeService } from '../../../services/subject_outcome.service'
 import { ProgramCompetencyService } from '../../../services/program-competency.service';
 import { CommonModule } from '@angular/common';
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
+import { SubjectCompetencyService } from '../../../services/subject_competency.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-template-competency-edit',
-  imports: [CommonModule, MoleculeOutComeComponent],
+  imports: [CommonModule, MoleculeOutComeComponent, FormsModule],
   templateUrl: './template-competency-edit.component.html',
   styleUrl: './template-competency-edit.component.css'
 })
@@ -19,6 +21,8 @@ export class TemplateCompetencyEditComponent {
     @Output() editStateChange = new EventEmitter<boolean>();
 
     
+    editedCompetency: SubjectCompetency = {} as SubjectCompetency;
+     
     outcomes$!: Observable<SubjectOutcome[]>;
     programCompetency$!: Observable<ProgramCompetency>;
     
@@ -34,13 +38,17 @@ export class TemplateCompetencyEditComponent {
   
     constructor(
       private outcomeService: SubjectOutomeService, 
-      private competencyProgramService: ProgramCompetencyService
+      private competencyProgramService: ProgramCompetencyService,
+      private competencyService: SubjectCompetencyService
     ) {}
   
     ngOnInit(): void {
       if (this.competency) {
         this.loadOutcomes();
         this.loadProgramCompetency();
+        this.editedCompetency = {
+          ...this.competency
+        };
       }
     }
   
@@ -70,7 +78,15 @@ export class TemplateCompetencyEditComponent {
       );
     }
     onSaveClick(): void {
-      this.editStateChange.emit(false);
+      this.competencyService.updateCompetency(1,this.editedCompetency).subscribe({
+        next: (response) => {
+          // Emitir false para volver al modo visualización
+          this.editStateChange.emit(false);
+        },
+        error: (error) => {
+          console.error('Error al actualizar la competencia:', error);
+        }
+      });
     }
     
     onCancelClick(): void {

@@ -15,8 +15,16 @@
         </ng-template>
         
         <hr class="m-5">
-        <p>{{competency.description}}</p>
-        <p>Nivel: {{competency.level}}</p>
+        <input type="text" class="form-control mb-3" placeholder="Descripción de la competencia" [(ngModel)]="editedCompetency.description">
+        
+        <select class="form-select mb-3" 
+        [(ngModel)]="editedCompetency.level"
+        name="level">
+        <option value="" disabled>Seleccione un nivel</option>
+        <option value="alto">Alto</option>
+        <option value="medio">Medio</option>
+        <option value="bajo">Bajo</option>
+        </select>
     </div>
     
     <section class="raContent d-flex justify-content-center flex-column align-items-center">
