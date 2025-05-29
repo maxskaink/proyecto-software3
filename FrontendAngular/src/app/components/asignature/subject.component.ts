@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, viewChild, ElementRef, ViewChild} from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
@@ -33,7 +33,7 @@ export class SubjectComponent {
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
-
+  
   isEdit: boolean = false; 
   role: string ="";
   name: string ="";
@@ -84,5 +84,13 @@ export class SubjectComponent {
   onEditStateChange(newState: boolean): void {
     this.isEdit = newState;
   }
-  
+  goToCompetency(): void {
+    const element = document.getElementById('competencySection');
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
 }
