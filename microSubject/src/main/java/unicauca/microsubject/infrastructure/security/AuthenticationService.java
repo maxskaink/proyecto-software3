@@ -46,9 +46,7 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
-        if (userRecord == null) {
-            throw new NotFound("User not found: " + uid);
-        }
+
         //Saved it in a cache
         userRecordCache.put(uid, userRecord);
         return userRecord;
@@ -56,13 +54,18 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public boolean userExists(String uid) {
-        try{
+        try {
             getUserRecord(uid);
             return true;
-        }catch (Exception e){
+        } catch (FirebaseAuthException e) {
+            System.out.println("FirebaseAuthException: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.out.println("Unexpected error checking user: " + e.getMessage());
             return false;
         }
     }
+
 
     @Override
     public boolean isCoordinator(String uid) throws Exception {
