@@ -1,33 +1,52 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ValueChangeEvent } from '@angular/forms';
 import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules/molecule-section-option/molecule-section-option.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { Action, SectionOption } from '../../models/SectionOptions';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SubjectOutomeService } from '../../services/subject_outcome.service';
+import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
+import { TemplateRubricTableComponent } from '../../componentsShared/templates/template-rubric-table/template-rubric-table.component';
 
 
 
 @Component({
   selector: 'app-outcome',
   imports: [CommonModule,
-     FormsModule,
-     MoleculeSectionOptionComponent,
-     TemplateHeaderTitleComponent,],
+    FormsModule,
+    MoleculeSectionOptionComponent,
+    TemplateHeaderTitleComponent,
+    TemplateRubricTableComponent 
+    ],
   templateUrl: './outcome.component.html',
   styleUrl: './outcome.component.css'
 })
-export class OutcomeComponent {
-  constructor(private router: Router){}
-  options: SectionOption[] = [
-    {
-    title: 'RA1',
-    description: 'Materia orientada al servicio web revisando diferentes framewoks tales como angular o Django, pasando por fronted y backend junto con su documentación  ',
-    showButtonOne: true,
-    buttonTextOne: 'Editar descripcion',
-    showButtonTwo: false,
+export class OutcomeComponent implements OnInit {
+  currentOutcome: SubjectOutcome = {} as SubjectOutcome;
+  title: string = 'RA';
+  description: string = 'Las RAs son el conjunto .';
+  outcomeId: number = 0;
 
-  },
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private outComeService: SubjectOutomeService){}
+
+  ngOnInit(): void {
+    this.getOutcome();
+    /**
+    this.route.queryParams.subscribe(params => {
+      if (params['outcomeId']) {
+        this.outcomeId = +params['outcomeId'];
+        this.getOutcome();
+      } else {
+        console.error('No outcome ID provided');
+        this.router.navigate(['/home']); // or handle missing ID case
+      }
+    });
+     */
+  }
+  options: SectionOption[] = [
   {
     title: 'Evaluadores',
     description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
@@ -55,7 +74,20 @@ export class OutcomeComponent {
     
   },
 ];
-  
+
+getOutcome(): void {
+  this.outComeService.getOutcomeById(0).subscribe({
+    next: (data: SubjectOutcome) => {
+      this.currentOutcome = data;
+      this.title = `RA ${this.outcomeId + 1}`; // Corrección aquí
+      this.description = data.description;
+    },
+    error: (error) => {
+      console.error('Error al obtener el outcome:', error);
+    }
+  });
+}
+
   handleBotonUno() {
     console.log('Se hizo clic en el botón 1');
     // Aquí puedes hacer redirección, abrir un modal, etc.

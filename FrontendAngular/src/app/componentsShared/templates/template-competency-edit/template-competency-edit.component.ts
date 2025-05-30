@@ -10,6 +10,7 @@ import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/mole
 import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-template-competency-edit',
   imports: [CommonModule, MoleculeOutComeComponent, FormsModule],
@@ -105,6 +106,7 @@ export class TemplateCompetencyEditComponent {
         }
       });
     }
+    
     
     onCancelClick(): void {
       this.editStateChange.emit(false);

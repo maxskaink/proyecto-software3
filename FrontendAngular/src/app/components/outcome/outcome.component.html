@@ -1,4 +1,9 @@
 <app-template-header-title [title]="'CONFIGURACIÓN DE RA'" [description]="'Configura tu ra a tu gusto'"></app-template-header-title>
+<section class="">
+      <h1>{{title}}</h1>
+      <p>description</p>
+</section>
+
 <section class="sectionOtions">
     <div *ngFor="let option of options">
       <app-molecule-section-option
@@ -9,22 +14,7 @@
     </div>
   </section>
 <section id="rubryc" class="sectionRubric ">
-  <h2 class="m-4 fs-4">Rubrica</h2>
-  <div class="basic_space_table d-flex justify-content-center">
-    <table class="table_background">
-      <thead>
-        <tr>
-          <th>Criterios</th>
-          
-          <th>Niveles</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-    
-  </div>
-  
+  <app-template-rubric-table [rubric]="currentOutcome.rubric"></app-template-rubric-table>
 </section>
 <section id="evaluators" class=" d-flex flex-column flex-md-row justify-content-between align-items-start">
   <div>

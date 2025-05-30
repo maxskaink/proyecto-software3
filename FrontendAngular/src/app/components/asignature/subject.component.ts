@@ -100,9 +100,10 @@ export class SubjectComponent {
     if (this.listCompetency && this.listCompetency.length > 0) {
       console.log('ID de competencia seleccionada:', this.listCompetency[0].programCompetencyId);
       
-      this.router.navigate(['home'], {
+      this.router.navigate(['home/subject/competencySubject/create'], {
           queryParams: { 
-              programCompetencyId: this.listCompetency[0].programCompetencyId
+              programCompetencyId: this.listCompetency[0].programCompetencyId,
+              subjectId: this.id+1,
           },
           queryParamsHandling: 'merge'
       });

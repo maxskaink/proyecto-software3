@@ -71,23 +71,19 @@ export class TemplateCompetencyComponent {
       })
     );
   }
-  onSaveClick(): void {
-    this.competencyService.updateCompetency(this.competency.id, this.editedCompetency).subscribe({
-      next: (response) => {
-        console.log('Competencia actualizada:', response);
-        // Actualiza la competencia local con los nuevos datos
-        Object.assign(this.competency, response);
-        // Emite el evento para salir del modo edición
+
+  onDeletelClick(): void {
+    this.competencyService.deleteCompetency(this.competency.id).subscribe({
+      next: () => { 
+        console.log('Competency deleted successfully');
+        this.loadProgramCompetency();
         this.editStateChange.emit(false);
-      },
-      error: (error) => {
-        console.error('Error al actualizar la competencia:', error);
+      }
+      , error: (error) => {
+        console.error('Error deleting competency:', error);
       }
     });
-  }
 
-  onCancelClick(): void {
-    this.editStateChange.emit(false);
   }
   onEditClick():void{
     this.editStateChange.emit(true);
