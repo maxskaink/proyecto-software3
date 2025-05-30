@@ -8,13 +8,16 @@
       <div class="row g-4 flex-grow-1">
         <!-- Sección Izquierda -->
         <section class="col-12 col-lg-6 order-1">
-
-          <app-template-select-input-boxtext [selectDescription]=selectLabelPlaceholder
-            [selectPlaceholder]=selectPlaceholder [textareaDescription]="'Escribe la descripción de la competencia'"
-            [options]=levels (saveClicked)="save($event)">
+          <app-template-select-input-boxtext 
+            [selectDescription]=selectLabelPlaceholder
+            [selectPlaceholder]=selectPlaceholder 
+            [textareaDescription]="'Escribe la descripción de la competencia'"
+            [options]=levels 
+            (saveClicked)="save($event)"
+            class="d-flex flex-column h-100">
           </app-template-select-input-boxtext>
-
         </section>
+
 
         <!-- Sección Derecha (Botones y Program Outcome) -->
         <section class="col-12 col-lg-6 order-2 order-lg-2 d-flex flex-column">

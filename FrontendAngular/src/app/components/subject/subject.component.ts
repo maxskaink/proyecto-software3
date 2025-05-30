@@ -95,6 +95,11 @@ export class SubjectComponent {
     }
   }
   goToCreateCompetency(): void {
-    this.router.navigate(['']);
+    // Navigate to subject competency with required query parameters
+    this.router.navigate([`asignatures/${this.id}/subjectCompetency`], {
+      queryParams: {
+        subjectId: this.id
+      }
+    });
   }
 }
