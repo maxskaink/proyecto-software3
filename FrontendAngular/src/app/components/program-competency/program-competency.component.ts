@@ -23,6 +23,7 @@ export class ProgramCompetencyComponent  {
   selectPlaceholder = 'Selecciona el nivel de competencia';
   title: string = 'Competencia de programa';
   levels: string[] = ["Basico", "Intermedio", "Avanzado"];
+  emptyOutcome: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,10 +31,22 @@ export class ProgramCompetencyComponent  {
   ) { }
 
 
+  setOutcomeDescription(text:string): string {
+    this.outcomeDescription = text;
+    this.emptyOutcome = false; // Reset empty outcome flag when description is set
+    return this.outcomeDescription;
+  }
+
 
   save(data: { description: string, option: string }): boolean {
-    if (!data.description.trim() || data.option === '') {
+    if (!data.description.trim() || data.option === '' ) {
       console.error('Description or selected option is invalid');
+      return false;
+    }
+
+    if(this.outcomeDescription.trim() === '') {
+      this.emptyOutcome = true;
+      console.error('Outcome description is empty');
       return false;
     }
 
@@ -42,9 +55,11 @@ export class ProgramCompetencyComponent  {
       description: data.description,
       level: data.option.toLowerCase(),
       programOutcome: {
-        description: data.description // You can change this if outcome description is different
+        description: this.outcomeDescription // You can change this if outcome description is different
       }
     };
+
+    console.log('Creating program competency with data:', competencyData);
 
     this.programCompetencyService.create(competencyData)
       .subscribe({

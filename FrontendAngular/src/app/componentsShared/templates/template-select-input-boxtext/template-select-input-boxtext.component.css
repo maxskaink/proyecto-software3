@@ -44,3 +44,18 @@
   .dropdown-wrapper:hover .form-select {
     border-color: #0d6efd;
   }
+
+  /* Add to template-select-input-boxtext.component.css */
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.select-input-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}

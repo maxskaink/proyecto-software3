@@ -96,22 +96,11 @@ export class SubjectComponent {
     }
   }
   goToCreateCompetency(): void {
-    console.log('Lista de competencias:', this.listCompetency); // Debug
-    if (this.listCompetency && this.listCompetency.length > 0) {
-      console.log('ID de competencia seleccionada:', this.listCompetency[0].programCompetencyId);
-      
-      this.router.navigate(['home/subject/competencySubject/create'], {
-          queryParams: { 
-              programCompetencyId: this.listCompetency[0].programCompetencyId,
-              subjectId: this.id+1,
-          },
-          queryParamsHandling: 'merge'
-      });
-  } else {
-      console.error('No hay competencias disponibles. Estado actual:', {
-          listCompetency: this.listCompetency,
-          id: this.id
-      });
-  }
+    // Navigate to subject competency with required query parameters
+    this.router.navigate([`asignatures/${this.id}/subjectCompetency`], {
+      queryParams: {
+        subjectId: this.id
+      }
+    });
   }
 }
