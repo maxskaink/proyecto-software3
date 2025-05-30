@@ -35,20 +35,6 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public SubjectOutcomeService createSubjectOutcome(
-            SubjectOutcomeRepositoryOutInt repositorySubjectOutcome,
-            CompetencyToSubjectAssignmentRepositoryOutInt assignmentCompetencyRepository,
-            IAuthorizationService authorizationServic
-    ){
-        return new SubjectOutcomeService(
-                repositorySubjectOutcome,
-                assignmentCompetencyRepository,
-                authorizationServic
-        );
-
-    }
-
-    @Bean
     public TermInt createTerm(TermRepository repository){
         return new TermService(repository);
     }
@@ -64,5 +50,24 @@ public class BeanConfiguration {
     @Bean
     public LevelInt createLevel(LevelRepository repository, CriterionRepository criterionRepository, IAuthorizationService au){
         return new LevelService(repository, criterionRepository, au);}
+    @Bean
+    public SubjectOutcomeService createSubjectOutcome(
+            SubjectOutcomeRepositoryOutInt repositorySubjectOutcome,
+            CompetencyToSubjectAssignmentRepositoryOutInt assignmentCompetencyRepository,
+            CriterionInt criterioService,
+            RubricInt rubricService,
+            LevelInt levelService,
+            IAuthorizationService authorizationServic
+    ){
+        return new SubjectOutcomeService(
+                repositorySubjectOutcome,
+                assignmentCompetencyRepository,
+                criterioService,
+                rubricService,
+                levelService,
+                authorizationServic
+        );
+
+    }
 
 }

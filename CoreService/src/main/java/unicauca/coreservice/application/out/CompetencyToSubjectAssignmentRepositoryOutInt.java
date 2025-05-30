@@ -18,10 +18,11 @@ public interface CompetencyToSubjectAssignmentRepositoryOutInt {
      * Find a CompetencyToSubjectAssignment by the given ID.
      *
      * @param competencyId the unique identifier of the Competency whose associated CompetencyToSubjectAssignment is to be deleted
+     * @param inActiveTerm
      * @return an OptionalWrapper containing the deleted CompetencyToSubjectAssignment if successful,
-     *         or an exception if the operation fails
+     * or an exception if the operation fails
      */
-    OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId);
+    OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId, boolean inActiveTerm);
 
     /**
      * Find a CompetencyToSubjectAssignment by the given ID.

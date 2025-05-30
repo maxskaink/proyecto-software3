@@ -1,7 +1,6 @@
 package unicauca.coreservice.domain.useCases;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
 import unicauca.coreservice.application.out.*;
@@ -83,7 +82,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     public SubjectCompetency getById(
             Integer id,
             String uid) throws Exception {
-        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id, true);
         CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
 
@@ -108,7 +107,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
             SubjectCompetency newSubjectCompetency,
             String uid) throws Exception {
 
-        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id, false);
         CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
 
@@ -129,7 +128,7 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     public SubjectCompetency remove(
             Integer id,
             String uid) throws Exception {
-        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id);
+        OptionalWrapper<CompetencyToSubjectAssignment> assignationWrapper = assignRepository.getByCompetencyId(id, false);
         CompetencyToSubjectAssignment assignation = assignationWrapper.getValue()
                 .orElseThrow(assignationWrapper::getException);
 

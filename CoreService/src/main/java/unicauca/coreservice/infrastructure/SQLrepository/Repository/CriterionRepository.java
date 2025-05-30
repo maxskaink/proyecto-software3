@@ -34,10 +34,11 @@ public class CriterionRepository implements CriterionRepositoryOutInt {
             CriterionEntity criterionEntity = CriterionMapper.toCriterionEntity(newCriterion);
 
             Integer rubricId = newCriterion.getRubric().getId();
-            RubricEntity rubricEntity = rubricRepository.getReferenceById(rubricId);
+            RubricEntity rubricEntity = rubricRepository.findById(rubricId)
+                    .orElseThrow(() -> new NotFound("Rubric with id " + rubricId + " was not found"));
 
             criterionEntity.setRubric(rubricEntity);
-            rubricEntity.getCriteria().add(criterionEntity);
+            //rubricEntity.getCriteria().add(criterionEntity);
 
             CriterionEntity saved = criterionRepository.save(criterionEntity);
 

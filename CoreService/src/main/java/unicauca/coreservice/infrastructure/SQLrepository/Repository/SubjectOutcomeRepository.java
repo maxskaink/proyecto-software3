@@ -8,6 +8,7 @@ import unicauca.coreservice.domain.exception.DuplicateInformation;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.SubjectOutcome;
+import unicauca.coreservice.domain.model.Term;
 import unicauca.coreservice.infrastructure.SQLrepository.JPARepository.*;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.SubjectCompetencyAssignmentEntity;
 import unicauca.coreservice.infrastructure.SQLrepository.entity.ConfigurationEntity;
@@ -28,14 +29,17 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
     @Override
     public OptionalWrapper<SubjectOutcome> add(SubjectOutcome newSubjectOutcome, Integer competencyAssignment) {
         try{
+            newSubjectOutcome.setId(null);
+            newSubjectOutcome.setRubric(null);
             SubjectCompetencyAssignmentEntity assignment =
                     assignmentRepository.findByIdAndIsActivatedTrue(competencyAssignment)
                             .orElseThrow(()-> new NotFound("Competency assignment with id " + competencyAssignment + " was not found"));
-
+            Integer idActualTerm = configurationRepository.getReferenceById(1).getActiveTerm().getId();
             // verify if exists a learning outcome with the same description for this competency in this term
             boolean exists = assignment.getSubjectOutcomes().stream()
                     .filter(SubjectOutcomeEntity::isActivated)
-                    .anyMatch(ra -> ra.getDescription().equalsIgnoreCase(newSubjectOutcome.getDescription()));
+                    .anyMatch(ra -> ra.getDescription().equalsIgnoreCase(newSubjectOutcome.getDescription())&&
+                            ra.getCompetencyAssignment().getTerm().getId().equals(idActualTerm));
 
             if (exists)
                 return new OptionalWrapper<>(new DuplicateInformation("There is an outcome with this description in the competency " + assignment.getCompetency().getDescription() + " added in the active Term"));

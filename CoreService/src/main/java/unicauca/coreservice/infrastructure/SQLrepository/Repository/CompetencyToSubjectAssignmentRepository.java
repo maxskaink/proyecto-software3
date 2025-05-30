@@ -25,6 +25,7 @@ public class CompetencyToSubjectAssignmentRepository implements CompetencyToSubj
     private final JPASubjectCompetencyAssignmentRepository subjectCompetencyAssigmentRepository;
     private final JPASubjectRepository subjectRepository;
     private final JPATermRepository termRepository;
+    private final JPAConfigurationRepository configurationRepository;
 
 
     @Override
@@ -75,9 +76,21 @@ public class CompetencyToSubjectAssignmentRepository implements CompetencyToSubj
     }
 
     @Override
-    public OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId) {
+    public OptionalWrapper<CompetencyToSubjectAssignment> getByCompetencyId(Integer competencyId, boolean inActiveTerm) {
         try{
-            SubjectCompetencyAssignmentEntity assignment =
+            SubjectCompetencyAssignmentEntity assignment = null;
+            if(inActiveTerm){
+                Integer idActualTerm = this.configurationRepository.findById(1)
+                        .orElseThrow(()->new RuntimeException("doesn exist actual term")).getActiveTerm().getId();
+                assignment =
+                        subjectCompetencyAssigmentRepository.findAllByCompetencyId(competencyId).stream()
+                                .filter(a ->
+                                        Objects.equals(a.getCompetency().getId(), competencyId) &&
+                                        Objects.equals(a.getTerm().getId(), idActualTerm))
+                                .findFirst().orElseThrow(()-> new NotFound("Competency with the id" + competencyId + " doesn't exists"));
+            }
+            else
+                assignment =
                     subjectCompetencyAssigmentRepository.findAllByCompetencyId(competencyId).stream()
                             .filter(a -> Objects.equals(a.getCompetency().getId(), competencyId))
                             .findFirst().orElseThrow(()-> new NotFound("Competency with the id" + competencyId + " doesn't exists"));

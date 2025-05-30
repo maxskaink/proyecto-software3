@@ -1,7 +1,7 @@
 <app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'"></app-template-header-title>
 <section class="sectionTitle">
       <h1 class="title">{{title}}</h1>
-      <p class="description">description</p>
+      <p class="description">{{description}}</p>
 </section>
 
 <section class="sectionOtions">
@@ -14,7 +14,15 @@
     </div>
   </section>
 <section id="rubryc" class="sectionRubric ">
-  <app-template-rubric-table [rubric]="currentOutcome.rubric"></app-template-rubric-table>
+
+  <app-template-rubric-table 
+  *ngIf="currentRubric && currentRubric.id" 
+  [rubric]="currentRubric">
+  </app-template-rubric-table>
+
+  <!-- Mensaje de carga o estado vacío -->
+  <div *ngIf="!currentRubric || !currentRubric.id" class="text-center p-4">
+  </div>
 </section>
 <section id="evaluators" class=" d-flex flex-column flex-md-row justify-content-between align-items-start">
   <div>

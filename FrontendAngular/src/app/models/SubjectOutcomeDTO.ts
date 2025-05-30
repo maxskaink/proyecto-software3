@@ -1,5 +1,7 @@
+import { RubricDTO } from "./RubricDTO";
+
 export interface SubjectOutcome {
     id: number;
     description: string;
-    rubric: any | null; 
+    rubric: RubricDTO | null; 
   }
