@@ -21,9 +21,6 @@ public class SubjectCompetencyEntity {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @Column(nullable = false, length = 100)
-    private String level;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_competencia_peograma", nullable = false)
     private ProgramCompetencyEntity programCompetency;
