@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { TemplateRubricRowComponent } from '../template-rubric-row/template-rubric-row.component';
 import { RubricDTO } from '../../../models/RubricDTO';
+import { CriterionDTO } from '../../../models/CirterionDTO';
 
 @Component({
   selector: 'app-template-rubric-table',
@@ -11,16 +12,17 @@ import { RubricDTO } from '../../../models/RubricDTO';
 })
 export class TemplateRubricTableComponent implements OnInit{
   
-  @Input() rubric: RubricDTO = {} as RubricDTO; 
+  @Input() rubric: RubricDTO| null = {} as RubricDTO ; 
   descriptionRubric: string = '';
+  criterions: CriterionDTO[] | null = {} as CriterionDTO[];
   // Assuming RubricDTO is imported from the correct path
   ngOnInit(): void {
-   if( this.rubric ) {
+    if (this.rubric && this.rubric.description) {
       this.descriptionRubric = this.rubric.description;
-    }
-    else {
-      this.descriptionRubric = 'No hay descripción disponible para esta rúbrica.';
-  
+      if( this.rubric.criteria && this.rubric.criteria.length > 0) {
+        this.criterions = this.rubric.criteria;
+      }
+
     }
   }
 }

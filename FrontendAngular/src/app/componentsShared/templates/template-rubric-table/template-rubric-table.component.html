@@ -10,8 +10,11 @@
             </div>
         </div>
         <!-- Body -->
-        <div class="table_body">
-            <app-template-rubric-row></app-template-rubric-row>
-        </div>
+        <ng-container *ngIf="criterions && criterions.length > 0">
+            <app-template-rubric-row
+                *ngFor="let criterion of criterions"
+                [criteria]="criterion">
+            </app-template-rubric-row>
+        </ng-container>
     </div>
 </div>

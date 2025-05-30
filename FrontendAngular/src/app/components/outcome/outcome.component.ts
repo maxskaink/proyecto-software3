@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SubjectOutomeService } from '../../services/subject_outcome.service';
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
 import { TemplateRubricTableComponent } from '../../componentsShared/templates/template-rubric-table/template-rubric-table.component';
-
+import {RubricDTO} from '../../models/RubricDTO';
 
 
 @Component({
@@ -24,6 +24,7 @@ import { TemplateRubricTableComponent } from '../../componentsShared/templates/t
 })
 export class OutcomeComponent implements OnInit {
   currentOutcome: SubjectOutcome = {} as SubjectOutcome;
+  currentRubric: RubricDTO | null = {} as RubricDTO;
   title: string = 'RA';
   description: string = 'Las RAs son el conjunto .';
   outcomeId: number = 0;
@@ -76,11 +77,20 @@ export class OutcomeComponent implements OnInit {
 ];
 
 getOutcome(): void {
-  this.outComeService.getOutcomeById(0).subscribe({
+  this.outComeService.getOutcomeById(1).subscribe({
     next: (data: SubjectOutcome) => {
       this.currentOutcome = data;
       this.title = `RA ${this.outcomeId + 1}`; // Corrección aquí
       this.description = data.description;
+      if(data.rubric){
+        this.currentRubric = data.rubric;
+      }else{
+        this.currentRubric = null;
+      }
+  
+      console.log(data);
+      console.log(this.currentOutcome);
+      console.log(this.currentRubric)
     },
     error: (error) => {
       console.error('Error al obtener el outcome:', error);
