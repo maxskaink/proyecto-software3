@@ -1,3 +1,47 @@
+.sectionTitle {
+    padding: clamp(1rem, 7vw, 10rem);
+    transition: background-color 0.5s ease;
+    position: relative; /* Asegura que el contenedor sea referencia para el posicionamiento */
+}
+
+.sectionTitle::before { /* Cambiamos ::after por ::before para que aparezca dentro */
+    content: "(Aquí puedes editar la descripción de tu RA)";
+     /* Cambiamos a relative para que se mantenga en el flujo del documento */
+    display: block; /* Para que ocupe su propia línea */
+    color: #6B656A; /* Color más sutil */
+    font-size: 0.875rem;
+    opacity: 0;
+    margin-top: 1rem; /* Espacio después del título */
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.sectionTitle:hover {
+    background-color: #c6c6c6;
+}
+
+.sectionTitle:hover::before {
+    opacity: 1;
+}
+
+.sectionTitle:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+.sectionTitle:hover{
+    background-color: #c6c6c6;
+}
+.title{
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 600;
+
+}
+.description{
+    width: clamp(20rem, 50vw, 60rem);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.5;
+}
 .sectionOtions{
     padding: clamp(2rem, 7vw, 10rem);
 }
