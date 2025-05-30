@@ -86,7 +86,6 @@ public class SubjectCompetencyRepository implements SubjectCompetencyRepositoryO
                     .orElseThrow(()-> new NotFound("Subject competency with id " + id + " was not found"));
 
             actualComp.setDescription(newSubjectCompetency.getDescription());
-            actualComp.setLevel(newSubjectCompetency.getLevel());
 
             return new OptionalWrapper<>(
                     SubjectCompetencyMapper.toSubjectCompetency(subjectCompetencyRepository.save(actualComp)

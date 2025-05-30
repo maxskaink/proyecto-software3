@@ -9,18 +9,15 @@ import unicauca.coreservice.domain.exception.InvalidValue;
 public class SubjectCompetency {
     private Integer id;
     private String description;
-    private String level;
     private Integer programCompetencyId;
 
     public SubjectCompetency(
             Integer id,
             String description,
-            String level,
             Integer programCompetencyId
     ){
         setId(id);
         setDescription(description);
-        setLevel(level);
         setProgramCompetencyId(programCompetencyId);
     }
 
@@ -30,14 +27,6 @@ public class SubjectCompetency {
         if(description.trim().isEmpty())
             throw new InvalidValue("The competency description can not be empty");
         this.description = description;
-    }
-    public void setLevel(String level){
-        if(null==level)
-            throw new InvalidValue("The competency level can not be null");
-        if(level.trim().isEmpty())
-            throw new InvalidValue("The competency level can not be empty");
-
-        this.level = level;
     }
 
     public void setProgramCompetencyId(Integer programCompetencyId){

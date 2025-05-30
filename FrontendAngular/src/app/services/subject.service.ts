@@ -1,9 +1,7 @@
 import { Injectable, numberAttribute } from '@angular/core';
 import { SubjectDTO } from '../models/SubjectDTO';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
 import {HttpClient} from "@angular/common/http";
-import {AuthService} from "./auth.service";
 
 
 @Injectable({

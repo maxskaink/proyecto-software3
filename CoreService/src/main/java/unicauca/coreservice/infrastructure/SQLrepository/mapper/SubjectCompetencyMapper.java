@@ -9,7 +9,6 @@ public class SubjectCompetencyMapper {
                 new SubjectCompetency(
                     entity.getId(),
                         entity.getDescription(),
-                        entity.getLevel(),
                         entity.getProgramCompetency().getId()
                 );
     }
@@ -18,7 +17,6 @@ public class SubjectCompetencyMapper {
                 new SubjectCompetencyEntity(
                         subjectCompetency.getId(),
                         subjectCompetency.getDescription(),
-                        subjectCompetency.getLevel(),
                         null,
                         true
                 );
