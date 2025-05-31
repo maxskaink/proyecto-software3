@@ -1,0 +1,70 @@
+/* Clean up the duplicate styles first */
+.modal-container {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.dropdown-wrapper {
+    margin-bottom: 12px;
+}
+
+.ra-content {
+    /* This container needs to be properly styled */
+    width: 100%;
+}
+
+.ra-row {
+    display: flex;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    align-items: stretch;
+    /* Remove any unwanted space */
+    width: 100%;
+}
+
+.outcome-cell {
+    flex: 1;
+    padding: 0; /* Remove ALL padding */
+    margin: 0; /* Remove ALL margin */
+    display: flex;
+}
+
+/* This is key - style the molecule to avoid gaps */
+.outcome-cell ::ng-deep app-molecule-out-come {
+    width: 100%;
+    display: flex;
+}
+
+.action-cell {
+    width: 48px; /* Fixed width */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Make it a flex container */
+}
+
+.ra-action-icon {
+    border: none;
+    background-color: #e0e0e0;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.ra-row.selected .ra-action-icon {
+    background-color: #81c784 !important;
+}
+
+/* Remove unused styles */
+.ra-cell {
+    display: none;
+}

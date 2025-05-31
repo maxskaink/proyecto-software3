@@ -1,24 +1,37 @@
-
-<div mat-dialog-content>
-    <div class="dropdown-wrapper position-relative">
-        <select class="form-select custom-select-style clickable-select" id="mySelect" [(ngModel)]="selectedOption"
-            (blur)="onSelectBlur()" (change)="onOptionChange()">
+<div mat-dialog-content class="modal-container">
+    <div class="dropdown-wrapper">
+        <select class="form-select custom-select-style clickable-select" [(ngModel)]="selectedOption"
+            (change)="onOptionChange()">
             <option value="" disabled>{{ data.selectPlaceholder || 'Selecciona una opción' }}</option>
             <option *ngFor="let opt of data.options" [value]="opt">{{ opt }}</option>
         </select>
     </div>
-  <section class="raContent d-flex justify-content-center flex-column align-items-center">
-    <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-      <div *ngFor="let outcome of outcomes; let i = index" class="sectionOutcomes">
-        <app-molecule-out-come [outcomeNumber]="i + 1" [outcome]="outcome.description"></app-molecule-out-come>
-      </div>
-    </ng-container>
-    <ng-template #loadingOutcomes>
-      <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-      <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
-    </ng-template>
-  </section>
+
+    <section class="ra-content">
+        <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+            <!-- Remove any spacing between RA rows -->
+            <div *ngFor="let outcome of outcomes; let i = index" class="ra-row" [class.selected]="outcome.selected">
+                <!-- Remove mb-0 class -->
+                <div class="outcome-cell">
+                    <app-molecule-out-come [outcomeNumber]="i + 1" [outcome]="outcome.description">
+                    </app-molecule-out-come>
+                </div>
+
+                <div class="action-cell">
+                    <button (click)="toggleOutcomeSelection(outcome)" class="ra-action-icon">
+                        {{ outcome.selected ? '✓' : '−' }}
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #loadingOutcomes>
+            <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+            <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
+        </ng-template>
+    </section>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-button (click)="closeDialog()">Cerrar</button>
+
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="closeDialog()">Guardar</button>
 </div>
