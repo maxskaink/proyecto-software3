@@ -1,3 +1,4 @@
+import { ProgramCompetency } from './../../models/ProgramCompetencyDTO';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,10 +25,10 @@ import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templ
 @Component({
   selector: 'app-subject-competency',
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     TemplateSelectInputBoxtextComponent,
-    TemplateHeaderTitleComponent, 
+    TemplateHeaderTitleComponent,
     MoleculeOutComeComponent
   ],
   templateUrl: './subject-competency.component.html',
@@ -35,14 +36,14 @@ import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templ
 })
 export class SubjectCompetencyComponent implements OnInit {
   // Route parameters
-  programCompetencyId!: number;
   subjectId!: number;
 
   // Data collections
+  ProgramCompetencyId: number = -1;
   subjectOutcomes: SubjectOutcome[] = [];
   subjectCompetencies: SubjectCompetency[] = [];
   createdOutcomes: SubjectOutcome[] = [];
-  programCompetencies: any[] = []; 
+  programCompetencies: any[] = [];
   terms: TermDTO[] = [];
   selectedOutcomes: SubjectOutcome[] = [];
 
@@ -64,7 +65,6 @@ export class SubjectCompetencyComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.subjectId = +params['subjectId'];
-      this.programCompetencyId = +params['programCompetencyId'];
       this.loadSubjectSpecificData();
       this.loadTerms();
       this.loadProgramCompetencies();
@@ -124,28 +124,48 @@ export class SubjectCompetencyComponent implements OnInit {
     if (!this.programCompetencies || this.programCompetencies.length === 0) {
       return [];
     }
-    
-    return this.programCompetencies.map(comp => 
+
+    return this.programCompetencies.map(comp =>
       `${comp.description} (${comp.level || 'Sin nivel'})`
     );
   }
 
   save(data: { description: string, option: string }): boolean {
-    if (!data.description.trim() || data.option === '' || 
-        !this.programCompetencyId || !this.subjectId) {
+    // Validación básica
+    if (!data.description.trim() || data.option === '' || !this.subjectId) {
       return false;
     }
 
-    
+    // Extraer la descripción de la opción seleccionada (quitar la parte del nivel)
+    const selectedOption = data.option.trim();
+    const selectedCompetency = this.programCompetencies.find(comp => {
+      const formattedOption = `${comp.description} (${comp.level || 'Sin nivel'})`;
+      return formattedOption === selectedOption;
+    });
+
+    if (!selectedCompetency) {
+      return false;
+    }
+
+    // Asignar el ID de la competencia seleccionada
+    this.ProgramCompetencyId = selectedCompetency.id;
+
+    // Validaciones de resultados de aprendizaje
+    if (this.selectedOutcomes.length >= this.maxOutcomes) {
+      return false;
+    }
+
+    if (this.selectedOutcomes.length === 0) {
+      return false;
+    }
 
     const requestData = {
       competency: {
         description: data.description,
-        level: "basico",
-        programCompetencyId: this.programCompetencyId
-      },
-      outcome: {
-        description: "Outcome description"
+        programCompetencyId: this.ProgramCompetencyId,
+        subjectOutcomes: this.selectedOutcomes.map(outcome => ({
+          description: outcome.description
+        }))
       }
     };
 
@@ -154,10 +174,12 @@ export class SubjectCompetencyComponent implements OnInit {
         next: () => {
           this.loadSubjectSpecificData();
         },
-
+        error: () => {
+          // Manejar error silenciosamente o implementar manejo de errores adecuado
+        }
       });
 
-    return false;
+    return true;
   }
 
   openModal() {
@@ -175,7 +197,7 @@ export class SubjectCompetencyComponent implements OnInit {
         selectPlaceholder: this.modalSelectPlaceholder
       }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result && Array.isArray(result)) {
         this.selectedOutcomes = result;

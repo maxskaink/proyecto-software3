@@ -18,10 +18,10 @@ interface SelectableOutcome extends SubjectOutcome {
   selector: 'app-template-modal-reuse-outcome',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
+    CommonModule,
+    MatDialogModule,
     MatIconModule,
-    FormsModule, 
+    FormsModule,
     MoleculeOutComeComponent
   ],
   templateUrl: './template-modal-reuse-outcome.component.html',
@@ -30,22 +30,25 @@ interface SelectableOutcome extends SubjectOutcome {
 export class TemplateModalReuseOutcomeComponent implements OnInit {
   selectedOption: string = '';
   outcomes$!: Observable<SelectableOutcome[]>;
+  selectedCount: number = 0;
+  
   loading = {
     outcomes: false
   };
-  
+
   error = {
     outcomes: false
   };
 
   constructor(
     public dialogRef: MatDialogRef<TemplateModalReuseOutcomeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      subjectId: number, 
-      options: string[], 
+    @Inject(MAT_DIALOG_DATA) public data: {
+      subjectId: number,
+      options: string[],
       selectedOutcomes: SubjectOutcome[],
-      selectDescription?: string, 
-      selectPlaceholder?: string 
+      maxOutcomes: number,
+      selectDescription?: string,
+      selectPlaceholder?: string
     },
     private outcomeService: SubjectOutomeService
   ) { }
@@ -55,6 +58,9 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
       this.selectedOption = this.data.options[0];
       this.onOptionChange();
     }
+    
+    // Inicializar el contador con los outcomes ya seleccionados
+    this.selectedCount = this.data.selectedOutcomes?.length || 0;
   }
 
   existSelectDescription(): boolean {
@@ -70,7 +76,11 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
           selected => selected.id === outcome.id
         ) || false
       }))),
-      tap(() => this.loading.outcomes = false),
+      tap(outcomes => {
+        // Actualizar el contador al cargar los datos
+        this.selectedCount = outcomes.filter(o => o.selected).length;
+        this.loading.outcomes = false;
+      }),
       catchError(error => {
         this.error.outcomes = true;
         this.loading.outcomes = false;
@@ -86,14 +96,28 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
   }
 
   toggleOutcomeSelection(outcome: SelectableOutcome): void {
+    // Si intenta seleccionar (no está seleccionado actualmente)
+    if (!outcome.selected) {
+      // Verificar si excede el máximo de outcomes permitidos
+      if (this.selectedCount >= (this.data.maxOutcomes || 3)) {
+        // No permitir más selecciones
+        return;
+      }
+    }
+    
     this.outcomes$.subscribe(outcomes => {
-      const updatedOutcomes = outcomes.map(o =>
-        o.id === outcome.id ? { ...o, selected: !o.selected } : o
-      );
+      const updatedOutcomes = outcomes.map(o => {
+        if (o.id === outcome.id) {
+          // Actualizar el conteo de seleccionados
+          this.selectedCount = o.selected ? this.selectedCount - 1 : this.selectedCount + 1;
+          return { ...o, selected: !o.selected };
+        }
+        return o;
+      });
       this.outcomes$ = of(updatedOutcomes);
     });
   }
-  
+
   getSelectedOutcomes(): Observable<SubjectOutcome[]> {
     return this.outcomes$.pipe(
       map(outcomes => outcomes.filter(o => o.selected))
