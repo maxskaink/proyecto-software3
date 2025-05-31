@@ -9,7 +9,17 @@
   justify-content: center;
   align-items: center;
 }
-
+.unicauca-logo {
+  width: clamp(50px, 8vw, 60px);
+  height: auto;
+  object-fit: contain;
+  margin-right: 40px 
+}
+.title {
+  font-weight: 900;
+  font-size: clamp(4rem, 8vw, 5rem);
+  color: #ECF4F1;
+}
 .content-overlay{
   width: clamp(30rem, 90%, 70rem); 
 }
@@ -74,11 +84,7 @@
     color: #ECF4F1;
     border: 1px solid #ECF4F1;
   }
-  .title {
-    font-weight: 900;
-    font-size: clamp(3rem, 8vw, 5rem);
-    color: #ECF4F1;
-  }
+  
   .user-icon {
     font-size: 80px;
     color: #ECF4F1;
