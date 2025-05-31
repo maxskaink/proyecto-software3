@@ -4,15 +4,17 @@ import { TemplateRubricRowComponent } from '../template-rubric-row/template-rubr
 import { RubricDTO } from '../../../models/RubricDTO';
 import { CriterionDTO } from '../../../models/CirterionDTO';
 
+
 @Component({
   selector: 'app-template-rubric-table',
-  imports: [CommonModule, TemplateRubricRowComponent],
+  imports: [CommonModule, TemplateRubricRowComponent, ],
   templateUrl: './template-rubric-table.component.html',
   styleUrl: './template-rubric-table.component.css'
 })
 export class TemplateRubricTableComponent implements OnInit{
   
   @Input() rubric: RubricDTO| null = {} as RubricDTO ; 
+  @Input() isCreated: boolean = false; 
   descriptionRubric: string = '';
   criterions: CriterionDTO[] | null = {} as CriterionDTO[];
   // Assuming RubricDTO is imported from the correct path
@@ -25,4 +27,5 @@ export class TemplateRubricTableComponent implements OnInit{
 
     }
   }
+
 }

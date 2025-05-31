@@ -2,13 +2,6 @@
 <p>{{descriptionRubric}}</p>
 <div class="basic_space_table">
     <div class="table_container">
-        <!-- Header -->
-        <div class="">
-            <div class="table_row">
-                <div class="table_cell header_cell header_cell--right">Criterios</div>
-                <div class="table_cell header_cell">Niveles</div>
-            </div>
-        </div>
         <!-- Body -->
         <ng-container *ngIf="criterions && criterions.length > 0">
             <app-template-rubric-row
