@@ -126,9 +126,9 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
 
   saveSelectedOutcomes(): void {
     this.getSelectedOutcomes().subscribe(selectedOutcomes => {
-      if (selectedOutcomes.length > 0) {
+
         this.dialogRef.close(selectedOutcomes);
-      }
+      
     });
   }
 }

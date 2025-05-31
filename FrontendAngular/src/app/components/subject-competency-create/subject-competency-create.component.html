@@ -1,51 +1,79 @@
 <div class="competency-container d-flex flex-column min-vh-100">
   <app-template-header-title></app-template-header-title>
 
-  <div class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden">
-    <div class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column">
-      <h1 class="fw-bold title mb-3 mb-md-4">{{getTitle()}}</h1>
+  <div
+    class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden"
+  >
+    <div
+      class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column"
+    >
+      <h1 class="fw-bold title mb-3 mb-md-4">{{ getTitle() }}</h1>
 
       <div class="row g-4 flex-grow-1">
         <!-- Sección Izquierda -->
         <section class="col-12 col-lg-6 order-1">
-
-          <app-template-select-input-boxtext [selectDescription]=selectLabelPlaceholder
-            [selectPlaceholder]=selectPlaceholder [textareaDescription]="'Escribe la descripción de la competencia'"
-            [options]=getOptions() (saveClicked)="save($event)">
+          <app-template-select-input-boxtext
+            [selectDescription]="selectLabelPlaceholder"
+            [selectPlaceholder]="selectPlaceholder"
+            [textareaDescription]="'Escribe la descripción de la competencia'"
+            [options]="getOptions()"
+            (saveClicked)="save($event)"
+          >
           </app-template-select-input-boxtext>
-
         </section>
 
         <!-- Sección Derecha (Botones y Gray Box) -->
         <section class="col-12 col-lg-6 order-2 order-lg-2 d-flex flex-column">
           <div class="d-flex mb-3">
-            <button class="btn btn-light custom-hover custom-btn w-50 me-2" (click)="openModal()">Reutilizar</button>
-            <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }">Crear RA</button>
+            <button
+              class="btn btn-light custom-hover custom-btn w-50 me-2"
+              (click)="openModal()"
+            >
+              Reutilizar RA
+            </button>
+            <button
+              class="btn btn-dark custom-btn w-50"
+              [ngClass]="{ 'ms-auto': true }"
+            >
+              Crear RA
+            </button>
           </div>
 
           <!-- Show gray box if max not reached -->
-          <div *ngIf="!hasMaxCompetencies()" class="flex-grow-1 mt-2">
-            <div class="gray-box d-flex justify-content-center align-items-center">
+          <div *ngIf="!hasOutcomes()" class="flex-grow-1 mt-2">
+            <div
+              class="gray-box d-flex justify-content-center align-items-center"
+            >
               <span class="text-secondary fw-semibold">RA</span>
             </div>
           </div>
-        </section>
-
-        <!-- Outcomes section -->
-        <section *ngIf="hasMaxCompetencies()" class="col-12 order-3 order-lg-2 mt-3 mt-lg-0">
-          <!-- For program outcomes -->
-          <div class="outcomes-container">
-            <div *ngFor="let outcome of subjectOutcomes" class="mb-3">
-              <app-molecule-out-come [outcome]="outcome.description" [isEditable]="true"></app-molecule-out-come>
+          <!-- Outcomes section -->
+          <section
+            *ngIf="hasOutcomes()"
+            class="col-12 order-3 order-lg-2 mt-3 mt-lg-0"
+          >
+            <div class="ra-row">
+              <div
+                *ngFor="let outcome of selectedOutcomes; let i = index"
+                class="ra-row"
+              >
+                <div class="outcome-cell">
+                  <app-molecule-out-come
+                    [outcome]="outcome.description"
+                    [outcomeNumber]="i + 1"
+                  ></app-molecule-out-come>
+                </div>
+                <div class="action-cell">
+                  <button
+                    class="ra-action-icon"
+                    (click)="toggleOutcomeSelection(outcome)"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <!-- For subject outcomes -->
-          <div class="outcomes-container">
-            <div *ngFor="let outcome of subjectOutcomes" class="mb-3 ">
-              <app-molecule-out-come [outcome]="outcome.description"></app-molecule-out-come>
-            </div>
-          </div>
+          </section>
         </section>
       </div>
     </div>
