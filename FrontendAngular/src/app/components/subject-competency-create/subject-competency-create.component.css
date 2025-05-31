@@ -115,11 +115,10 @@
 
 .ra-action-icon {
   border: none;
-  background-color: #dc3545;
+  background-color: #A65256;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  color: #333;
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -133,11 +132,7 @@
 }
 
 /* Hover effect for normal button - darken background */
-.ra-action-icon:hover:not(.disabled) {
-  background-color: #e21c30;
-}
 
-/* Selected button style */
 .ra-row.selected .ra-action-icon {
   background-color: #81c784 !important;
   color: white;
@@ -153,21 +148,37 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-
+/* Add hover effect that changes size/appearance */
 /* Add hover effect that changes size/appearance */
 .ra-row:hover:not(.disabled-row) {
   transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-color: rgba(83, 44, 88, 0.2);
+  box-shadow: 0 2px 5px rgba(166, 82, 86, 0.3); /* Sombra rojiza */
+  border-color: rgba(166, 82, 86, 0.3); /* Borde rojizo */
 }
 
-/* Ensure button changes on hover */
+/* Ensure button changes on hover of the entire row */
 .ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
   transform: scale(1.1);
+  background-color: #B83238; /* Aplica el mismo color del hover directo */
 }
 
-/* Disabled row styling */
-.disabled-row {
-  opacity: 0.7;
-  cursor: not-allowed;
+.outcomes-container {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* Cada fila de outcome */
+.ra-row {
+  width: 100%;
+  display: flex;
+}
+
+/* Último outcome sin margen inferior */
+.ra-row:last-child {
+  margin-bottom: 0;
 }
