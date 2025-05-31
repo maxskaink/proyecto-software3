@@ -28,6 +28,7 @@ export class OutcomeComponent implements OnInit {
   title: string = 'RA';
   description: string = 'Las RAs son el conjunto .';
   outcomeId: number = 0;
+  isEditDescription: boolean = false; 
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -75,6 +76,37 @@ export class OutcomeComponent implements OnInit {
     
   },
 ];
+editDescriptio(): void{
+  this.isEditDescription = !this.isEditDescription; 
+}
+saveDescription(): void {
+  // Validar que hay una descripción
+  if (!this.description?.trim()) {
+    console.error('La descripción no puede estar vacía');
+    return;
+  }
+
+  // Crear el objeto con los datos actualizados
+  const updatedOutcome: SubjectOutcome = {
+    ...this.currentOutcome,
+    description: this.description
+  };
+
+  // Llamar al servicio para actualizar
+  this.outComeService.updateOutcome(this.currentOutcome.id, updatedOutcome).subscribe({
+    next: (response) => {
+      console.log('Resultado de aprendizaje actualizado:', response);
+      this.currentOutcome = response;
+      this.description = response.description;
+      this.editDescriptio(); // Cerrar el modo edición
+    },
+    error: (error) => {
+      console.error('Error al actualizar el resultado de aprendizaje:', error);
+      // Opcional: Revertir cambios en caso de error
+      this.description = this.currentOutcome.description;
+    }
+  });
+}
 
 getOutcome(): void {
   this.outComeService.getOutcomeById(1).subscribe({

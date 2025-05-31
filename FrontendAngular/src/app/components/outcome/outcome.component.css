@@ -37,7 +37,8 @@
 
 }
 .description{
-    width: clamp(20rem, 50vw, 60rem);
+    width: auto;
+    max-width: 50%;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 400;
     line-height: 1.5;
@@ -54,4 +55,12 @@
 #evaluators{
     height: 40rem;
     padding: clamp(2rem, 7vw, 10rem)
+}
+.iconEdit{
+    font-weight: 700;
+    font-size: 30px;
+    transition: font-size 0.3s ease;
+}
+.iconEdit:hover{
+    font-size: 35px;
 }

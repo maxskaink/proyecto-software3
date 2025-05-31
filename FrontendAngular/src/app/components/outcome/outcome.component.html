@@ -1,9 +1,28 @@
 <app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'"></app-template-header-title>
 <section class="sectionTitle">
-      <h1 class="title">{{title}}</h1>
-      <p class="description">{{description}}</p>
-</section>
 
+  <div *ngIf="!isEditDescription">
+    <h1 class="title">{{title}}</h1>
+    <div class="d-flex align-items-center gap-3">
+      <p class="description mb-0">{{description}}</p>
+      <i class="bi bi-pencil-square iconEdit" (click)="editDescriptio()"></i>
+    </div>
+  </div>
+
+  <div *ngIf="isEditDescription">
+    <h1 class="title">{{title}}</h1>
+    <div class="d-flex flex-column gap-3">
+      <input type="text" 
+             class="form-control" 
+             [(ngModel)]="description" 
+             placeholder="Ingrese la descripción">
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" (click)="saveDescription()">Guardar</button>
+        <button class="btn btn-secondary" (click)="editDescriptio()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="sectionOtions">
     <div *ngFor="let option of options">
       <app-molecule-section-option
@@ -24,7 +43,7 @@
   <div *ngIf="!currentRubric || !currentRubric.id" class="text-center p-4">
   </div>
 
-  <section class="m-4">
+  <section class="m-4" id="evaluators">
     <h2 class="subtitle">
       Evaludadores
     </h2>
