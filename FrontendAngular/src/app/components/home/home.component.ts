@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit{
   asignatures: (SubjectDTO )[] = [];
   asignaturesFilters: (SubjectDTO )[] = [];
   wordSearch: string = '';
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
 
 
@@ -41,19 +41,23 @@ export class HomeComponent implements OnInit{
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.loadAsignatures();
+ }
+ 
+  private loadAsignatures(): void {
+    this.isLoading = true; // Ensure loading is true when starting
     this.asignatureService.getAssignedSubject().subscribe({
       next: (data) => {
         this.asignatures = data;
         this.asignaturesFilters = [...this.asignatures];
+        this.isLoading = false; // Hide loading only after data is loaded
       },
-      error: (error) => console.error('Error en la suscripción:', error)
+      error: (error) => {
+        console.error('Error loading subjects:', error);
+        this.isLoading = false; // Hide loading on error too
+      }
     });
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 100);
- }
-
+  }
   filterAsignatures(): void {
     if (!this.wordSearch) {
       this.asignaturesFilters = [...this.asignatures];
