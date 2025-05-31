@@ -12,7 +12,8 @@ import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 import { ProgramCompetencyService } from '../../services/program-competency.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
-
+import { TermService } from '../../services/term.service';
+import { TermDTO } from '../../models/TermDTO';
 
 @Component({
   selector: 'app-subject-competency',
@@ -33,6 +34,7 @@ export class SubjectCompetencyComponent implements OnInit {
   selectLabelPlaceholder: string = 'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
   programCompetencies: any[] = []; 
   modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
+  terms: TermDTO[] = []; // Array to hold terms
 
 
   constructor(
@@ -40,6 +42,7 @@ export class SubjectCompetencyComponent implements OnInit {
     private subjectOutcomeService: SubjectOutomeService,
     private subjectCompetencyService: SubjectCompetencyService,
     private programCompetencyService: ProgramCompetencyService,
+    private termService: TermService,
     private dialog: MatDialog
   ) { }
 
@@ -50,6 +53,7 @@ export class SubjectCompetencyComponent implements OnInit {
       this.subjectId = +params['subjectId'];
       this.programCompetencyId = +params['programCompetencyId'];
       this.loadSubjectSpecificData();
+      this.loadTerms(); // Load terms when component initializes
       this.loadProgramCompetencies(); // Add this line
     });
   }
@@ -78,6 +82,21 @@ export class SubjectCompetencyComponent implements OnInit {
         console.error('Error loading subject-specific outcomes:', err);
       }
     });
+  }
+
+  loadTerms(): void {
+    this.termService.getTerms().subscribe({
+      next: (data) => {
+        this.terms = data; // Assign the data to this.terms here
+      },
+      error: (err) => {
+        console.error('Error loading terms:', err);    
+      }
+    });
+  }
+  
+  getTermOptions(): string[] {
+    return this.terms.map(term => `${term.description} `);
   }
 
 
@@ -156,12 +175,15 @@ export class SubjectCompetencyComponent implements OnInit {
       console.error('Subject ID is required to open the modal');
       return;
     }
+
+    console.log('Term options:', this.getTermOptions());
   
+
     const dialogRef = this.dialog.open(TemplateModalReuseOutcomeComponent, {
       width: '700px',
       data: {
         subjectId: this.subjectId,
-        options: this.getOptions(),
+        options: this.getTermOptions(),
         selectDescription: this.selectLabelPlaceholder,
         selectPlaceholder: this.modalSelectPlaceholder
       }

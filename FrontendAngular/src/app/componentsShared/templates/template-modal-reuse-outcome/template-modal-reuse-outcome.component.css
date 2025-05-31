@@ -68,3 +68,99 @@
 .ra-cell {
     display: none;
 }
+
+/* 1. Custom styling for the select dropdown */
+.custom-select-style {
+    background-color: #D9D9D9;
+    border: 1px solid #BFBFBF;
+    border-radius: 6px;
+    height: 38px;
+    padding-right: 2.5rem; /* Space for icon */
+    font-size: 0.9rem;
+    color: #333;
+    appearance: none;
+}
+
+/* 2. Interactive states for the select element */
+.clickable-select {
+    cursor: pointer;
+}
+
+.clickable-select:hover {
+    border-color: #0d6efd;
+}
+
+.clickable-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #0d6efd;
+}
+
+.button_save {
+    flex: 1 1 45%;
+    min-width: 100px;
+    height: 2.5rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.button_save {
+    background-color: #5E9E73;
+    color: white;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end; /* Alinea elementos a la derecha */
+    align-items: center;
+    padding: 16px 16px 8px;
+    position: relative;
+}
+
+/* Si quieres un título a la izquierda y el botón a la derecha */
+.modal-header h2 {
+    flex-grow: 1; /* Hace que el título ocupe el espacio disponible */
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.close-button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: #A65256; /* Cambiado de #f0f0f0 a #A65256 */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    margin-left: 8px; /* Espacio entre el título y el botón */
+}
+
+.close-button:hover {
+    background-color: #B83238; /* Cambiado de #A65256 a #f0f0f0 */
+
+}
+
+.close-x {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    color: white; /* Cambiado de #555 a white */
+}
+
+
+h2[mat-dialog-title] {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.button_save:hover {
+    background-color: #3C866A;
+}

@@ -1,3 +1,9 @@
+<div class="modal-header align-items-end">
+    <button mat-icon-button class="close-button" aria-label="Cerrar diálogo" (click)="dialogRef.close()">
+        <span class="close-x">×</span>
+    </button>
+</div>
+
 <div mat-dialog-content class="modal-container">
     <div class="dropdown-wrapper">
         <select class="form-select custom-select-style clickable-select" [(ngModel)]="selectedOption"
@@ -33,5 +39,5 @@
 </div>
 
 <div mat-dialog-actions>
-    <button mat-raised-button (click)="closeDialog()">Guardar</button>
+    <button mat-raised-button class="button_save" (click)="closeDialog()">Guardar</button>
 </div>
