@@ -6,13 +6,11 @@ import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
 import { SubjectOutomeService } from '../../../services/subject_outcome.service';
 import { ProgramCompetencyService } from '../../../services/program-competency.service';
 import { CommonModule } from '@angular/common';
-import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
-import { SubjectCompetencyComponent } from '../../../components/subject-competency/subject-competency.component';
 import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 
 @Component({
   selector: 'app-template-competency',
-  imports: [CommonModule, MoleculeOutComeComponent],
+  imports: [CommonModule],
   templateUrl: './template-competency.component.html',
   styleUrl: './template-competency.component.css'
 })

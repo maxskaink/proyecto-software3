@@ -10,6 +10,9 @@ import { SubjectCompetencyService } from '../../services/subject_competency.serv
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 import { ProgramCompetencyService } from '../../services/program-competency.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
+
 
 @Component({
   selector: 'app-subject-competency',
@@ -19,22 +22,25 @@ import { ProgramCompetencyService } from '../../services/program-competency.serv
   styleUrl: './subject-competency.component.css'
 })
 export class SubjectCompetencyComponent implements OnInit {
-  programCompetencyId?: number;
-  subjectId?: number;
-  
+  programCompetencyId!: number;
+  subjectId!: number;
+
   subjectOutcomes: SubjectOutcome[] = [];
   subjectCompetencies: SubjectCompetency[] = [];
   createdOutcomes: SubjectOutcome[] = [];
   maxOutcomes: number = 3;
   selectPlaceholder: string = 'Selecciona la competencia del programa a la que pertenecerá';
   selectLabelPlaceholder: string = 'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
-  programCompetencies: any[] = []; // Add this property
+  programCompetencies: any[] = []; 
+  modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
+
 
   constructor(
     private route: ActivatedRoute,
     private subjectOutcomeService: SubjectOutomeService,
     private subjectCompetencyService: SubjectCompetencyService,
-    private programCompetencyService: ProgramCompetencyService // Add this line
+    private programCompetencyService: ProgramCompetencyService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +58,6 @@ export class SubjectCompetencyComponent implements OnInit {
     this.programCompetencyService.getAll().subscribe({
       next: (data) => {
         this.programCompetencies = data;
-        console.log('Program competencies loaded:', data);
       },
       error: (err) => {
         console.error('Error loading program competencies:', err);
@@ -68,13 +73,13 @@ export class SubjectCompetencyComponent implements OnInit {
     this.subjectOutcomeService.getOutcomesBySubject(this.subjectId).subscribe({
       next: (data) => {
         this.subjectOutcomes = data;
-        console.log('Subject-specific outcomes loaded:', data);
       },
       error: (err) => {
         console.error('Error loading subject-specific outcomes:', err);
       }
     });
   }
+
 
   hasMaxCompetencies(): boolean {
     return this.createdOutcomes.length >= this.maxOutcomes;
@@ -85,7 +90,12 @@ export class SubjectCompetencyComponent implements OnInit {
   }
 
   getOptions(): string[] {
-    // Return the descriptions of program competencies
+    // Return the descriptions of program competencies from our loaded array
+    if (!this.programCompetencies || this.programCompetencies.length === 0) {
+      return [];
+    }
+    
+    // Map program competencies to readable strings for the dropdown
     return this.programCompetencies.map(comp => 
       `${comp.description} (${comp.level || 'Sin nivel'})`
     );
@@ -134,10 +144,38 @@ export class SubjectCompetencyComponent implements OnInit {
 
     return false;
   }
-  
+
   onOutcomeChange(newDescription: string, outcomeId: number): void {
     // Handle outcome editing
     console.log(`Updating outcome ${outcomeId} with: ${newDescription}`);
     // Call service to update the outcome
   }
+
+  openModal() {
+    if (!this.subjectId) {
+      console.error('Subject ID is required to open the modal');
+      return;
+    }
+  
+    const dialogRef = this.dialog.open(TemplateModalReuseOutcomeComponent, {
+      width: '700px',
+      data: {
+        subjectId: this.subjectId,
+        options: this.getOptions(),
+        selectDescription: this.selectLabelPlaceholder,
+        selectPlaceholder: this.modalSelectPlaceholder
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('RA seleccionado:', result);
+        // Aquí puedes agregar lógica para manejar el resultado seleccionado
+        // Por ejemplo, podrías asignar el resultado a una propiedad o llamar a un servicio
+      } else {
+        console.log('El modal fue cerrado sin seleccionar un resultado.');
+      }
+    });
+  }
+  
 }
