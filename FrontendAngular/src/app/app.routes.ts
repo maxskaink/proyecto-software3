@@ -7,7 +7,7 @@ import { SettingsCompProgramComponent } from './components/settings-comp-program
 import { SettingsAsignatureComponent } from './components/settings-asignature/settings-asignature.component';
 import { SettingsTeachersComponent } from './components/settings-teachers/settings-teachers.component';
 import { OutcomeComponent } from './components/outcome/outcome.component';
-import { SubjectCompetencyComponent } from './components/subject-competency/subject-competency.component';
+import { SubjectCompetencyComponent } from './components/subject-competency-create/subject-competency-create.component';
 import { ProgramCompetencyComponent } from './components/program-competency/program-competency.component';
 import { RequiredParamsGuard } from './guards/required-params.guard';
 

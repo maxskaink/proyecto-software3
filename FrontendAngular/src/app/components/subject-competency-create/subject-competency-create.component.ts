@@ -1,4 +1,4 @@
-import { ProgramCompetency } from './../../models/ProgramCompetencyDTO';
+import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -31,8 +31,8 @@ import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templ
     TemplateHeaderTitleComponent,
     MoleculeOutComeComponent
   ],
-  templateUrl: './subject-competency.component.html',
-  styleUrl: './subject-competency.component.css'
+  templateUrl: './subject-competency-create.component.html',
+  styleUrl: './subject-competency-create.component.css'
 })
 export class SubjectCompetencyComponent implements OnInit {
   // Route parameters

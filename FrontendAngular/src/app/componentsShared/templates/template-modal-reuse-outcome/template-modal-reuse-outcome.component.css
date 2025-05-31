@@ -187,3 +187,39 @@ mat-dialog-actions {
   margin-bottom: 0;
   border-top: 1px solid #e0e0e0;
 }
+
+/* Make row content not selectable */
+.ra-row {
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* Add hover effect that changes size/appearance */
+.ra-row:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-color: rgba(83, 44, 88, 0.2);
+}
+
+/* Ensure button changes on hover */
+.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
+}
+
+/* Make inner text not selectable */
+.outcome-cell ::ng-deep * {
+  user-select: none;
+}
+
+/* Disabled row styling */
+.disabled-row {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Ensure action button has transition */
+.ra-action-icon {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}

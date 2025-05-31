@@ -2,16 +2,28 @@
   <!-- Header fijo con botón de cierre y select -->
   <div class="fixed-header">
     <div class="modal-header align-items-end">
-      <button mat-icon-button class="close-button" aria-label="Cerrar diálogo" (click)="dialogRef.close()">
+      <button
+        mat-icon-button
+        class="close-button"
+        aria-label="Cerrar diálogo"
+        (click)="dialogRef.close()"
+      >
         <span class="close-x">×</span>
       </button>
     </div>
-    
+
     <div class="dropdown-wrapper">
-      <select class="form-select custom-select-style clickable-select" [(ngModel)]="selectedOption"
-          (change)="onOptionChange()">
-        <option value="" disabled>{{ data.selectPlaceholder || 'Selecciona una opción' }}</option>
-        <option *ngFor="let opt of data.options" [value]="opt">{{ opt }}</option>
+      <select
+        class="form-select custom-select-style clickable-select"
+        [(ngModel)]="selectedOption"
+        (change)="onOptionChange()"
+      >
+        <option value="" disabled>
+          {{ data.selectPlaceholder || "Selecciona una opción" }}
+        </option>
+        <option *ngFor="let opt of data.options" [value]="opt">
+          {{ opt }}
+        </option>
       </select>
     </div>
   </div>
@@ -21,31 +33,58 @@
     <section class="ra-content">
       <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
         <!-- Remove any spacing between RA rows -->
-        <div *ngFor="let outcome of outcomes; let i = index" class="ra-row" [class.selected]="outcome.selected">
-          <!-- Remove mb-0 class -->
+        <div
+          *ngFor="let outcome of outcomes; let i = index"
+          class="ra-row"
+          [class.selected]="outcome.selected"
+          (click)="
+            !(!outcome.selected && selectedCount >= (data.maxOutcomes || 3)) &&
+              toggleOutcomeSelection(outcome)
+          "
+          [class.disabled-row]="
+            !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+          "
+        >
+          <!-- Contenido existente -->
           <div class="outcome-cell">
-            <app-molecule-out-come [outcomeNumber]="i + 1" [outcome]="outcome.description">
+            <app-molecule-out-come
+              [outcomeNumber]="i + 1"
+              [outcome]="outcome.description"
+            >
             </app-molecule-out-come>
           </div>
 
           <div class="action-cell">
-            <button (click)="toggleOutcomeSelection(outcome)" 
-                    class="ra-action-icon"
-                    [class.disabled]="!outcome.selected && selectedCount >= (data.maxOutcomes || 3)"
-                    [disabled]="!outcome.selected && selectedCount >= (data.maxOutcomes || 3)">
-              {{ outcome.selected ? '✓' : '−' }}
+            <button
+              class="ra-action-icon"
+              [class.disabled]="
+                !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+              "
+              [disabled]="
+                !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+              "
+            >
+              {{ outcome.selected ? "✓" : "−" }}
             </button>
           </div>
         </div>
       </ng-container>
       <ng-template #loadingOutcomes>
         <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-        <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
+        <p *ngIf="error.outcomes">
+          Error al cargar los resultados de aprendizaje
+        </p>
       </ng-template>
     </section>
   </div>
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button class="button_save" (click)="saveSelectedOutcomes()">Guardar</button>
+  <button
+    mat-raised-button
+    class="button_save"
+    (click)="saveSelectedOutcomes()"
+  >
+    Guardar
+  </button>
 </div>
