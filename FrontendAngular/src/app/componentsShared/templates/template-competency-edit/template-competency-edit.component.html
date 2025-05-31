@@ -13,19 +13,19 @@
             <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
             <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
         </ng-template>
-        
+
         <hr class="m-5">
         <p class="angular-brackets helper">Ingresa la nueva description de tu competencia</p>
         <input type="text"
-         class="form-control mb-3" 
-         placeholder="Descripción de la competencia" 
+         class="form-control mb-3"
+         placeholder="Descripción de la competencia"
          [(ngModel)]="editedCompetency.description"
          [class.is-invalid]="!editedCompetency.description.trim()">
          <p *ngIf="!editedCompetency.description?.trim()" class="text-danger validation-message">
             La descripción es obligatoria
         </p>
         <p class="angular-brackets helper">Aqui puedes seleccionar el nuevo nivel del resultado de aprendizaje</p>
-        <select class="form-select mb-3" 
+        <!-- <select class="form-select mb-3"
         [(ngModel)]="editedCompetency.level"
         name="level"
         [class.is-invalid]="!editedCompetency.level.trim()"
@@ -34,9 +34,9 @@
         <option value="alto">Alto</option>
         <option value="medio">Medio</option>
         <option value="bajo">Bajo</option>
-        </select>
+        </select> -->
     </div>
-    
+
     <section class="raContent d-flex justify-content-center flex-column align-items-center">
         <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
             <div *ngFor="let outcome of outcomes; let i = index " class="sectionOutcomes">

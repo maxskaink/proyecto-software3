@@ -1,6 +1,8 @@
+import { SubjectOutcome } from "./SubjectOutcomeDTO";
+
 export interface SubjectCompetency {
     id: number;
     description: string;
-    level: string;
     programCompetencyId: number;
+    subjectOutcomes?: SubjectOutcome[];
   }
