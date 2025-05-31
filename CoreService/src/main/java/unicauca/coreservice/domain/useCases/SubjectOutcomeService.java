@@ -82,6 +82,12 @@ public class SubjectOutcomeService implements SubjectOutcomeInt {
     }
 
     @Override
+    public List<SubjectOutcome> listBySubjectAndTerm(Integer subjectId, Integer termId, String uid) throws Exception {
+        canAccessSubject(uid, subjectId);
+        return repositorySubjectOutcome.listAllBySubjectIdAndTermId(subjectId,termId);
+    }
+
+    @Override
     public List<SubjectOutcome> listAllByCompetencyId(
             Integer competencyId,
             String uid

@@ -58,6 +58,22 @@ public interface SubjectOutcomeInt {
     ) throws Exception;
 
     /**
+     * Retrieves a list of SubjectOutcome entities associated with the specified Subject and term
+     * @param subjectId the unique identifier of the Subject whose SubjectOutcome entities for the current period are being retrieved
+     * @param termId the unique identifier for the term to search
+     * @param uid uid of the user retrieving the outcomes of the subject. The user must be a RAA in the current period.
+     * @return a list of SubjectOutcome entities linked to the given Subject in the term
+     */
+    List<SubjectOutcome> listBySubjectAndTerm(
+            @NotNull(message="The subject id can not be null")
+            Integer subjectId,
+            @NotNull(message="The term id can not be null")
+            Integer termId,
+            @NotNull(message = "The uid can not be null")
+            String uid
+    ) throws Exception;
+
+    /**
      * Retrieves a list of SubjectOutcome associated with a specific SubjectCompetency in the actual period.
      *
      * @param competencyId the unique identifier of the SubjectCompetency for which the associated SubjectOutcome will be retrieved

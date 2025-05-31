@@ -52,6 +52,15 @@ public class SubjectOutcomeController {
             );
     }
 
+    @GetMapping("/{subjectId}/term/{termId}/outcome")
+    public ResponseEntity<List<SubjectOutcome>> listBySubjectAndTerm(
+            @PathVariable Integer subjectId,
+            @PathVariable Integer termId,
+            HttpServletRequest request
+    ) throws Exception {
+        String uid = authenticationService.extractUidFromRequest(request);
+        return ResponseEntity.ok(serviceSubjectOutcome.listBySubjectAndTerm(subjectId,termId,uid));
+    }
     @GetMapping("/competency/{competencyId}/outcome")
     public ResponseEntity<List<SubjectOutcome>> listAllByCompetencyId(
             @PathVariable Integer competencyId,

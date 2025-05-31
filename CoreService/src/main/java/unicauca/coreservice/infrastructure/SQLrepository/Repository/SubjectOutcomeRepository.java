@@ -25,6 +25,7 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
     private final JPASubjectCompetencyAssignmentRepository assignmentRepository;
     private final JPASubjectOutcomeRepository subjectOutcomeRepository;
     private final JPAConfigurationRepository configurationRepository;
+    private final JPATermRepository termRepository;
 
     @Override
     public OptionalWrapper<SubjectOutcome> add(SubjectOutcome newSubjectOutcome, Integer competencyAssignment) {
@@ -76,6 +77,16 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
                     .filter(SubjectOutcomeEntity::isActivated)
                     .map(SubjectOutcomeMapper::toSubjectOutcome)
                     .toList();
+    }
+
+    @Override
+    public List<SubjectOutcome> listAllBySubjectIdAndTermId(Integer subjectId, Integer idTerm) {
+        return assignmentRepository.findAllBySubjectId(subjectId).stream()
+                .filter(assignment -> Objects.equals(idTerm, assignment.getTerm().getId()))
+                .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
+                .filter(SubjectOutcomeEntity::isActivated)
+                .map(SubjectOutcomeMapper::toSubjectOutcome)
+                .toList();
     }
 
     @Override

@@ -24,6 +24,15 @@ public interface SubjectOutcomeRepositoryOutInt {
      * @return A list of SubjectOutcome objects associated with the specified Subject.
      */
     List<SubjectOutcome> listAllBySubjectId(Integer subjectId, boolean activeTerm);
+
+    /**
+     * Retrieves a list of SubjectOutcome associated with a specific Subject and a specific Term
+     * @param subjectId The unique identifier of the Subject whose associated with the Subject
+     * @param idTerm The unique identifier of the Subject whose associated with the Subject
+     * @return The list of SubjectOutcome objects associated with the specified Subject and Term
+     */
+    List<SubjectOutcome> listAllBySubjectIdAndTermId(Integer subjectId, Integer idTerm);
+
     /**
      * Retrieves a list of SubjectOutcome associated with a specific Competency.
      *
