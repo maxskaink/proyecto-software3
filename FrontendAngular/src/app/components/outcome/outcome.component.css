@@ -40,7 +40,7 @@
 }
 .description{
     width: auto;
-    max-width: 50%;
+    max-width: 75%;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 400;
     line-height: 1.5;
@@ -65,4 +65,38 @@
 }
 .iconEdit:hover{
     font-size: 35px;
+}
+.btn-save{
+    background-color: #5E9E73;
+    color: white;
+    height: 40px;
+    width: 10%;
+    transition: background-color 0.3s ease;
+}
+.btn-save:hover{
+    background-color: #3C866A;
+    font-weight: 700;
+}
+
+.btn-cancel{
+    background-color: #A65256;
+    color: white;
+    height: 40px;
+    width: 10%;
+    transition: background-color 0.3s ease;
+}
+.btn-cancel:hover{
+    background-color: #B83238;
+    font-weight: 700;
+}
+.form-control {
+    background-color: #D9D9D9;
+    min-height: 80px; /* Altura mínima inicial */
+    width: 70%;
+    resize: vertical; /* Permite redimensionar verticalmente */
+    overflow-y: auto; /* Scroll vertical automático */
+    white-space: pre-wrap; /* Mantiene los saltos de línea y envuelve el texto */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+    line-height: 1.5; /* Espaciado entre líneas */
+    padding: 0.75rem; /* Espaciado interno */
 }
