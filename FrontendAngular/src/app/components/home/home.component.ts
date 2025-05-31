@@ -10,6 +10,7 @@ import { MoleculeSearchBarComponent } from '../../componentsShared/molecules/mol
 import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecule-block/molecule-block.component';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
+import { LoadingComponent } from '../../componentsShared/loading/loading.component';
 
 
 @Component({
@@ -20,7 +21,8 @@ import { SubjectService } from '../../services/subject.service';
         MoleculeBlockComponent,
         MoleculeSearchBarComponent,
         CommonModule,
-        FormsModule
+        FormsModule,
+        LoadingComponent
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit{
   asignatures: (SubjectDTO )[] = [];
   asignaturesFilters: (SubjectDTO )[] = [];
   wordSearch: string = '';
+  isLoading: boolean = false;
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
 
 
@@ -38,6 +41,7 @@ export class HomeComponent implements OnInit{
      private router: Router,    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.asignatureService.getAssignedSubject().subscribe({
       next: (data) => {
         this.asignatures = data;
@@ -45,6 +49,9 @@ export class HomeComponent implements OnInit{
       },
       error: (error) => console.error('Error en la suscripción:', error)
     });
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 100);
  }
 
   filterAsignatures(): void {
