@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -13,8 +13,15 @@ export class SubjectOutomeService {
   constructor(private http: HttpClient) {}
 
   // GET /subject/{subjectId}/outcome?activeTerm=true|false
-  getOutcomesBySubject(subjectId: number): Observable<SubjectOutcome[]> {
+  getOutcomesBySubject(subjectId: number, activateTerm:boolean = true): Observable<SubjectOutcome[]> {
     let url = `${this.baseUrl}/subject/${subjectId}/outcome`;
+    let params = new HttpParams();
+    params = params.append('activeTerm', activateTerm.toString());
+    return this.http.get<SubjectOutcome[]>(url,{params}).pipe(catchError(this.handleError));
+  }
+
+  getOutcomesBySubjectAndTerm(subjectId: number, termId: number): Observable<SubjectOutcome[]> {
+    let url = `${this.baseUrl}/subject/${subjectId}/term/${termId}/outcome`;
     return this.http.get<SubjectOutcome[]>(url).pipe(catchError(this.handleError));
   }
 
