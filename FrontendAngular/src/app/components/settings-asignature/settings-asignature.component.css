@@ -1,4 +1,4 @@
-
+/* Estilos existentes */
 .title{
     padding-left: 10%;
     font-size: clamp(2rem, 5vw, 3.5rem);;
@@ -12,8 +12,49 @@
 }
 .my-4{
     width: 40%;
-    height: 3px;     
-    margin-left: 10% ;          /* Grosor de la línea */
-    background-color: #000000;    /* Color de la línea */
-    border: none;       
+    height: 3px;
+    margin-left: 10% ;
+    background-color: #000000;
+    border: none;
+}
+.page-bottom-space {
+  height: 17rem;
+  width: 100%;
+}
+
+/* Nuevos estilos para el input de nombre */
+.input-container {
+  width: 100%;
+}
+
+.input__box {
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+.input__box:hover {
+  background-color: #C5C5C5;
+  border-color: #C5C5C5;
+}
+
+.input__box:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(95, 95, 95, 0.25);
+}
+
+.form-label {
+  margin-bottom: 0.25rem;
+}
+
+/* Animación para el mensaje de error */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
 }

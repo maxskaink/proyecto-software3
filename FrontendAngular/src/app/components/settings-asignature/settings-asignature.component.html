@@ -1,19 +1,44 @@
 <app-molecule-back-header></app-molecule-back-header>
 <h1 class="fw-bold  title">Configuracion de asignaturas</h1>
 <section class="section__Options">
-    <app-template-listbox-complete 
+    <app-template-listbox-complete
     [textBlock]  = "textBlock"
     (blockClick)="handleBlockClick($event)">
     </app-template-listbox-complete>
 </section>
 <hr class="my-4 ">
-<section class=" container-fluid section_input_size" id="createAsignature">
-    
-    <p>{{periodo}}</p>
+<section class=" container-fluid section_input_size mb-5" id="createAsignature">
+
+    <p><{{periodo}}></p>
     <h2 class=" fs-1">Crear asignatura</h2>
+
+    <div class="input-container mb-4">
+        <label for="subjectName" class="form-label">
+            <small class="text-muted">&lt;Nombre de la asignatura&gt;</small>
+        </label>
+        <input 
+            type="text" 
+            id="subjectName" 
+            class="input__box w-100" 
+            placeholder="Ingresa el nombre de la asignatura"
+            [(ngModel)]="subjectName"
+            (blur)="onSubjectNameBlur()"
+            >
+        <div *ngIf="subjectNameTouched && !subjectName.trim()" class="alert alert-danger d-flex align-items-center p-2 mt-2 fade-in" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <span><strong>¡Atención!</strong> Este campo es obligatorio.</span>
+        </div>
+    </div>
+
     <app-template-input-boxtext
-        [description]= "'Escribe la description de la asignatura'">
+        [description]= "'Description de la asignatura'"
+        (saveClicked)="handleCreateSubject($event)"
+    >
     </app-template-input-boxtext>
 
 
 </section>
+
+<div class="page-bottom-space"></div>
