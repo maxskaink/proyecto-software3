@@ -43,7 +43,7 @@
 }
 .bodyContent{
     padding: 4% 12%;
-    
+
 }
 .sectionOutcomes {
     width: 100%; /* Establece el ancho base al 100% del contenedor */
@@ -69,13 +69,13 @@
     width: 30px;
 }
 .content__buttons{
-    
+
     margin-top: clamp(2rem, 80%, 3rem)
 }
 
 .btn__basic{
     background-color: #60315C;
-    color: white; 
+    color: white;
     font-weight: 10px;
     margin: 5px;
     border-radius: 10px;
@@ -88,7 +88,7 @@
     color: white;
     font-weight: 20px;
 }
-.btn__save{ 
+.btn__save{
     background-color: #5E9E73;
 }
 .btn__save:hover{
@@ -138,4 +138,48 @@
     font-weight: 900;
     font-size: clamp(2rem, 3vw, 3rem);
     max-width: 90%;
+}
+
+
+/* Buttons */
+.custom-btn {
+  border-radius: 999px;
+  font-weight: 600;
+  height: 40px;
+}
+
+.custom-hover:hover {
+  background-color: #D9D9D9 !important;
+  color: rgb(40, 40, 40) !important;
+}
+
+
+.button_save,
+.buton_cancel {
+    flex: 1 1 45%;
+    min-width: 100px;
+    height: 2.5rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.button_save {
+    background-color: #5E9E73;
+    color: white;
+}
+
+.button_save:hover {
+    background-color: #3C866A;
+}
+
+.buton_cancel {
+    background-color: #A65256;
+    color: white;
+}
+
+.buton_cancel:hover {
+    background-color: #B83238;
 }

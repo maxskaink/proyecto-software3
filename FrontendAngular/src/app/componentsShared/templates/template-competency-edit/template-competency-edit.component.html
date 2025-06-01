@@ -73,15 +73,18 @@
         <div class="d-flex mb-3">
           <button
             class="btn btn-light custom-hover custom-btn w-50 me-2"
-            (click)="openModalReuse()">
+            (click)="openModalReuse()"
+          >
             <i class="bi bi-arrow-repeat me-2"></i>
             Reutilizar RA
           </button>
+          <!-- Modificar el botón Crear RA -->
           <button
-            class="btn btn-dark custom-btn w-50"
+            class="btn btn-dark custom-btn create-ra-btn w-50"
             [ngClass]="{ 'ms-auto': true }"
             [disabled]="hasMaxOutcomes()"
-            (click)="openModalCreate()">
+            (click)="openModalCreate()"
+          >
             <i class="bi bi-plus-lg me-2"></i>
             Crear RA
           </button>
@@ -91,14 +94,15 @@
         <hr class="my-4" />
 
         <!-- Sección de botones de acción (manteniendo el estilo original) -->
-        <div class="action-buttons d-flex justify-content-end">
+        <div class="d-flex w-100 gap-2 mt-auto">
           <button class="btn__basic btn__save me-3" (click)="onSaveClick()">
             Guardar
           </button>
           <button class="btn__basic btn__cancel" (click)="onCancelClick()">
-            Eliminar
+            Cancelar
           </button>
-        </div>
+      </div>
+
       </div>
     </div>
   </div>
