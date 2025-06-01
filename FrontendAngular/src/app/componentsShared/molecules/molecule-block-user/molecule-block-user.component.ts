@@ -10,4 +10,5 @@ export class MoleculeBlockUserComponent {
   @Input() name: string = '';
   @Input() role: string ='';
   @Input() colorHover: string = '#8D538C'
+  @Input() variant: 'primary' | 'secondary' = 'primary';
 }

@@ -2,10 +2,8 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute, Router, RouterLink} from '@angular/router';
-import { title } from 'node:process';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
 import { MoleculeSearchBarComponent } from '../../componentsShared/molecules/molecule-search-bar/molecule-search-bar.component';
 import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecule-block/molecule-block.component';
 import { SubjectDTO } from '../../models/SubjectDTO';
@@ -17,7 +15,6 @@ import { LoadingComponent } from '../../componentsShared/loading/loading.compone
     selector: 'app-home',
     imports: [
         HeaderComponent,
-        FooterComponent,
         MoleculeBlockComponent,
         MoleculeSearchBarComponent,
         CommonModule,

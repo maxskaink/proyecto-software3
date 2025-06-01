@@ -2,9 +2,25 @@
     font-size: 60px;            /* Cambia el tamaño del ícono */
     color: #1F0D1E;               /* Color del ícono */
 }
+.user-icon--secondary{
+    font-size: 60px;            /* Cambia el tamaño del ícono */
+    color: #D9D9D9;               /* Color del ícono */
+}
 .box{
     min-width: 6rem;
 }
+.box-secondary{
+    min-width: 6rem;
+}
+.box-secondary  {
+    color: #D9D9D9
+}
 .role{
  font-size: clamp(0.5rem, 7vw, 1rem);
+}
+.role--secondary{
+    color: #D9D9D9
+}
+.name--secondary{
+    color: #D9D9D9
 }
