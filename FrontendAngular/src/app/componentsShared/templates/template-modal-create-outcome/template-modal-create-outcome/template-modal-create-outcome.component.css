@@ -91,78 +91,6 @@
   padding-top: 8px;
 }
 
-.ra-content {
-  width: 100%;
-}
-
-/* Outcome Rows */
-.ra-row {
-  display: flex;
-  border-radius: 4px;
-  align-items: stretch;
-  width: 100%;
-}
-
-.outcome-cell {
-  flex: 1;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
-.outcome-cell ::ng-deep app-molecule-out-come {
-  width: 100%;
-  display: flex;
-}
-
-/* Action Buttons */
-.action-cell {
-  width: 48px;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
-.ra-action-icon {
-  border: none;
-  background-color: #e0e0e0;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #333;
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-  transition: all 0.2s ease;
-  color: #532c58;;
-}
-
-/* Hover effect for normal button - darken background */
-.ra-action-icon:hover:not(.disabled) {
-  background-color: #c0c0c0;
-}
-
-/* Selected button style */
-.ra-row.selected .ra-action-icon {
-  background-color: #81c784 !important;
-  color: white;
-}
-
-/* Hover effect for selected button - darken the green */
-.ra-row.selected .ra-action-icon:hover {
-  background-color: #5caf60 !important;
-}
-
-/* Disabled button style */
-.ra-action-icon.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 /* Save Button */
 .button_save {
@@ -181,48 +109,6 @@
   background-color: #3c866a;
 }
 
-/* Dialog Actions */
-mat-dialog-actions {
-  padding: 8px 16px;
-  margin-bottom: 0;
-  border-top: 1px solid #e0e0e0;
-}
-
-/* Make row content not selectable */
-.ra-row {
-  user-select: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-/* Add hover effect that changes size/appearance */
-.ra-row:hover:not(.disabled-row) {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-color: rgba(83, 44, 88, 0.2);
-}
-
-/* Ensure button changes on hover */
-.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
-  transform: scale(1.1);
-}
-
-/* Make inner text not selectable */
-.outcome-cell ::ng-deep * {
-  user-select: none;
-}
-
-/* Disabled row styling */
-.disabled-row {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Ensure action button has transition */
-.ra-action-icon {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
 
 /* Estilo para el título del modal */
 .modal-title {
@@ -240,3 +126,4 @@ mat-dialog-actions {
   padding: 16px 16px 8px;
   position: relative;
 }
+

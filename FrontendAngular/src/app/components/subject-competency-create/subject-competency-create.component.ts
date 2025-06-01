@@ -21,6 +21,7 @@ import { TemplateSelectInputBoxtextComponent } from '../../componentsShared/temp
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 import { MoleculeOutComeComponent } from '../../componentsShared/molecules/molecule-out-come/molecule-out-come.component';
 import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
+import { TemplateModalCreateOutcomeComponent } from '../../componentsShared/templates/template-modal-create-outcome/template-modal-create-outcome/template-modal-create-outcome.component';
 
 @Component({
   selector: 'app-subject-competency',
@@ -55,6 +56,8 @@ export class SubjectCompetencyComponent implements OnInit {
     'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
   modalSelectPlaceholder: string =
     'Selecciona el periodo al que pertenece el RA';
+  modalCreateDescription: string =
+    'Ingresa la descripcion del nuevo resultado de aprendizaje';
 
   constructor(
     private route: ActivatedRoute,
@@ -206,7 +209,7 @@ toggleOutcomeSelection(outcome: SubjectOutcome): void {
   }
 }
 
-  openModal() {
+  openModalReuse() {
     if (!this.subjectId) {
       return;
     }
@@ -225,6 +228,28 @@ toggleOutcomeSelection(outcome: SubjectOutcome): void {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && Array.isArray(result)) {
         this.selectedOutcomes = result;
+      }
+    });
+  }
+
+  openModalCreate() {
+    if (!this.subjectId) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(TemplateModalCreateOutcomeComponent, {
+      width: '700px',
+      data: {
+        newSubjectOutcome: { description: '' } as SubjectOutcome,
+        selectedOutcomes: this.selectedOutcomes,
+        textDescription: this.modalCreateDescription,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.description) {
+        this.createdOutcomes.push(result);
+        this.selectedOutcomes.push(result);
       }
     });
   }

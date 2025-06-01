@@ -20,10 +20,10 @@
         <!-- Sección Derecha (Botones y Gray Box) -->
         <section class="col-12 col-lg-6 order-2 order-lg-2 d-flex flex-column">
           <div class="d-flex mb-3">
-            <button class="btn btn-light custom-hover custom-btn w-50 me-2" (click)="openModal()">
+            <button class="btn btn-light custom-hover custom-btn w-50 me-2" (click)="openModalReuse()">
               Reutilizar RA
             </button>
-            <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }" [disabled]="hasMaxOutcomes()">
+            <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }" [disabled]="hasMaxOutcomes()" (click)="openModalCreate()">
               Crear RA
             </button>
           </div>
