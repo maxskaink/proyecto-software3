@@ -1,66 +1,105 @@
 <div class="">
-    <div class="divididerUp d-flex justify-content-between align-items-center p-5">
-        <div class="title-container">
-            <h2 class="titleSection">Competencia</h2>
-        </div>
+  <div
+    class="divididerUp d-flex justify-content-between align-items-center p-5"
+  >
+    <div class="title-container">
+      <h2 class="titleSection">Competencia</h2>
     </div>
-    <div class="bodyContent container-fluid">
-        <p class="angular-brackets helper"> ¡¡Edita tu ra a tu gusto!! </p>
-        <h2 class="description">{{competency.description}}</h2>
-        <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
-            <p>Pertenece a: {{programComp.description}}</p>
-        </ng-container>
-        <ng-template #loadingProgramComp>
-            <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
-            <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
-        </ng-template>
-
-        <hr class="m-4">
-        <p class="angular-brackets helper">Ingresa la nueva description de tu competencia</p>
-        <input type="text"
-         class="form-control mb-3"
-         placeholder="Descripción de la competencia"
-         [(ngModel)]="editedCompetency.description"
-         [class.is-invalid]="!editedCompetency.description.trim()">
-         <p *ngIf="!editedCompetency.description?.trim()" class="text-danger validation-message">
-            La descripción es obligatoria
-        </p>
-        
-        <!-- <select class="form-select mb-3"
-        [(ngModel)]="editedCompetency.level"
-        name="level"
-        [class.is-invalid]="!editedCompetency.level.trim()"
-        >
-        <option value="" disabled>Seleccione un nivel</option>
-        <option value="alto">Alto</option>
-        <option value="medio">Medio</option>
-        <option value="bajo">Bajo</option>
-        </select> -->
-        <section class="raContent d-flex justify-content-center flex-column align-items-center">
-            <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-                <div *ngFor="let outcome of outcomes; let i = index "
-                 class="sectionOutcomes"
-                 (click)="goToOutcome(outcome, i)">
-                    <app-molecule-out-come [outcomeNumber]=i+1 [outcome]="outcome.description"
-                     ></app-molecule-out-come>
-                </div>
-            </ng-container>
-            <ng-template #loadingOutcomes>
-                <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-                <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
-            </ng-template>
-        </section>
-        <section  class="d-flex justify-content-between align-items-center content__buttons">
-            <div>
-                <button class="btn__basic  " (click)="onAddOutcome()">Crear RA</button>
-                <button class="btn__basic">Reutilizar RA</button>
-            </div>
-            <div>
-                <button class="btn__basic btn__save" (click)="onSaveClick()">Guardar</button>
-                <button class="btn__basic btn__cancel" (click)="onCancelClick()">Eliminar</button>
-            </div>
-        </section>
-    </div>
-
-
   </div>
+  <div class="bodyContent container-fluid">
+    <p class="angular-brackets helper">¡¡Edita tu ra a tu gusto!!</p>
+    <h2 class="description">{{ competency.description }}</h2>
+    <ng-container
+      *ngIf="programCompetency$ | async as programComp; else loadingProgramComp"
+    >
+      <p>Pertenece a: {{ programComp.description }}</p>
+    </ng-container>
+    <ng-template #loadingProgramComp>
+      <p *ngIf="loading.programCompetency">
+        Cargando competencia del programa...
+      </p>
+      <p *ngIf="error.programCompetency">
+        Error al cargar la competencia del programa
+      </p>
+    </ng-template>
+
+    <hr class="m-4" />
+    <p class="angular-brackets helper">
+      Ingresa la nueva description de tu competencia
+    </p>
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Descripción de la competencia"
+      [(ngModel)]="editedCompetency.description"
+      [class.is-invalid]="!editedCompetency.description.trim()"
+    />
+    <p
+      *ngIf="!editedCompetency.description?.trim()"
+      class="text-danger validation-message"
+    >
+      La descripción es obligatoria
+    </p>
+
+    <section
+      class="raContent d-flex justify-content-center flex-column align-items-center"
+    >
+      <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+        <div
+          *ngFor="let outcome of outcomes; let i = index"
+          class="sectionOutcomes"
+          (click)="goToOutcome(outcome, i)"
+        >
+          <app-molecule-out-come
+            [outcomeNumber]="i + 1"
+            [outcome]="outcome.description"
+          ></app-molecule-out-come>
+        </div>
+        <p *ngIf="outcomes.length === 0" class="text-muted">
+          No hay resultados de aprendizaje. ¡Crea o reutiliza uno!
+        </p>
+      </ng-container>
+      <ng-template #loadingOutcomes>
+        <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+        <p *ngIf="error.outcomes">
+          Error al cargar los resultados de aprendizaje
+        </p>
+      </ng-template>
+    </section>
+    <div class="button-container mt-4">
+      <!-- Sección de botones de RA -->
+      <!-- Reemplaza la sección de botones actual por esta versión -->
+      <div class="button-container mt-4">
+        <div class="d-flex mb-3">
+          <button
+            class="btn btn-light custom-hover custom-btn w-50 me-2"
+            (click)="openModalReuse()">
+            <i class="bi bi-arrow-repeat me-2"></i>
+            Reutilizar RA
+          </button>
+          <button
+            class="btn btn-dark custom-btn w-50"
+            [ngClass]="{ 'ms-auto': true }"
+            [disabled]="hasMaxOutcomes()"
+            (click)="openModalCreate()">
+            <i class="bi bi-plus-lg me-2"></i>
+            Crear RA
+          </button>
+        </div>
+
+        <!-- Separador visual -->
+        <hr class="my-4" />
+
+        <!-- Sección de botones de acción (manteniendo el estilo original) -->
+        <div class="action-buttons d-flex justify-content-end">
+          <button class="btn__basic btn__save me-3" (click)="onSaveClick()">
+            Guardar
+          </button>
+          <button class="btn__basic btn__cancel" (click)="onCancelClick()">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -53,6 +53,7 @@ export class SubjectCompetencyComponent implements OnInit {
   selectLabelPlaceholder: string = 'Aquí puedes seleccionar la competencia del programa para tu nueva competencia de asignatura';
   modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
   modalCreateDescription: string = 'Ingresa la descripcion del nuevo resultado de aprendizaje';
+  outcomeTouched: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -164,6 +165,7 @@ export class SubjectCompetencyComponent implements OnInit {
     this.programCompetencyId = selectedCompetency.id;
 
     if (this.selectedOutcomes.length > this.maxOutcomes || this.selectedOutcomes.length === 0) {
+      this.outcomeTouched = true;
       return false;
     }
 
