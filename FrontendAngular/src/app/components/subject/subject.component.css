@@ -37,18 +37,42 @@
     height: 10px;           /* Grosor de la línea (ajústalo a tu preferencia) */
     margin-top:-1px ;
   }
-  .carousel-control-prev{
-    width: 10%;
-    height: 5%;
-    margin-top:400px ;
-
+  .carousel-control-prev,
+  .carousel-control-next {
+    color: #000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    opacity: 1;
+    margin-top: 400px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border: 2px solid #6C3668; /* Borde morado */
   }
-  .carousel-control-next{
-    width: 10%;
-    height: 5%;
-    margin-top:400px ;
-
+  /* Hover effect para los botones */
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    border-color: #532c58;
+    transform: scale(1.1);
   }
+
+  /* Estilo para los íconos de flecha */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 25px;
+  height: 25px;
+  background-size: 100%;
+  color: #9e6969;
+  filter: invert(1) brightness(200%); /* Hace las flechas blancas */
+}
+
+/* Posicionamiento específico para cada botón */
+.carousel-control-prev {
+  left: 2%;
+}
+
+.carousel-control-next {
+  right: 2%;
+}
 .btn{
     background-color: #C5C5C5;
     width: 30%;
@@ -85,4 +109,36 @@
 .carousel.slide.editing .carousel-item,
 .carousel.slide.editing .carousel-inner {
   transition: none !important;
+}
+
+
+/* Estilo para los indicadores del carrusel */
+.carousel-indicators {
+  position: relative;
+  margin: 0;
+  padding: 10px;
+  border-color: #6C3668;
+  background-color:#6C3668 ;
+  
+}
+
+.carousel-indicators button {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50%;
+  background-color: #1E1E1E !important;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  margin: 0 8px !important;
+}
+
+.carousel-indicators button.active {
+  opacity: 1;
+  transform: scale(1.2);
+  background-color: #C5C5C5 !important;
+}
+
+/* Mantener los indicadores visibles en modo edición */
+.carousel.slide.editing .carousel-indicators {
+  display: flex !important;
 }
