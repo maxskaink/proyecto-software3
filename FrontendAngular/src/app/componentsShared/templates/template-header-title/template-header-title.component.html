@@ -1,7 +1,7 @@
 <section class="container-fluid body py-4">
-    <app-molecule-back-header ></app-molecule-back-header>
+    <app-molecule-back-header [variant]="variant"></app-molecule-back-header>
     
-    <div class="text-center text-md-start title ">
+    <div class="text-center text-md-start title  "    [class.title--secondary]="variant === 'secondary'">
       <h1 class="fw-bold">{{ title }}</h1>
       <p>{{ description }}</p>
     </div>

@@ -12,3 +12,8 @@
 .title p{
     font-size: clamp(0.5rem, 5vw, 0.8rem);;
 }
+
+.title--secondary{
+    color: #D9D9D9;
+    padding-right: 3%;
+}

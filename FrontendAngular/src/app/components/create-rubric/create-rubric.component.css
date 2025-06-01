@@ -5,9 +5,28 @@
     width: 100%;
     height: 100%;
     background-color: #1E1E1E;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 9999;
     backdrop-filter: blur(5px);
+}
+.bodyContent{
+    background-color: #D9D9D9;
+    margin-top: clamp(50px, 10vh, 100px);
+    margin-right: clamp(50px, 10vw, 100px);
+    margin-left: clamp(50px, 10vw, 100px);
+    padding: clamp(20px, 5vh, 40px);
+    border-radius: 30px;
+    height: 100vh;
+}
+.title{
+    font-weight: 900;
+    color: #6B656A;
+    font-size: clamp(3rem, 3vw, 4rem);
+}
+
+.angular-brackets::before {
+    content: "<";
+}
+
+.angular-brackets::after {
+    content: ">";
 }

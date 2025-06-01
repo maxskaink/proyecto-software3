@@ -10,6 +10,7 @@ import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/mole
 import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 import { FormsModule } from '@angular/forms';
 import { EditStateService } from '../../../services/edit-state.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class TemplateCompetencyEditComponent {
       private outcomeService: SubjectOutomeService, 
       private competencyProgramService: ProgramCompetencyService,
       private editStateService: EditStateService,
-      private competencyService: SubjectCompetencyService
+      private competencyService: SubjectCompetencyService,
+      private router: Router
     ) {
     }
   
@@ -116,7 +118,25 @@ export class TemplateCompetencyEditComponent {
       this.editStateService.setEditState(false);
       this.editStateChange.emit(false);
     }
+    onAddOutcome():void{
 
+    }
+
+    goToOutcome(outcome: SubjectOutcome, index: number): void {
+      // Usar el ID real del outcome si está disponible
+      const outcomeId = outcome.id;
+      
+      this.router.navigate(['/home/subject/competency/subject/outcome'], {
+          queryParams: {
+              outcomeId: outcomeId,
+              // Agregar otros parámetros necesarios si los hay
+          }
+      }).then(() => {
+          console.log('Navegando al outcome:', outcomeId);
+      }).catch(error => {
+          console.error('Error en la navegación:', error);
+      });
+    }
  
 
 }

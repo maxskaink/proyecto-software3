@@ -38,8 +38,11 @@
         </select> -->
         <section class="raContent d-flex justify-content-center flex-column align-items-center">
             <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-                <div *ngFor="let outcome of outcomes; let i = index " class="sectionOutcomes">
-                    <app-molecule-out-come [outcomeNumber]=i+1 [outcome]="outcome.description"></app-molecule-out-come>
+                <div *ngFor="let outcome of outcomes; let i = index "
+                 class="sectionOutcomes"
+                 (click)="goToOutcome(outcome, i)">
+                    <app-molecule-out-come [outcomeNumber]=i+1 [outcome]="outcome.description"
+                     ></app-molecule-out-come>
                 </div>
             </ng-container>
             <ng-template #loadingOutcomes>
@@ -49,7 +52,7 @@
         </section>
         <section  class="d-flex justify-content-between align-items-center content__buttons">
             <div>
-                <button class="btn__basic ">Agregar RA</button>
+                <button class="btn__basic  " (click)="onAddOutcome()">Crear RA</button>
                 <button class="btn__basic">Reutilizar RA</button>
             </div>
             <div>

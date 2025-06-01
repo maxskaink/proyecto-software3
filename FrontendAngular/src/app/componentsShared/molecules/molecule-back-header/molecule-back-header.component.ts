@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component , Input} from '@angular/core';
 import { Location } from '@angular/common';
 
 
@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 })
 export class MoleculeBackHeaderComponent {
   constructor(private location: Location) {}
-
+  @Input() variant: 'primary' | 'secondary' = 'primary';
   goBack(): void {
     this.location.back();
   }

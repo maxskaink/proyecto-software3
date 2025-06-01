@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { EditStateService } from '../../services/edit-state.service';
 import { Carousel } from 'bootstrap';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
-
+import { forkJoin } from 'rxjs';
 declare var bootstrap: any;
 
 

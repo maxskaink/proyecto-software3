@@ -25,7 +25,7 @@ export const routes: Routes = [
   {path: 'settings/competencyProgram/create', component: ProgramCompetencyComponent},
   {path: 'settings/asignatures', component: SettingsAsignatureComponent},
   {path: 'settings/teacher', component: SettingsTeachersComponent},
-  {path: 'home/outcomes', component: OutcomeComponent},
+  {path: 'home/subject/competency/subject/outcome', component: OutcomeComponent},
   {path: 'home/subject/competencySubject/create', component: SubjectCompetencyComponent},
   {path: 'home/subject/competencySubject/outcome/create', component: CreateRubricComponent}
 ];

@@ -2,12 +2,20 @@
 .outcome-container {
   display: flex;
   /* border: .5px solid #ccc;*/
-  background-color: #f8f8f8;
+  
   width: 100%;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
+  margin: 0;
+  transition: margin 0.3s ease;
   overflow: hidden;
+}
+.outcome-container:hover{
+  
+  margin-top: 2px;
+  margin-bottom: 2px;
+  
+
 }
 
 /* ===== LABEL ===== */
@@ -40,6 +48,10 @@
   text-shadow: 0px 0px 1px rgba(83, 44, 88, 0.1);
   position: relative;
   padding-left: 2rem; /* Extra padding for quote mark */
+  transition: all 0.6s ease;
+}
+.outcome-description:hover{
+  background-color: #dab6d9; /* Slightly darker on hover */
 }
 
 .outcome-description::before {

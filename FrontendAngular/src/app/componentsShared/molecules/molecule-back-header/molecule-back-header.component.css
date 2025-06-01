@@ -3,5 +3,13 @@
     background-color: rgba(240, 248, 255, 0);
     font-size: 40px;
     margin: 10px;
+    font-weight: 800;
     
+}
+.arrow--secondary{
+    color: #D9D9D9;
+}
+.arrow {
+    font-weight: 900; /* Aumenta el grosor de la flecha */
+    -webkit-text-stroke: 2px; /* Hace la flecha más gruesa en navegadores webkit */
 }

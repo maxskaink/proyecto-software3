@@ -14,7 +14,7 @@
     background-color: #553C53;
 }
 .icon-container-edit:hover{
-    background-color: #553C53;
+    
 }
 .icons-container-edit:hover {
     height: 100%;
@@ -49,9 +49,18 @@
     width: 100%; /* Establece el ancho base al 100% del contenedor */
     max-width: clamp(300px, 80%, 1600px); /* Controla el ancho máximo de forma responsiva */
     margin: 0 auto; /* Centra el contenido */
-    padding: 0; /* Añade padding para espaciado en pantallas pequeñas */
+    padding: 0;
+    background-color: #75126de8;
 }
+.sectionOutcomes:hover {
+    
 
+    cursor: pointer;
+}
+.outcome-item {
+    display: block;
+    width: 100%;
+}
 .raContent {
     width: 100%;
     display: flex;

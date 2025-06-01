@@ -9,6 +9,7 @@ import { SubjectOutomeService } from '../../services/subject_outcome.service';
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
 import { TemplateRubricTableComponent } from '../../componentsShared/templates/template-rubric-table/template-rubric-table.component';
 import {RubricDTO} from '../../models/RubricDTO';
+import { LoadingComponent } from '../../componentsShared/loading/loading.component';
 
 
 @Component({
@@ -17,7 +18,8 @@ import {RubricDTO} from '../../models/RubricDTO';
     FormsModule,
     MoleculeSectionOptionComponent,
     TemplateHeaderTitleComponent,
-    TemplateRubricTableComponent 
+    TemplateRubricTableComponent,
+    LoadingComponent
     ],
   templateUrl: './outcome.component.html',
   styleUrl: './outcome.component.css'
@@ -29,24 +31,29 @@ export class OutcomeComponent implements OnInit {
   description: string = 'Las RAs son el conjunto .';
   outcomeId: number = 0;
   isEditDescription: boolean = false; 
+  isLoading:boolean= false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private outComeService: SubjectOutomeService){}
+    private outComeService: SubjectOutomeService){
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
 
   ngOnInit(): void {
+    
+    this.isLoading= true;
     this.getOutcome();
-    /**
     this.route.queryParams.subscribe(params => {
       if (params['outcomeId']) {
         this.outcomeId = +params['outcomeId'];
         this.getOutcome();
+        this.isLoading =false; 
       } else {
         console.error('No outcome ID provided');
         this.router.navigate(['/home']); // or handle missing ID case
+        this.isLoading =false;
       }
     });
-     */
   }
   options: SectionOption[] = [
   {
@@ -109,7 +116,7 @@ saveDescription(): void {
 }
 
 getOutcome(): void {
-  this.outComeService.getOutcomeById(1).subscribe({
+  this.outComeService.getOutcomeById(this.outcomeId).subscribe({
     next: (data: SubjectOutcome) => {
       this.currentOutcome = data;
       this.title = `RA ${this.outcomeId + 1}`; // Corrección aquí
