@@ -4,9 +4,9 @@ import { Component, ElementRef, Inject, Input, PLATFORM_ID, ViewChild } from '@a
 // Define color pairs as a constant outside the class
 const COLOR_PAIRS = [
   { titleColor: '#6C3668', bodyColor: '#8D538C' },
-  { titleColor: '#3C866A', bodyColor: '#5E9E73' },
+  { titleColor: '#3C866A', bodyColor: '#5E9E73' }, //verde
   { titleColor: '#4E4D6E', bodyColor: '#7474BB' },
-  { titleColor: '#A65256', bodyColor: '#CD676C' },
+  { titleColor: '#A65256', bodyColor: '#CD676C' }, //rojo
 ];
 
 @Component({
