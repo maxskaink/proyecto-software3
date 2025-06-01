@@ -18,14 +18,21 @@
     </div>
   </section>
   <section id="competencySection" class="sectionCompetency">
-    <div id="competencyCarousel" class="carousel slide" [attr.data-bs-ride]="isEdit ? 'false' : 'carousel'"
-      [attr.data-bs-interval]="isEdit ? 'false' : '5000'">
+    <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
-        <div *ngFor="let competency of listCompetency; let i = index" class="carousel-item" [class.active]="i === 0">
-          <app-template-competency [competency]="competency" (editStateChange)="onEditStateChange($event)"
-            *ngIf="!isEdit"></app-template-competency>
-          <app-template-competency-edit [competency]="competency" (editStateChange)="onEditStateChange($event)"
-            *ngIf="isEdit"></app-template-competency-edit>
+        <div *ngFor="let competency of listCompetency; let i = index" 
+             class="carousel-item" 
+             [class.active]="i === 0">
+          <app-template-competency 
+            [competency]="competency" 
+            (editStateChange)="onEditStateChange($event)"
+            *ngIf="!isEdit">
+          </app-template-competency>
+          <app-template-competency-edit 
+            [competency]="competency" 
+            (editStateChange)="onEditStateChange($event)"
+            *ngIf="isEdit">
+          </app-template-competency-edit>
         </div>
       </div>
 

@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output, PLATFORM_ID } from '@angular/core';
 import { SubjectCompetency } from '../../../models/SubjectCompetencyDTO';
 import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
 import { SubjectOutomeService } from '../../../services/subject_outcome.service';
 import { ProgramCompetencyService } from '../../../services/program-competency.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 import { FormsModule } from '@angular/forms';
+import { EditStateService } from '../../../services/edit-state.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class TemplateCompetencyEditComponent {
     programCompetency$!: Observable<ProgramCompetency>;
     validationError: string = '';
 
+
     
     loading = {
       outcomes: false,
@@ -42,8 +44,10 @@ export class TemplateCompetencyEditComponent {
     constructor(
       private outcomeService: SubjectOutomeService, 
       private competencyProgramService: ProgramCompetencyService,
+      private editStateService: EditStateService,
       private competencyService: SubjectCompetencyService
-    ) {}
+    ) {
+    }
   
     ngOnInit(): void {
       if (this.competency) {
@@ -52,8 +56,10 @@ export class TemplateCompetencyEditComponent {
         this.editedCompetency = {
           ...this.competency
         };
+        console.log('Outomces loaded:', this.outcomes$);
       }
     }
+
   
     loadOutcomes(): void {
       this.loading.outcomes = true;
@@ -93,25 +99,24 @@ export class TemplateCompetencyEditComponent {
       return true;
     }
     onSaveClick(): void {
-      if (!this.validateInputs()) {
-        return; // No continuar si hay errores de validación
-      }
-      this.competencyService.updateCompetency(1,this.editedCompetency).subscribe({
-        next: (response) => {
-          // Emitir false para volver al modo visualización
+      if (!this.validateInputs()) return;
+
+      this.competencyService.updateCompetency(1, this.editedCompetency).subscribe({
+        next: () => {
+          this.editStateService.setEditState(false);
           this.editStateChange.emit(false);
-        },
+          },
         error: (error) => {
-          console.error('Error al actualizar la competencia:', error);
+          console.error('Error updating competency:', error);
         }
       });
     }
     
-    
     onCancelClick(): void {
+      this.editStateService.setEditState(false);
       this.editStateChange.emit(false);
     }
-    onEditClick(): void{
-      this.editStateChange.emit(true);
-    }
+
+ 
+
 }

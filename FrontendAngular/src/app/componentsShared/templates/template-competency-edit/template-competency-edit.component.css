@@ -11,7 +11,6 @@
 
 .icons-container {
     display: flex;
-    gap: 1rem;
 }
 
 .titleSection {
@@ -47,13 +46,13 @@
     
 }
 .sectionOutcomes {
-    width: 100%; /* Establece el ancho base al 100% del contenedor */
-    max-width: clamp(300px, 90%, 1200px); /* Controla el ancho máximo de forma responsiva */
+    width: 100%; 
+    max-width: clamp(300px, 90%, 1200px); 
     margin: 0 auto; /* Centra el contenido */
-    padding: 0 1rem; /* Añade padding para espaciado en pantallas pequeñas */
 }
 .raContent {
     width: 100%;
+    height: clamp(20rem, 90%, 30rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,6 +68,7 @@
 }
 .content__buttons{
     padding: 4% 12%;
+    margin-top: clamp(2rem, 80%, 3rem)
 }
 
 .btn__basic{

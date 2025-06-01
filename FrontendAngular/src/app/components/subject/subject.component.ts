@@ -1,16 +1,19 @@
-import { Component, viewChild, ElementRef, ViewChild} from '@angular/core';
+import { Component, viewChild, ElementRef, ViewChild, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
 import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
 import { TemplateCompetencyComponent } from '../../componentsShared/templates/template-competency/template-competency.component';
 import { TemplateCompetencyEditComponent } from '../../componentsShared/templates/template-competency-edit/template-competency-edit.component';
 import { AuthService } from '../../services/auth.service';
+import { EditStateService } from '../../services/edit-state.service';
+import { Carousel } from 'bootstrap';
 
+declare var bootstrap: any;
 
 
 
@@ -28,24 +31,38 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './subject.component.css'
 })
 export class SubjectComponent {
+  @ViewChild('competencyCarousel') carousel!: ElementRef;
+  private carouselInstance: any;
+  private readonly isBrowser: boolean;
+
+
   description: string = 'description';
   title: string= 'title';
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
   
-  isEdit: boolean = false; 
+  isEdit: boolean = false;;
   role: string ="";
   name: string ="";
+
+  
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private asignatureService: SubjectService,
     private route: ActivatedRoute,
     private competenciesSubject: SubjectCompetencyService ,
+    private editStateService: EditStateService,
     private auth: AuthService,
     private router: Router  
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit() {
+    this.editStateService.editState$.subscribe(state => {
+      this.isEdit = state;
+    });
     const response = this.route.snapshot.paramMap.get('id');
     if(!response)
       console.log("The subject doesnt exist");
@@ -65,8 +82,25 @@ export class SubjectComponent {
       if(name!=null)
         this.name=name;
     })
+    console.log("Cargando asignatura con id: ", this.id);
+    console.log("competencia cargadas: ", this.listCompetency);
   }
 
+  ngAfterViewInit() {
+    // Solo inicializar el carrusel en el navegador
+    if (this.isBrowser) {
+      setTimeout(() => {
+        this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
+          interval: 5000
+        });
+      });
+    }
+  }
+
+  /**
+   * get the current aisgnatre
+   * @param id ID of the subject to fetch get of url
+   */
   getAsignatureID(id: number): void {
     this.asignatureService.getSubjectID(id).subscribe(data => {
       this.actualAsignature = data;
@@ -74,6 +108,9 @@ export class SubjectComponent {
       this.description  = this.actualAsignature.description;
     });
   }
+  /**
+   * load the competncies of current subject
+   */
   
   loadCompetencies(): void{
     this.competenciesSubject.getCompetenciesByAsignature(this.id).subscribe(
@@ -82,10 +119,19 @@ export class SubjectComponent {
       }
     );
   }
-  onEditStateChange(newState: boolean): void {
-    this.isEdit = newState;
-    this.loadCompetencies();
+  
+  onEditStateChange(state: boolean) {
+    this.isEdit = state;
+    if (this.carouselInstance) {
+      if (state) {
+        this.carouselInstance.pause();
+      } else {
+        this.carouselInstance.cycle();
+      }
+    }
   }
+
+
   goToCompetency(): void {
     const element = document.getElementById('competencySection');
     if (element) {

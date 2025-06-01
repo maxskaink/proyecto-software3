@@ -28,6 +28,17 @@
         <p>{{competency.description}}</p>
         <!-- <p>Nivel: {{competency.level}}</p> -->
     </div>
-
+    <section class="raContent d-flex justify-content-center flex-column align-items-center">
+        <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+            <div *ngFor="let outcome of outcomes; let i = index " class="sectionOutcomes">
+                <app-molecule-out-come [outcomeNumber]=i+1 [outcome]="outcome.description"></app-molecule-out-come>
+            </div>
+        </ng-container>
+        <ng-template #loadingOutcomes>
+            <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+            <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
+        </ng-template>
+    </section>
+   
 
 </div>

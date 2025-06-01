@@ -56,6 +56,6 @@
 
 @media (max-width: 900px) {
     .sectionOutcomes {
-        padding: 2rem; /* Padding para pantallas pequeñas */
+        width: 75%
     }
 }

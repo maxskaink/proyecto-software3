@@ -10,7 +10,7 @@ import { OutcomeComponent } from './components/outcome/outcome.component';
 import { SubjectCompetencyComponent } from './components/subject-competency/subject-competency.component';
 import { ProgramCompetencyComponent } from './components/program-competency/program-competency.component';
 import { RequiredParamsGuard } from './guards/required-params.guard';
-
+import { CreateRubricComponent } from './components/create-rubric/create-rubric.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -27,4 +27,5 @@ export const routes: Routes = [
   {path: 'settings/teacher', component: SettingsTeachersComponent},
   {path: 'home/outcomes', component: OutcomeComponent},
   {path: 'home/subject/competencySubject/create', component: SubjectCompetencyComponent},
+  {path: 'home/subject/competencySubject/outcome/create', component: CreateRubricComponent}
 ];
