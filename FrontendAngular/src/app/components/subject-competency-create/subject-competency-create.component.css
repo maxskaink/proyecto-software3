@@ -1,0 +1,184 @@
+.competency-container {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  /* ===== SECTIONS ===== */
+  .gray-section-container {
+    background-color: #E9E9E9;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  
+  /* Gray box for RA display */
+  .gray-box {
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    height: 120px;
+    width: 100%;
+    min-height: 200px;
+  }
+  
+  .outcomes-container {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  /* ===== BUTTONS ===== */
+  .custom-btn {
+    border-radius: 999px;
+    font-weight: 600;
+    height: 40px;
+  }
+  
+  /* Light button hover effect */
+  .custom-hover:hover {
+    background-color: #C3C3C3 !important;
+    color: black !important;
+  }
+  
+  /* ===== FORM ELEMENTS ===== */
+  .form-select,
+  .input-group-text {
+    border-color: #bfbfbf;
+    border-radius: 6px;
+  }
+  
+  
+  
+  /* ===== RESPONSIVE STYLES ===== */
+  @media (min-width: 768px) {
+    .row > section {
+      width: 50%;
+      max-width: 50%;
+    }
+  }
+  @media (max-width: 991px) {
+    .title {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+    
+    .gray-box {
+      min-height: 150px;
+    }
+    
+    .container-fluid {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+
+/* Outcome Rows */
+.ra-row {
+  display: flex;
+  border-radius: 4px;
+  align-items: stretch;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* Cell containing the outcome component */
+.outcome-cell {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.outcome-cell ::ng-deep app-molecule-out-come {
+  width: 100%;
+  display: flex;
+}
+
+/* Make inner text not selectable */
+.outcome-cell ::ng-deep * {
+  user-select: none;
+}
+
+/* Action Buttons */
+.action-cell {
+  width: 48px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.ra-action-icon {
+  border: none;
+  background-color: #A65256;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  transition: all 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  color: #ffff;
+}
+
+/* Hover effect for normal button - darken background */
+
+.ra-row.selected .ra-action-icon {
+  background-color: #81c784 !important;
+  color: white;
+}
+
+/* Hover effect for selected button - darken the green */
+.ra-row.selected .ra-action-icon:hover {
+  background-color: #5caf60 !important;
+}
+
+/* Disabled button style */
+.ra-action-icon.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Add hover effect that changes size/appearance */
+/* Add hover effect that changes size/appearance */
+.ra-row:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(166, 82, 86, 0.3); /* Sombra rojiza */
+  border-color: rgba(166, 82, 86, 0.3); /* Borde rojizo */
+}
+
+/* Ensure button changes on hover of the entire row */
+.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
+  background-color: #B83238; /* Aplica el mismo color del hover directo */
+}
+
+.outcomes-container {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* Cada fila de outcome */
+.ra-row {
+  width: 100%;
+  display: flex;
+}
+
+/* Último outcome sin margen inferior */
+.ra-row:last-child {
+  margin-bottom: 0;
+}

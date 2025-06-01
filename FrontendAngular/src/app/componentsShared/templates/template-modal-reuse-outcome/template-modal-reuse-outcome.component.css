@@ -1,166 +1,225 @@
-/* Clean up the duplicate styles first */
+/* Modal Structure */
 .modal-container {
-    background-color: #f5f5f5;
-    border-radius: 12px;
-    padding: 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 0;
 }
 
-.dropdown-wrapper {
-    margin-bottom: 12px;
-}
-
-.ra-content {
-    /* This container needs to be properly styled */
-    width: 100%;
-}
-
-.ra-row {
-    display: flex;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    align-items: stretch;
-    /* Remove any unwanted space */
-    width: 100%;
-}
-
-.outcome-cell {
-    flex: 1;
-    padding: 0; /* Remove ALL padding */
-    margin: 0; /* Remove ALL margin */
-    display: flex;
-}
-
-/* This is key - style the molecule to avoid gaps */
-.outcome-cell ::ng-deep app-molecule-out-come {
-    width: 100%;
-    display: flex;
-}
-
-.action-cell {
-    width: 48px; /* Fixed width */
-    padding: 0;
-    margin: 0;
-    display: flex; /* Make it a flex container */
-}
-
-.ra-action-icon {
-    border: none;
-    background-color: #e0e0e0;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #333;
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
-}
-
-.ra-row.selected .ra-action-icon {
-    background-color: #81c784 !important;
-}
-
-/* Remove unused styles */
-.ra-cell {
-    display: none;
-}
-
-/* 1. Custom styling for the select dropdown */
-.custom-select-style {
-    background-color: #D9D9D9;
-    border: 1px solid #BFBFBF;
-    border-radius: 6px;
-    height: 38px;
-    padding-right: 2.5rem; /* Space for icon */
-    font-size: 0.9rem;
-    color: #333;
-    appearance: none;
-}
-
-/* 2. Interactive states for the select element */
-.clickable-select {
-    cursor: pointer;
-}
-
-.clickable-select:hover {
-    border-color: #0d6efd;
-}
-
-.clickable-select:focus {
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    border-color: #0d6efd;
-}
-
-.button_save {
-    flex: 1 1 45%;
-    min-width: 100px;
-    height: 2.5rem;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-
-.button_save {
-    background-color: #5E9E73;
-    color: white;
+/* Fixed Header */
+.fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .modal-header {
-    display: flex;
-    justify-content: flex-end; /* Alinea elementos a la derecha */
-    align-items: center;
-    padding: 16px 16px 8px;
-    position: relative;
+  display: flex;
+  justify-content: flex-end; /* Align elements to the right */
+  align-items: center;
+  padding: 16px 16px 8px;
+  position: relative;
 }
 
-/* Si quieres un título a la izquierda y el botón a la derecha */
-.modal-header h2 {
-    flex-grow: 1; /* Hace que el título ocupe el espacio disponible */
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 500;
-}
-
+/* Close Button */
 .close-button {
-    min-width: 34px;
-    height: 34px;
-    padding: 0;
-    border-radius: 50%;
-    background-color: #A65256; /* Cambiado de #f0f0f0 a #A65256 */
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-    margin-left: 8px; /* Espacio entre el título y el botón */
+  min-width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #a65256;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  margin-left: 8px;
 }
 
 .close-button:hover {
-    background-color: #B83238; /* Cambiado de #A65256 a #f0f0f0 */
-
+  background-color: #b83238;
 }
 
 .close-x {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1;
-    color: white; /* Cambiado de #555 a white */
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  color: white;
 }
 
+/* Dropdown Section */
+.dropdown-wrapper {
+  padding: 0 16px;
+  margin-bottom: 12px;
+}
 
-h2[mat-dialog-title] {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 500;
+.custom-select-style {
+  background-color: #d9d9d9;
+  border: 1px solid #bfbfbf;
+  border-radius: 6px;
+  height: 38px;
+  padding-right: 2.5rem; /* Space for icon */
+  font-size: 0.9rem;
+  color: #333;
+  appearance: none;
+}
+
+.clickable-select {
+  cursor: pointer;
+}
+
+.clickable-select:hover {
+  border-color: #0d6efd;
+}
+
+.clickable-select:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: #0d6efd;
+}
+
+/* Scrollable Content */
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-top: 8px;
+}
+
+.ra-content {
+  width: 100%;
+}
+
+/* Outcome Rows */
+.ra-row {
+  display: flex;
+  border-radius: 4px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.outcome-cell {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.outcome-cell ::ng-deep app-molecule-out-come {
+  width: 100%;
+  display: flex;
+}
+
+/* Action Buttons */
+.action-cell {
+  width: 48px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.ra-action-icon {
+  border: none;
+  background-color: #e0e0e0;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  transition: all 0.2s ease;
+  color: #532c58;;
+}
+
+/* Hover effect for normal button - darken background */
+.ra-action-icon:hover:not(.disabled) {
+  background-color: #c0c0c0;
+}
+
+/* Selected button style */
+.ra-row.selected .ra-action-icon {
+  background-color: #81c784 !important;
+  color: white;
+}
+
+/* Hover effect for selected button - darken the green */
+.ra-row.selected .ra-action-icon:hover {
+  background-color: #5caf60 !important;
+}
+
+/* Disabled button style */
+.ra-action-icon.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Save Button */
+.button_save {
+  flex: 1 1 45%;
+  min-width: 100px;
+  height: 2.5rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #5e9e73;
+  color: white;
 }
 
 .button_save:hover {
-    background-color: #3C866A;
+  background-color: #3c866a;
+}
+
+/* Dialog Actions */
+mat-dialog-actions {
+  padding: 8px 16px;
+  margin-bottom: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Make row content not selectable */
+.ra-row {
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* Add hover effect that changes size/appearance */
+.ra-row:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-color: rgba(83, 44, 88, 0.2);
+}
+
+/* Ensure button changes on hover */
+.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
+}
+
+/* Make inner text not selectable */
+.outcome-cell ::ng-deep * {
+  user-select: none;
+}
+
+/* Disabled row styling */
+.disabled-row {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Ensure action button has transition */
+.ra-action-icon {
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }

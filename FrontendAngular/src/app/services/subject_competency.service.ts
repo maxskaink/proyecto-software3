@@ -49,6 +49,7 @@ export class SubjectCompetencyService {
     if (error.error) {
       err = error.error;
     }
+    console.error('Error in SubjectCompetencyService:', err);
     return throwError(() => err);
   }
 }

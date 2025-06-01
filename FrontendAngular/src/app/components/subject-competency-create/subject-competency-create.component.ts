@@ -1,3 +1,4 @@
+import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,33 +25,36 @@ import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templ
 @Component({
   selector: 'app-subject-competency',
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     TemplateSelectInputBoxtextComponent,
-    TemplateHeaderTitleComponent, 
-    MoleculeOutComeComponent
+    TemplateHeaderTitleComponent,
+    MoleculeOutComeComponent,
   ],
-  templateUrl: './subject-competency.component.html',
-  styleUrl: './subject-competency.component.css'
+  templateUrl: './subject-competency-create.component.html',
+  styleUrl: './subject-competency-create.component.css',
 })
 export class SubjectCompetencyComponent implements OnInit {
   // Route parameters
-  programCompetencyId!: number;
   subjectId!: number;
 
   // Data collections
+  ProgramCompetencyId: number = -1;
   subjectOutcomes: SubjectOutcome[] = [];
   subjectCompetencies: SubjectCompetency[] = [];
   createdOutcomes: SubjectOutcome[] = [];
-  programCompetencies: any[] = []; 
+  programCompetencies: any[] = [];
   terms: TermDTO[] = [];
   selectedOutcomes: SubjectOutcome[] = [];
 
   // UI configuration
   maxOutcomes: number = 3;
-  selectPlaceholder: string = 'Selecciona la competencia del programa a la que pertenecerá';
-  selectLabelPlaceholder: string = 'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
-  modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
+  selectPlaceholder: string =
+    'Selecciona la competencia del programa a la que pertenecerá';
+  selectLabelPlaceholder: string =
+    'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
+  modalSelectPlaceholder: string =
+    'Selecciona el periodo al que pertenece el RA';
 
   constructor(
     private route: ActivatedRoute,
@@ -59,12 +63,11 @@ export class SubjectCompetencyComponent implements OnInit {
     private programCompetencyService: ProgramCompetencyService,
     private termService: TermService,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.subjectId = +params['subjectId'];
-      this.programCompetencyId = +params['programCompetencyId'];
       this.loadSubjectSpecificData();
       this.loadTerms();
       this.loadProgramCompetencies();
@@ -78,7 +81,7 @@ export class SubjectCompetencyComponent implements OnInit {
       },
       error: () => {
         // Handle error silently or implement proper error handling
-      }
+      },
     });
   }
 
@@ -93,7 +96,7 @@ export class SubjectCompetencyComponent implements OnInit {
       },
       error: () => {
         // Handle error silently or implement proper error handling
-      }
+      },
     });
   }
 
@@ -104,16 +107,20 @@ export class SubjectCompetencyComponent implements OnInit {
       },
       error: () => {
         // Handle error silently or implement proper error handling
-      }
+      },
     });
   }
 
   getTermOptions(): string[] {
-    return this.terms.map(term => `${term.description} `);
+    return this.terms.map((term) => `${term.description} `);
   }
 
-  hasMaxCompetencies(): boolean {
-    return this.createdOutcomes.length >= this.maxOutcomes;
+  hasOutcomes(): boolean {
+    return this.selectedOutcomes.length > 0;
+  }
+
+  hasMaxOutcomes(): boolean {
+    return this.selectedOutcomes.length >= this.maxOutcomes;
   }
 
   getTitle(): string {
@@ -124,41 +131,77 @@ export class SubjectCompetencyComponent implements OnInit {
     if (!this.programCompetencies || this.programCompetencies.length === 0) {
       return [];
     }
-    
-    return this.programCompetencies.map(comp => 
-      `${comp.description} (${comp.level || 'Sin nivel'})`
+
+    return this.programCompetencies.map(
+      (comp) => `${comp.description} (${comp.level || 'Sin nivel'})`
     );
   }
 
-  save(data: { description: string, option: string }): boolean {
-    if (!data.description.trim() || data.option === '' || 
-        !this.programCompetencyId || !this.subjectId) {
+  save(data: { description: string; option: string }): boolean {
+    // Validación básica
+    if (!data.description.trim() || data.option === '' || !this.subjectId) {
       return false;
     }
 
-    
+    // Extraer la descripción de la opción seleccionada (quitar la parte del nivel)
+    const selectedOption = data.option.trim();
+    const selectedCompetency = this.programCompetencies.find((comp) => {
+      const formattedOption = `${comp.description} (${
+        comp.level || 'Sin nivel'
+      })`;
+      return formattedOption === selectedOption;
+    });
+
+    if (!selectedCompetency) {
+      return false;
+    }
+
+    // Asignar el ID de la competencia seleccionada
+    this.ProgramCompetencyId = selectedCompetency.id;
+
+    // Validaciones de resultados de aprendizaje
+    if (this.selectedOutcomes.length >= this.maxOutcomes) {
+      return false;
+    }
+
+    if (this.selectedOutcomes.length === 0) {
+      return false;
+    }
 
     const requestData = {
       competency: {
         description: data.description,
-        level: "basico",
-        programCompetencyId: this.programCompetencyId
+        programCompetencyId: this.ProgramCompetencyId,
+        subjectOutcomes: this.selectedOutcomes.map((outcome) => ({
+          description: outcome.description,
+        })),
       },
-      outcome: {
-        description: "Outcome description"
-      }
     };
 
-    this.subjectCompetencyService.assignCompetencyToSubject(this.subjectId, requestData)
+    this.subjectCompetencyService
+      .assignCompetencyToSubject(this.subjectId, requestData)
       .subscribe({
         next: () => {
           this.loadSubjectSpecificData();
         },
-
+        error: () => {
+          // Manejar error silenciosamente o implementar manejo de errores adecuado
+        },
       });
 
-    return false;
+    return true;
   }
+
+// Corrige el nombre y añade la implementación
+toggleOutcomeSelection(outcome: SubjectOutcome): void {
+  // Buscar el índice del outcome en la lista de seleccionados
+  const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
+  
+  // Si se encuentra, eliminarlo de la lista
+  if (index !== -1) {
+    this.selectedOutcomes.splice(index, 1);
+  }
+}
 
   openModal() {
     if (!this.subjectId) {
@@ -172,15 +215,14 @@ export class SubjectCompetencyComponent implements OnInit {
         options: this.getTermOptions(),
         selectedOutcomes: this.selectedOutcomes,
         selectDescription: this.selectLabelPlaceholder,
-        selectPlaceholder: this.modalSelectPlaceholder
-      }
+        selectPlaceholder: this.modalSelectPlaceholder,
+      },
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result && Array.isArray(result)) {
         this.selectedOutcomes = result;
       }
     });
   }
-
 }
