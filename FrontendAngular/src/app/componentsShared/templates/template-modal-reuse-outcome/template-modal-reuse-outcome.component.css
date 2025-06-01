@@ -1,4 +1,4 @@
-/* Modal Structure */
+/* Modal Container */
 .modal-container {
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   padding: 0;
 }
 
-/* Fixed Header */
+/* Header Section */
 .fixed-header {
   position: sticky;
   top: 0;
@@ -20,10 +20,17 @@
 
 .modal-header {
   display: flex;
-  justify-content: flex-end; /* Align elements to the right */
+  justify-content: space-between;
   align-items: center;
   padding: 16px 16px 8px;
   position: relative;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  margin: 0;
+  flex: 1;
+  font-weight: 600;
 }
 
 /* Close Button */
@@ -53,7 +60,7 @@
   color: white;
 }
 
-/* Dropdown Section */
+/* Dropdown Area */
 .dropdown-wrapper {
   padding: 0 16px;
   margin-bottom: 12px;
@@ -64,7 +71,7 @@
   border: 1px solid #bfbfbf;
   border-radius: 6px;
   height: 38px;
-  padding-right: 2.5rem; /* Space for icon */
+  padding-right: 2.5rem;
   font-size: 0.9rem;
   color: #333;
   appearance: none;
@@ -83,7 +90,7 @@
   border-color: #0d6efd;
 }
 
-/* Scrollable Content */
+/* Content Area */
 .scrollable-content {
   flex: 1;
   overflow-y: auto;
@@ -101,8 +108,33 @@
   border-radius: 4px;
   align-items: stretch;
   width: 100%;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
+.ra-row:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-color: rgba(83, 44, 88, 0.2);
+}
+
+.ra-row.selected .ra-action-icon {
+  background-color: #81c784 !important;
+  color: white;
+}
+
+.ra-row.selected .ra-action-icon:hover {
+  background-color: #5caf60 !important;
+}
+
+.disabled-row {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Outcome Cell */
 .outcome-cell {
   flex: 1;
   padding: 0;
@@ -115,7 +147,11 @@
   display: flex;
 }
 
-/* Action Buttons */
+.outcome-cell ::ng-deep * {
+  user-select: none;
+}
+
+/* Action Cell */
 .action-cell {
   width: 48px;
   padding: 0;
@@ -129,7 +165,7 @@
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  color: #333;
+  color: #532c58;
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -138,33 +174,29 @@
   border-radius: 0;
   margin: 0;
   padding: 0;
-  transition: all 0.2s ease;
-  color: #532c58;;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-/* Hover effect for normal button - darken background */
 .ra-action-icon:hover:not(.disabled) {
   background-color: #c0c0c0;
 }
 
-/* Selected button style */
-.ra-row.selected .ra-action-icon {
-  background-color: #81c784 !important;
-  color: white;
+.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
 }
 
-/* Hover effect for selected button - darken the green */
-.ra-row.selected .ra-action-icon:hover {
-  background-color: #5caf60 !important;
-}
-
-/* Disabled button style */
 .ra-action-icon.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Save Button */
+/* Footer Actions */
+mat-dialog-actions {
+  padding: 8px 16px;
+  margin-bottom: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
 .button_save {
   flex: 1 1 45%;
   min-width: 100px;
@@ -179,64 +211,4 @@
 
 .button_save:hover {
   background-color: #3c866a;
-}
-
-/* Dialog Actions */
-mat-dialog-actions {
-  padding: 8px 16px;
-  margin-bottom: 0;
-  border-top: 1px solid #e0e0e0;
-}
-
-/* Make row content not selectable */
-.ra-row {
-  user-select: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-/* Add hover effect that changes size/appearance */
-.ra-row:hover:not(.disabled-row) {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-color: rgba(83, 44, 88, 0.2);
-}
-
-/* Ensure button changes on hover */
-.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
-  transform: scale(1.1);
-}
-
-/* Make inner text not selectable */
-.outcome-cell ::ng-deep * {
-  user-select: none;
-}
-
-/* Disabled row styling */
-.disabled-row {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Ensure action button has transition */
-.ra-action-icon {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-/* Estilo para el título del modal */
-.modal-title {
-  font-size: 1.25rem;
-  margin: 0;
-  flex: 1;
-  font-weight: 600;
-}
-
-/* Ajustar el layout del header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 16px 8px;
-  position: relative;
 }

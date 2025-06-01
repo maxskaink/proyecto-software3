@@ -6,40 +6,47 @@
       <h1 class="fw-bold title mb-3 mb-md-4">{{ getTitle() }}</h1>
 
       <div class="row g-4 flex-grow-1">
-        <!-- Sección Izquierda -->
+        <!-- Left Section -->
         <section class="col-12 col-lg-6 order-1">
           <app-template-select-input-boxtext
             [selectDescription]="selectLabelPlaceholder"
             [selectPlaceholder]="selectPlaceholder"
-            [textareaDescription]="'Escribe la descripción de la competencia'"
+            [textareaDescription]="'Ingresa la descripción de tu nueva competencia de asignatura'"
             [options]="getOptions()"
             (saveClicked)="save($event)">
           </app-template-select-input-boxtext>
         </section>
 
-        <!-- Sección Derecha (Botones y Gray Box) -->
+        <!-- Right Section (Buttons and Outcomes) -->
         <section class="col-12 col-lg-6 order-2 order-lg-2 d-flex flex-column">
           <div class="d-flex mb-3">
-            <button class="btn btn-light custom-hover custom-btn w-50 me-2" (click)="openModalReuse()">
+            <button
+              class="btn btn-light custom-hover custom-btn w-50 me-2"
+              (click)="openModalReuse()">
               Reutilizar RA
             </button>
-            <button class="btn btn-dark custom-btn w-50" [ngClass]="{ 'ms-auto': true }" [disabled]="hasMaxOutcomes()" (click)="openModalCreate()">
+            <button
+              class="btn btn-dark custom-btn w-50"
+              [ngClass]="{ 'ms-auto': true }"
+              [disabled]="hasMaxOutcomes()"
+              (click)="openModalCreate()">
               Crear RA
             </button>
           </div>
 
-          <!-- Show gray box if max not reached -->
+          <!-- Empty state -->
           <div *ngIf="!hasOutcomes()" class="flex-grow-1 mt-2">
             <div class="gray-box d-flex justify-content-center align-items-center">
               <span class="text-secondary fw-semibold">RA</span>
             </div>
           </div>
-          
-          <!-- Outcomes section -->
+
+          <!-- Outcomes list -->
           <div *ngIf="hasOutcomes()" class="outcomes-container">
-            <!-- Each outcome in its own row -->
-            <div *ngFor="let outcome of selectedOutcomes; let i = index" 
-                 class="ra-row">
+            <div
+              *ngFor="let outcome of selectedOutcomes; let i = index"
+              class="ra-row"
+              (click)="removeOutcome(outcome)">
               <div class="outcome-cell">
                 <app-molecule-out-come
                   [outcome]="outcome.description"
@@ -47,7 +54,9 @@
                 </app-molecule-out-come>
               </div>
               <div class="action-cell">
-                <button class="ra-action-icon" (click)="toggleOutcomeSelection(outcome)">
+                <button
+                  class="ra-action-icon"
+                  (click)="removeOutcome(outcome)">
                   ×
                 </button>
               </div>

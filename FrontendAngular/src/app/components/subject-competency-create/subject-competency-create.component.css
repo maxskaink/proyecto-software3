@@ -1,81 +1,54 @@
 .competency-container {
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  
-  /* ===== SECTIONS ===== */
-  .gray-section-container {
-    background-color: #E9E9E9;
-    border-radius: 12px;
-    padding: 24px;
-  }
-  
-  /* Gray box for RA display */
-  .gray-box {
-    background-color: #D9D9D9;
-    border-radius: 6px;
-    height: 120px;
-    width: 100%;
-    min-height: 200px;
-  }
-  
-  .outcomes-container {
-    width: 100%;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-  
-  /* ===== BUTTONS ===== */
-  .custom-btn {
-    border-radius: 999px;
-    font-weight: 600;
-    height: 40px;
-  }
-  
-  /* Light button hover effect */
-  .custom-hover:hover {
-    background-color: #C3C3C3 !important;
-    color: black !important;
-  }
-  
-  /* ===== FORM ELEMENTS ===== */
-  .form-select,
-  .input-group-text {
-    border-color: #bfbfbf;
-    border-radius: 6px;
-  }
-  
-  
-  
-  /* ===== RESPONSIVE STYLES ===== */
-  @media (min-width: 768px) {
-    .row > section {
-      width: 50%;
-      max-width: 50%;
-    }
-  }
-  @media (max-width: 991px) {
-    .title {
-      font-size: 1.5rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .row {
-      flex-direction: column;
-    }
-    
-    .gray-box {
-      min-height: 150px;
-    }
-    
-    .container-fluid {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
-  }
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-/* Outcome Rows */
+/* Section containers */
+.gray-section-container {
+  background-color: #E9E9E9;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.gray-box {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+  height: 120px;
+  width: 100%;
+  min-height: 200px;
+}
+
+/* Outcomes container */
+.outcomes-container {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* Buttons */
+.custom-btn {
+  border-radius: 999px;
+  font-weight: 600;
+  height: 40px;
+}
+
+.custom-hover:hover {
+  background-color: #C3C3C3 !important;
+  color: black !important;
+}
+
+/* Form elements */
+.form-select,
+.input-group-text {
+  border-color: #bfbfbf;
+  border-radius: 6px;
+}
+
+/* Outcome row styling */
 .ra-row {
   display: flex;
   border-radius: 4px;
@@ -87,7 +60,17 @@
   border: 1px solid transparent;
 }
 
-/* Cell containing the outcome component */
+.ra-row:last-child {
+  margin-bottom: 0;
+}
+
+.ra-row:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(166, 82, 86, 0.3);
+  border-color: rgba(166, 82, 86, 0.3);
+}
+
+/* Outcome cell styling */
 .outcome-cell {
   flex: 1;
   padding: 0;
@@ -100,12 +83,11 @@
   display: flex;
 }
 
-/* Make inner text not selectable */
 .outcome-cell ::ng-deep * {
   user-select: none;
 }
 
-/* Action Buttons */
+/* Action buttons */
 .action-cell {
   width: 48px;
   padding: 0;
@@ -131,54 +113,50 @@
   color: #ffff;
 }
 
-/* Hover effect for normal button - darken background */
+.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
+  background-color: #B83238;
+}
 
 .ra-row.selected .ra-action-icon {
   background-color: #81c784 !important;
   color: white;
 }
 
-/* Hover effect for selected button - darken the green */
 .ra-row.selected .ra-action-icon:hover {
   background-color: #5caf60 !important;
 }
 
-/* Disabled button style */
 .ra-action-icon.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-/* Add hover effect that changes size/appearance */
-/* Add hover effect that changes size/appearance */
-.ra-row:hover:not(.disabled-row) {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(166, 82, 86, 0.3); /* Sombra rojiza */
-  border-color: rgba(166, 82, 86, 0.3); /* Borde rojizo */
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .row > section {
+    width: 50%;
+    max-width: 50%;
+  }
 }
 
-/* Ensure button changes on hover of the entire row */
-.ra-row:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
-  transform: scale(1.1);
-  background-color: #B83238; /* Aplica el mismo color del hover directo */
+@media (max-width: 991px) {
+  .title {
+    font-size: 1.5rem;
+  }
 }
 
-.outcomes-container {
-  display: flex;
-  flex-direction: column;
-
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-/* Cada fila de outcome */
-.ra-row {
-  width: 100%;
-  display: flex;
-}
-
-/* Último outcome sin margen inferior */
-.ra-row:last-child {
-  margin-bottom: 0;
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .gray-box {
+    min-height: 150px;
+  }
+  
+  .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }

@@ -1,8 +1,10 @@
 <div class="modal-container">
-  <!-- Header fijo con botón de cierre y select -->
+  <!-- Fixed header with close button and term selection -->
   <div class="fixed-header">
     <div class="modal-header align-items-center">
-      <h2 class="fw-bold title modal-title">Reutilizar Resultado de Aprendizaje</h2>
+      <h2 class="fw-bold title modal-title">
+        Reutilizar Resultado de Aprendizaje
+      </h2>
       <button
         mat-icon-button
         class="close-button"
@@ -12,41 +14,50 @@
         <span class="close-x">×</span>
       </button>
     </div>
-  
+
     <div class="dropdown-wrapper">
       <select
         class="form-select custom-select-style clickable-select"
         [(ngModel)]="selectedOption"
-        (change)="onOptionChange()"
+        (change)="onTermChange()"
       >
         <option value="" disabled>
-          {{ data.selectPlaceholder || "Selecciona una opción" }}
+          {{ data.selectPlaceholder || "Selecciona un periodo" }}
         </option>
-        <option *ngFor="let opt of data.options" [value]="opt">
+        <option *ngFor="let opt of getTermOptions()" [value]="opt">
           {{ opt }}
         </option>
       </select>
+
+      <!-- Loading states for terms -->
+      <div *ngIf="loading.terms" class="text-center mt-2">
+        <small class="text-muted">Cargando periodos...</small>
+      </div>
+      <div *ngIf="error.terms" class="text-center mt-2">
+        <small class="text-danger">Error al cargar periodos</small>
+      </div>
     </div>
   </div>
 
-  <!-- Contenido scrolleable -->
+  <!-- Scrollable content area with outcomes -->
   <div class="scrollable-content">
     <section class="ra-content">
       <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-        <!-- Remove any spacing between RA rows -->
         <div
           *ngFor="let outcome of outcomes; let i = index"
           class="ra-row"
           [class.selected]="outcome.selected"
           (click)="
-            !(!outcome.selected && selectedCount >= (data.maxOutcomes || 3)) &&
-              toggleOutcomeSelection(outcome)
+            !(
+              !outcome.selected &&
+              (selectedCount >= (data.maxOutcomes || 3) || outcome.isDuplicate)
+            ) && toggleOutcomeSelection(outcome)
           "
           [class.disabled-row]="
-            !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+            !outcome.selected &&
+            (selectedCount >= (data.maxOutcomes || 3) || outcome.isDuplicate)
           "
         >
-          <!-- Contenido existente -->
           <div class="outcome-cell">
             <app-molecule-out-come
               [outcomeNumber]="i + 1"
@@ -59,10 +70,14 @@
             <button
               class="ra-action-icon"
               [class.disabled]="
-                !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+                !outcome.selected &&
+                (selectedCount >= (data.maxOutcomes || 3) ||
+                  outcome.isDuplicate)
               "
               [disabled]="
-                !outcome.selected && selectedCount >= (data.maxOutcomes || 3)
+                !outcome.selected &&
+                (selectedCount >= (data.maxOutcomes || 3) ||
+                  outcome.isDuplicate)
               "
             >
               {{ outcome.selected ? "✓" : "−" }}
@@ -80,6 +95,7 @@
   </div>
 </div>
 
+<!-- Dialog actions footer -->
 <div mat-dialog-actions>
   <button
     mat-raised-button

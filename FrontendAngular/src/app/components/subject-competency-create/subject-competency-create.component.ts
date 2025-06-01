@@ -1,7 +1,6 @@
-import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -13,7 +12,7 @@ import { TermService } from '../../services/term.service';
 
 // Models
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
-import {SubjectCompetency, SubjectCompetencyPostDTO} from '../../models/SubjectCompetencyDTO';
+import { SubjectCompetency, SubjectCompetencyPostDTO } from '../../models/SubjectCompetencyDTO';
 import { TermDTO } from '../../models/TermDTO';
 
 // Components
@@ -40,7 +39,7 @@ export class SubjectCompetencyComponent implements OnInit {
   subjectId!: number;
 
   // Data collections
-  ProgramCompetencyId: number = -1;
+  programCompetencyId: number = -1;
   subjectOutcomes: SubjectOutcome[] = [];
   subjectCompetencies: SubjectCompetency[] = [];
   createdOutcomes: SubjectOutcome[] = [];
@@ -50,14 +49,10 @@ export class SubjectCompetencyComponent implements OnInit {
 
   // UI configuration
   maxOutcomes: number = 3;
-  selectPlaceholder: string =
-    'Selecciona la competencia del programa a la que pertenecerá';
-  selectLabelPlaceholder: string =
-    'Aquí puedes seleccionar la competencia del programa a la que pertenecerá';
-  modalSelectPlaceholder: string =
-    'Selecciona el periodo al que pertenece el RA';
-  modalCreateDescription: string =
-    'Ingresa la descripcion del nuevo resultado de aprendizaje';
+  selectPlaceholder: string = 'Selecciona la competencia del programa para tu nueva competencia de asignatura';
+  selectLabelPlaceholder: string = 'Aquí puedes seleccionar la competencia del programa para tu nueva competencia de asignatura';
+  modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
+  modalCreateDescription: string = 'Ingresa la descripcion del nuevo resultado de aprendizaje';
 
   constructor(
     private route: ActivatedRoute,
@@ -65,55 +60,48 @@ export class SubjectCompetencyComponent implements OnInit {
     private subjectCompetencyService: SubjectCompetencyService,
     private programCompetencyService: ProgramCompetencyService,
     private termService: TermService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.subjectId = +params['subjectId'];
-      this.loadSubjectSpecificData();
-      this.loadTerms();
-      this.loadProgramCompetencies();
+      this.loadInitialData();
     });
   }
 
-  loadProgramCompetencies(): void {
+  // Data loading methods
+  private loadInitialData(): void {
+    this.loadSubjectOutcomes();
+    this.loadTerms();
+    this.loadProgramCompetencies();
+  }
+
+  private loadProgramCompetencies(): void {
     this.programCompetencyService.getAll().subscribe({
-      next: (data) => {
-        this.programCompetencies = data;
-      },
-      error: () => {
-        // Handle error silently or implement proper error handling
-      },
+      next: (data) => this.programCompetencies = data,
+      error: () => {}  // Silent error handling
     });
   }
 
-  loadSubjectSpecificData(): void {
-    if (!this.subjectId) {
-      return;
-    }
+  private loadSubjectOutcomes(): void {
+    if (!this.subjectId) return;
 
     this.subjectOutcomeService.getOutcomesBySubject(this.subjectId).subscribe({
-      next: (data) => {
-        this.subjectOutcomes = data;
-      },
-      error: () => {
-        // Handle error silently or implement proper error handling
-      },
+      next: (data) => this.subjectOutcomes = data,
+      error: () => {}  // Silent error handling
     });
   }
 
-  loadTerms(): void {
+  private loadTerms(): void {
     this.termService.getTerms().subscribe({
-      next: (data) => {
-        this.terms = data;
-      },
-      error: () => {
-        // Handle error silently or implement proper error handling
-      },
+      next: (data) => this.terms = data,
+      error: () => {}  // Silent error handling
     });
   }
 
+  // UI helper methods
   getTermOptions(): string[] {
     return this.terms.map((term) => `${term.description} `);
   }
@@ -140,102 +128,122 @@ export class SubjectCompetencyComponent implements OnInit {
     );
   }
 
+  // Main operations
   save(data: { description: string; option: string }): boolean {
-    // Validación básica
-    if (!data.description.trim() || data.option === '' || !this.subjectId) {
+    if (!this.validateSaveData(data)) {
       return false;
     }
 
-    // Extraer la descripción de la opción seleccionada (quitar la parte del nivel)
-    const selectedOption = data.option.trim();
-    const selectedCompetency = this.programCompetencies.find((comp) => {
-      const formattedOption = `${comp.description} (${
-        comp.level || 'Sin nivel'
-      })`;
-      return formattedOption === selectedOption;
-    });
-
-    if (!selectedCompetency) {
-      return false;
-    }
-
-    // Asignar el ID de la competencia seleccionada
-    this.ProgramCompetencyId = selectedCompetency.id;
-
-    // Validaciones de resultados de aprendizaje
-    if (this.selectedOutcomes.length >= this.maxOutcomes) {
-      return false;
-    }
-
-    if (this.selectedOutcomes.length === 0) {
-      return false;
-    }
-
-    const requestData: SubjectCompetencyPostDTO = {
-      competency:{
-        id:0,
-        description: data.description,
-        programCompetencyId: this.ProgramCompetencyId
-      },
-      outcomes:this.selectedOutcomes.map(outcome=>({
-        id:0,
-        description:outcome.description,
-        rubric:null,
-      }))
-    };
-
+    const requestData = this.prepareRequestData(data);
+    
     this.subjectCompetencyService
       .assignCompetencyToSubject(this.subjectId, requestData)
       .subscribe({
         next: () => {
-          this.loadSubjectSpecificData();
+          this.loadSubjectOutcomes();
+          this.location.back();
         },
-        error: () => {
-          // Manejar error silenciosamente o implementar manejo de errores adecuado
-        },
+        error: () => {}  // Silent error handling
       });
 
     return true;
   }
 
-// Corrige el nombre y añade la implementación
-toggleOutcomeSelection(outcome: SubjectOutcome): void {
-  // Buscar el índice del outcome en la lista de seleccionados
-  const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
-
-  // Si se encuentra, eliminarlo de la lista
-  if (index !== -1) {
-    this.selectedOutcomes.splice(index, 1);
-  }
-}
-
-  openModalReuse() {
-    if (!this.subjectId) {
-      return;
+  private validateSaveData(data: { description: string; option: string }): boolean {
+    if (!data.description.trim() || data.option === '' || !this.subjectId) {
+      return false;
     }
+
+    const selectedOption = data.option.trim();
+    const selectedCompetency = this.findSelectedCompetency(selectedOption);
+
+    if (!selectedCompetency) {
+      return false;
+    }
+
+    this.programCompetencyId = selectedCompetency.id;
+
+    if (this.selectedOutcomes.length > this.maxOutcomes || this.selectedOutcomes.length === 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private findSelectedCompetency(selectedOption: string): any {
+    return this.programCompetencies.find((comp) => {
+      const formattedOption = `${comp.description} (${comp.level || 'Sin nivel'})`;
+      return formattedOption === selectedOption;
+    });
+  }
+
+  private prepareRequestData(data: { description: string; option: string }): SubjectCompetencyPostDTO {
+    return {
+      competency: {
+        id: 0,
+        description: data.description,
+        programCompetencyId: this.programCompetencyId
+      },
+      outcomes: this.selectedOutcomes.map(outcome => ({
+        id: 0,
+        description: outcome.description,
+        rubric: null,
+      }))
+    };
+  }
+
+  // Outcome management
+  removeOutcome(outcome: SubjectOutcome): void {
+    const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
+    if (index !== -1) {
+      this.selectedOutcomes.splice(index, 1);
+    }
+  }
+
+  // Modal operations
+  openModalReuse() {
+    if (!this.subjectId) return;
+
+    const currentSelectedOutcomes = [...this.selectedOutcomes];
 
     const dialogRef = this.dialog.open(TemplateModalReuseOutcomeComponent, {
       width: '700px',
       data: {
         subjectId: this.subjectId,
-        options: this.getTermOptions(),
-        selectedOutcomes: this.selectedOutcomes,
+        selectedOutcomes: currentSelectedOutcomes,
         selectDescription: this.selectLabelPlaceholder,
         selectPlaceholder: this.modalSelectPlaceholder,
+        maxOutcomes: this.maxOutcomes
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && Array.isArray(result)) {
-        this.selectedOutcomes = result;
+        this.processReuseModalResult(result);
       }
     });
   }
 
-  openModalCreate() {
-    if (!this.subjectId) {
-      return;
+  private processReuseModalResult(result: SubjectOutcome[]): void {
+    // Service outcomes (positive IDs)
+    const serviceOutcomes = result.filter(outcome => outcome.id > 0);
+    
+    // Created outcomes (negative or zero IDs)
+    const createdOutcomesInSelection = this.selectedOutcomes.filter(
+      outcome => outcome.id <= 0
+    );
+    
+    // Combine both sets
+    this.selectedOutcomes = [...serviceOutcomes, ...createdOutcomesInSelection];
+    
+    // Ensure max outcomes not exceeded
+    if (this.selectedOutcomes.length > this.maxOutcomes) {
+      this.selectedOutcomes = this.selectedOutcomes.slice(0, this.maxOutcomes);
     }
+  }
+
+  openModalCreate() {
+    if (!this.subjectId) return;
 
     const dialogRef = this.dialog.open(TemplateModalCreateOutcomeComponent, {
       width: '700px',
