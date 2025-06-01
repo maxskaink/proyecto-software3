@@ -11,6 +11,10 @@ export class SubjectService {
   private path: string = 'http://localhost:8081/subject';
   constructor(private http:HttpClient) {}
 
+  createSubject(subject:SubjectDTO): Observable<SubjectDTO>{
+    return this.http.post<SubjectDTO>(`${this.path}`, subject);
+  }
+
   getAssignedSubject(): Observable<SubjectDTO[]> {
     return this.http.get<SubjectDTO[]>(`${this.path}/assigned`);
   }

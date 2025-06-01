@@ -69,6 +69,7 @@ export class TemplateModalCreateOutcomeComponent implements OnInit {
       id: Math.floor(Math.random() * -1000), // ID temporal negativo para nuevos
       description: this.inputValue.trim(),
       rubric: null,
+      idCompetencyAssignment:0
     };
 
     this.dialogRef.close(newOutcome);

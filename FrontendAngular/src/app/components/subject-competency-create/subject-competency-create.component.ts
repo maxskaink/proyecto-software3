@@ -136,7 +136,7 @@ export class SubjectCompetencyComponent implements OnInit {
     }
 
     const requestData = this.prepareRequestData(data);
-    
+
     this.subjectCompetencyService
       .assignCompetencyToSubject(this.subjectId, requestData)
       .subscribe({
@@ -190,6 +190,7 @@ export class SubjectCompetencyComponent implements OnInit {
         id: 0,
         description: outcome.description,
         rubric: null,
+        idCompetencyAssignment:0
       }))
     };
   }
@@ -229,15 +230,15 @@ export class SubjectCompetencyComponent implements OnInit {
   private processReuseModalResult(result: SubjectOutcome[]): void {
     // Service outcomes (positive IDs)
     const serviceOutcomes = result.filter(outcome => outcome.id > 0);
-    
+
     // Created outcomes (negative or zero IDs)
     const createdOutcomesInSelection = this.selectedOutcomes.filter(
       outcome => outcome.id <= 0
     );
-    
+
     // Combine both sets
     this.selectedOutcomes = [...serviceOutcomes, ...createdOutcomesInSelection];
-    
+
     // Ensure max outcomes not exceeded
     if (this.selectedOutcomes.length > this.maxOutcomes) {
       this.selectedOutcomes = this.selectedOutcomes.slice(0, this.maxOutcomes);
