@@ -7,13 +7,18 @@ import unicauca.coreservice.domain.exception.InvalidValue;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class SubjectOutcome {
     private Integer id;
     private String description;
     private Rubric rubric;
     private Integer idCompetencyAssignment;
 
+    public SubjectOutcome(Integer id, String description, Rubric rubric, Integer idCompetencyAssignment) {
+        setId(id);
+        setDescription(description);
+        setRubric(rubric);
+        setIdCompetencyAssignment(idCompetencyAssignment);
+    }
 
     public void setDescription(String description){
         if(null==description)

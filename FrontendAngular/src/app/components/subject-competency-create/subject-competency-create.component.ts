@@ -13,7 +13,7 @@ import { TermService } from '../../services/term.service';
 
 // Models
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
-import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
+import {SubjectCompetency, SubjectCompetencyPostDTO} from '../../models/SubjectCompetencyDTO';
 import { TermDTO } from '../../models/TermDTO';
 
 // Components
@@ -168,14 +168,17 @@ export class SubjectCompetencyComponent implements OnInit {
       return false;
     }
 
-    const requestData = {
-      competency: {
+    const requestData: SubjectCompetencyPostDTO = {
+      competency:{
+        id:0,
         description: data.description,
-        programCompetencyId: this.ProgramCompetencyId,
-        subjectOutcomes: this.selectedOutcomes.map((outcome) => ({
-          description: outcome.description,
-        })),
+        programCompetencyId: this.ProgramCompetencyId
       },
+      outcomes:this.selectedOutcomes.map(outcome=>({
+        id:0,
+        description:outcome.description,
+        rubric:null,
+      }))
     };
 
     this.subjectCompetencyService
@@ -196,7 +199,7 @@ export class SubjectCompetencyComponent implements OnInit {
 toggleOutcomeSelection(outcome: SubjectOutcome): void {
   // Buscar el índice del outcome en la lista de seleccionados
   const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
-  
+
   // Si se encuentra, eliminarlo de la lista
   if (index !== -1) {
     this.selectedOutcomes.splice(index, 1);

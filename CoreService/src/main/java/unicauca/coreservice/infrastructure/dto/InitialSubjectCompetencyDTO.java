@@ -5,9 +5,11 @@ import lombok.Data;
 import unicauca.coreservice.domain.model.SubjectCompetency;
 import unicauca.coreservice.domain.model.SubjectOutcome;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Data
 public class InitialSubjectCompetencyDTO {
     private SubjectCompetency competency;
-    private SubjectOutcome outcome;
+    private List<SubjectOutcome> outcomes;
 }

@@ -28,7 +28,7 @@ public class SubjectCompetencyController {
         String uid = authenticationService.extractUidFromRequest(request);
         SubjectCompetency response = serviceSubjectComp.add(
                 initialSubjectCompetencyDTO.getCompetency(),
-                initialSubjectCompetencyDTO.getOutcome(),
+                initialSubjectCompetencyDTO.getOutcomes(),
                 subjectId,uid
         );
         return ResponseEntity.ok(response);

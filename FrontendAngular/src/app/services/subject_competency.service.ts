@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ErrorResponse } from '../models/ErrorDTO';
-import { SubjectCompetency } from '../models/SubjectCompetencyDTO';
+import {SubjectCompetency, SubjectCompetencyPostDTO} from '../models/SubjectCompetencyDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class SubjectCompetencyService {
 
   // POST /subject/{subjectId}/competency
   // Any for convenience, should be replaced with a specific DTO
-  assignCompetencyToSubject(subjectId: number, data: any): Observable<SubjectCompetency> {
+  assignCompetencyToSubject(subjectId: number, data: SubjectCompetencyPostDTO): Observable<SubjectCompetency> {
     return this.http.post<SubjectCompetency>(`${this.baseUrl}/subject/${subjectId}/competency`, data)
       .pipe(catchError(this.handleError));
   }

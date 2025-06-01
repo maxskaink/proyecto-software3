@@ -4,12 +4,15 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.SubjectCompetencyInt;
 import unicauca.coreservice.application.out.*;
+import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.NotFound;
 import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.domain.model.*;
 import unicauca.coreservice.infrastructure.SQLrepository.Repository.TermRepository;
 
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 public class SubjectCompetencyService implements SubjectCompetencyInt {
@@ -25,13 +28,26 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
     @Transactional
     public SubjectCompetency add(
             SubjectCompetency newSubjectCompetency,
-            SubjectOutcome initialOutcome,
+            List<SubjectOutcome> initialOutcome,
             Integer subjectId,
             String uid)throws Exception {
 
+        //Some validations
         Term activeTerm = termRepository.getActiveTerm().getValue()
                 .orElseThrow(()->new RuntimeException("Active term doesnt exists"));
-        
+        if(initialOutcome.isEmpty())
+            throw new InvalidValue("The initial outcome list is empty, it can not be empty");
+        if(initialOutcome.size() > 3)
+            throw new InvalidValue("The initial outcome list can not have more than 3 elements");
+
+        Set<String> descriptions = new HashSet<>();
+        for (SubjectOutcome obj : initialOutcome){
+            if(obj==null)
+                throw new InvalidValue("The initial outcome list can not have null elements");
+            if (!descriptions.add(obj.getDescription()))
+                throw new InvalidValue("The initial outcome list can not have repeated descriptions");
+        }
+
         //Validate authentication and authorization
         if(!authenticationService.isCoordinator(uid))
             if(!authorizationService.canAccessSubject(uid, subjectId))
@@ -58,10 +74,12 @@ public class SubjectCompetencyService implements SubjectCompetencyInt {
         CompetencyToSubjectAssignment response = responseAssignation.getValue()
                 .orElseThrow(responseAssignation::getException);
 
-        //Add First RA to the competency
-        OptionalWrapper<SubjectOutcome> responseAddFirstOutcome =
-                subjectOutcomeRepository.add(initialOutcome, response.getId());
-        responseAddFirstOutcome.getValue().orElseThrow(responseAddFirstOutcome::getException);
+        //Add outcomes to the competency
+        for(SubjectOutcome outcome : initialOutcome){
+            OptionalWrapper<SubjectOutcome> responseAddFirstOutcome =
+                    subjectOutcomeRepository.add(outcome, response.getId());
+            responseAddFirstOutcome.getValue().orElseThrow(responseAddFirstOutcome::getException);
+        }
 
         return response.getCompetency();
     }

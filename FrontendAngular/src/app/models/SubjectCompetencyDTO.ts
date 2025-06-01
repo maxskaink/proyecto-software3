@@ -6,3 +6,8 @@ export interface SubjectCompetency {
     programCompetencyId: number;
     subjectOutcomes?: SubjectOutcome[];
   }
+
+  export interface SubjectCompetencyPostDTO {
+    competency: SubjectCompetency;
+    outcomes: SubjectOutcome[];
+  }
