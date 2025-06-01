@@ -12,6 +12,7 @@ import { TemplateCompetencyEditComponent } from '../../componentsShared/template
 import { AuthService } from '../../services/auth.service';
 import { EditStateService } from '../../services/edit-state.service';
 import { Carousel } from 'bootstrap';
+import { LoadingComponent } from '../../componentsShared/loading/loading.component';
 
 declare var bootstrap: any;
 
@@ -22,9 +23,10 @@ declare var bootstrap: any;
   imports: [
       MoleculeBackHeaderComponent,
       MoleculeBlockUserComponent,
-      TemplateCompetencyComponent, // Fixed name
+      TemplateCompetencyComponent, 
       TemplateCompetencyEditComponent,
       CommonModule,
+      LoadingComponent
 
   ],
   templateUrl: './subject.component.html',
@@ -35,14 +37,14 @@ export class SubjectComponent {
   private carouselInstance: any;
   private readonly isBrowser: boolean;
 
-
+  isLoading: boolean  = false; 
   description: string = 'description';
   title: string= 'title';
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = []; 
   id: number = -1;
   
-  isEdit: boolean = false;;
+  isEdit: boolean = true;
   role: string ="";
   name: string ="";
 
@@ -60,6 +62,7 @@ export class SubjectComponent {
   }
 
   ngOnInit() {
+    this.isLoading = true; 
     this.editStateService.editState$.subscribe(state => {
       this.isEdit = state;
     });
@@ -82,6 +85,7 @@ export class SubjectComponent {
       if(name!=null)
         this.name=name;
     })
+    this.isLoading= false;
     console.log("Cargando asignatura con id: ", this.id);
     console.log("competencia cargadas: ", this.listCompetency);
   }
@@ -122,6 +126,7 @@ export class SubjectComponent {
   
   onEditStateChange(state: boolean) {
     this.isEdit = state;
+    this.loadCompetencies();
     if (this.carouselInstance) {
       if (state) {
         this.carouselInstance.pause();

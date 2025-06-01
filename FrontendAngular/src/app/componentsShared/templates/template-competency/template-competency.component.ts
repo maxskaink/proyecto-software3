@@ -21,6 +21,7 @@ export class TemplateCompetencyComponent {
   @Output() editStateChange = new EventEmitter<boolean>();
   outcomes$!: Observable<SubjectOutcome[]>;
   programCompetency$!: Observable<ProgramCompetency>;
+  descriptionProgram: string = '';
   editedCompetency: SubjectCompetency = {} as SubjectCompetency;
  
   loading = {
@@ -44,7 +45,7 @@ export class TemplateCompetencyComponent {
 
   ngOnInit(): void {
     if (this.competency) {
-      this.loadProgramCompetency;
+      this.loadProgramCompetency();
       this.loadOutcomes();
       this.editedCompetency = { ...this.competency };
       console.log('Competency loaded:', this.competency);
@@ -71,9 +72,13 @@ export class TemplateCompetencyComponent {
         console.error('Error loading program competency:', error);
         this.error.programCompetency = true;
         this.loading.programCompetency = false;
+        this.descriptionProgram = 'No program competency found';
         return of({} as ProgramCompetency);
       })
     );
+    this.programCompetency$.pipe(
+      tap(programCompetency => this.descriptionProgram = programCompetency.description)
+    ).subscribe();
   }
 
   onEditClick(): void {

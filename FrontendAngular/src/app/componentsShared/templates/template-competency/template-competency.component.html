@@ -12,20 +12,19 @@
             </button>
         </div>
     </div>
-    <div class="bodyContent container-fluid">
-        <h2>{{competency.description}}</h2>
+    <div class="bodyContent   ">
+        <h2 class="description">{{competency.description}}</h2>
 
         <!-- Program Competency with async pipe -->
         <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
-            <p>Pertenece a: {{programComp.description}}</p>
+            <p><span class="belong-text">Pertenece a:</span> {{programComp.description}}</p>
         </ng-container>
         <ng-template #loadingProgramComp>
             <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
             <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
         </ng-template>
 
-        <hr class="m-5">
-        <p>{{competency.description}}</p>
+        <hr class="m-2">
         <!-- <p>Nivel: {{competency.level}}</p> -->
     </div>
     <section class="raContent d-flex justify-content-center flex-column align-items-center">

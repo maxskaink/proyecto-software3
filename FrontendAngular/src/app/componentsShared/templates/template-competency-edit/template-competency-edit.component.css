@@ -46,17 +46,19 @@
     
 }
 .sectionOutcomes {
-    width: 100%; 
-    max-width: clamp(300px, 90%, 1200px); 
+    width: 100%; /* Establece el ancho base al 100% del contenedor */
+    max-width: clamp(300px, 100%, 1600px); /* Controla el ancho máximo de forma responsiva */
     margin: 0 auto; /* Centra el contenido */
+    padding: 0; /* Añade padding para espaciado en pantallas pequeñas */
 }
+
 .raContent {
     width: 100%;
-    height: clamp(20rem, 90%, 30rem);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .icon:hover{
     color: #c5c5c5;
     font-size: calc(1.2em + 0.2vw);
@@ -67,7 +69,7 @@
     width: 30px;
 }
 .content__buttons{
-    padding: 4% 12%;
+    
     margin-top: clamp(2rem, 80%, 3rem)
 }
 
@@ -126,4 +128,14 @@
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+.form-control{
+    height: 100px;
+    background-color: #ECF4F1;
+}
+.description {
+    margin-top: 20px;
+    font-weight: 900;
+    font-size: clamp(2rem, 3vw, 3rem);
+    max-width: 90%;
 }

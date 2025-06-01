@@ -22,6 +22,12 @@
 .titleSection{
     color: #ECF4F1;
     font-size: 35px;
+   
+}
+.description {
+    font-weight: 900;
+    font-size: clamp(1.2rem, 3vw, 3rem);
+    max-width: 90%;
 }
 .bodyContent{
     padding: 4% 12%;
@@ -41,7 +47,7 @@
 }
 .sectionOutcomes {
     width: 100%; /* Establece el ancho base al 100% del contenedor */
-    max-width: clamp(300px, 90%, 1200px); /* Controla el ancho máximo de forma responsiva */
+    max-width: clamp(300px, 80%, 1600px); /* Controla el ancho máximo de forma responsiva */
     margin: 0 auto; /* Centra el contenido */
     padding: 0; /* Añade padding para espaciado en pantallas pequeñas */
 }
@@ -53,7 +59,12 @@
     align-items: center;
 }
 
-
+.belong-text {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    font-weight: 500;
+    color: #1E1E1E;
+    margin-right: 0.5rem;
+}
 @media (max-width: 900px) {
     .sectionOutcomes {
         width: 75%

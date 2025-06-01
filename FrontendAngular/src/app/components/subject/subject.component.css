@@ -1,3 +1,11 @@
+.title{
+  font-size: clamp(2rem, 3vw, 4rem);
+  font-weight: 1000;
+}
+.description{
+  font-size: clamp(1rem, 3vw, 1.5rem)
+
+}
 .sectionInfo{
     height: 40rem;
 }
@@ -6,6 +14,9 @@
 }
 .infoBasicAsignature{
     padding: 4rem;
+
+    max-height: 500px;
+    overflow-y: auto;
 }
 .infoBasicAsignature p {
   width: 100%;
@@ -50,3 +61,4 @@
     color: #C5C5C5;
     font-weight: bold;
 }
+

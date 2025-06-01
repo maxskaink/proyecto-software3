@@ -51,8 +51,8 @@ export class TemplateCompetencyEditComponent {
   
     ngOnInit(): void {
       if (this.competency) {
-        this.loadOutcomes();
         this.loadProgramCompetency();
+        this.loadOutcomes();
         this.editedCompetency = {
           ...this.competency
         };

@@ -5,7 +5,8 @@
         </div>
     </div>
     <div class="bodyContent container-fluid">
-        <h2>{{competency.description}}</h2>
+        <p class="angular-brackets helper"> ¡¡Edita tu ra a tu gusto!! </p>
+        <h2 class="description">{{competency.description}}</h2>
         <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
             <p>Pertenece a: {{programComp.description}}</p>
         </ng-container>
