@@ -1,0 +1,89 @@
+.bodySection{
+    height: clamp(20rem , 2vh, 30rem);
+}
+.sectionColor{
+    background-color: #D9D9D9;
+    padding: 10px;
+
+}
+.helpText{
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
+    color: #6c757d;
+    margin-top: 0.5rem;
+}
+
+.form-control {
+    background-color: #D9D9D9;
+    border: #D9D9D9;
+    color: #6B656A;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    caret-color: #532c58; /* Color del cursor */
+    animation: blink 1s step-end infinite; /* Animación del parpadeo */
+}
+
+/* Animación del cursor parpadeante */
+@keyframes blink {
+    50% { 
+        caret-color: transparent; 
+    }
+}
+
+/* Estilo al hacer hover */
+.form-control:hover {
+    background-color: #C5C5C5;
+    border-color: #D9D9D9;
+    box-shadow: none;
+    cursor: text; /* Cambia el cursor a texto */
+}
+.form-control:focus {
+    background-color: #C5C5C5;
+    border-color: #D9D9D9;
+    box-shadow: none;
+}
+.input-group-text {
+    background-color: #D9D9D9;
+    border: none;
+    color: #6B656A;
+    font-size: clamp(2rem, 2vh, 5rem);
+}
+
+.input-group .form-control {
+    border-right: none;
+    font-size: clamp(2rem, 2vh, 3rem);
+}
+
+
+/* Remover flechas del input number */
+.form-control[type="number"]::-webkit-inner-spin-button,
+.form-control[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.btn--guardar{
+    background-color: #6B656A;
+    border: 1px solid #6B656A;
+    color: #E9E9E9; 
+    transition: all 0.3s ease;
+}
+.btn--guardar:hover{
+    background-color: #1E1E1E;
+    font-weight: 900;
+    
+}
+.text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
