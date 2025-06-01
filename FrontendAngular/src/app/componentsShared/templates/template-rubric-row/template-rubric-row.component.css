@@ -1,8 +1,7 @@
 .columnName{
     width: 100%;
-    height: clamp(8rem, 3vh, 10rem);
+    height: clamp(13rem, 30vh, 20rem);
     text-align: center;
-    font-size: clamp(0.5rem,2vh, 1.2rem);
     background-color: #E9E9E9;
     font-size: clamp(0.2rem,2vh, 1rem);
 }

@@ -12,8 +12,36 @@
 .level:hover{
     background-color: green;
 }
-.description{
-    width: 100px;
-    overflow: auto;
-    font-size: clamp(0.5rem,2vh, 0.8rem);
+.description {
+    width: 110px;
+    height: 50px;
+    overflow-y: auto;
+    font-size: clamp(0.5rem, 4vh, 0.8rem);
+    padding: 8px;
+    
+    /* Estilizar el scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #C5C5C5 transparent;
+}
+.description:hover{
+    font-weight: 800;
+    
+}
+
+/* Estilo para el scrollbar en Chrome/Safari */
+.description::-webkit-scrollbar {
+    width: 6px;
+}
+
+.description::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.description::-webkit-scrollbar-thumb {
+    background-color: #C5C5C5;
+    border-radius: 3px;
+}
+
+.description::-webkit-scrollbar-thumb:hover {
+    background-color: #a8a8a8;
 }

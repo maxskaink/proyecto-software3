@@ -1,5 +1,5 @@
 <div class="container-fluid p-0">
-    <div class="row">
+    <div class="row align-items-center">
         <div class="col-12 col-lg-6">
             <data class="columnName d-flex align-items-center justify-content-center">
                 <p class="m-0">{{name}}</p>
@@ -9,11 +9,12 @@
         <div class="col-12 col-lg-6">
             <ng-container *ngIf="levels && levels.length > 0">
                 <div class="d-flex flex-column flex-lg-row align-items-center">
-                    <div class="levels flex-grow-1 d-flex justify-content-center align-items-center flex-wrap">
+                    <!-- Added h-100 and align-items-center -->
+                    <div class="levels flex-grow-1 d-flex justify-content-center align-items-center flex-wrap h-100">
                         <app-molecule-level-box 
                             *ngFor="let level of levels"
                             [level]="level"
-                            class="level-item">
+                            class="level-item d-flex align-items-center">
                         </app-molecule-level-box>
                     </div>
                     <div class="weight-container text-center text-lg-end text-weight">
