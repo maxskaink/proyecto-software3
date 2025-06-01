@@ -84,8 +84,7 @@ export class TemplateCompetencyEditComponent {
       );
     }
   
-    // ...existing code...
-
+  
     // New methods for outcome management
     hasMaxOutcomes(): boolean {
       return this.selectedOutcomes.length >= this.maxOutcomes;
@@ -185,7 +184,7 @@ export class TemplateCompetencyEditComponent {
     onSaveClick(): void {
       if (!this.validateInputs()) return;
 
-      this.competencyService.updateCompetency(1, this.editedCompetency).subscribe({
+      this.competencyService.updateCompetency(this.competency.id, this.editedCompetency).subscribe({
         next: () => {
           this.editStateService.setEditState(false);
           this.editStateChange.emit(false);

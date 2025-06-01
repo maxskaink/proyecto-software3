@@ -29,7 +29,7 @@
 }
 .sectionCompetency{
     background-color: #C5C5C5;
-    height: clamp(70rem, 70vh, 100rem);
+    min-height: 100vh;
 }
 
 .divider {
@@ -61,11 +61,28 @@
     color: #C5C5C5;
     font-weight: bold;
 }
-
+/* Remover las transiciones del carrusel */
 .carousel-item {
-  transition: transform .6s ease-in-out;
+  transition: none !important;
 }
 
-.carousel.slide {
-  transition: all .6s ease;
+.carousel-inner {
+  transition: none !important;
+}
+
+/* Mantener solo la animación de carga inicial */
+#competencyCarousel {
+  opacity: 0;
+  animation: fadeIn .3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Desactivar transiciones cuando está en modo edición */
+.carousel.slide.editing .carousel-item,
+.carousel.slide.editing .carousel-inner {
+  transition: none !important;
 }

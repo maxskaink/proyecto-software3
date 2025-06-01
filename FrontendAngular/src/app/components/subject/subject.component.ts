@@ -77,19 +77,19 @@ export class SubjectComponent {
       setTimeout(() => this.initializeCarousel(), 0);
     }
   }
+
+
   private loadInitialData(): void {
-    // Get edit state
+    
     this.editStateService.editState$.subscribe(state => {
       this.isEdit = state;
     });
-
-    // Get subject data
     this.asignatureService.getSubjectID(this.id).subscribe({
       next: (subject) => {
         this.actualAsignature = subject;
         this.title = subject.name;
         this.description = subject.description;
-        this.loadCompetencies(); // Load competencies after subject
+        this.loadCompetencies();
       },
       error: (error) => {
         console.error('Error loading subject:', error);
@@ -97,43 +97,66 @@ export class SubjectComponent {
       }
     });
 
-    // Get user data
     this.auth.role.subscribe(role => {
       if (role) this.role = role;
     });
-
     this.auth.name.subscribe(name => {
       if (name) this.name = name;
     });
   }
+
+  /**
+   * Initiliced the carrusel for listening the current index in documenet 
+   * @prvate
+   */
   private initializeCarousel(): void {
-    this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
-      interval: 5000,
-      ride: 'carousel',
-      wrap: true
-    });
-
-    // Listen for slide events
-    this.carousel.nativeElement.addEventListener('slide.bs.carousel', (event: any) => {
-      this.currentIndex = event.to;
-    });
-  }
-
-
-  ngAfterViewInit() {
-    // Solo inicializar el carrusel en el navegador
-    if (this.isBrowser) {
-      setTimeout(() => {
-        this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
-          interval: 5000
-        });
+    setTimeout(() => {
+      this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
+        interval: 5000,
+        ride: 'carousel',
+        wrap: true
       });
-    }
+      // Asegurar que las transiciones se mantienen
+      const carouselElement = this.carousel.nativeElement;
+      carouselElement.style.transition = 'none';
+      // Escuchar eventos del carrusel
+      this.carousel.nativeElement.addEventListener('slide.bs.carousel', (event: any) => {
+        this.currentIndex = event.to;
+        console.log('Índice actual:', this.currentIndex);
+      });
+    });
   }
 
   /**
-   * get the current aisgnatre
-   * @param id ID of the subject to fetch get of url
+   * Lifecycle hook that is called after Angular has fully initialized
+   * the component's view. This method initializes a Bootstrap carousel
+   * instance if the code is running in a browser environment.
+   *
+   * The carousel is initialized with a 5-second interval between slides.
+   * A `setTimeout` is used to ensure that the carousel is properly set up
+   * after the view has been rendered.
+   *
+   * @remarks
+   * This method relies on the `isBrowser` property to determine if the
+   * code is running in a browser environment, which is necessary for
+   * server-side rendering compatibility.
+   */
+ 
+  ngAfterViewInit() {
+    if (this.isBrowser) {
+      this.initializeCarousel();
+    }
+  }
+
+
+  /**
+   * Retrieves the details of a specific subject by its ID and updates the component's state.
+   * 
+   * @param id - The unique identifier of the subject to fetch.
+   * 
+   * This method calls the `getSubjectID` method from the `asignatureService` to fetch
+   * the subject details. Once the data is retrieved, it updates the `actualAsignature`,
+   * `title`, and `description` properties of the component with the fetched information.
    */
   getAsignatureID(id: number): void {
     this.asignatureService.getSubjectID(id).subscribe(data => {
@@ -142,10 +165,18 @@ export class SubjectComponent {
       this.description  = this.actualAsignature.description;
     });
   }
+
   /**
-   * load the competncies of current subject
+   * Loads the list of competencies associated with the current subject.
+   * 
+   * This method retrieves the competencies by calling the `getCompetenciesByAsignature` 
+   * method from the `competenciesSubject` service, using the current subject's ID. 
+   * Once the data is successfully fetched, it updates the `listCompetency` property 
+   * and stops the loading indicator. If an error occurs during the process, it logs 
+   * the error to the console and stops the loading indicator as well.
+   * 
+   * @private
    */
-  
   private loadCompetencies(): void {
     this.competenciesSubject.getCompetenciesByAsignature(this.id).subscribe({
       next: (competencies) => {
@@ -158,16 +189,43 @@ export class SubjectComponent {
       }
     });
   }
+
+  /**
+   * Handles the change of the edit state for the component.
+   * Updates the `isEdit` property, reloads the competencies, and manages
+   * the behavior of the carousel instance based on the new state.
+   *
+   * @param state - A boolean indicating the new edit state. 
+   *                `true` for entering edit mode, `false` for exiting edit mode.
+   *
+   * Behavior:
+   * - When entering edit mode (`state = true`):
+   *   - Pauses the carousel instance.
+   *   - Keeps the current slide active.
+   * - When exiting edit mode (`state = false`):
+   *   - Resumes the carousel's automatic cycling.
+   */
   onEditStateChange(state: boolean) {
     this.isEdit = state;
-    this.loadCompetencies();
+    
     if (this.carouselInstance) {
       if (state) {
+        // Pausar el carrusel
         this.carouselInstance.pause();
-        // Mantener el slide actual cuando cambia a modo edición
-        this.carouselInstance.to(this.currentIndex);
+        this.carousel.nativeElement.classList.add('editing');
+        // Asegurar que el carrusel está en el índice correcto
+        requestAnimationFrame(() => {
+          this.carouselInstance.to(this.currentIndex);
+          console.log('Cambiando a slide:', this.currentIndex);
+        });
       } else {
-        this.carouselInstance.cycle();
+        // Al salir del modo edición
+        this.carousel.nativeElement.classList.remove('editing');
+        this.loadCompetencies();
+        setTimeout(() => {
+          this.carouselInstance.to(this.currentIndex);
+          this.carouselInstance.cycle();
+        });
       }
     }
   }
@@ -182,7 +240,6 @@ export class SubjectComponent {
     }
   }
   goToCreateCompetency(): void {
-    // Navigate to subject competency with required query parameters
     this.router.navigate([`asignatures/${this.id}/subjectCompetency`], {
       queryParams: {
         subjectId: this.id
