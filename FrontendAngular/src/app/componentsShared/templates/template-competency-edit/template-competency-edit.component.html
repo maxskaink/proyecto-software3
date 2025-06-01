@@ -3,11 +3,10 @@
     class="divididerUp d-flex justify-content-between align-items-center p-5"
   >
     <div class="title-container">
-      <h2 class="titleSection">Competencia</h2>
+      <h2 class="titleSection">Editar Competencia</h2>
     </div>
   </div>
   <div class="bodyContent container-fluid">
-    <p class="angular-brackets helper">¡¡Edita tu ra a tu gusto!!</p>
     <h2 class="description">{{ competency.description }}</h2>
     <ng-container
       *ngIf="programCompetency$ | async as programComp; else loadingProgramComp"
@@ -23,23 +22,52 @@
       </p>
     </ng-template>
 
-    <hr class="m-4" />
-    <p class="angular-brackets helper">
-      Ingresa la nueva description de tu competencia
-    </p>
-    <input
-      type="text"
-      class="form-control mb-3"
-      placeholder="Descripción de la competencia"
+    <hr class="m-3" />
+    <div class="d-flex mb-3">
+      <button
+        class="btn btn-light custom-hover custom-btn w-50 me-2"
+        (click)="openModalReuse()"
+      >
+        <i class="bi bi-arrow-repeat me-2"></i>
+        Reutilizar RA
+      </button>
+      <!-- Modificar el botón Crear RA -->
+      <button
+        class="btn btn-dark custom-btn create-ra-btn w-50"
+        [ngClass]="{ 'ms-auto': true }"
+        [disabled]="hasMaxOutcomes()"
+        (click)="openModalCreate()"
+      >
+        <i class="bi bi-plus-lg me-2"></i>
+        Crear RA
+      </button>
+    </div>
+    <label for="inputBox" class="form-label small text-muted mb-0">
+      &lt;Ingresa la nueva descripcion de tu competencia&gt;
+    </label>
+
+    <textarea
+      id="inputBox"
+      class="input__box w-100 mb-2 mt-1 flex-grow-1"
       [(ngModel)]="editedCompetency.description"
       [class.is-invalid]="!editedCompetency.description.trim()"
-    />
+      style="
+        resize: none;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+        min-height: 120px;
+      "
+    ></textarea>
+
     <p
       *ngIf="!editedCompetency.description?.trim()"
-      class="text-danger validation-message"
+      class="text-danger validation-message text-center"
     >
       La descripción es obligatoria
     </p>
+
+    <div class="mb-4"></div>  <!-- Reverted back to mb-4 -->
 
     <section
       class="raContent d-flex justify-content-center flex-column align-items-center"
@@ -66,43 +94,27 @@
         </p>
       </ng-template>
     </section>
-    <div class="button-container mt-4">
+    <div class="button-container mt-2">
       <!-- Sección de botones de RA -->
-      <!-- Reemplaza la sección de botones actual por esta versión -->
-      <div class="button-container mt-4">
-        <div class="d-flex mb-3">
+      <div class="button-container mt-2">
+        <!-- Separador visual -->
+        <hr class="my-3" />
+
+        <!-- Sección de botones de acción alineados a la izquierda -->
+        <div class="d-flex justify-content-start w-100 mt-4">
           <button
-            class="btn btn-light custom-hover custom-btn w-50 me-2"
-            (click)="openModalReuse()"
+            class="btn__basic btn__save btn__action me-4"
+            (click)="onSaveClick()"
           >
-            <i class="bi bi-arrow-repeat me-2"></i>
-            Reutilizar RA
+            Guardar cambios
           </button>
-          <!-- Modificar el botón Crear RA -->
           <button
-            class="btn btn-dark custom-btn create-ra-btn w-50"
-            [ngClass]="{ 'ms-auto': true }"
-            [disabled]="hasMaxOutcomes()"
-            (click)="openModalCreate()"
+            class="btn__basic btn__cancel btn__action"
+            (click)="onCancelClick()"
           >
-            <i class="bi bi-plus-lg me-2"></i>
-            Crear RA
+            Cancelar cambios
           </button>
         </div>
-
-        <!-- Separador visual -->
-        <hr class="my-4" />
-
-        <!-- Sección de botones de acción (manteniendo el estilo original) -->
-        <div class="d-flex w-100 gap-2 mt-auto">
-          <button class="btn__basic btn__save me-3" (click)="onSaveClick()">
-            Guardar
-          </button>
-          <button class="btn__basic btn__cancel" (click)="onCancelClick()">
-            Cancelar
-          </button>
-      </div>
-
       </div>
     </div>
   </div>
