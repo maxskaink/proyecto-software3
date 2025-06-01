@@ -62,3 +62,10 @@
     font-weight: bold;
 }
 
+.carousel-item {
+  transition: transform .6s ease-in-out;
+}
+
+.carousel.slide {
+  transition: all .6s ease;
+}

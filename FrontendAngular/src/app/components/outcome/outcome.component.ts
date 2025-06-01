@@ -129,7 +129,7 @@ getOutcome(): void {
   
       console.log(data);
       console.log(this.currentOutcome);
-      console.log(this.currentRubric)
+      console.log("rubrica: " +this.currentRubric)
     },
     error: (error) => {
       console.error('Error al obtener el outcome:', error);

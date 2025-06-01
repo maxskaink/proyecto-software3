@@ -47,6 +47,7 @@ export class SubjectComponent {
   isEdit: boolean = true;
   role: string ="";
   name: string ="";
+  currentIndex: number = 0; // Añadir variable para el índice actual
 
   
   constructor(
@@ -60,35 +61,64 @@ export class SubjectComponent {
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
-
   ngOnInit() {
-    this.isLoading = true; 
+    this.isLoading = true;
+    const response = this.route.snapshot.paramMap.get('id');
+    if (!response) {
+      console.error("The subject doesn't exist");
+      this.isLoading = false;
+      return;
+    }
+
+    this.id = Number(response);
+    this.loadInitialData();
+
+    if (this.isBrowser) {
+      setTimeout(() => this.initializeCarousel(), 0);
+    }
+  }
+  private loadInitialData(): void {
+    // Get edit state
     this.editStateService.editState$.subscribe(state => {
       this.isEdit = state;
     });
-    const response = this.route.snapshot.paramMap.get('id');
-    if(!response)
-      console.log("The subject doesnt exist");
-    else {
-      this.id = Number(response);
-      if (this.id) {
-        this.getAsignatureID(+this.id);
-        this.loadCompetencies();
-      }
-    }
 
-    this.auth.role.subscribe(role=> {
-      if(role!=null)
-        this.role=role;
+    // Get subject data
+    this.asignatureService.getSubjectID(this.id).subscribe({
+      next: (subject) => {
+        this.actualAsignature = subject;
+        this.title = subject.name;
+        this.description = subject.description;
+        this.loadCompetencies(); // Load competencies after subject
+      },
+      error: (error) => {
+        console.error('Error loading subject:', error);
+        this.isLoading = false;
+      }
     });
-    this.auth.name.subscribe(name=>{
-      if(name!=null)
-        this.name=name;
-    })
-    this.isLoading= false;
-    console.log("Cargando asignatura con id: ", this.id);
-    console.log("competencia cargadas: ", this.listCompetency);
+
+    // Get user data
+    this.auth.role.subscribe(role => {
+      if (role) this.role = role;
+    });
+
+    this.auth.name.subscribe(name => {
+      if (name) this.name = name;
+    });
   }
+  private initializeCarousel(): void {
+    this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
+      interval: 5000,
+      ride: 'carousel',
+      wrap: true
+    });
+
+    // Listen for slide events
+    this.carousel.nativeElement.addEventListener('slide.bs.carousel', (event: any) => {
+      this.currentIndex = event.to;
+    });
+  }
+
 
   ngAfterViewInit() {
     // Solo inicializar el carrusel en el navegador
@@ -116,26 +146,31 @@ export class SubjectComponent {
    * load the competncies of current subject
    */
   
-  loadCompetencies(): void{
-    this.competenciesSubject.getCompetenciesByAsignature(this.id).subscribe(
-      (listCompetencies) => {
-        this.listCompetency = listCompetencies;
+  private loadCompetencies(): void {
+    this.competenciesSubject.getCompetenciesByAsignature(this.id).subscribe({
+      next: (competencies) => {
+        this.listCompetency = competencies;
+        this.isLoading = false; // Stop loading when everything is ready
+      },
+      error: (error) => {
+        console.error('Error loading competencies:', error);
+        this.isLoading = false;
       }
-    );
+    });
   }
-  
   onEditStateChange(state: boolean) {
     this.isEdit = state;
     this.loadCompetencies();
     if (this.carouselInstance) {
       if (state) {
         this.carouselInstance.pause();
+        // Mantener el slide actual cuando cambia a modo edición
+        this.carouselInstance.to(this.currentIndex);
       } else {
         this.carouselInstance.cycle();
       }
     }
   }
-
 
   goToCompetency(): void {
     const element = document.getElementById('competencySection');
