@@ -28,6 +28,13 @@
     color: #6B656A;
     font-size: clamp(3rem, 3vw, 4rem);
 }
+
+.listCriterion{
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
 .description-input{
     background-color: #D9D9D9;
     border: none;

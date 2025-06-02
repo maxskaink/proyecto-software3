@@ -60,8 +60,8 @@ export class MoleculeRubricLevelForCreateComponent implements OnInit{
     this.redIndicatorClicked.emit(this.index);
   }
   onDescriptionChange(event: any): void {
-    if (this.level.description.length >= 50) {
-      this.error = 'El nombre no puede exceder los 50 caracteres';
+    if (this.level.description.length >= 40) {
+      this.error = 'El nombre no puede exceder los 40 caracteres';
       this.level.description = this.level.description.substring(0, 50);
     } else {
       this.error = '';
@@ -76,6 +76,7 @@ export class MoleculeRubricLevelForCreateComponent implements OnInit{
    * Method to validate the level before submission 
    *  
    * */
+  
   validateLevel(): boolean {
     if (!this.description.trim()) {
       this.error = 'El nombre no puede estar vacío';

@@ -18,11 +18,16 @@
         </div>
     </div>
     <div class="divider_y"></div>
-    <input type="text" [(ngModel)]="level.description" 
-        class="form-control text-center"
+    <textarea 
+        id="inputBox" 
+        class="input__box"
+        [class.is-invalid]="error"
+        [(ngModel)]="description" 
         (ngModelChange)="onDescriptionChange($event)"
-        placeholder="Level description"
-        maxlength="50">
+        (blur)="validateLevel()"
+        maxlength="40"
+        placeholder="Descripción del nivel">
+    </textarea>
     <div *ngIf="error" class="text-danger mt-1">
         {{error}}
     </div>
