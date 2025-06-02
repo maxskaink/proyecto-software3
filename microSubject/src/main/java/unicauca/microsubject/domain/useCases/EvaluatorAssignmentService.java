@@ -61,8 +61,8 @@ public class EvaluatorAssignmentService implements EvaluatorAssignmentInt {
     }
 
     @Override
-    public List<EvaluatorAssignment> listBySubjectId(Integer subjectId) {
-        return evaluatorAssignmentRepository.listBySubjectOutcomeId(subjectId);
+    public List<EvaluatorAssignment> listBySubjectOutcomeId(Integer subjectOutcomeId) {
+        return evaluatorAssignmentRepository.listBySubjectOutcomeId(subjectOutcomeId);
     }
 
     @Override

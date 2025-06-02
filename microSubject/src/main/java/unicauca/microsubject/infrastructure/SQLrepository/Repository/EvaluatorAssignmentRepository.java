@@ -30,7 +30,7 @@ public class EvaluatorAssignmentRepository implements EvaluatorAssignmentReposit
         try {
             newEvaluatorAssignment.setId(null);
 
-            if (authenticationService.userExists(newEvaluatorAssignment.getEvaluatorUid()))
+            if (!authenticationService.userExists(newEvaluatorAssignment.getEvaluatorUid()))
                 throw new NotFound("Teacher does not exist");
                 
             EvaluatorAssignmentEntity entity = EvaluatorAssignmentMapper.toEvaluatorAssignmentEntity(newEvaluatorAssignment);

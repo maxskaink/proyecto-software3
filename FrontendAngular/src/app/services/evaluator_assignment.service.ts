@@ -10,55 +10,55 @@ import { EvaluatorAssignment } from '../models/EvaluatorAssignmentDTO';
   providedIn: 'root'
 })
 export class EvaluatorAssignmentService {
-    private baseUrl = 'http://localhost:8080';
-    
+    private baseUrl = 'http://localhost:8081';
+
     constructor(private http: HttpClient) {}
-    
-    // POST /evaluatorAssignment/evaluator/{evaluatorUid}/subject/{subjectId}
-    assignevaluatorToSubjectOutcomeInActiveTerm(evaluatorUid: string, subjectId: number): Observable<EvaluatorAssignment> {
-        return this.http.post<EvaluatorAssignment>(`${this.baseUrl}/evaluatorAssignment/evaluator/${evaluatorUid}/subject/${subjectId}`,null).
+
+    // POST /evaluator-assignment/evaluator/{evaluatorUid}/outcome/{subjectId}
+    assignevaluatorToSubjectOutcomeInActiveTerm(evaluatorUid: string, subjectOutcomeId: number): Observable<EvaluatorAssignment> {
+        return this.http.post<EvaluatorAssignment>(`${this.baseUrl}/evaluator-assignment/evaluator/${evaluatorUid}/outcome/${subjectOutcomeId}`,null).
         pipe(catchError(this.handleError));
     }
 
-    // GET /evaluatorAssignment/{id}
+    // GET /evaluator-assignment/{id}
     getAssignmentById(id: number): Observable<EvaluatorAssignment> {
-        return this.http.get<EvaluatorAssignment>(`${this.baseUrl}/evaluatorAssignment/${id}`).
+        return this.http.get<EvaluatorAssignment>(`${this.baseUrl}/evaluator-assignment/${id}`).
         pipe(catchError(this.handleError));
     }
 
-    // GET /evaluatorAssignment/evaluator/{evaluatorUid}/subject/{subjectId}
+    // GET /evaluator-assignment/evaluator/{evaluatorUid}/subject/{subjectId}
     getAssignmentByevaluatorAndSubjectOutcomeInActiveTerm(evaluatorUid: string, subjectId: number): Observable<EvaluatorAssignment> {
-        return this.http.get<EvaluatorAssignment>(`${this.baseUrl}/evaluatorAssignment/evaluator/${evaluatorUid}/subject/${subjectId}`).
+        return this.http.get<EvaluatorAssignment>(`${this.baseUrl}/evaluator-assignment/evaluator/${evaluatorUid}/subject/${subjectId}`).
         pipe(catchError(this.handleError));
     }
 
-    // GET /evaluatorAssignment
+    // GET /evaluator-assignment
     getAllAssignments(): Observable<EvaluatorAssignment[]> {
-        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluatorAssignment`).
+        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluator-assignment`).
         pipe(catchError(this.handleError));
     }
 
-    //GET /evaluatorAssignment/subject/{subjectId}
-    getAssignmentsBySubjectOutcome(subjectId: number): Observable<EvaluatorAssignment[]> {
-        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluatorAssignment/subject/${subjectId}`).
+    //GET /evaluator-assignment/outcome/{outcomeId}
+    getAssignmentsBySubjectOutcome(subjectOutcomeId: number): Observable<EvaluatorAssignment[]> {
+        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluator-assignment/outcome/${subjectOutcomeId}`).
         pipe(catchError(this.handleError));
     }
 
-    // GET /evaluatorAssignment/evaluator/{evaluatorUid}
+    // GET /evaluator-assignment/evaluator/{evaluatorUid}
     getAssignmentsByevaluator(evaluatorUid: string): Observable<EvaluatorAssignment[]> {
-        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluatorAssignment/evaluator/${evaluatorUid}`).
+        return this.http.get<EvaluatorAssignment[]>(`${this.baseUrl}/evaluator-assignment/evaluator/${evaluatorUid}`).
         pipe(catchError(this.handleError));
     }
 
-    // DELETE /evaluatorAssignment/{id}
+    // DELETE /evaluator-assignment/{id}
     deleteAssignment(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.baseUrl}/evaluatorAssignment/${id}`).
+        return this.http.delete<void>(`${this.baseUrl}/evaluator-assignment/${id}`).
         pipe(catchError(this.handleError));
     }
 
-    // DELETE /evaluatorAssignment/evaluator/{evaluatorUid}/subject/{subjectId}
+    // DELETE /evaluator-assignment/evaluator/{evaluatorUid}/subject/{subjectId}
     deleteAssignmentByevaluatorAndSubjectOutcome(evaluatorUid: string, subjectId: number): Observable<void> {
-        return this.http.delete<void>(`${this.baseUrl}/evaluatorAssignment/evaluator/${evaluatorUid}/subject/${subjectId}`).
+        return this.http.delete<void>(`${this.baseUrl}/evaluator-assignment/evaluator/${evaluatorUid}/subject/${subjectId}`).
         pipe(catchError(this.handleError));
     }
 

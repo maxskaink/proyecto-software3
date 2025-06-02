@@ -10,10 +10,10 @@ import { TeacherAssignment } from '../models/TeacherAssignmentDTO';
   providedIn: 'root'
 })
 export class TeacherAssignmentService {
-    private baseUrl = 'http://localhost:8080';
-    
+    private baseUrl = 'http://localhost:8081';
+
     constructor(private http: HttpClient) {}
-    
+
     // POST /teacher-assignment/teacher/{teacherUid}/subject/{subjectId}
     assignTeacherToSubjectInActiveTerm(teacherUid: string, subjectId: number): Observable<TeacherAssignment> {
         return this.http.post<TeacherAssignment>(`${this.baseUrl}/teacher-assignment/teacher/${teacherUid}/subject/${subjectId}`,null).

@@ -25,12 +25,12 @@ public class EvaluatorAssignmentController {
 
     private final EvaluatorAssignmentInt evaluatorAssignmentService;
 
-    @PostMapping("/evaluator/{evaluatorUid}/subject/{subjectId}")
+    @PostMapping("/evaluator/{evaluatorUid}/outcome/{subjectOutcomeId}")
     public ResponseEntity<EvaluatorAssignment> addEvaluatorAssignment(
             @PathVariable String evaluatorUid,
-            @PathVariable Integer subjectId) throws Exception {
+            @PathVariable Integer subjectOutcomeId) throws Exception {
         return ResponseEntity.ok(
-                evaluatorAssignmentService.add(evaluatorUid, subjectId)
+                evaluatorAssignmentService.add(evaluatorUid, subjectOutcomeId)
         );
     }
 
@@ -58,11 +58,11 @@ public class EvaluatorAssignmentController {
         );
     }
 
-    @GetMapping("/subject/{subjectId}")
-    public ResponseEntity<List<EvaluatorAssignment>>  listBySubjectId(
-            @PathVariable Integer subjectId) {
+    @GetMapping("/outcome/{outcomeId}")
+    public ResponseEntity<List<EvaluatorAssignment>>  listBySubjectOutcomeId(
+            @PathVariable Integer outcomeId) {
         return ResponseEntity.ok(
-                evaluatorAssignmentService.listBySubjectId(subjectId)
+                evaluatorAssignmentService.listBySubjectOutcomeId(outcomeId)
         );
     }
 

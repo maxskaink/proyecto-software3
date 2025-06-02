@@ -16,6 +16,7 @@ import {
 import {TeacherDTO} from "../../models/TeacherDTO";
 import {AuthService} from "../../services/auth.service";
 import { ViewportScroller } from '@angular/common';
+import {EvaluatorAssignmentService} from "../../services/evaluator_assignment.service";
 
 
 
@@ -76,7 +77,8 @@ export class OutcomeComponent implements OnInit {
     private route: ActivatedRoute,
     private outComeService: SubjectOutomeService,
     private authService: AuthService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private evaluatorService : EvaluatorAssignmentService
   ){
     }
 
@@ -102,36 +104,25 @@ export class OutcomeComponent implements OnInit {
   }
 
   getEvaluators(){
-    this.evaluators = [
-      {
-        academicTitle: "postgrado",
-        identification: 123456789,
-        identificationType: "CC",
-        lastName: "Calambas",
-        name: "Miguel",
-        role: "Teacher",
-        typeTeacher: "catedratico",
-      },
-      {
-        academicTitle: "postgrado",
-        identification: 123456789,
-        identificationType: "CC",
-        lastName: "Calambas",
-        name: "Miguel",
-        role: "Teacher",
-        typeTeacher: "catedratico",
-      },
-      {
-        academicTitle: "postgrado",
-        identification: 123456789,
-        identificationType: "CC",
-        lastName: "Calambas",
-        name: "Miguel",
-        role: "Teacher",
-        typeTeacher: "catedratico",
-      },
-    ]
     //Traer solo evaluadores asignados
+    console.log('Obteniendo evaluadores para el outcome con ID:', this.outcomeId);
+    this.evaluatorService.getAssignmentsBySubjectOutcome(this.outcomeId).subscribe({
+      next: (data) => {
+        data.forEach(element => {
+          this.authService.getUserById(element.evaluatorUid).subscribe({
+            next: (user) => {
+              this.evaluators.push(user);
+            },
+            error: (error) => {
+              console.error('Error al obtener el usuario:', error);
+            }
+          });
+        });
+      },
+      error: (error) => {
+        console.error('Error al obtener evaluadores:', error);
+      }
+    });
   }
 
   editDescription(): void{

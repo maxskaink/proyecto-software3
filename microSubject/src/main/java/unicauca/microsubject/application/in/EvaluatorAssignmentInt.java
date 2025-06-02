@@ -53,11 +53,11 @@ public interface EvaluatorAssignmentInt {
     /**
      * Retrieves a list of evaluator assignments by subject ID.
      *
-     * @param subjectId The ID of the subject.
+     * @param subjectOutcomeId The ID of the subject.
      * @return A list of evaluator assignments for the specified subject.
      */
-    List<EvaluatorAssignment> listBySubjectId(
-            @NotNull(message = "The evaluator assignment subject id can not be null") Integer subjectId);
+    List<EvaluatorAssignment> listBySubjectOutcomeId(
+            @NotNull(message = "The evaluator assignment subject id can not be null") Integer subjectOutcomeId);
 
     /**
      * Retrieves a list of evaluator assignments by evaluator user ID.

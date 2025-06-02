@@ -59,8 +59,10 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
 
     @Override
     public List<TeacherAssignment> listBySubjectId(Integer subjectId) {
+        Integer idActiveTerm = termRepository.getActiveTerm().getValue()
+                .orElseThrow(()->new RuntimeException("No active term")).getId();
         return teacherAssignmentRepository.findAll().stream().
-                filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId))
+                filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId) && ta.getTerm() != null && ta.getTerm().getId().equals(idActiveTerm))
                 .map(entity -> {
                     TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
                     teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));

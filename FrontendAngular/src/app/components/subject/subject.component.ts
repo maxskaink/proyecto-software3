@@ -14,6 +14,12 @@ import { EditStateService } from '../../services/edit-state.service';
 import { Carousel } from 'bootstrap';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
 import { forkJoin } from 'rxjs';
+import {
+  TemplateListTeachersComponent
+} from "../../componentsShared/templates/template-list-teachers/template-list-teachers.component";
+import {TeacherAssignmentService} from "../../services/teacher_assignment.service";
+import {TeacherAssignment} from "../../models/TeacherAssignmentDTO";
+import {TeacherDTO} from "../../models/TeacherDTO";
 declare var bootstrap: any;
 
 
@@ -22,9 +28,9 @@ declare var bootstrap: any;
   selector: 'app-asignature',
   imports: [
       MoleculeBackHeaderComponent,
-      MoleculeBlockUserComponent,
-      TemplateCompetencyComponent, 
+      TemplateCompetencyComponent,
       TemplateCompetencyEditComponent,
+      TemplateListTeachersComponent,
       CommonModule,
       LoadingComponent
 
@@ -37,19 +43,18 @@ export class SubjectComponent {
   private carouselInstance: any;
   private readonly isBrowser: boolean;
 
-  isLoading: boolean  = false; 
+  isLoading: boolean  = false;
   description: string = 'description';
   title: string= 'title';
   actualAsignature: SubjectDTO | null = null;
-  listCompetency: SubjectCompetency[] = []; 
+  listCompetency: SubjectCompetency[] = [];
   id: number = -1;
-  
+
   isEdit: boolean = true;
-  role: string ="";
-  name: string ="";
   currentIndex: number = 0; // Añadir variable para el índice actual
 
-  
+  teacherAssignments: TeacherDTO[] = [];
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private asignatureService: SubjectService,
@@ -57,7 +62,8 @@ export class SubjectComponent {
     private competenciesSubject: SubjectCompetencyService ,
     private editStateService: EditStateService,
     private auth: AuthService,
-    private router: Router  
+    private assigmentService:TeacherAssignmentService,
+    private router: Router
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -80,7 +86,7 @@ export class SubjectComponent {
 
 
   private loadInitialData(): void {
-    
+
     this.editStateService.editState$.subscribe(state => {
       this.isEdit = state;
     });
@@ -97,16 +103,28 @@ export class SubjectComponent {
       }
     });
 
-    this.auth.role.subscribe(role => {
-      if (role) this.role = role;
-    });
-    this.auth.name.subscribe(name => {
-      if (name) this.name = name;
+    this.assigmentService.getAssignmentsBySubject(this.id).subscribe({
+      next: (assignments) => {
+
+        assignments.forEach(as => {
+          this.auth.getUserById(as.teacherUid).subscribe({
+            next: (teacher) => {
+              this.teacherAssignments.push(teacher);
+            },
+            error: (error) => {
+              console.error('Error loading teacher:', error);
+            }
+          });
+        });
+      },
+      error: (error) => {
+        console.error('Error loading assignments:', error);
+      }
     });
   }
 
   /**
-   * Initiliced the carrusel for listening the current index in documenet 
+   * Initiliced the carrusel for listening the current index in documenet
    * @prvate
    */
   private initializeCarousel(): void {
@@ -141,7 +159,7 @@ export class SubjectComponent {
    * code is running in a browser environment, which is necessary for
    * server-side rendering compatibility.
    */
- 
+
   ngAfterViewInit() {
     if (this.isBrowser) {
       this.initializeCarousel();
@@ -151,9 +169,9 @@ export class SubjectComponent {
 
   /**
    * Retrieves the details of a specific subject by its ID and updates the component's state.
-   * 
+   *
    * @param id - The unique identifier of the subject to fetch.
-   * 
+   *
    * This method calls the `getSubjectID` method from the `asignatureService` to fetch
    * the subject details. Once the data is retrieved, it updates the `actualAsignature`,
    * `title`, and `description` properties of the component with the fetched information.
@@ -168,13 +186,13 @@ export class SubjectComponent {
 
   /**
    * Loads the list of competencies associated with the current subject.
-   * 
-   * This method retrieves the competencies by calling the `getCompetenciesByAsignature` 
-   * method from the `competenciesSubject` service, using the current subject's ID. 
-   * Once the data is successfully fetched, it updates the `listCompetency` property 
-   * and stops the loading indicator. If an error occurs during the process, it logs 
+   *
+   * This method retrieves the competencies by calling the `getCompetenciesByAsignature`
+   * method from the `competenciesSubject` service, using the current subject's ID.
+   * Once the data is successfully fetched, it updates the `listCompetency` property
+   * and stops the loading indicator. If an error occurs during the process, it logs
    * the error to the console and stops the loading indicator as well.
-   * 
+   *
    * @private
    */
   private loadCompetencies(): void {
@@ -195,7 +213,7 @@ export class SubjectComponent {
    * Updates the `isEdit` property, reloads the competencies, and manages
    * the behavior of the carousel instance based on the new state.
    *
-   * @param state - A boolean indicating the new edit state. 
+   * @param state - A boolean indicating the new edit state.
    *                `true` for entering edit mode, `false` for exiting edit mode.
    *
    * Behavior:
@@ -207,7 +225,7 @@ export class SubjectComponent {
    */
   onEditStateChange(state: boolean) {
     this.isEdit = state;
-    
+
     if (this.carouselInstance) {
       if (state) {
         // Pausar el carrusel
@@ -233,7 +251,7 @@ export class SubjectComponent {
   goToCompetency(): void {
     const element = document.getElementById('competencySection');
     if (element) {
-      element.scrollIntoView({ 
+      element.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
