@@ -1,21 +1,18 @@
+/* Ajustes para letra responsive en la descripción */
+
 /* ===== CONTAINER ===== */
 .outcome-container {
   display: flex;
-  /* border: .5px solid #ccc;*/
-  
   width: 100%;
   height: 100%;
-
   margin: 0;
   transition: margin 0.3s ease;
   overflow: hidden;
 }
-.outcome-container:hover{
-  
+
+.outcome-container:hover {
   margin-top: 2px;
   margin-bottom: 2px;
-  
-
 }
 
 /* ===== LABEL ===== */
@@ -23,22 +20,23 @@
   background-color: #532c58; /* púrpura */
   color: white;
   font-weight: bold;
-  font-size: 2rem;
-  padding: 1rem 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 2rem); /* Tamaño responsive */
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.5rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 100px;
+  min-width: clamp(60px, 15%, 100px); /* Ancho responsive */
 }
 
 /* ===== DESCRIPTION ===== */
 .outcome-description {
-  padding: 1.25rem 1.5rem;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  padding-left: clamp(1.5rem, 4vw, 2rem); /* Padding responsive */
   color: #532c58; /* texto en púrpura oscuro */
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 1.25rem; /* Increased font size */
+  font-size: clamp(0.9rem, 2vw, 1.25rem); /* Tamaño de letra responsive */
   line-height: 1.6;
   width: 100%;
   font-weight: 500;
@@ -47,11 +45,11 @@
   border-left: 3px solid #532c58;
   text-shadow: 0px 0px 1px rgba(83, 44, 88, 0.1);
   position: relative;
-  padding-left: 2rem; /* Extra padding for quote mark */
   transition: all 0.6s ease;
 }
-.outcome-description:hover{
-  background-color: #dab6d9; /* Slightly darker on hover */
+
+.outcome-description:hover {
+  background-color: #dab6d9;
 }
 
 .outcome-description::before {
@@ -59,7 +57,7 @@
   position: absolute;
   left: 10px;
   top: 10px;
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw, 3rem); /* Tamaño responsive */
   color: rgba(83, 44, 88, 0.15);
   font-family: Georgia, serif;
   line-height: 1;
@@ -78,7 +76,7 @@
 
 .edit-icon {
   color: #532c58;
-  font-size: 0.9rem; /* Slightly larger */
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem); /* Tamaño responsive */
   opacity: 0.7;
   position: absolute;
   right: 12px;
@@ -89,9 +87,9 @@
 /* ===== EDIT MODE ===== */
 .outcome-edit-container {
   flex: 1;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1rem);
   width: 100%;
-  background: #f8f8f8; /* Replaced gradient with solid color */
+  background: #f8f8f8;
   border-left: 3px solid #532c58;
 }
 
@@ -99,10 +97,10 @@
   resize: none;
   width: 100%;
   color: #532c58;
-  border: none !important; /* Remove border */
-  background-color: #f8f8f8; /* Match container background */
-  padding: 1.25rem;
-  font-size: 1.25rem;
+  border: none !important;
+  background-color: #f8f8f8;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  font-size: clamp(0.9rem, 2vw, 1.25rem); /* Tamaño responsive */
   line-height: 1.6;
   font-weight: 500;
   letter-spacing: 0.01em;
@@ -117,16 +115,14 @@
 }
 
 .outcome-edit-input:focus {
-  border: none !important;
   outline: none !important;
-  box-shadow: none !important;
-  background-color: #f8f8f8; /* Keep the same background on focus */
+  background-color: #f8f8f8;
 }
 
 /* ===== BUTTONS ===== */
 .btn {
   border-radius: 50px;
-  padding: 0.5rem 1.25rem;
+  padding: clamp(0.3rem, 1.5vw, 0.5rem) clamp(0.75rem, 2vw, 1.25rem);
   font-weight: 600;
   letter-spacing: 0.5px;
   transition: all 0.2s ease;
@@ -134,23 +130,25 @@
   border: none;
 }
 
+.btn-primary, .btn-secondary {
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem); /* Tamaño responsive */
+}
+
 .btn-primary {
-  background: #532c58; /* Replaced gradient with solid color */
-  border: none;
+  background: #532c58;
   color: white;
   text-transform: uppercase;
-  font-size: 0.85rem;
 }
 
 .btn-primary:hover {
-  background: #632f6b; /* Replaced gradient with solid color */
+  background: #632f6b;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(83, 44, 88, 0.3);
 }
 
-.btn-primary:active, 
+.btn-primary:active,
 .btn-primary:focus {
-  background: #3e2142; /* Replaced gradient with solid color */
+  background: #3e2142;
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(83, 44, 88, 0.3);
 }
@@ -159,11 +157,10 @@
   background-color: white;
   border: 1px solid rgba(83, 44, 88, 0.3);
   color: #532c58;
-  font-size: 0.85rem;
 }
 
 .btn-secondary:hover {
-  background-color: #f8f8f8; /* Changed to match container */
+  background-color: #f8f8f8;
   color: #3e2142;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -171,7 +168,7 @@
 
 .btn-secondary:active,
 .btn-secondary:focus {
-  background-color: #f8f8f8; /* Changed to match container */
+  background-color: #f8f8f8;
   color: #3e2142;
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -187,4 +184,23 @@
 .btn-secondary::before {
   content: "✕";
   margin-right: 6px;
+}
+
+/* Media queries para ajustes adicionales en dispositivos pequeños */
+@media (max-width: 576px) {
+  .outcome-container {
+    flex-direction: column;
+  }
+
+  .outcome-label {
+    width: 100%;
+    min-width: 100%;
+    padding: 0.5rem;
+  }
+
+  .outcome-description,
+  .outcome-edit-container {
+    border-left: none;
+    border-top: 3px solid #532c58;
+  }
 }

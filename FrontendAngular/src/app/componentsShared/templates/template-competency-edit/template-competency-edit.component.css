@@ -168,7 +168,7 @@ hr.m-4 {
   height: clamp(40px, 5vh, 50px);
 }
 .text-button {
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem); 
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
 }
 
 .custom-hover:hover {
@@ -381,4 +381,112 @@ hr.m-4 {
   padding: 0;
   transition: all 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
   color: #ffff;
+}
+
+
+
+/* Contenedor principal - ajustes responsive */
+.raContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+/* Contenedor de outcomes - ajustes responsive */
+.outcomes-container {
+  width: 100%;
+  max-width: 100%;
+  max-height: min(60vh, 400px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Filas de outcomes - mantener estructura pero mejorar responsividad */
+.sectionOutcomes {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 50px;
+}
+
+/* Optimización de la celda de contenido */
+.outcome-cell {
+  flex: 1;
+  min-width: 0; /* Permite truncamiento correcto del texto */
+  display: flex;
+}
+
+/* Asegurar que el componente interno sea responsive */
+.outcome-cell ::ng-deep app-molecule-out-come {
+  width: 100%;
+  display: flex;
+  overflow: hidden; /* Evita desbordamiento */
+}
+
+.outcome-cell ::ng-deep * {
+  user-select: none;
+  overflow-wrap: break-word; /* Permite romper palabras largas */
+  word-wrap: break-word;
+  hyphens: auto; /* Habilita guiones para palabras largas */
+}
+
+/* Optimización del botón de acción */
+.action-cell {
+  display: flex;
+  min-width: 40px; /* Ancho mínimo para táctil */
+  width: clamp(40px, 5vw, 48px); /* Ancho adaptativo */
+}
+
+/* Ajuste del icono para ser visible en cualquier tamaño */
+.ra-action-icon {
+  font-size: clamp(16px, 4vw, 18px);
+  min-height: 100%;
+  width: 100%;
+}
+
+/* Ajuste del mensaje de texto */
+.raContent .text-muted {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  padding: 0 1rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Ajuste de alerta para ser responsive */
+.raContent .alert {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .outcomes-container {
+    padding: 0.5rem 0;
+  }
+
+
+  .outcome-cell ::ng-deep app-molecule-out-come {
+    padding: 0 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-cell {
+    min-width: 36px;
+  }
+
+  .ra-action-icon {
+    font-size: 16px;
+  }
+
+  .raContent .alert span {
+    width: 100%;
+  }
 }

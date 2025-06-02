@@ -1,47 +1,59 @@
 <div class="">
-    <div class="divididerUp d-flex justify-content-between align-items-center ">
-        <div class="title-container p-5">
-            <h2 class="titleSection">Competencia</h2>
-        </div>
-        <div class="icons-container  d-flex gap-3">
-            <button class="btn btn-edit p-2">
-                <i class="bi bi-pencil-square icon" (click)="onEditClick()"></i>
-            </button>
-            <button class="btn btn-delete p-2">
-                <i class="bi bi-trash icon" (click)="onDeletelClick()"></i>
-            </button>
-        </div>
-    </div>
-    <div class="bodyContent   ">
-        <h2 class="description">{{competency.description}}</h2>
+  <div class="divididerUp d-flex justify-content-between align-items-center">
+      <div class="title-container p-5">
+          <h2 class="titleSection">Competencia</h2>
+      </div>
+      <div class="icons-container d-flex gap-3">
+          <button class="btn btn-edit p-2">
+              <i class="bi bi-pencil-square icon" (click)="onEditClick()"></i>
+          </button>
+          <button class="btn btn-delete p-2">
+              <i class="bi bi-trash icon" (click)="onDeletelClick()"></i>
+          </button>
+      </div>
+  </div>
 
-        <!-- Program Competency with async pipe -->
-        <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
-            <p><span class="belong-text">Pertenece a:</span> {{programComp.description}}</p>
-        </ng-container>
-        <ng-template #loadingProgramComp>
-            <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
-            <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
-        </ng-template>
+  <div class="bodyContent">
+      <!-- Section description actual -->
+      <section class="sectionDescriptionActual">
+          <h2 class="description">{{competency.description}}</h2>
+      </section>
 
-        <hr class="m-2">
-        <!-- <p>Nivel: {{competency.level}}</p> -->
-    </div>
-    <section class="raContent d-flex justify-content-center flex-column align-items-center">
-        <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-            <div *ngFor="let outcome of outcomes; let i = index " class="sectionOutcomes"
-            (click)="goToOutcome(outcome, i)">
-                <app-molecule-out-come [outcomeNumber]=i+1 
-                [outcome]="outcome.description"
-                class="outcome-item"
-                ></app-molecule-out-come>
-            </div>
-        </ng-container>
-        <ng-template #loadingOutcomes>
-            <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-            <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
-        </ng-template>
-    </section>
-   
+      <!-- Program Competency with async pipe -->
+      <ng-container *ngIf="programCompetency$ | async as programComp; else loadingProgramComp">
+          <p><span class="belong-text">Pertenece a:</span> {{programComp.description}}</p>
+      </ng-container>
+      <ng-template #loadingProgramComp>
+          <p *ngIf="loading.programCompetency">Cargando competencia del programa...</p>
+          <p *ngIf="error.programCompetency">Error al cargar la competencia del programa</p>
+      </ng-template>
 
+      <hr class="m-4">
+
+      <!-- Section Outcomes -->
+      <section class="raContent d-flex justify-content-center flex-column align-items-center">
+          <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+              <div *ngIf="outcomes.length > 0" class="outcomes-container">
+                  <div *ngFor="let outcome of outcomes; let i = index"
+                       class="sectionOutcomes"
+                       (click)="goToOutcome(outcome, i)">
+                      <div class="outcome-cell">
+                          <app-molecule-out-come
+                              [outcomeNumber]="i+1"
+                              [outcome]="outcome.description"
+                              class="outcome-item">
+                          </app-molecule-out-come>
+                      </div>
+                  </div>
+              </div>
+              <p *ngIf="outcomes.length === 0" class="text-muted">
+                  No hay resultados de aprendizaje disponibles.
+              </p>
+          </ng-container>
+          <ng-template #loadingOutcomes>
+              <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+              <p *ngIf="error.outcomes">Error al cargar los resultados de aprendizaje</p>
+          </ng-template>
+      </section>
+  </div>
 </div>
