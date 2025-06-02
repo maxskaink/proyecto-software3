@@ -3,9 +3,10 @@ import { Component, Input, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CriterionService } from '../../../services/criterion.service';
 import { CriterionDTO } from '../../../models/CirterionDTO';
+import { MoleculeRubricLevelForCreateComponent } from '../../molecules/molecule-rubric-level-for-create/molecule-rubric-level-for-create.component';
 @Component({
   selector: 'app-template-rubric-create-criterion',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MoleculeRubricLevelForCreateComponent],
   templateUrl: './template-rubric-create-criterion.component.html',
   styleUrl: './template-rubric-create-criterion.component.css'
 })

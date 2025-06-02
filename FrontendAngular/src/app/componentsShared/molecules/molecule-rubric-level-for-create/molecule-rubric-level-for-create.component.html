@@ -1,0 +1,28 @@
+<div class="d-flex flex-column align-items-center justify-content-center h-100 m-1"
+     (mouseenter)="onLevelHover()" 
+     (mouseleave)="onLevelLeave()">
+    <p class="weight text-center percentage">
+        {{percentage}}%
+    </p>
+    <div class="level-container">
+        <div class="level">
+        </div>
+        <div class="green-indicator clickable" 
+             *ngIf="showGreenDiv"
+             (click)="onGreenIndicatorClick()">
+        </div>
+        <div class="red-indicator clickable" 
+             *ngIf="showRedDiv"
+             (click)="onRedIndicatorClick()">
+        </div>
+    </div>
+    <div class="divider_y"></div>
+    <input type="text" [(ngModel)]="name" 
+           class="form-control text-center"
+           (ngModelChange)="onNameChange($event)"
+           placeholder="Level Name"
+           maxlength="50">
+    <div *ngIf="error" class="text-danger mt-1">
+        {{error}}
+    </div>
+</div>
