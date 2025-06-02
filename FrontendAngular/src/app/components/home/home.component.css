@@ -62,3 +62,15 @@
     background-color: #f0f0f0;
   }
   
+  .nav:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.5;
+}
+
+.card-item {
+  flex: 0 0 auto;
+  min-width: 250px;
+  scroll-snap-align: start;
+}

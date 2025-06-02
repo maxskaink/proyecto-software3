@@ -1,27 +1,32 @@
 <app-loading [isLoading]="isLoading"></app-loading>
 <app-header></app-header>
 
-
-<div class="container py-4 ">
+<div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
       <app-molecule-search-bar
         placeholder="Buscar asignatura..."
         (search)="onSearch($event)"
         class="d-flex justify-content-center">
-
       </app-molecule-search-bar>
     </div>
   </div>
 </div>
 
-<div class="container-fluid main-content ">
-  <div class="d-flex align-items-center justify-content-center gap-3 m-5 flex-wrap">
+<div class="container-fluid main-content">
+  <div class="carousel-wrapper">
+    
+    <!-- Botón Izquierdo -->
+    <button 
+      class="nav left" 
+      (click)="scrollLeft()" 
+      [disabled]="!canScrollLeft">
+      &lt;
+    </button>
 
-    <button class="nav left" (click)="scrollLeft()">&lt;</button>
-
+    <!-- Contenedor del carrusel -->
     <div class="carousel-container">
-      <div class="carousel-scroll">
+      <div class="carousel-scroll" #carousel>
         <app-molecule-block
           *ngFor="let asignature of asignaturesFilters"
           [title]="asignature.name"
@@ -32,7 +37,13 @@
       </div>
     </div>
 
-    <button class="nav right" (click)="scrollRight()">&gt;</button>
+    <!-- Botón Derecho -->
+    <button 
+      class="nav right" 
+      (click)="scrollRight()" 
+      [disabled]="!canScrollRight">
+      &gt;
+    </button>
     
   </div>
 </div>
