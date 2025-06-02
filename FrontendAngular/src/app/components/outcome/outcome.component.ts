@@ -15,6 +15,8 @@ import {
 } from "../../componentsShared/templates/template-list-teachers/template-list-teachers.component";
 import {TeacherDTO} from "../../models/TeacherDTO";
 import {AuthService} from "../../services/auth.service";
+import { ViewportScroller } from '@angular/common';
+
 
 
 @Component({
@@ -73,13 +75,15 @@ export class OutcomeComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private outComeService: SubjectOutomeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private viewportScroller: ViewportScroller
   ){
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
   ngOnInit(): void {
-
+    // Scroll to top when component initializes
+     // Scroll to top when component initializes
+    this.viewportScroller.scrollToPosition([0, 0]);
     this.isLoading= true;
     this.route.queryParams.subscribe(params => {
       if (params['outcomeId']) {
