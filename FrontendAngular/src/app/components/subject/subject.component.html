@@ -26,7 +26,7 @@
   <section id="competencySection" class="sectionCompetency ">
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
-        <div class="carousel-indicators ">
+        <div class="carousel-indicators-fixed" [class.visible]="isCompetencySectionVisible">
           <button *ngFor="let comp of listCompetency; let i = index"
                   type="button"
                   [class.active]="i === currentIndex"
@@ -47,7 +47,7 @@
           <app-template-competency-edit
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
-            [subjectId]="getSubjectId()" 
+            [subjectId]="getSubjectId()"
             *ngIf="isEdit">
           </app-template-competency-edit>
         </div>

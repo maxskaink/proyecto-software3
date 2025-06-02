@@ -1,4 +1,4 @@
-import { Component, viewChild, ElementRef, ViewChild, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, viewChild, ElementRef, ViewChild, EventEmitter, Inject, PLATFORM_ID, OnInit, AfterViewInit } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
@@ -49,7 +49,7 @@ export class SubjectComponent {
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = [];
   id: number = -1;
-
+  isCompetencySectionVisible = false;
   isEdit: boolean = true;
   currentIndex: number = 0; // Añadir variable para el índice actual
 
@@ -83,6 +83,7 @@ export class SubjectComponent {
       setTimeout(() => this.initializeCarousel(), 0);
     }
   }
+
 
 
   private loadInitialData(): void {
@@ -163,6 +164,8 @@ export class SubjectComponent {
   ngAfterViewInit() {
     if (this.isBrowser) {
       this.initializeCarousel();
+      // Agregar esta línea para configurar el observer
+      this.setupIntersectionObserver();
     }
   }
 
@@ -267,19 +270,67 @@ export class SubjectComponent {
 
   /**
  * Returns the ID of the current subject.
- * 
+ *
  * @returns The subject ID if available, or undefined if no subject is loaded.
  */
 getSubjectId(): number  {
   if (this.actualAsignature) {
     return this.actualAsignature.id;
   }
-  
+
   // Si no hay asignatura cargada pero tenemos un ID de la URL
   if (this.id !== -1) {
     return this.id;
   }
 
   return 0;
+}
+
+/**
+ * Configura un observador para detectar cuando la sección de competencias está visible
+ * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
+ */
+/**
+ * Configura un observador para detectar cuando la sección de competencias está visible
+ * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
+ */
+private setupIntersectionObserver(): void {
+  if (!this.isBrowser) return;
+
+  let scrollTimer: any = null;
+
+  // Detector de scroll simplificado que muestra los indicadores solo cuando
+  // estamos en o por debajo de la sección de competencias
+  window.addEventListener('scroll', () => {
+    if (scrollTimer) clearTimeout(scrollTimer);
+
+    scrollTimer = setTimeout(() => {
+      const section = document.getElementById('competencySection');
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+
+      // Valor ajustado a 20px para coincidir exactamente con el comportamiento de scrollIntoView
+      // Muestra los indicadores cuando la sección está en o cerca del borde superior
+      if (rect.top <= 0) {
+        this.isCompetencySectionVisible = true;
+      } else {
+        // En cualquier otro caso (estamos por encima de la sección), ocultar
+        this.isCompetencySectionVisible = false;
+      }
+
+    }, 50);
+  });
+
+  // Verificación inicial con el mismo margen
+  setTimeout(() => {
+    const section = document.getElementById('competencySection');
+    if (section) {
+      const rect = section.getBoundingClientRect();
+      this.isCompetencySectionVisible = rect.top <= 20;
+    } else {
+      console.error('No se encontró la sección de competencias');
+    }
+  }, 500);
 }
 }

@@ -119,7 +119,7 @@
   padding: 10px;
   border-color: #6C3668;
   background-color:#6C3668 ;
-  
+
 }
 
 .carousel-indicators button {
@@ -141,4 +141,43 @@
 /* Mantener los indicadores visibles en modo edición */
 .carousel.slide.editing .carousel-indicators {
   display: flex !important;
+}
+
+/* Estilos para los indicadores fijos */
+.carousel-indicators-fixed {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px 25px;
+  border-radius: 0 0 15px 15px;
+  background-color: #6C3668;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.carousel-indicators-fixed.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel-indicators-fixed button {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50%;
+  background-color: #1E1E1E !important;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  margin: 0 8px !important;
+  border: none;
+}
+
+.carousel-indicators-fixed button.active {
+  opacity: 1;
+  transform: scale(1.2);
+  background-color: #C5C5C5 !important;
 }
