@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CriterionService } from '../../../services/criterion.service';
+import { LevelService } from '../../../services/level.service';
+
 import { CriterionDTO } from '../../../models/CirterionDTO';
 import { MoleculeRubricLevelForCreateComponent } from '../../molecules/molecule-rubric-level-for-create/molecule-rubric-level-for-create.component';
+import { LevelDTO } from '../../../models/LevelDTO';
+import { LevelEntity } from '../../../models/LevelEntity';
+import { CriterionEntity} from '../../../models/CriterionEntity';
 @Component({
   selector: 'app-template-rubric-create-criterion',
   imports: [CommonModule, FormsModule, MoleculeRubricLevelForCreateComponent],
@@ -16,16 +21,27 @@ export class TemplateRubricCreateCriterionComponent  {
   name:string = ''; 
   errors = {
     name: '',
-    value: ''
+    value: '',
+    levelError:  ''
   };
   touched = {
     name: false,
     value: false
   };
-  @Input() idRubric: number = 0;
+  MAX_LEVEL: number = 5;
+  Levels: LevelEntity[] = [
+    {  description: 'Nivel Básico', percentage: 33 },
+    {  description: 'Nivel Intermedio', percentage: 33 },
+    {  description: 'Nivel Avanzado', percentage: 34 }
+  ];
+  @Input() idRubric: number = 38;
+  @Output() criterionAdded = new EventEmitter<CriterionEntity>();
+
   
   
-  constructor(private criterionService: CriterionService) {}
+  constructor(private criterionService: CriterionService,
+    private levelService: LevelService,
+  ) {}
 
   /**
    * Verify the input of create criterion
@@ -54,39 +70,80 @@ export class TemplateRubricCreateCriterionComponent  {
     return isValid;
   }
 
- /**
-  * Save the criterion 
-  * @returns void
-  */
-  saveCriterion(): void {
-    if (!this.validateInputs()) {
+
+  createNewLevel(): LevelEntity {
+    const newLevel: LevelEntity  = {
+      description: '',
+      percentage: 0,
+    }
+    return newLevel;
+  }
+  handleGreenIndicator(levelIndex: number): void {
+    // Insert new level after the clicked one
+    const newLevel: LevelEntity = this.createNewLevel();
+    if(this.Levels.length >= this.MAX_LEVEL) {
+      console.error('Maximum number of levels reached');
+      this.errors.levelError = 'No se pueden agregar más niveles';
       return;
     }
-
-    const newCriterion: Partial<CriterionDTO> = {
-      name: this.name,
-      weight: this.weight,
-      levels: []
-    };
-
-    this.criterionService.assignCriterionToRubric(this.idRubric, newCriterion)
-      .subscribe({
-        next: (response) => {
-          console.log('Criterion saved successfully:', response);
-          // Reset form
-          this.name = '';
-          this.weight = 0;
-          this.errors = { name: '', value: '' };
-        },
-        error: (error) => {
-          console.error('Error saving criterion:', error);
-        }
-      });
+    this.Levels.splice(levelIndex + 1, 0, newLevel);
   }
-
-
-
+  
+  handleRedIndicator(levelIndex: number): void {
+    // Remove the clicked level
+    this.Levels.splice(levelIndex, 1);
+  }
   onInput(): void {
     this.validateInputs();
   }
+
+  onLevelChange(event: {index: number, level: LevelEntity}): void {
+    this.Levels[event.index] = event.level;
+  }
+  /**
+   * Method to save levels associated with the criterion
+   * This method iterates through the Levels array and sends each level to the backend service
+   * @returns void
+   */
+  saveLevels(): void {
+    this.Levels.forEach((level) => {
+      this.levelService.assignLevelToCriterion(this.idRubric, level)
+        .subscribe({
+          next: (response) => {
+            console.log('Level saved successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error saving level:', error);
+            this.errors.levelError = 'Error al guardar los niveles';
+          }
+        });
+    });
+  }
+
+  createNewCriterion(): CriterionEntity {
+    const newCriteron: CriterionEntity= {
+      name: this.name,
+      weight: this.weight,
+      levels: this.Levels 
+    };
+    return newCriteron;
+  }
+  addCriterionWithLevels(): void {
+    if (!this.validateInputs()) {
+      return;
+    } 
+    const newCriterion:CriterionEntity = this.createNewCriterion();
+    this.criterionAdded.emit(newCriterion);
+
+    // Reset form
+    this.name = '';
+    this.weight = 0;
+    this.Levels = [
+      { description: 'Nivel Básico', percentage: 33 },
+      { description: 'Nivel Intermedio', percentage: 33 },
+      { description: 'Nivel Avanzado', percentage: 34 }
+    ];
+    this.errors = { name: '', value: '', levelError: '' };
+  }
+  
 }

@@ -3,10 +3,10 @@
 <div class="basic_space_table">
     <div class="table_container">
         <!-- Body -->
-        <ng-container *ngIf="criterions && criterions.length > 0">
+        <ng-container *ngIf="criterionEntities && criterionEntities.length > 0">
             <app-template-rubric-row
-                *ngFor="let criterion of criterions"
-                [criteria]="criterion">
+                *ngFor="let criterion of criterionEntities"
+                [criterion]="criterion">
             </app-template-rubric-row>
         </ng-container>
     </div>

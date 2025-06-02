@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LevelDTO } from '../../../models/LevelDTO';
+import { LevelEntity } from '../../../models/LevelEntity';
 
 @Component({
   selector: 'app-molecule-rubric-level-for-create',
@@ -11,15 +13,23 @@ import { FormsModule } from '@angular/forms';
     '../molecule-level-box/molecule-level-box.component.css'
   ]
 })
-export class MoleculeRubricLevelForCreateComponent {
+export class MoleculeRubricLevelForCreateComponent implements OnInit{
+  ngOnInit(): void {
+    if (this.level) {
+      this.description = this.level.description || '';
+      this.percentage = this.level.percentage || 0;
+    }
+  }
   description: string = '';
   percentage: number = 0; 
-  name: string = '';
   showGreenDiv: boolean = false;
   showRedDiv: boolean = false;
   error: string = '';
-  @Output() greenIndicatorClicked = new EventEmitter<void>();
-  @Output() redIndicatorClicked = new EventEmitter<void>();
+  @Output() greenIndicatorClicked = new EventEmitter<number>();
+  @Output() redIndicatorClicked = new EventEmitter<number>();
+  @Input() level!: LevelEntity;
+  @Input() index!: number;
+  @Output() levelChange = new EventEmitter<{index: number, level: LevelEntity}>();
   /**
    * Method for manage the event level hover, make the div green and red visible
    * @returns void
@@ -41,39 +51,37 @@ export class MoleculeRubricLevelForCreateComponent {
    * Method for manage the click on the green indicator, emit an event and log a message
    */
   onGreenIndicatorClick(): void {
-    this.greenIndicatorClicked.emit();
-    console.log('Green indicator clicked!');
+    this.greenIndicatorClicked.emit(this.index);
   }
   /**
    * Method for manage the click on the red indicator, emit an event and log a message
    */
   onRedIndicatorClick(): void {
-    this.redIndicatorClicked.emit();
-    console.log('Red indicator clicked! Resetting values.');
+    this.redIndicatorClicked.emit(this.index);
   }
-  /*
-    * Method for manage the change of the name input, validate the length and update the error message
-    * @param event - The input event containing the new value
-    */
-  onNameChange(event: any): void {
-    if (this.name.length >= 50) {
+  onDescriptionChange(event: any): void {
+    if (this.level.description.length >= 50) {
       this.error = 'El nombre no puede exceder los 50 caracteres';
-      this.name = this.name.substring(0, 50);
-    } 
-    else {
+      this.level.description = this.level.description.substring(0, 50);
+    } else {
       this.error = '';
     }
+    this.levelChange.emit({index: this.index, level: this.level});
+  }
+
+  onPercentageChange(event: any): void {
+    this.levelChange.emit({index: this.index, level: this.level});
   }
   /**
    * Method to validate the level before submission 
    *  
    * */
   validateLevel(): boolean {
-    if (!this.name.trim()) {
+    if (!this.description.trim()) {
       this.error = 'El nombre no puede estar vacío';
       return false;
     }
-    if (this.name.length > 50) {
+    if (this.description.length > 50) {
       this.error = 'El nombre no puede exceder los 50 caracteres';
       return false;
     }

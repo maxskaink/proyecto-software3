@@ -1,30 +1,47 @@
 
 <div class="overlay">
     <app-template-header-title [variant]="'secondary'" [title]="'Crear rubrica'" [description]="'Crea aqui tu rubrica'"></app-template-header-title>    
-   
+
+    
     <div class=" bodyContent">
-        <section class="row mb-5">
+        <section class="sectionDescription p-4">
+            <h2>
+                <span class="title angular-brackets">Rubrica</span>
+                <p>Escribe la description de tu rubrica </p>
+                <textarea class="description-input" name="description" id="description">
+                    Escribe aqui la descripcion de tu rubrica
+                </textarea>
+            </h2>
+        </section>
+        <section class="row mb-5 sectionCriterions">
             <div class="col-12">
                 <div class=" p-4">
                     <h2 class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
                     <div class="">
-                        <app-template-rubric-create-criterion></app-template-rubric-create-criterion>
+                        <app-template-rubric-create-criterion
+                        [idRubric]="idRubric"
+                        (criterionAdded)="onCriterionAdded($event)">>
+                        </app-template-rubric-create-criterion>
                         
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Lista de Criterios -->
+            <!-- Sección de Lista de Criterios -->
         <section class="row">
             <div class="col-12">
                 <div class=" p-4">
                     <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
                     <p class=" mb-4">Estos son los criterios que tienes creados hasta el momento</p>
-                    
+                        <div *ngFor=" let criterion of listCriterion" class="mb-3">
+                          <app-template-rubric-row
+                          [criterion]="criterion"></app-template-rubric-row>
+
+                        </div>
                     <!-- Lista de criterios -->
                     <div class="">
-                        <!-- Aquí irán los criterios -->
+                       
                     </div>
                 </div>
             </div>

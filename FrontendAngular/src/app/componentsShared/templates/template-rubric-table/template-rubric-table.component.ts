@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TemplateRubricRowComponent } from '../template-rubric-row/template-rubric-row.component';
 import { RubricDTO } from '../../../models/RubricDTO';
 import { CriterionDTO } from '../../../models/CirterionDTO';
+import { CriterionEntity } from '../../../models/CriterionEntity';
+import { LevelEntity } from '../../../models/LevelEntity';
 
 
 @Component({
@@ -14,18 +16,28 @@ import { CriterionDTO } from '../../../models/CirterionDTO';
 export class TemplateRubricTableComponent implements OnInit{
   
   @Input() rubric: RubricDTO| null = {} as RubricDTO ; 
-  @Input() isCreated: boolean = false; 
   descriptionRubric: string = '';
-  criterions: CriterionDTO[] | null = {} as CriterionDTO[];
-  // Assuming RubricDTO is imported from the correct path
+  
+  criterionEntities: CriterionEntity[] = [];
+  
   ngOnInit(): void {
     if (this.rubric && this.rubric.description) {
       this.descriptionRubric = this.rubric.description;
-      if( this.rubric.criteria && this.rubric.criteria.length > 0) {
-        this.criterions = this.rubric.criteria;
+      if (this.rubric.criteria && this.rubric.criteria.length > 0) {
+        this.criterionEntities = this.rubric.criteria.map(dto => this.mapCriterionDTOToEntity(dto));
       }
-
     }
+  }
+
+  private mapCriterionDTOToEntity(criterionDTO: CriterionDTO): CriterionEntity {
+    return {
+      name: criterionDTO.name,
+      weight: criterionDTO.weight,
+      levels: criterionDTO.levels.map(level => ({
+        description: level.description,
+        percentage: level.percentage
+      } as LevelEntity))
+    };
   }
 
 }

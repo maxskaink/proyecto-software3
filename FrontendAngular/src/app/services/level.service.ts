@@ -1,4 +1,5 @@
 import { LevelDTO } from '../models/LevelDTO';
+import { LevelEntity } from '../models/LevelEntity';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -30,7 +31,7 @@ export class LevelService {
     }
 
     // POST /level
-    assignLevelToCriterion(criterionId: number, data: Partial<LevelDTO>): Observable<LevelDTO> {
+    assignLevelToCriterion(criterionId: number, data: Partial<LevelEntity>): Observable<LevelDTO> {
         return this.http.post<LevelDTO>(`${this.baseUrl}/level/criterion/${criterionId}`, data)
         .pipe(
             catchError(this.handleError)

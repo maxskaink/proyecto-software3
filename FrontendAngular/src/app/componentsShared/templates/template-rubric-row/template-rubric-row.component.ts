@@ -5,6 +5,8 @@ import { LevelDTO } from '../../../models/LevelDTO';
 import { CriterionDTO } from '../../../models/CirterionDTO';
 import { MoleculeLevelBoxComponent } from '../../molecules/molecule-level-box/molecule-level-box.component';
 import { FormsModule } from '@angular/forms';
+import { CriterionEntity } from '../../../models/CriterionEntity';
+import { LevelEntity } from '../../../models/LevelEntity';
 
 @Component({
   selector: 'app-template-rubric-row',
@@ -13,17 +15,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './template-rubric-row.component.css'
 })
 export class TemplateRubricRowComponent implements OnInit{
-  @Input() criteria: CriterionDTO= {} as CriterionDTO;
-  levels: LevelDTO[] | null = {} as LevelDTO[]; 
+  @Input() criterion: CriterionEntity= {} as CriterionEntity;
+  levels: LevelEntity[] | null = {} as LevelEntity[]; 
   name: string = 'name Example';
   weight: number = 0; 
   constructor(){} 
   ngOnInit(): void {
-    if (this.criteria && this.criteria.name) {
-      this.name= this.criteria.name;
-      this.levels= this.criteria.levels;
-      this.weight = this.criteria.weight;
+    if (this.criterion && this.criterion.name) {
+      this.name= this.criterion.name;
+      this.levels= this.criterion.levels;
+      this.weight = this.criterion.weight;
     }
+
   }
 
 }

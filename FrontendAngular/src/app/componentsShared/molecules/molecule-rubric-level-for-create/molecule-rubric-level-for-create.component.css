@@ -9,6 +9,9 @@
 .percentage {
     margin-bottom: 30px;
 }
+.sectionLevel{
+    width: clamp(130px, 2vh, 200px);
+}
 .level-container {
     position: relative;
     display: flex;

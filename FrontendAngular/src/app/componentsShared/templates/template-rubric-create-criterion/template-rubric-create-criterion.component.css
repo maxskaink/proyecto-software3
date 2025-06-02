@@ -11,6 +11,20 @@
     color: #6c757d;
     margin-top: 0.5rem;
 }
+.level-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+.level-slot {
+    flex: 0 0 20%; /* 100% / 5 = 20% */
+    max-width: 20%;
+    min-height: 100px; /* Puedes ajustar esto según tu diseño */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 .form-control {
     background-color: #D9D9D9;

@@ -1,9 +1,10 @@
-<div class="d-flex flex-column align-items-center justify-content-center h-100 m-1"
+<div class="d-flex flex-column align-items-center justify-content-center h-100 m-1 sectionLevel"
      (mouseenter)="onLevelHover()" 
      (mouseleave)="onLevelLeave()">
-    <p class="weight text-center percentage">
-        {{percentage}}%
-    </p>
+     <input type="number" [(ngModel)]="level.percentage" 
+        class="form-control text-center percentage"
+        (ngModelChange)="onPercentageChange($event)"
+     min="0" max="100">
     <div class="level-container">
         <div class="level">
         </div>
@@ -17,11 +18,11 @@
         </div>
     </div>
     <div class="divider_y"></div>
-    <input type="text" [(ngModel)]="name" 
-           class="form-control text-center"
-           (ngModelChange)="onNameChange($event)"
-           placeholder="Level Name"
-           maxlength="50">
+    <input type="text" [(ngModel)]="level.description" 
+        class="form-control text-center"
+        (ngModelChange)="onDescriptionChange($event)"
+        placeholder="Level description"
+        maxlength="50">
     <div *ngIf="error" class="text-danger mt-1">
         {{error}}
     </div>

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LevelDTO } from '../../../models/LevelDTO';
+import { LevelEntity } from '../../../models/LevelEntity';
 
 @Component({
   selector: 'app-molecule-level-box',
@@ -9,7 +10,7 @@ import { LevelDTO } from '../../../models/LevelDTO';
 })
 export class MoleculeLevelBoxComponent implements OnInit{
   
-  @Input() level: LevelDTO | null = {} as LevelDTO; 
+  @Input() level: LevelEntity | null = {} as LevelEntity; 
   description: string = '';
   percentage: number = 0; 
   

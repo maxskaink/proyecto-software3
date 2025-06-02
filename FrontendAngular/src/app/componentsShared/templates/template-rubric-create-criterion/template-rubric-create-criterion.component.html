@@ -1,16 +1,17 @@
 <div class="container-fluid bodySection">
     <div class="row h-100">
-        <div class="col-12 col-md-3 mb-3">
+        <!-- Name input -->
+        <div class="col-12 col-lg-2 mb-3">
             <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
                 <div class="form-group text-center helpText">
                     <label for="criterionName" class="mb-2">Clickeame</label>
                     <textarea 
-                    class="form-control" 
-                    id="criterionName" 
-                    rows="3"
-                    [(ngModel)]="name"
-                    (input)="onInput()"
-                    style="resize: none;">{{name}}</textarea>
+                        class="form-control" 
+                        id="criterionName" 
+                        rows="3"
+                        [(ngModel)]="name"
+                        (input)="onInput()"
+                        style="resize: none;">{{name}}</textarea>
                     <div *ngIf="errors.name" class="text-danger mt-2">
                         {{ errors.name }}
                     </div>
@@ -18,12 +19,30 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 mb-3">
+        <!-- Levels section -->
+        <div class="col-12 col-lg-8 mb-3">
             <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
-                <app-molecule-rubric-level-for-create></app-molecule-rubric-level-for-create>
+              <div class="d-flex flex-row align-items-center justify-content-center level-container">
+                <ng-container *ngFor="let i of [0,1,2,3,4]">
+                  <div class="level-slot">
+                    <app-molecule-rubric-level-for-create
+                        *ngIf="Levels[i]"
+                        [level]="Levels[i]"
+                        [index]="i"
+                        (levelChange)="onLevelChange($event)"
+                        (greenIndicatorClicked)="handleGreenIndicator($event)"
+                        (redIndicatorClicked)="handleRedIndicator($event)">
+                    </app-molecule-rubric-level-for-create>
+                  </div>
+                </ng-container>
+          
+               
+              </div>
             </div>
         </div>
-        <div class="col-12 col-md-3 mb-3">
+          
+        <!-- Value input -->
+        <div class="col-12 col-lg-2 mb-3">
             <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
                 <div class="form-group text-center">
                     <label for="criterionValue" class="mb-2">Valor del nivel</label>
@@ -44,12 +63,12 @@
                 </div>
             </div>
         </div>
-        <div class=" container-fluid ">
+
+        <!-- Save button -->
+        <div class="container-fluid mb-3">
             <button 
-            class="btn container-fluid btn--guardar"
-            (click)="saveCriterion()">Guardar criterio</button>
+                class="btn container-fluid btn--guardar"
+                (click)="addCriterionWithLevels()">Guardar criterio</button>
         </div>
     </div>
-    
-
 </div>
