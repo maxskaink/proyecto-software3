@@ -47,6 +47,7 @@
           <app-template-competency-edit
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
+            (subjectId) ="getSubjectId()"
             *ngIf="isEdit">
           </app-template-competency-edit>
         </div>

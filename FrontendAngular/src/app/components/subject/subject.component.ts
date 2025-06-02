@@ -264,4 +264,24 @@ export class SubjectComponent {
       }
     });
   }
+
+  /**
+ * Returns the ID of the current subject.
+ * 
+ * @returns The subject ID if available, or undefined if no subject is loaded.
+ */
+getSubjectId(): number | undefined {
+  if (this.actualAsignature) {
+    return this.actualAsignature.id;
+  }
+  
+  // Si no hay asignatura cargada pero tenemos un ID de la URL
+  if (this.id !== -1) {
+    return this.id;
+  }
+
+  console.log(this.id);
+  
+  return undefined;
+}
 }

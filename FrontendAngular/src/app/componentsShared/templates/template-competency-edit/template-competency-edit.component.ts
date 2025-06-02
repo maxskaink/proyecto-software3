@@ -22,22 +22,29 @@ import { TemplateModalCreateOutcomeComponent } from '../../templates/template-mo
   styleUrl: './template-competency-edit.component.css'
 })
 export class TemplateCompetencyEditComponent {
+    // Input and Output properties
     @Input() competency!: SubjectCompetency;
     @Output() editStateChange = new EventEmitter<boolean>();
 
+    // Competency data
     editedCompetency: SubjectCompetency = {} as SubjectCompetency;
-     
-    outcomes$!: Observable<SubjectOutcome[]>;
     programCompetency$!: Observable<ProgramCompetency>;
     validationError: string = '';
-
-    // New properties for modal functionality
-    maxOutcomes: number = 3;
-    selectedOutcomes: SubjectOutcome[] = [];
-    createdOutcomes: SubjectOutcome[] = [];
+    
+    // Outcome management
+    outcomes$!: Observable<SubjectOutcome[]>; // Observable for displaying outcomes in UI
+    maxOutcomes: number = 3; // Maximum allowed outcomes
+    
+    // Separate lists for tracking outcomes
+    existingOutcomes: SubjectOutcome[] = []; // Outcomes loaded from database
+    newlySelectedOutcomes: SubjectOutcome[] = []; // Outcomes added during editing
+    selectedOutcomes: SubjectOutcome[] = []; // Combined list of all outcomes (for display and processing)
+    
+    // Modal configuration
     modalCreateDescription: string = 'Ingresa la descripcion del nuevo resultado de aprendizaje';
     modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
     
+    // Loading and error states
     loading = {
       outcomes: false,
       programCompetency: false
@@ -54,26 +61,28 @@ export class TemplateCompetencyEditComponent {
       private editStateService: EditStateService,
       private competencyService: SubjectCompetencyService,
       private router: Router,
-      private dialog: MatDialog // Added MatDialog
-    ) {
-    }
+      private dialog: MatDialog
+    ) { }
   
+    // Lifecycle methods
     ngOnInit(): void {
       if (this.competency) {
         this.loadOutcomes();
-        this.editedCompetency = {
-          ...this.competency
-        };
-        console.log('Outomces loaded:', this.outcomes$);
+        this.editedCompetency = { ...this.competency };
+        console.log('Outcomes loaded:', this.outcomes$);
       }
     }
 
+    // Data loading methods
     loadOutcomes(): void {
       this.loading.outcomes = true;
       this.outcomes$ = this.outcomeService.getOutcomesByCompetency(this.competency.id).pipe(
         tap(outcomes => {
           this.loading.outcomes = false;
-          this.selectedOutcomes = [...outcomes]; // Store outcomes for management
+          // Store original outcomes from database
+          this.existingOutcomes = [...outcomes];
+          // Initialize selected outcomes with existing ones
+          this.selectedOutcomes = [...outcomes];
         }),
         catchError(error => {
           console.error('Error loading outcomes:', error);
@@ -84,13 +93,14 @@ export class TemplateCompetencyEditComponent {
       );
     }
   
-  
-    // New methods for outcome management
+    // Outcome management methods
     hasMaxOutcomes(): boolean {
+      // Check if maximum outcome limit has been reached
       return this.selectedOutcomes.length >= this.maxOutcomes;
     }
 
     openModalReuse(): void {
+      // Open modal for reusing existing outcomes
       if (!this.competency.id) return;
 
       const currentSelectedOutcomes = [...this.selectedOutcomes];
@@ -118,24 +128,34 @@ export class TemplateCompetencyEditComponent {
     }
 
     private processReuseModalResult(result: SubjectOutcome[]): void {
-      // Service outcomes (positive IDs)
-      const serviceOutcomes = result.filter(outcome => outcome.id > 0);
+      // Process selected outcomes from reuse modal
       
-      // Created outcomes (negative or zero IDs)
-      const createdOutcomesInSelection = this.selectedOutcomes.filter(
-        outcome => outcome.id <= 0
-      );
+      // Outcomes from the database (positive IDs)
+      const reusedOutcomes = result.filter(outcome => outcome.id > 0);
       
-      // Combine both sets
-      this.selectedOutcomes = [...serviceOutcomes, ...createdOutcomesInSelection];
+      // Keep track of newly created outcomes (negative or zero IDs)
+      const newOutcomes = this.selectedOutcomes.filter(outcome => outcome.id <= 0);
+      
+      // Update tracking lists
+      this.newlySelectedOutcomes = [...reusedOutcomes.filter(
+        outcome => !this.existingOutcomes.some(existing => existing.id === outcome.id)
+      ), ...newOutcomes];
+      
+      // Combine existing and newly selected outcomes
+      this.selectedOutcomes = [...this.existingOutcomes, ...this.newlySelectedOutcomes];
       
       // Ensure max outcomes not exceeded
       if (this.selectedOutcomes.length > this.maxOutcomes) {
         this.selectedOutcomes = this.selectedOutcomes.slice(0, this.maxOutcomes);
+        // Update newly selected outcomes based on what remains in the combined list
+        this.newlySelectedOutcomes = this.selectedOutcomes.filter(
+          outcome => !this.existingOutcomes.some(existing => existing.id === outcome.id)
+        );
       }
     }
 
     openModalCreate(): void {
+      // Open modal for creating new outcomes
       if (!this.competency.id) return;
 
       const dialogRef = this.dialog.open(TemplateModalCreateOutcomeComponent, {
@@ -149,9 +169,9 @@ export class TemplateCompetencyEditComponent {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result && result.description) {
-          // Add new outcome to tracking arrays
-          this.createdOutcomes.push(result);
-          this.selectedOutcomes.push(result);
+          // Add new outcome to tracking lists
+          this.newlySelectedOutcomes.push(result);
+          this.selectedOutcomes = [...this.existingOutcomes, ...this.newlySelectedOutcomes];
           
           // Update the outcomes observable to reflect changes in the UI
           this.outcomes$ = of(this.selectedOutcomes);
@@ -159,17 +179,37 @@ export class TemplateCompetencyEditComponent {
       });
     }
 
-    // Method to remove an outcome if needed
     removeOutcome(outcome: SubjectOutcome): void {
+      // Remove an outcome from the selected list
       const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
+      
       if (index !== -1) {
+        // Check if it's an existing outcome or newly added one
+        if (this.existingOutcomes.some(existing => existing.id === outcome.id)) {
+          // If it's an existing outcome, remove it from existingOutcomes
+          const existingIndex = this.existingOutcomes.findIndex(e => e.id === outcome.id);
+          if (existingIndex !== -1) {
+            this.existingOutcomes.splice(existingIndex, 1);
+          }
+        } else {
+          // If it's a newly added outcome, remove it from newlySelectedOutcomes
+          const newIndex = this.newlySelectedOutcomes.findIndex(n => n.id === outcome.id);
+          if (newIndex !== -1) {
+            this.newlySelectedOutcomes.splice(newIndex, 1);
+          }
+        }
+        
+        // Remove from combined list
         this.selectedOutcomes.splice(index, 1);
+        
         // Update the outcomes observable
         this.outcomes$ = of(this.selectedOutcomes);
       }
     }
     
+    // Validation and action methods
     validateInputs(): boolean {
+      // Validate required fields before saving
       if (!this.editedCompetency.description || this.editedCompetency.description.trim() === '') {
         this.validationError = 'La descripción de la competencia es obligatoria.';
         return false;
@@ -181,14 +221,16 @@ export class TemplateCompetencyEditComponent {
       this.validationError = '';
       return true;
     }
+    
     onSaveClick(): void {
+      // Save competency changes
       if (!this.validateInputs()) return;
 
       this.competencyService.updateCompetency(this.competency.id, this.editedCompetency).subscribe({
         next: () => {
           this.editStateService.setEditState(false);
           this.editStateChange.emit(false);
-          },
+        },
         error: (error) => {
           console.error('Error updating competency:', error);
         }
@@ -196,28 +238,28 @@ export class TemplateCompetencyEditComponent {
     }
     
     onCancelClick(): void {
+      // Cancel editing and restore original state
       this.editStateService.setEditState(false);
       this.editStateChange.emit(false);
     }
-    onAddOutcome():void{
-
+    
+    onAddOutcome(): void {
+      // Placeholder for adding outcomes
+      // Implementation depends on specific requirements
     }
 
     goToOutcome(outcome: SubjectOutcome, index: number): void {
-      // Usar el ID real del outcome si está disponible
+      // Navigate to outcome detail page
       const outcomeId = outcome.id;
       
       this.router.navigate(['/home/subject/competency/subject/outcome'], {
           queryParams: {
               outcomeId: outcomeId,
-              // Agregar otros parámetros necesarios si los hay
           }
       }).then(() => {
-          console.log('Navegando al outcome:', outcomeId);
+          console.log('Navigating to outcome:', outcomeId);
       }).catch(error => {
-          console.error('Error en la navegación:', error);
+          console.error('Navigation error:', error);
       });
     }
- 
-
 }
