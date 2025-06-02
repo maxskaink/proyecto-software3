@@ -1,12 +1,13 @@
-<div class="">
-  <div
-    class="divididerUp d-flex justify-content-between align-items-center p-5"
-  >
-    <div class="title-container">
-      <h2 class="titleSection">Editar Competencia</h2>
-    </div>
+<!-- Divider -->
+<div
+  class="divididerUp d-flex justify-content-between align-items-center p-5">
+  <div class="title-container">
+    <h2 class="titleSection">Editar Competencia</h2>
   </div>
-  <div class="bodyContent container-fluid">
+</div>
+<div class="bodyContent container-fluid">
+  <!-- Section description actual -->
+  <section class="sectionDescriptionActual">
     <h2 class="description">{{ competency.description }}</h2>
     <ng-container
       *ngIf="programCompetency$ | async as programComp; else loadingProgramComp"
@@ -21,101 +22,92 @@
         Error al cargar la competencia del programa
       </p>
     </ng-template>
-
-    <hr class="m-3" />
-    <div class="d-flex mb-3">
-      <button
-        class="btn btn-light custom-hover custom-btn w-50 me-2"
-        (click)="openModalReuse()"
-      >
-        <i class="bi bi-arrow-repeat me-2"></i>
-        Reutilizar RA
-      </button>
-      <!-- Modificar el botón Crear RA -->
-      <button
-        class="btn btn-dark custom-btn create-ra-btn w-50"
-        [ngClass]="{ 'ms-auto': true }"
-        [disabled]="hasMaxOutcomes()"
-        (click)="openModalCreate()"
-      >
-        <i class="bi bi-plus-lg me-2"></i>
-        Crear RA
-      </button>
-    </div>
-    <label for="inputBox" class="form-label small text-muted mb-0">
+  </section>
+  
+  <!-- separator -->
+  <hr class="m-4" />
+  <!-- Section Reuse and Create RA -->
+  <div class="d-flex sectionButtonsReuse ">
+    <button class="btn btn-light custom-hover custom-btn w-50 d-flex align-items-center justify-content-center"
+      (click)="openModalReuse()">
+      <i class="bi bi-arrow-repeat me-2"></i>
+      <p class="text-button mb-0">Reutilizar RA</p>  
+    </button>
+    <button class="btn btn-dark custom-btn create-ra-btn w-50 d-flex align-items-center  justify-content-center"
+      [ngClass]="{ 'ms-auto': true }"
+      [disabled]="hasMaxOutcomes()"
+      (click)="openModalCreate()">
+      <i class="bi bi-plus-lg me-2"></i>
+      <p class="text-button mb-0">Crear RA</p>
+    </button>
+  </div>
+  <!-- Section description edit descriptio --> 
+  <section class="sectionDescription">
+    <label for="inputBox" class="form-label small text-muted ">
       &lt;Ingresa la nueva descripcion de tu competencia&gt;
     </label>
 
-    <textarea
+    <input
       id="inputBox"
-      class="input__box w-100 mb-2 mt-1 flex-grow-1"
+      type="text"
+      class="input__box w-100 mb-2 mt-1 flex-grow-1 competency-input"
       [(ngModel)]="editedCompetency.description"
       [class.is-invalid]="!editedCompetency.description.trim()"
-      style="
-        resize: none;
-        padding: 8px;
-        text-align: left;
-        vertical-align: top;
-        min-height: 120px;
-      "
-    ></textarea>
+    />
+    <p *ngIf="!editedCompetency.description?.trim()"
+    class="text-danger validation-message text-center">La descripción es obligatoria</p>
 
-    <p
-      *ngIf="!editedCompetency.description?.trim()"
-      class="text-danger validation-message text-center"
-    >
-      La descripción es obligatoria
-    </p>
-
-    <div class="mb-4"></div>  <!-- Reverted back to mb-4 -->
-
-    <section
-      class="raContent d-flex justify-content-center flex-column align-items-center"
-    >
-      <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-        <div
-          *ngFor="let outcome of outcomes; let i = index"
-          class="sectionOutcomes"
-          (click)="goToOutcome(outcome, i)"
-        >
-          <app-molecule-out-come
-            [outcomeNumber]="i + 1"
-            [outcome]="outcome.description"
-          ></app-molecule-out-come>
-        </div>
-        <p *ngIf="outcomes.length === 0" class="text-muted">
-          No hay resultados de aprendizaje. ¡Crea o reutiliza uno!
-        </p>
-      </ng-container>
-      <ng-template #loadingOutcomes>
-        <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-        <p *ngIf="error.outcomes">
-          Error al cargar los resultados de aprendizaje
-        </p>
-      </ng-template>
-    </section>
+  </section>
+  
+  <div class="mb-4"></div>  <!-- Reverted back to mb-4 -->
+  <!-- Section Outcomes  --> 
+  <section
+    class="raContent d-flex justify-content-center flex-column align-items-center">
+    <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
+      <div
+        *ngFor="let outcome of outcomes; let i = index"
+        class="sectionOutcomes"
+        (click)="goToOutcome(outcome, i)"
+      >
+        <app-molecule-out-come
+          [outcomeNumber]="i + 1"
+          [outcome]="outcome.description"
+        ></app-molecule-out-come>
+      </div>
+      <p *ngIf="outcomes.length === 0" class="text-muted">
+        No hay resultados de aprendizaje. ¡Crea o reutiliza uno!
+      </p>
+    </ng-container>
+    <ng-template #loadingOutcomes>
+      <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
+      <p *ngIf="error.outcomes">
+        Error al cargar los resultados de aprendizaje
+      </p>
+    </ng-template>
+  
+  </section>
+   <!-- Section of buttons save and cancel --> 
+  <section>
+    <!-- Sección de botones de RA -->
     <div class="button-container mt-2">
-      <!-- Sección de botones de RA -->
-      <div class="button-container mt-2">
-        <!-- Separador visual -->
-        <hr class="my-3" />
+      <!-- Separador visual -->
+      <hr class="my-3" />
 
-        <!-- Sección de botones de acción alineados a la izquierda -->
-        <div class="d-flex justify-content-start w-100 mt-4">
-          <button
-            class="btn__basic btn__save btn__action me-4"
-            (click)="onSaveClick()"
-          >
-            Guardar cambios
-          </button>
-          <button
-            class="btn__basic btn__cancel btn__action"
-            (click)="onCancelClick()"
-          >
-            Cancelar cambios
-          </button>
-        </div>
+      <!-- Sección de botones de acción -->
+      <div class="d-flex flex-wrap justify-content-start  w-100 mt-4">
+        <button
+          class="btn__basic btn__save btn__action me-4 mb-2 mb-md-0"
+          (click)="onSaveClick()"
+        >
+          Guardar cambios
+        </button>
+        <button
+          class="btn__basic btn__cancel btn__action mb-2 mb-md-0"
+          (click)="onCancelClick()"
+        >
+          Cancelar cambios
+        </button>
       </div>
     </div>
-  </div>
+  </section>
 </div>

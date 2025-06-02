@@ -7,9 +7,9 @@
     <div class="col-12 col-md-6 d-flex flex-column justify-content-center infoBasicAsignature">
       <h1 class="title">{{ title }}</h1>
       <p class="description">{{ description }}</p>
-      <div class="d-flex flex-column flex-sm-row gap-2">
-        <button class="btn " (click)="goToCompetency()">Ver competencias</button>
-        <button class="btn " (click)="goToCreateCompetency()">Crear competencias</button>
+      <div class="d-flex flex-column gap-2">
+        <button class="btn" (click)="goToCompetency()">Ver competencias</button>
+       <button class="btn" (click)="goToCreateCompetency()">Crear competencias</button>
       </div>
     </div>
 
@@ -22,6 +22,16 @@
   <section id="competencySection" class="sectionCompetency ">
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
+        <div class="carousel-indicators ">
+          <button *ngFor="let comp of listCompetency; let i = index"
+                  type="button"
+                  [class.active]="i === currentIndex"
+                  [attr.aria-current]="i === currentIndex"
+                  [attr.aria-label]="'Slide ' + (i + 1)"
+                  data-bs-target="#competencyCarousel"
+                  [attr.data-bs-slide-to]="i">
+          </button>
+        </div>
         <div *ngFor="let competency of listCompetency; let i = index"
              class="carousel-item"
              [class.active]="i === currentIndex">
