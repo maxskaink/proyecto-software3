@@ -4,7 +4,16 @@
     width: 100%;
     height: 85px; /* Slightly increased from 80px */
 }
-
+/**Sections css*/
+.sectionDescription {
+  margin-top: 10px;
+}
+.sectionButtonsReuse{
+  margin-top: 5%;
+}
+.sectionDescriptionActual{
+  margin-top: 5%;
+}
 .title-container {
     flex: 1;
 }
@@ -45,6 +54,9 @@
 .bodyContent {
   padding: 2.5% 12% 4% 12%; /* Increased top padding from 2% to 2.5% */
   background-color: #E9E9E9;
+  min-height: 60rem; /* Set a minimum height */
+  height: auto; /* Allow the height to grow based on content */
+  overflow: visible; /* Ensure content that exceeds the container is visible */
 }
 .sectionOutcomes {
     width: 100%; /* Establece el ancho base al 100% del contenedor */
@@ -148,7 +160,10 @@
 .custom-btn {
   border-radius: 999px;
   font-weight: 600;
-  height: 40px;
+  height: clamp(40px, 5vh, 50px);
+}
+.text-button{
+  font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
 .custom-hover:hover {
@@ -238,7 +253,7 @@
 
 .input__box {
   width: 80%;
-  height: 50%;
+  height: clamp(100px, 2vh, 140px);
   background-color: #D9D9D9;
   border: 1px solid #D9D9D9;
   padding: 0.5rem;
