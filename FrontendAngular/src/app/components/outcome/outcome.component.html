@@ -7,20 +7,20 @@
       <h1 class="title">{{title}}</h1>
       <div class="d-flex align-items-center gap-3">
         <p class="description mb-0">{{description}}</p>
-        <i class="bi bi-pencil-square iconEdit" (click)="editDescriptio()"></i>
+        <i class="bi bi-pencil-square iconEdit" (click)="editDescription()"></i>
       </div>
     </div>
 
     <div *ngIf="isEditDescription">
       <h1 class="title">{{title}}</h1>
       <div class="d-flex flex-column gap-3">
-        <input type="text" 
-              class="form-control" 
-              [(ngModel)]="description" 
+        <input type="text"
+              class="form-control"
+              [(ngModel)]="description"
               placeholder="Ingrese la descripción">
         <div class="d-flex gap-2">
           <button class="btn btn-save" (click)="saveDescription()">Guardar</button>
-          <button class="btn btn-cancel" (click)="editDescriptio()">Cancelar</button>
+          <button class="btn btn-cancel" (click)="editDescription()">Cancelar</button>
         </div>
       </div>
     </div>
@@ -36,8 +36,8 @@
     </section>
   <section id="rubryc" class="sectionRubric ">
 
-    <app-template-rubric-table 
-    *ngIf="currentRubric && currentRubric.id" 
+    <app-template-rubric-table
+    *ngIf="currentRubric && currentRubric.id"
     [rubric]="currentRubric">
     </app-template-rubric-table>
 
@@ -46,11 +46,17 @@
     </div>
 
     <section class="m-4" id="evaluators">
-      <h2 class="subtitle">
+<!--      <h2 class="subtitle">
         Evaludadores
-      </h2>
-    
+      </h2>-->
+      <app-template-list-teachers
+        [title]="'Evaluadores asignados'"
+        [description]="'Lista de evaluadores asignados a la RA'"
+        [listTeachers]="evaluators"
+      >
+      </app-template-list-teachers>
+
     </section>
-    
+
   </section>
 </div>

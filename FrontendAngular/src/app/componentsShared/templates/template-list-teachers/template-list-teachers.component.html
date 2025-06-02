@@ -3,8 +3,8 @@
       <h1 class="fw-bold">{{ title }}</h1>
       <p class="fs-5">{{ description }}</p>
     </div>
-  
-    <div *ngFor="let user of listTeacherDTO">
+
+    <div *ngFor="let user of listTeachers">
         <app-molecule-block-user [name]="user.name" [role]="user.role"></app-molecule-block-user>
     </div>
   </div>
