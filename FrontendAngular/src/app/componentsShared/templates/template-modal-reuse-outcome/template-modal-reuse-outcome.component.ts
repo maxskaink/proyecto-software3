@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError, Observable, of, tap, map } from 'rxjs';
+import { catchError, Observable, of, tap, map, switchMap } from 'rxjs';
 
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
@@ -37,7 +37,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
   terms: TermDTO[] = [];
   allSelectedOutcomes: SubjectOutcome[] = [];
   currentTermOutcomes: SelectableOutcome[] = []; // Stores outcomes for current term
-  
+
   loading = {
     outcomes: false,
     terms: false
@@ -59,7 +59,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
     },
     private outcomeService: SubjectOutomeService,
     private termService: TermService
-  ) { 
+  ) {
     this.allSelectedOutcomes = [...data.selectedOutcomes];
   }
 
@@ -72,18 +72,40 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
   // Load available terms
   private loadTerms(): void {
     this.loading.terms = true;
-    this.termService.getTerms().subscribe({
-      next: (terms) => {
-        this.terms = terms;
+    console.log('Iniciando carga de términos...');
+
+    // Primero obtenemos el término activo
+    this.termService.getActiveTerm().pipe(
+      tap(activeTerm => {
+        console.log('Término activo obtenido:', activeTerm);
+      }),
+      // Luego obtenemos todos los términos
+      switchMap(activeTerm => {
+        return this.termService.getTerms().pipe(
+          // Filtramos el término activo de la lista
+          map(terms => {
+            console.log('Todos los términos obtenidos:', terms);
+            return terms.filter(term => term.id !== activeTerm.id);
+          })
+        );
+      })
+    ).subscribe({
+      next: (filteredTerms) => {
+        console.log('Términos filtrados (sin el activo):', filteredTerms);
+        this.terms = filteredTerms as TermDTO[];
         this.loading.terms = false;
-        
-        // Select first term by default
+
+        // Seleccionar el primer término por defecto
         if (this.terms.length > 0) {
+          console.log('Seleccionando el primer término por defecto:', this.terms[0]);
           this.selectedOption = this.formatTermOption(this.terms[0]);
           this.onTermChange();
+        } else {
+          console.log('No hay términos disponibles después de filtrar');
         }
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error al cargar términos:', err);
         this.error.terms = true;
         this.loading.terms = false;
       }
@@ -103,7 +125,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
   // Get the ID of the selected term
   private getSelectedTermId(): number {
     const selectedTermDesc = this.selectedOption.trim();
-    const selectedTerm = this.terms.find(term => 
+    const selectedTerm = this.terms.find(term =>
       this.formatTermOption(term) === selectedTermDesc
     );
     return selectedTerm?.id || -1;
@@ -117,7 +139,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
   loadOutcomes(): void {
     const termId = this.getSelectedTermId();
     if (termId === -1) return;
-    
+
     this.loading.outcomes = true;
     this.outcomes$ = this.outcomeService.getOutcomesBySubjectAndTerm(this.data.subjectId, termId).pipe(
       map(outcomes => outcomes.map(outcome => {
@@ -125,14 +147,14 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
         const isSelected = this.allSelectedOutcomes.some(
           selected => selected.id === outcome.id
         );
-        
+
         // Check if description already exists in selected outcomes
         const isDuplicate = this.allSelectedOutcomes.some(
-          selected => 
+          selected =>
             selected.id !== outcome.id && // Not the same outcome
             selected.description.trim().toLowerCase() === outcome.description.trim().toLowerCase() // Same description
         );
-        
+
         return {
           ...outcome,
           selected: isSelected,
@@ -143,7 +165,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
         // Update total selected count
         this.selectedCount = this.allSelectedOutcomes.length;
         this.loading.outcomes = false;
-        
+
         // Save reference to current term outcomes
         this.currentTermOutcomes = [...outcomes];
       }),
@@ -160,7 +182,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
     if (this.selectedOption) {
       // Save current selections before changing
       this.saveCurrentTermSelections();
-      
+
       // Load outcomes for new term
       this.loadOutcomes();
     }
@@ -173,12 +195,12 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
       this.processSelectionToggle(outcome);
       return;
     }
-    
+
     // Don't allow selection if duplicate or exceeds max limit
     if (outcome.isDuplicate || this.selectedCount >= (this.data.maxOutcomes || 3)) {
       return;
     }
-    
+
     // Process selection if all checks pass
     this.processSelectionToggle(outcome);
   }
@@ -190,7 +212,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
       let updatedOutcomes = outcomes.map(o => {
         if (o.id === outcome.id) {
           const newSelected = !o.selected;
-          
+
           // Update global selected outcomes list
           if (newSelected) {
             if (!this.allSelectedOutcomes.some(so => so.id === o.id)) {
@@ -199,32 +221,32 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
           } else {
             this.allSelectedOutcomes = this.allSelectedOutcomes.filter(so => so.id !== o.id);
           }
-          
+
           // Update total counter
           this.selectedCount = this.allSelectedOutcomes.length;
-          
+
           return { ...o, selected: newSelected };
         }
         return o;
       });
-      
+
       // Recalculate duplicates based on global list
       updatedOutcomes = updatedOutcomes.map(o => {
         // Don't mark as duplicate if already selected
         if (o.selected) return o;
-        
+
         // Check if it's a duplicate by comparing with global list
         const isDuplicate = this.allSelectedOutcomes.some(
-          selected => 
+          selected =>
             selected.id !== o.id && // Not the same outcome
             selected.description.trim().toLowerCase() === o.description.trim().toLowerCase() // Same description
         );
-        
+
         return { ...o, isDuplicate: isDuplicate };
       });
-      
+
       this.outcomes$ = of(updatedOutcomes);
-      
+
       // Update reference to current outcomes
       this.currentTermOutcomes = [...updatedOutcomes];
     });
@@ -255,7 +277,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
             const existingIndex = this.allSelectedOutcomes.findIndex(
               o => o.id === outcome.id
             );
-            
+
             if (existingIndex === -1) {
               // Add if not exists
               this.allSelectedOutcomes.push(outcome);
@@ -267,7 +289,7 @@ export class TemplateModalReuseOutcomeComponent implements OnInit {
             );
           }
         });
-        
+
         // Save reference to current outcomes
         this.currentTermOutcomes = [...outcomes];
       });
