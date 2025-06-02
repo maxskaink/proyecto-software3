@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { TeacherDTO } from '../models/TeacherDTO';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -37,11 +38,11 @@ export class AuthService {
     // El listener onAuthStateChanged se encargará de actualizar role, name y usuario actual
   }
 
+  /**
+   * Check if the user is logged in
+   */
   get isLoggedIn$(): Observable<boolean> {
     return this.currentUserSubject.asObservable().pipe(
-      // Puedes usar map si importas 'map' de rxjs
-      // map(user => !!user)
-      // O simplemente:
       (source) => new Observable(subscriber => {
         source.subscribe(user => subscriber.next(!!user));
       })
@@ -68,7 +69,9 @@ export class AuthService {
   logout() {
     return signOut(this.afAuth);
   }
-
+  /**
+   * Get the current user's ID token
+   */
   async getToken(): Promise<string | null> {
     const user = await firstValueFrom(
       this.currentUser.pipe(
@@ -77,10 +80,70 @@ export class AuthService {
     );
     return user.getIdToken();
   }
-
-  // Placeholder para getAllUsers, implementa según tu lógica
-  getAllUsers(): Observable<any[]> {
-    // Implementa aquí tu lógica para obtener todos los usuarios
-    return new Observable<any[]>(); // Cambia esto por tu implementación real
+  /**
+   * Receive the user for map to TeacherDTO
+   * 
+   */
+  private mapToTeacherDTO(userData: any): TeacherDTO {
+    return {
+      academicTitle: userData.academicTitle || '',
+      identification: userData.identification || 0,
+      identificationType: userData.identificationType || '',
+      lastName: userData.lastName || '',
+      name: userData.name || '',
+      role: userData.role || '',
+      typeTeacher: userData.typeTeacher || ''
+    };
   }
+
+
+  /**
+   * Get all User of firebase and  map the user whit mapToTEacherDTO()
+   */
+  getAllUsers(): Observable<TeacherDTO[]> {
+    return new Observable<TeacherDTO[]>((subscriber) => {
+      (async () => {
+        try {
+          const usersCollection = doc(this.firestore, 'SERA');
+          const usersSnapshot = await getDoc(usersCollection);
+          if (usersSnapshot.exists()) {
+            const usersData = usersSnapshot.data();
+            const teachersDTO = Object.keys(usersData)
+              .map(key => this.mapToTeacherDTO(usersData[key]));
+            subscriber.next(teachersDTO);
+          } else {
+            subscriber.next([]);
+          }
+          subscriber.complete();
+        } catch (error) {
+          subscriber.error(error);
+        }
+      })();
+    });
+  }
+
+  /**
+   * Get a user by ID and map the user to TeacherDTO
+   * @param userId - The ID of the user to retrieve
+   * @returns An observable that emits the TeacherDTO of the user
+   */
+  getUserById(userId: string): Observable<TeacherDTO> {
+    return new Observable<TeacherDTO>((subscriber) => {
+      (async () => {
+        try {
+          const userDoc = await getDoc(doc(this.firestore, 'SERA', userId));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            subscriber.next(this.mapToTeacherDTO(userData));
+          } else {
+            subscriber.error(new Error('User not found'));
+          }
+          subscriber.complete();
+        } catch (error) {
+          subscriber.error(error);
+        }
+      })();
+    });
+  }
+
 }
