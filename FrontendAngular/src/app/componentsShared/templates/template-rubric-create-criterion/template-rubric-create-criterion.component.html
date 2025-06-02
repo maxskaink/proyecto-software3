@@ -1,1 +1,55 @@
-<p>template-rubric-create-criterion works!</p>
+<div class="container-fluid bodySection">
+    <div class="row h-100">
+        <div class="col-12 col-md-3 mb-3">
+            <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
+                <div class="form-group text-center helpText">
+                    <label for="criterionName" class="mb-2">Clickeame</label>
+                    <textarea 
+                    class="form-control" 
+                    id="criterionName" 
+                    rows="3"
+                    [(ngModel)]="name"
+                    (input)="onInput()"
+                    style="resize: none;">{{name}}</textarea>
+                    <div *ngIf="errors.name" class="text-danger mt-2">
+                        {{ errors.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+            <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
+                <!-- Contenido central -->
+            </div>
+        </div>
+        <div class="col-12 col-md-3 mb-3">
+            <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
+                <div class="form-group text-center">
+                    <label for="criterionValue" class="mb-2">Valor del nivel</label>
+                    <div class="input-group">
+                        <input type="number" 
+                               class="form-control" 
+                               id="criterionValue" 
+                               [(ngModel)]="weight"
+                               (input)="onInput()"
+                               value="0"
+                               min="0"
+                               max="100">
+                        <span class="input-group-text number--big">%</span>
+                    </div>
+                    <div *ngIf="errors.value" class="text-danger mt-2">
+                        {{ errors.value }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" container-fluid ">
+            <button 
+            class="btn container-fluid btn--guardar"
+            (click)="saveCriterion()">Guardar criterio</button>
+        </div>
+    </div>
+    
+
+</div>

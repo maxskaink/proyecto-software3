@@ -1,8 +1,8 @@
 .divididerUp {
-    background-color: #553C53;
+    background-color: #6C3668;
     color: white;
     width: 100%;
-    height: 100px;
+    height: 85px; /* Slightly increased from 80px */
 }
 
 .title-container {
@@ -17,6 +17,7 @@
     color: #c5c5c5;
     font-size: 35px;
     margin: 0;
+
 }
 
 .icon {
@@ -38,12 +39,12 @@
 }
 
 .titleSection{
-    color: #c5c5c5;
+    color: #ECF4F1;
     font-size: 35px;
 }
-.bodyContent{
-    padding: 4% 12%;
-
+.bodyContent {
+  padding: 2.5% 12% 4% 12%; /* Increased top padding from 2% to 2.5% */
+  background-color: #E9E9E9;
 }
 .sectionOutcomes {
     width: 100%; /* Establece el ancho base al 100% del contenedor */
@@ -131,13 +132,15 @@
 }
 .form-control{
     height: 100px;
-    background-color: #ECF4F1;
+    background-color: #D9D9D9;
 }
+
 .description {
-    margin-top: 20px;
+    margin-top: 10px; /* Added a small top margin */
+    margin-bottom: 25px;
     font-weight: 900;
     font-size: clamp(2rem, 3vw, 3rem);
-    max-width: 90%;
+    max-width: 80%;
 }
 
 
@@ -182,4 +185,95 @@
 
 .buton_cancel:hover {
     background-color: #B83238;
+}
+
+/* Estilos mejorados para botones de acción */
+.btn__basic {
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn__action {
+  padding: 14px 36px;
+  font-size: 1.2rem;
+  min-width: 220px;
+  height: 55px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
+}
+
+.btn__save {
+  background-color: #5E9E73;
+  color: white;
+}
+
+.btn__save:hover {
+  background-color: #3C866A;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn__cancel {
+  background-color: #A65256;
+  color: white;
+}
+
+.btn__cancel:hover {
+  background-color: #B83238;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Alineación de iconos dentro de los botones */
+.btn__action i {
+  font-size: 1.2rem;
+}
+
+
+.input__box {
+  width: 80%;
+  height: 50%;
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin: 20px auto;
+  display: block;
+}
+
+.input__box:hover {
+  background-color: #C5C5C5;
+  border-color: #C5C5C5;
+}
+
+/* Styles for the "Crear RA" button */
+.create-ra-btn {
+  background-color: #FFF !important;
+  color: #000000 !important;
+  border-color: #ECF4F1 !important;
+}
+
+
+.create-ra-btn:hover {
+  background-color: #6C3668 !important;
+  color: #FFF !important;
+}
+
+/* Styles for the "Reutilizar RA" button */
+.btn-light.custom-hover.custom-btn {
+  background-color: #FFF !important;
+  color: #000000 !important;
+  border-color: #ECF4F1 !important;
+}
+
+.btn-light.custom-hover.custom-btn:hover {
+  background-color: #6C3668 !important;
+  color: #FFF !important;
 }
