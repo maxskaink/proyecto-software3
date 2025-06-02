@@ -6,6 +6,7 @@ import unicauca.coreservice.application.in.LevelInt;
 import unicauca.coreservice.application.out.CriterionRepositoryOutInt;
 import unicauca.coreservice.application.out.IAuthorizationService;
 import unicauca.coreservice.application.out.LevelRepositoryOutInt;
+import unicauca.coreservice.domain.exception.InvalidValue;
 import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.domain.model.Criterion;
 import unicauca.coreservice.domain.model.Level;
@@ -33,6 +34,9 @@ public class LevelService implements LevelInt {
         if (criterionOpt.isEmpty()) {
             throw criterionWrapper.getException();
         }
+
+        if(criterionOpt.get().getLevels().size() >=5)
+            throw new InvalidValue("The criterion " + criterionId + " can have maximum 5 levels.");
 
         newLevel.setCriterion(criterionOpt.get());
 
