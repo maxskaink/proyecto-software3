@@ -55,6 +55,8 @@ export class SubjectOutomeService {
     if (error.error) {
       err = error.error;
     }
+
+    console.log('Error en SubjectOutcomeService:', err);
     return throwError(() => err);
   }
 }

@@ -1,6 +1,5 @@
 <!-- Divider -->
-<div
-  class="divididerUp d-flex justify-content-between align-items-center p-5">
+<div class="divididerUp d-flex justify-content-between align-items-center p-5">
   <div class="title-container">
     <h2 class="titleSection">Editar Competencia</h2>
   </div>
@@ -9,41 +8,32 @@
   <!-- Section description actual -->
   <section class="sectionDescriptionActual">
     <h2 class="description">{{ competency.description }}</h2>
-    <ng-container
-      *ngIf="programCompetency$ | async as programComp; else loadingProgramComp"
-    >
-      <p>Pertenece a: {{ programComp.description }}</p>
-    </ng-container>
-    <ng-template #loadingProgramComp>
-      <p *ngIf="loading.programCompetency">
-        Cargando competencia del programa...
-      </p>
-      <p *ngIf="error.programCompetency">
-        Error al cargar la competencia del programa
-      </p>
-    </ng-template>
   </section>
-  
+
   <!-- separator -->
   <hr class="m-4" />
   <!-- Section Reuse and Create RA -->
-  <div class="d-flex sectionButtonsReuse ">
-    <button class="btn btn-light custom-hover custom-btn w-50 d-flex align-items-center justify-content-center"
-      (click)="openModalReuse()">
+  <div class="d-flex sectionButtonsReuse">
+    <button
+      class="btn btn-light custom-hover custom-btn w-50 d-flex align-items-center justify-content-center"
+      (click)="openModalReuse()"
+    >
       <i class="bi bi-arrow-repeat me-2"></i>
-      <p class="text-button mb-0">Reutilizar RA</p>  
+      <p class="text-button mb-0">Reutilizar RA</p>
     </button>
-    <button class="btn btn-dark custom-btn create-ra-btn w-50 d-flex align-items-center  justify-content-center"
+    <button
+      class="btn btn-dark custom-btn create-ra-btn w-50 d-flex align-items-center justify-content-center"
       [ngClass]="{ 'ms-auto': true }"
       [disabled]="hasMaxOutcomes()"
-      (click)="openModalCreate()">
+      (click)="openModalCreate()"
+    >
       <i class="bi bi-plus-lg me-2"></i>
       <p class="text-button mb-0">Crear RA</p>
     </button>
   </div>
-  <!-- Section description edit descriptio --> 
+  <!-- Section description edit descriptio -->
   <section class="sectionDescription">
-    <label for="inputBox" class="form-label small text-muted ">
+    <label for="inputBox" class="form-label small text-muted">
       &lt;Ingresa la nueva descripcion de tu competencia&gt;
     </label>
 
@@ -54,39 +44,91 @@
       [(ngModel)]="editedCompetency.description"
       [class.is-invalid]="!editedCompetency.description.trim()"
     />
-    <p *ngIf="!editedCompetency.description?.trim()"
-    class="text-danger validation-message text-center">La descripción es obligatoria</p>
 
-  </section>
-  
-  <div class="mb-4"></div>  <!-- Reverted back to mb-4 -->
-  <!-- Section Outcomes  --> 
-  <section
-    class="raContent d-flex justify-content-center flex-column align-items-center">
-    <ng-container *ngIf="outcomes$ | async as outcomes; else loadingOutcomes">
-      <div
-        *ngFor="let outcome of outcomes; let i = index"
-        class="sectionOutcomes"
-        (click)="goToOutcome(outcome, i)"
+    <div
+      *ngIf="!editedCompetency.description?.trim()"
+      class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
+      role="alert"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-exclamation-triangle-fill me-2"
+        viewBox="0 0 16 16"
       >
-        <app-molecule-out-come
-          [outcomeNumber]="i + 1"
-          [outcome]="outcome.description"
-        ></app-molecule-out-come>
+        <path
+          d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span
+        ><strong>¡Atención!</strong> La descripcion de tu competencia no puede
+        estar vacio.</span
+      >
+    </div>
+  </section>
+
+  <div class="mb-4"></div>
+  <!-- Reverted back to mb-4 -->
+  <!-- Section Outcomes  -->
+  <section
+    class="raContent d-flex justify-content-center flex-column align-items-center"
+  >
+    <ng-container *ngIf="outcomes$ | async as outcomes">
+      <div *ngIf="hasOutcomes()" class="outcomes-container">
+        <!-- Cambia la sección de outcomes para evitar doble click y mejorar numeración -->
+        <div
+          *ngFor="let outcome of outcomes; let i = index"
+          class="sectionOutcomes"
+        >
+          <div class="outcome-cell">
+            <app-molecule-out-come
+              [outcome]="outcome.description"
+              [outcomeNumber]="i + 1"
+            >
+              <!-- Mantiene el número basado en posición -->
+            </app-molecule-out-come>
+          </div>
+          <div class="action-cell">
+            <button
+              class="ra-action-icon"
+              (click)="removeOutcome(outcome)"
+            >
+
+              ×
+            </button>
+          </div>
+        </div>
       </div>
-      <p *ngIf="outcomes.length === 0" class="text-muted">
+      <p *ngIf="!noOutcomesSended && !hasOutcomes()" class="text-muted">
         No hay resultados de aprendizaje. ¡Crea o reutiliza uno!
       </p>
+      <div
+        *ngIf="noOutcomesSended && !hasOutcomes()"
+        class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
+        role="alert"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-exclamation-triangle-fill me-2"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+          />
+        </svg>
+        <span
+          ><strong>¡Atención!</strong> Tu competencia debe tener al menos un
+          RA.</span
+        >
+      </div>
     </ng-container>
-    <ng-template #loadingOutcomes>
-      <p *ngIf="loading.outcomes">Cargando resultados de aprendizaje...</p>
-      <p *ngIf="error.outcomes">
-        Error al cargar los resultados de aprendizaje
-      </p>
-    </ng-template>
-  
   </section>
-   <!-- Section of buttons save and cancel --> 
+  <!-- Section of buttons save and cancel -->
   <section>
     <!-- Sección de botones de RA -->
     <div class="button-container mt-2">
@@ -94,7 +136,7 @@
       <hr class="my-3" />
 
       <!-- Sección de botones de acción -->
-      <div class="d-flex flex-wrap justify-content-start  w-100 mt-4">
+      <div class="d-flex flex-wrap justify-content-start w-100 mt-4">
         <button
           class="btn__basic btn__save btn__action me-4 mb-2 mb-md-0"
           (click)="onSaveClick()"

@@ -270,7 +270,7 @@ export class SubjectComponent {
  * 
  * @returns The subject ID if available, or undefined if no subject is loaded.
  */
-getSubjectId(): number | undefined {
+getSubjectId(): number  {
   if (this.actualAsignature) {
     return this.actualAsignature.id;
   }
@@ -280,8 +280,6 @@ getSubjectId(): number | undefined {
     return this.id;
   }
 
-  console.log(this.id);
-  
-  return undefined;
+  return 0;
 }
 }

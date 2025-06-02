@@ -8,11 +8,16 @@
 .sectionDescription {
   margin-top: 10px;
 }
-.sectionButtonsReuse{
-  margin-top: 5%;
+
+.sectionButtonsReuse {
+  margin-top: clamp(0.75rem, 1.5%, 1.5rem); /* Reducido desde 5% */
+}
+
+hr.m-4 {
+  margin-bottom: 0.75rem !important; /* Reducir el margen inferior específicamente */
 }
 .sectionDescriptionActual{
-  margin-top: 5%;
+  margin-top: 1.5%;
 }
 .title-container {
     flex: 1;
@@ -162,8 +167,8 @@
   font-weight: 600;
   height: clamp(40px, 5vh, 50px);
 }
-.text-button{
-  font-size: clamp(1rem, 2vw, 1.5rem);
+.text-button {
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem); 
 }
 
 .custom-hover:hover {
@@ -291,4 +296,89 @@
 .btn-light.custom-hover.custom-btn:hover {
   background-color: #6C3668 !important;
   color: #FFF !important;
+}
+
+.outcomes-container {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.sectionOutcomes{
+  display: flex;
+  border-radius: 4px;
+  align-items: stretch;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.sectionOutcomes:last-child {
+  margin-bottom: 0;
+}
+
+.sectionOutcomes:hover:not(.disabled-row) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(166, 82, 86, 0.3);
+  border-color: rgba(166, 82, 86, 0.3);
+}
+
+
+.outcome-cell {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.outcome-cell ::ng-deep app-molecule-out-come {
+  width: 100%;
+  display: flex;
+}
+
+.outcome-cell ::ng-deep * {
+  user-select: none;
+}
+
+
+.sectionOutcomes:hover:not(.disabled-row) .ra-action-icon:not(.disabled) {
+  transform: scale(1.1);
+  background-color: #B83238;
+}
+
+
+.ra-action-icon.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-cell {
+  width: 48px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.ra-action-icon {
+  border: none;
+  background-color: #A65256;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  transition: all 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  color: #ffff;
 }

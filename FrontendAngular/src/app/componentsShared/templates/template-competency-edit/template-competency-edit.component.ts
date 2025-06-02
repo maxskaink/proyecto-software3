@@ -1,11 +1,17 @@
-import { Component, EventEmitter, Inject, Input, Output, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  PLATFORM_ID,
+} from '@angular/core';
 import { SubjectCompetency } from '../../../models/SubjectCompetencyDTO';
 import { SubjectOutcome } from '../../../models/SubjectOutcomeDTO';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { ProgramCompetency } from '../../../models/ProgramCompetencyDTO';
 import { SubjectOutomeService } from '../../../services/subject_outcome.service';
-import { ProgramCompetencyService } from '../../../services/program-competency.service';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 import { SubjectCompetencyService } from '../../../services/subject_competency.service';
 import { FormsModule } from '@angular/forms';
@@ -15,251 +21,270 @@ import { MatDialog } from '@angular/material/dialog';
 import { TemplateModalReuseOutcomeComponent } from '../../templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
 import { TemplateModalCreateOutcomeComponent } from '../../templates/template-modal-create-outcome/template-modal-create-outcome/template-modal-create-outcome.component';
 
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-template-competency-edit',
   imports: [CommonModule, MoleculeOutComeComponent, FormsModule],
   templateUrl: './template-competency-edit.component.html',
-  styleUrl: './template-competency-edit.component.css'
+  styleUrl: './template-competency-edit.component.css',
 })
 export class TemplateCompetencyEditComponent {
-    // Input and Output properties
-    @Input() competency!: SubjectCompetency;
-    @Output() editStateChange = new EventEmitter<boolean>();
+  @Input() competency!: SubjectCompetency;
+  @Input() subjectId!: number;
+  @Output() editStateChange = new EventEmitter<boolean>();
 
-    // Competency data
-    editedCompetency: SubjectCompetency = {} as SubjectCompetency;
-    programCompetency$!: Observable<ProgramCompetency>;
-    validationError: string = '';
-    
-    // Outcome management
-    outcomes$!: Observable<SubjectOutcome[]>; // Observable for displaying outcomes in UI
-    maxOutcomes: number = 3; // Maximum allowed outcomes
-    
-    // Separate lists for tracking outcomes
-    existingOutcomes: SubjectOutcome[] = []; // Outcomes loaded from database
-    newlySelectedOutcomes: SubjectOutcome[] = []; // Outcomes added during editing
-    selectedOutcomes: SubjectOutcome[] = []; // Combined list of all outcomes (for display and processing)
-    
-    // Modal configuration
-    modalCreateDescription: string = 'Ingresa la descripcion del nuevo resultado de aprendizaje';
-    modalSelectPlaceholder: string = 'Selecciona el periodo al que pertenece el RA';
-    
-    // Loading and error states
-    loading = {
-      outcomes: false,
-      programCompetency: false
-    };
-    
-    error = {
-      outcomes: false,
-      programCompetency: false
-    };
-  
-    constructor(
-      private outcomeService: SubjectOutomeService, 
-      private competencyProgramService: ProgramCompetencyService,
-      private editStateService: EditStateService,
-      private competencyService: SubjectCompetencyService,
-      private router: Router,
-      private dialog: MatDialog
-    ) { }
-  
-    // Lifecycle methods
-    ngOnInit(): void {
-      if (this.competency) {
-        this.loadOutcomes();
-        this.editedCompetency = { ...this.competency };
-        console.log('Outcomes loaded:', this.outcomes$);
-      }
+  // Competency data
+  editedCompetency: SubjectCompetency = {} as SubjectCompetency;
+  programCompetency$!: Observable<ProgramCompetency>;
+  validationError: string = '';
+
+  // Solo necesitamos dos listas
+  originalOutcomes: SubjectOutcome[] = []; // Lista inmutable - estado original
+  currentOutcomes: SubjectOutcome[] = []; // Lista de trabajo - lo que se muestra en UI
+  outcomes$!: Observable<SubjectOutcome[]>; // Observable para la UI
+
+  // UI configuration
+  maxOutcomes: number = 3;
+  selectPlaceholder: string =
+    'Selecciona la competencia del programa para tu nueva competencia de asignatura';
+  selectLabelPlaceholder: string =
+    'Aquí puedes seleccionar la competencia del programa para tu nueva competencia de asignatura';
+  modalSelectPlaceholder: string =
+    'Selecciona el periodo al que pertenece el RA';
+  modalCreateDescription: string =
+    'Ingresa la descripcion del nuevo resultado de aprendizaje';
+  noOutcomesSended: boolean = false;
+
+  constructor(
+    private outcomeService: SubjectOutomeService,
+    private editStateService: EditStateService,
+    private competencyService: SubjectCompetencyService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
+
+  private initialized = false;
+
+  ngOnInit(): void {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    if (this.competency) {
+      this.editedCompetency = { ...this.competency };
+      this.loadOutcomes();
     }
+  }
 
-    // Data loading methods
-    loadOutcomes(): void {
-      this.loading.outcomes = true;
-      this.outcomes$ = this.outcomeService.getOutcomesByCompetency(this.competency.id).pipe(
-        tap(outcomes => {
-          this.loading.outcomes = false;
-          // Store original outcomes from database
-          this.existingOutcomes = [...outcomes];
-          // Initialize selected outcomes with existing ones
-          this.selectedOutcomes = [...outcomes];
+  loadOutcomes(): void {
+    this.outcomes$ = this.outcomeService
+      .getOutcomesByCompetency(this.competency.id)
+      .pipe(
+        tap((outcomes) => {
+          this.originalOutcomes = outcomes;
+          this.currentOutcomes = [...outcomes]; // Copia superficial para manipulación
+          this.outcomes$ = of(this.currentOutcomes); // Convertir a Observable
+
+          // Mover los console.log aquí, después de que los datos estén disponibles
+          console.log('Original outcomes:', this.originalOutcomes);
+          console.log('Current outcomes:', this.currentOutcomes);
         }),
-        catchError(error => {
+        catchError((error) => {
           console.error('Error loading outcomes:', error);
-          this.error.outcomes = true;
-          this.loading.outcomes = false;
-          return of([]);
+          return of([]); // Retornar un observable vacío en caso de error
         })
       );
-    }
-  
-    // Outcome management methods
-    hasMaxOutcomes(): boolean {
-      // Check if maximum outcome limit has been reached
-      return this.selectedOutcomes.length >= this.maxOutcomes;
-    }
+  }
 
-    openModalReuse(): void {
-      // Open modal for reusing existing outcomes
-      if (!this.competency.id) return;
+  hasMaxOutcomes(): boolean {
+    return this.currentOutcomes.length >= this.maxOutcomes;
+  }
 
-      const currentSelectedOutcomes = [...this.selectedOutcomes];
+  hasOutcomes(): boolean {
+    return this.currentOutcomes.length > 0;
+  }
 
-      const dialogRef = this.dialog.open(TemplateModalReuseOutcomeComponent, {
-        width: '700px',
-        data: {
-          subjectId: this.competency.id,
-          selectedOutcomes: currentSelectedOutcomes,
-          selectDescription: 'Selecciona el resultado de aprendizaje a reutilizar',
-          selectPlaceholder: this.modalSelectPlaceholder,
-          maxOutcomes: this.maxOutcomes
-        }, 
-      });
+  removeOutcome(outcome: SubjectOutcome): void {
+    // Eliminar el outcome de la lista actual
+    this.currentOutcomes = this.currentOutcomes.filter(
+      (o) => o.id !== outcome.id
+    );
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result && Array.isArray(result)) {
-          // Process the results from the reuse modal
-          this.processReuseModalResult(result);
-          
-          // Update the outcomes observable to reflect changes in the UI
-          this.outcomes$ = of(this.selectedOutcomes);
-        }
-      });
-    }
+    // Actualizar el observable
+    this.outcomes$ = of(this.currentOutcomes);
 
-    private processReuseModalResult(result: SubjectOutcome[]): void {
-      // Process selected outcomes from reuse modal
-      
-      // Outcomes from the database (positive IDs)
-      const reusedOutcomes = result.filter(outcome => outcome.id > 0);
-      
-      // Keep track of newly created outcomes (negative or zero IDs)
-      const newOutcomes = this.selectedOutcomes.filter(outcome => outcome.id <= 0);
-      
-      // Update tracking lists
-      this.newlySelectedOutcomes = [...reusedOutcomes.filter(
-        outcome => !this.existingOutcomes.some(existing => existing.id === outcome.id)
-      ), ...newOutcomes];
-      
-      // Combine existing and newly selected outcomes
-      this.selectedOutcomes = [...this.existingOutcomes, ...this.newlySelectedOutcomes];
-      
-      // Ensure max outcomes not exceeded
-      if (this.selectedOutcomes.length > this.maxOutcomes) {
-        this.selectedOutcomes = this.selectedOutcomes.slice(0, this.maxOutcomes);
-        // Update newly selected outcomes based on what remains in the combined list
-        this.newlySelectedOutcomes = this.selectedOutcomes.filter(
-          outcome => !this.existingOutcomes.some(existing => existing.id === outcome.id)
-        );
+  }
+
+  openModalReuse(): void {
+    const currentSelectedOutcomes = [...this.currentOutcomes];
+    const dialogRef = this.dialog.open(TemplateModalReuseOutcomeComponent, {
+      width: '700px',
+      data: {
+        subjectId: this.subjectId,
+        selectedOutcomes: currentSelectedOutcomes,
+        selectDescription: this.selectLabelPlaceholder,
+        selectPlaceholder: this.modalSelectPlaceholder,
+        maxOutcomes: this.maxOutcomes,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && Array.isArray(result)) {
+        this.processReuseModalResult(result);
       }
+    });
+  }
+
+  private processReuseModalResult(result: SubjectOutcome[]): void {
+    // Service outcomes (positive IDs)
+    const serviceOutcomes = result.filter((outcome) => outcome.id > 0);
+
+    // Created outcomes (negative or zero IDs)
+    const createdOutcomesInSelection = this.currentOutcomes.filter(
+      (outcome) => outcome.id <= 0
+    );
+
+    // Combine both sets
+    this.currentOutcomes = [...serviceOutcomes, ...createdOutcomesInSelection];
+
+    // Ensure max outcomes not exceeded
+    if (this.currentOutcomes.length > this.maxOutcomes) {
+      this.currentOutcomes = this.currentOutcomes.slice(0, this.maxOutcomes);
     }
 
-    openModalCreate(): void {
-      // Open modal for creating new outcomes
-      if (!this.competency.id) return;
+    this.outcomes$ = of(this.currentOutcomes); // Actualizar el observable
+  }
 
-      const dialogRef = this.dialog.open(TemplateModalCreateOutcomeComponent, {
-        width: '700px',
-        data: {
-          newSubjectOutcome: { description: '' } as SubjectOutcome,
-          selectedOutcomes: this.selectedOutcomes,
-          textDescription: this.modalCreateDescription,
-        },
-      });
+  openModalCreate(): void {
+    const dialogRef = this.dialog.open(TemplateModalCreateOutcomeComponent, {
+      width: '700px',
+      data: {
+        newSubjectOutcome: { description: '' } as SubjectOutcome,
+        selectedOutcomes: this.currentOutcomes,
+        textDescription: this.modalCreateDescription,
+      },
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result && result.description) {
-          // Add new outcome to tracking lists
-          this.newlySelectedOutcomes.push(result);
-          this.selectedOutcomes = [...this.existingOutcomes, ...this.newlySelectedOutcomes];
-          
-          // Update the outcomes observable to reflect changes in the UI
-          this.outcomes$ = of(this.selectedOutcomes);
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.description) {
+        this.currentOutcomes.push(result);
+      }
+    });
+
+    this.outcomes$ = of(this.currentOutcomes); // Actualizar el observable
+  }
+
+  onSaveClick(): void {
+    // Validaciones
+    if (this.currentOutcomes.length === 0) {
+      this.noOutcomesSended = true;
+      return;
     }
 
-    removeOutcome(outcome: SubjectOutcome): void {
-      // Remove an outcome from the selected list
-      const index = this.selectedOutcomes.findIndex(selected => selected.id === outcome.id);
-      
-      if (index !== -1) {
-        // Check if it's an existing outcome or newly added one
-        if (this.existingOutcomes.some(existing => existing.id === outcome.id)) {
-          // If it's an existing outcome, remove it from existingOutcomes
-          const existingIndex = this.existingOutcomes.findIndex(e => e.id === outcome.id);
-          if (existingIndex !== -1) {
-            this.existingOutcomes.splice(existingIndex, 1);
+    if (this.editedCompetency.description.trim() === '') {
+      return;
+    }
+
+    // 1. Primero actualizar la competencia y SUSCRIBIRNOS al observable
+    this.competencyService
+      .updateCompetency(this.competency.id, this.editedCompetency)
+      .subscribe({
+        next: (updatedCompetency) => {
+          // 2. Solo después de que la competencia se actualizó correctamente, procesar los outcomes
+
+          // Crear arreglos para almacenar los observables
+          const deleteObservables = [];
+          const createObservables = [];
+
+          // CASO 2: Outcomes que están en current pero NO están en original -> AGREGAR
+          const outcomesToAdd = this.currentOutcomes.filter(
+            (currentOutcome) =>
+              !this.originalOutcomes.some(
+                (originalOutcome) => originalOutcome.id === currentOutcome.id
+              )
+          );
+
+          console.log('Outcomes a añadir:', outcomesToAdd);
+          for (const outcome of outcomesToAdd) {
+            // Guardar el observable (sin ejecutarlo aún)
+            createObservables.push(
+              this.outcomeService.createOutcome(
+                this.subjectId,
+                this.competency.id,
+                outcome
+              )
+            );
           }
-        } else {
-          // If it's a newly added outcome, remove it from newlySelectedOutcomes
-          const newIndex = this.newlySelectedOutcomes.findIndex(n => n.id === outcome.id);
-          if (newIndex !== -1) {
-            this.newlySelectedOutcomes.splice(newIndex, 1);
-          }
-        }
-        
-        // Remove from combined list
-        this.selectedOutcomes.splice(index, 1);
-        
-        // Update the outcomes observable
-        this.outcomes$ = of(this.selectedOutcomes);
-      }
-    }
-    
-    // Validation and action methods
-    validateInputs(): boolean {
-      // Validate required fields before saving
-      if (!this.editedCompetency.description || this.editedCompetency.description.trim() === '') {
-        this.validationError = 'La descripción de la competencia es obligatoria.';
-        return false;
-      }
-      if (!this.editedCompetency.programCompetencyId) {
-        this.validationError = 'Debe seleccionar una competencia de programa.';
-        return false;
-      }
-      this.validationError = '';
-      return true;
-    }
-    
-    onSaveClick(): void {
-      // Save competency changes
-      if (!this.validateInputs()) return;
 
-      this.competencyService.updateCompetency(this.competency.id, this.editedCompetency).subscribe({
-        next: () => {
-          this.editStateService.setEditState(false);
-          this.editStateChange.emit(false);
+          // CASO 1: Outcomes que están en original pero NO están en current -> ELIMINAR
+          const outcomesToRemove = this.originalOutcomes.filter(
+            (originalOutcome) =>
+              !this.currentOutcomes.some(
+                (currentOutcome) => currentOutcome.id === originalOutcome.id
+              )
+          );
+
+          console.log('Outcomes a eliminar:', outcomesToRemove);
+          for (const outcome of outcomesToRemove) {
+            // Guardar el observable (sin ejecutarlo aún)
+            deleteObservables.push(
+              this.outcomeService.deleteOutcome(outcome.id)
+            );
+          }
+
+          // Combinar todos los observables - PRIMERO CREAR, DESPUÉS ELIMINAR
+          const allObservables = [...createObservables, ...deleteObservables];
+
+          if (allObservables.length > 0) {
+            // Ejecutar todas las operaciones y suscribirse al resultado combinado
+            forkJoin(allObservables).subscribe({
+              next: (results) => {
+                console.log('Operaciones completadas con éxito:', results);
+                // Cerrar el modo edición
+                this.editStateChange.emit(false);
+                this.editStateService.setEditState(false);
+              },
+              error: (error) => {
+                console.error('Error en operaciones:', error);
+                // Podrías mostrar un mensaje de error aquí
+              },
+            });
+          } else {
+            // No hay cambios que procesar en outcomes
+            console.log('No hay cambios que guardar en outcomes');
+            this.editStateChange.emit(false);
+            this.editStateService.setEditState(false);
+          }
         },
         error: (error) => {
-          console.error('Error updating competency:', error);
-        }
+          console.error('Error al actualizar la competencia:', error);
+          // Mostrar mensaje de error si es necesario
+        },
       });
-    }
-    
-    onCancelClick(): void {
-      // Cancel editing and restore original state
-      this.editStateService.setEditState(false);
-      this.editStateChange.emit(false);
-    }
-    
-    onAddOutcome(): void {
-      // Placeholder for adding outcomes
-      // Implementation depends on specific requirements
-    }
+  }
 
-    goToOutcome(outcome: SubjectOutcome, index: number): void {
-      // Navigate to outcome detail page
-      const outcomeId = outcome.id;
-      
-      this.router.navigate(['/home/subject/competency/subject/outcome'], {
-          queryParams: {
-              outcomeId: outcomeId,
-          }
-      }).then(() => {
-          console.log('Navigating to outcome:', outcomeId);
-      }).catch(error => {
-          console.error('Navigation error:', error);
+  onCancelClick(): void {
+    this.editStateChange.emit(false);
+    this.editStateService.setEditState(false);
+  }
+
+  goToOutcome(outcome: SubjectOutcome, index: number): void {
+    // Solo navegar a outcomes con ID positivo (guardados en BD)
+    if (outcome.id <= 0) return;
+
+    this.router
+      .navigate(['/home/subject/competency/subject/outcome'], {
+        queryParams: {
+          outcomeId: outcome.id,
+          competencyId: this.competency.id,
+          subjectId: this.subjectId,
+        },
+      })
+      .then(() => {
+        console.log('Navegando al outcome:', outcome.id);
+      })
+      .catch((error) => {
+        console.error('Error en navegación:', error);
       });
-    }
+  }
 }
