@@ -21,7 +21,13 @@
     margin-bottom: 30px;
 }
 .sectionLevel{
-    width: clamp(130px, 2vh, 200px);
+    width: clamp(140px, 2vh, 200px);
+    
+}
+.sectionLevel:hover{
+    background-color: #a5a0a0a1;
+    transition: all 0.5s ease;
+    padding: 10px;
 }
 .level-container {
     position: relative;
@@ -41,48 +47,20 @@
 .level:hover {
     background-color: #C5C5C5!important; /* Ensure the hover color is applied */
 }
-/**
- * ========  Styles for the green indicator =====
- */
-.green-indicator {
-    position: absolute;
-    left: 100%;
-    width: 20px;
-    height: 40px; /* Match height with level */
-    background-color: #5E9E73;
-    margin-left: 5px;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    z-index: 100;
-    animation: fadeInGreen 0.5s ease-in-out;
-}
 
-
-.green-indicator.clickable {
-    cursor: pointer;
-}
-
-
-.green-indicator.clickable:hover {
-    background-color: #4a8c5c;
-    transform: scale(1.05);
-}
-.green-indicator.clickable:active {
-    background-color: #3d7a4f;
-    transform: scale(0.95);
-}
 /** * ========  Styles for the red indicator =====
  */
  .red-indicator {
     position: absolute;
-    top: -25px; /* Changed from right to top to position it above */
+    top: -15px; /* Changed from right to top to position it above */
     left: 50%; /* Center horizontally */
     transform: translateX(-50%); /* Center horizontally */
-    width: 50px;
+    width: 90px;
     height: 20px; /* Made it smaller since it's now above */
     background-color: #A65256;
     transition: all 0.3s ease;
-    border-radius: 4px;
+    border-top-left-radius: 8px;  /* Redondeo superior izquierdo */
+    border-top-right-radius: 8px; /* Redondeo superior derecho */
     z-index: 100;
     animation: fadeInRed 0.5s ease-in-out;
 }
@@ -96,28 +74,26 @@
     background-color: #8B2E33;
     transform: translateX(-50%) scale(0.95); /* Keep horizontal centering while scaling */
 }
-
-
-
-/* Add keyframes for fade animations */
-@keyframes fadeInGreen {
-    from {
-        opacity: 0;
-        left: 90%;
-    }
-    to {
-        opacity: 1;
-        left: 100%;
-    }
+.red-indicator i {
+    color: white;
+    font-size: 14px; /* Ajusta el tamaño según necesites */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
+
+
+
 
 @keyframes fadeInRed {
     from {
         opacity: 0;
-        top: -35px;
+        top: -15px; /* Start above the final position */
     }
     to {
         opacity: 1;
-        top: -25px;
+        top: -15px; /* Start above the final position */
     }
 }

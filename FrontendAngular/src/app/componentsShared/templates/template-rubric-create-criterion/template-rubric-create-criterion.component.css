@@ -101,3 +101,6 @@
 .form-control.is-invalid {
     border-color: #dc3545;
 }
+.delete-overlay{
+    background-color: black;
+}

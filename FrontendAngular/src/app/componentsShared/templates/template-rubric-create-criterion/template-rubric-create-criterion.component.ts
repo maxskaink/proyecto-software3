@@ -78,21 +78,18 @@ export class TemplateRubricCreateCriterionComponent  {
     }
     return newLevel;
   }
-  handleGreenIndicator(levelIndex: number): void {
-    // Insert new level after the clicked one
-    const newLevel: LevelEntity = this.createNewLevel();
-    if(this.Levels.length >= this.MAX_LEVEL) {
+
+  addNewLevel(): void {
+    if (this.Levels.length >= this.MAX_LEVEL) {
       console.error('Maximum number of levels reached');
       this.errors.levelError = 'No se pueden agregar más niveles';
       return;
     }
-    this.Levels.splice(levelIndex + 1, 0, newLevel);
+    const newLevel: LevelEntity = this.createNewLevel();
+    this.Levels.push(newLevel);
   }
   
-  handleRedIndicator(levelIndex: number): void {
-    // Remove the clicked level
-    this.Levels.splice(levelIndex, 1);
-  }
+
   onInput(): void {
     this.validateInputs();
   }
@@ -119,7 +116,10 @@ export class TemplateRubricCreateCriterionComponent  {
         });
     });
   }
-
+  handleRedIndicator(levelIndex: number): void {
+    // Remove the clicked level
+    this.Levels.splice(levelIndex, 1);
+  }
   createNewCriterion(): CriterionEntity {
     const newCriteron: CriterionEntity= {
       name: this.name,
@@ -145,5 +145,11 @@ export class TemplateRubricCreateCriterionComponent  {
     ];
     this.errors = { name: '', value: '', levelError: '' };
   }
-  
+  deleteLevel(index: number): void {
+    if (this.Levels.length > 1) {
+      this.Levels.splice(index, 1);
+    } else {
+      this.errors.levelError = 'Debe haber al menos un nivel';
+    }
+  }
 }

@@ -21,7 +21,6 @@ export class MoleculeBlockComponent {
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() subtitle: string = '';
-  
   titleColor: string = '';
   bodyColor: string = '';
 
