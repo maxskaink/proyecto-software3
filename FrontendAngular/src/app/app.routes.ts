@@ -11,6 +11,7 @@ import { SubjectCompetencyComponent } from './components/subject-competency-crea
 import { ProgramCompetencyComponent } from './components/program-competency/program-competency.component';
 import { RequiredParamsGuard } from './guards/required-params.guard';
 import { CreateRubricComponent } from './components/create-rubric/create-rubric.component';
+import { AssignTeachersComponent } from './components/assign-teachers/assign-teachers.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
   {path: 'access-denied', component: LoginComponent, data: { accessDenied: true }},
   {path: 'home', component: HomeComponent},
   {path: 'asignatures/:id', component: SubjectComponent},
+  {path: 'asignatures/:id/assignTeachers', component: AssignTeachersComponent},
   {path: 'asignatures/:id/subjectCompetency', component: SubjectCompetencyComponent,
     canActivate: [RequiredParamsGuard]},
   {path: 'settings', component:SettingsComponent},
