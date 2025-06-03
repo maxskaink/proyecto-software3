@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule, ViewportScroller} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { TemplateListboxCompleteComponent, TextBlock } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
@@ -13,9 +13,9 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-settings-asignature',
   imports: [
-    CommonModule, 
-    MoleculeBackHeaderComponent, 
-    TemplateListboxCompleteComponent, 
+    CommonModule,
+    MoleculeBackHeaderComponent,
+    TemplateListboxCompleteComponent,
     TemplateInputBoxtextComponent,
     FormsModule
   ],
@@ -41,7 +41,12 @@ export class SettingsAsignatureComponent implements OnInit{
   subjectNameTouched: boolean = false;
 
 
-  constructor(private router: Router,private termService: TermService, private subjecService:SubjectService) {}
+  constructor(
+    private router: Router,
+    private termService: TermService,
+    private subjecService:SubjectService,
+    private viewportScroller: ViewportScroller
+  ) {}
 
   ngOnInit() {
     this.getActiveTerm();
@@ -72,7 +77,9 @@ export class SettingsAsignatureComponent implements OnInit{
     this.subjecService.createSubject(newSubject).subscribe({
       next: (data) => {
         console.log('Asignatura creada:', data);
-        this.router.navigate(['/settings/asignatures']);
+        this.router.navigate(['/asignatures/', data.id]).then(() => {
+          this.viewportScroller.scrollToPosition([0,0]);
+        });
       },
       error: (error) => {
         console.error('Error al crear asignatura:', error);
