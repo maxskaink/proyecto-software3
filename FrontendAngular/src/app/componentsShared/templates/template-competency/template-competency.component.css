@@ -340,3 +340,174 @@ hr.m-4 {
 .angular-brackets::after {
   content: ">";
 }
+
+/* Estilos para los botones flotantes */
+.competency-container {
+  position: relative; /* Para posicionamiento relativo de los botones */
+}
+
+/* Estilos para los botones flotantes */
+.competency-container {
+  position: relative;
+}
+
+.floating-action-buttons {
+  position: fixed;
+  top: calc(85px + 15px);
+  right: 20px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.floating-action-buttons.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+}
+
+.floating-action-buttons .btn {
+  background-color: #6C3668;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.floating-action-buttons .btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.floating-action-buttons .btn:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.floating-action-buttons .btn:hover::before {
+  opacity: 1;
+}
+
+.floating-action-buttons .btn:active {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.floating-action-buttons .btn-edit {
+  background-color: #60315C;
+}
+
+.floating-action-buttons .btn-edit:hover {
+  background-color: #7d4279;
+}
+
+.floating-action-buttons .btn-delete {
+  background-color: #A65256;
+}
+
+.floating-action-buttons .btn-delete:hover {
+  background-color: #c16267;
+}
+
+.floating-action-buttons .icon {
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.floating-action-buttons .btn-edit .icon,
+.floating-action-buttons .btn-delete .icon {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.floating-action-buttons .btn:hover .icon {
+  transform: rotate(15deg);
+}
+
+.floating-action-buttons .btn-delete:hover .icon {
+  transform: rotate(-15deg);
+}
+
+/* Tooltip para los botones */
+.floating-action-buttons .btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.floating-action-buttons .btn:hover::after {
+  opacity: 1;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .floating-action-buttons {
+    top: calc(85px + 10px);
+    right: 15px;
+    gap: 10px;
+  }
+
+  .floating-action-buttons .btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .floating-action-buttons .icon {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-action-buttons {
+    top: calc(85px + 5px);
+    right: 10px;
+    gap: 8px;
+  }
+
+  .floating-action-buttons .btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .floating-action-buttons .icon {
+    font-size: 1.1rem;
+  }
+}
