@@ -28,14 +28,16 @@ export class MoleculeBlockComponent {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
-    const colors = this.getColorPairForName(this.title);
-    this.titleColor = colors.titleColor;
-    this.bodyColor = colors.bodyColor;
+    if(this.state=='primary') {
+      const colors = this.getColorPairForName(this.title);
+      this.titleColor = colors.titleColor;
+      this.bodyColor = colors.bodyColor;
+    }
   }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.adjustFontSize();
+      
     }
   }
 
@@ -54,24 +56,5 @@ export class MoleculeBlockComponent {
     return Math.abs(hash);
   }
 
-  private adjustFontSize(): void {
-    const el = this.titleElement.nativeElement;
-    const maxFontSize = 35;
-    const minFontSize = 10;
-    const decrementStep = 7;
-    
-    let fontSize = maxFontSize;
-    el.style.fontSize = `${fontSize}px`;
 
-    // Reduce font size until text fits or minimum size reached
-    while (el.scrollWidth > el.offsetWidth && fontSize > minFontSize) {
-      fontSize -= decrementStep;
-      el.style.fontSize = `${fontSize}px`;
-    }
-
-    // If text fits with original size, reset to original
-    if (el.scrollWidth <= el.offsetWidth && fontSize < maxFontSize) {
-      el.style.fontSize = `${maxFontSize}px`;
-    }
-  }
 }

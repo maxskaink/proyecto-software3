@@ -6,6 +6,7 @@
                 <div class="form-group text-center helpText">
                     <label for="criterionName" class="mb-2">Clickeame</label>
                     <textarea 
+                        maxlength="60"
                         class="form-control" 
                         id="criterionName" 
                         rows="3"
@@ -38,7 +39,7 @@
                         <app-molecule-block
                         (click)="addNewLevel()" 
                         [state]="'secondary'"
-                        >
+                        [title]="'Agregar Nivel'">
                     </app-molecule-block>
                     </div>
                    
