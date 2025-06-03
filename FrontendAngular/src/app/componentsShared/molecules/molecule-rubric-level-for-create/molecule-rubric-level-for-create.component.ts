@@ -17,11 +17,11 @@ export class MoleculeRubricLevelForCreateComponent implements OnInit{
   ngOnInit(): void {
     if (this.level) {
       this.description = this.level.description || '';
-      this.percentage = this.level.percentage || 0;
+      this.percentage = this.level.percentage || 10;
     }
   }
   description: string = '';
-  percentage: number = 0; 
+  percentage: number = 10; 
   showGreenDiv: boolean = false;
   showRedDiv: boolean = false;
   error: string = '';
@@ -53,17 +53,29 @@ export class MoleculeRubricLevelForCreateComponent implements OnInit{
   onRedIndicatorClick(): void {
     this.redIndicatorClicked.emit(this.index);
   }
-  onDescriptionChange(event: any): void {
+  
+  onDescriptionChange(event: string): void {
+    // Actualiza la descripción en el nivel
+    this.level.description = event;
     if (this.level.description.length >= 40) {
       this.error = 'El nombre no puede exceder los 40 caracteres';
-      this.level.description = this.level.description.substring(0, 50);
+      this.level.description = this.level.description.substring(0, 40);
     } else {
       this.error = '';
     }
+    // Emite el cambio
     this.levelChange.emit({index: this.index, level: this.level});
   }
-
-  onPercentageChange(event: any): void {
+  onPercentageChange(event: number): void {
+    // Valida y actualiza el porcentaje
+    if (event > 100) {
+      this.level.percentage = 100;
+    } else if (event < 0) {
+      this.level.percentage = 1;
+    } else {
+      this.level.percentage = event;
+    }
+    // Emite el cambio
     this.levelChange.emit({index: this.index, level: this.level});
   }
   /**
@@ -72,14 +84,26 @@ export class MoleculeRubricLevelForCreateComponent implements OnInit{
    * */
   
   validateLevel(): boolean {
-    if (!this.description.trim()) {
+    if (!this.level.description?.trim()) {
       this.error = 'El nombre no puede estar vacío';
       return false;
     }
-    if (this.description.length > 50) {
-      this.error = 'El nombre no puede exceder los 50 caracteres';
+    if (this.level.description.length > 40) {
+      this.error = 'El nombre no puede exceder los 40 caracteres';
       return false;
     }
     return true;
   }
+
+  validatePercentage(event: any): void {
+    const value = parseInt(event.target.value);
+    if (value > 100) {
+        this.level.percentage = 100;
+    } else if (value < 0) {
+        this.level.percentage = 1;
+    }
+  }
+
+ 
+
 }

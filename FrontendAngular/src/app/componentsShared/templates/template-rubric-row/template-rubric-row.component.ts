@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RubricDTO } from '../../../models/RubricDTO';
 import { CommonModule } from '@angular/common';
 import { LevelDTO } from '../../../models/LevelDTO';
@@ -16,8 +16,11 @@ import { LevelEntity } from '../../../models/LevelEntity';
 })
 export class TemplateRubricRowComponent implements OnInit{
   @Input() criterion: CriterionEntity= {} as CriterionEntity;
+  @Input() state: 'primary' |'secondary' = 'primary';
+  @Output() onEdit = new EventEmitter<void>();
+  @Output() onDelete = new EventEmitter<void>();
   levels: LevelEntity[] | null = {} as LevelEntity[]; 
-  name: string = 'name Example';
+  name: string = '';
   weight: number = 0; 
   constructor(){} 
   ngOnInit(): void {

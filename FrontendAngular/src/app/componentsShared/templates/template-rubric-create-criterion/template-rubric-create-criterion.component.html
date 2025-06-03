@@ -61,7 +61,7 @@
         <div class="col-12 col-lg-2 mb-3">
             <div class="sectionColor h-100 d-flex align-items-center justify-content-center">
                 <div class="form-group text-center">
-                    <label for="criterionValue" class="mb-2">Valor del nivel</label>
+                    <label for="criterionValue" class="mb-2">Valor del criterio</label>
                     <div class="input-group">
                         <input type="number" 
                                class="form-control" 
@@ -69,7 +69,7 @@
                                [(ngModel)]="weight"
                                (input)="onInput()"
                                value="0"
-                               min="0"
+                               min="1"
                                max="100">
                         <span class="input-group-text number--big">%</span>
                     </div>
@@ -86,5 +86,9 @@
                 class="btn container-fluid btn--guardar"
                 (click)="addCriterionWithLevels()">Guardar criterio</button>
         </div>
+        <div  *ngIf="errors.levelError" class="text-danger mt-2">
+            <p>{{errors.levelError}}</p>
+        </div>
     </div>
+
 </div>

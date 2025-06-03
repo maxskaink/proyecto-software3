@@ -29,22 +29,31 @@
         </section>
 
             <!-- Sección de Lista de Criterios -->
-        <section class="row">
-            <div class="col-12">
-                <div class=" p-4">
-                    <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
-                    <p class=" mb-4">Estos son los criterios que tienes creados hasta el momento</p>
-                        <div *ngFor=" let criterion of listCriterion" class="listCriterion" >
-                          <app-template-rubric-row
-                          [criterion]="criterion"></app-template-rubric-row>
-
+            <section class="row">
+                <div class="col-12">
+                    <div class="p-4">
+                        <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
+                        <p class="mb-4">Estos son los criterios que tienes creados hasta el momento</p>
+                        <div *ngFor="let criterion of listCriterion" class="listCriterion">
+                            <!-- Show row when not editing this criterion -->
+                            <app-template-rubric-row
+                                *ngIf="!criterioIsEdit || editingCriterion !== criterion"
+                                [criterion]="criterion"
+                                [state]="'secondary'"
+                                (onEdit)="handleEditCriterion(criterion)"
+                                (onDelete)="handleDeleteCriterion(criterion)">
+                            </app-template-rubric-row>
+            
+                            <!-- Show edit form when editing this criterion -->
+                            <app-template-rubric-create-criterion
+                            *ngIf="criterioIsEdit && editingCriterion === criterion"
+                            [idRubric]="idRubric"
+                            [criterionToEdit]="editingCriterion"
+                            (criterionAdded)="onCriterionAdded($event)">
+                            </app-template-rubric-create-criterion>
                         </div>
-                    <!-- Lista de criterios -->
-                    <div class="">
-                       
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
     </div>
 </div>

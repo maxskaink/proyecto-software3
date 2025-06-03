@@ -20,9 +20,15 @@ import { TemplateRubricRowComponent } from '../../componentsShared/templates/tem
 })
 export class CreateRubricComponent {
   idRubric: number = -1;
-
+  criterioIsEdit: boolean = false;
+  readonly MAX_CRITERIA: number = 5; // Add constant for max criteria
+  editingCriterion: CriterionEntity | null = null; // Add this to track which criterion is being edited
   constructor(private route: ActivatedRoute) {}
   listCriterion: CriterionEntity[] = [];
+  error= {
+    weight: '',
+    maxCriteria:''
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -30,10 +36,46 @@ export class CreateRubricComponent {
       console.log('Rubric ID:', this.idRubric);
     });
   }
-  onCriterionAdded(criterion: CriterionEntity): void {
-    this.listCriterion.push(criterion);
-    console.log('Updated criteria list:', this.listCriterion);
+  validateCriterions():boolean{
+    let totalPercentage: number = 0; 
+    for(const criterion of this.listCriterion){
+       totalPercentage += criterion.weight;
+    }
+    if(totalPercentage != 100){
+      this.error.weight = 'Los criterios deben sumar en total 100%'
+      return false;
+    }
+      
+    return true;
   }
-  
+
+  onCriterionAdded(criterion: CriterionEntity): void {
+    if (this.editingCriterion) {
+      const index = this.listCriterion.findIndex(c => c === this.editingCriterion);
+      if (index !== -1) {
+        this.listCriterion[index] = criterion;
+      }
+      this.editingCriterion = null;
+      this.criterioIsEdit = false;
+    } else {
+      if (this.listCriterion.length >= this.MAX_CRITERIA) {
+        this.error.maxCriteria = 'No se pueden agregar más de 5 criterios';
+        return;
+      }
+      this.listCriterion.push(criterion);
+    }
+  }
+  handleEditCriterion(criterion: CriterionEntity): void {
+    this.criterioIsEdit = true; // Set the flag to indicate editing mode
+    this.editingCriterion = criterion; // Store the criterion being edited
+  }
+  handleDeleteCriterion(criterion: CriterionEntity): void {
+    // Lógica para eliminar el criterio
+    const index = this.listCriterion.indexOf(criterion);
+    if (index > -1) {
+      this.listCriterion.splice(index, 1);
+    }
+    console.log('Criterio eliminado:', criterion);
+  }
 
 }

@@ -17,3 +17,66 @@
     font-weight: 900;
     color: #878787;
 }
+
+/**
+* =========================== buttons dissolve ===========
+/* Ocultar los botones por defecto */
+.action-buttons {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Contenedor principal necesita posición relativa */
+.row-container {
+    position: relative;
+}
+
+/* Mostrar botones en hover */
+.row-container:hover .action-buttons {
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-edit, .btn-delete {
+    width: 2.5rem;
+    border: none;
+    transition: all 0.3s ease;
+    height: 17rem;
+}
+
+/* Media query para pantallas medianas */
+@media (max-width: 1200px) {
+    .btn-edit, .btn-delete {
+        height: 2rem;
+        border-radius: 4px;
+        width: 100%;
+    }
+
+    .action-buttons {
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+/* Estilos de los botones */
+.btn-edit {
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #A65256;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #1E1E1E;
+    transform: scale(1.1);
+}
+
+.btn-delete:hover {
+    background-color: #B83238;
+    transform: scale(1.1);
+}

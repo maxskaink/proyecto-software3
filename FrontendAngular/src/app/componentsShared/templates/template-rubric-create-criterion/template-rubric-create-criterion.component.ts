@@ -16,14 +16,15 @@ import { MoleculeBlockComponent } from '../../molecules/molecule-block/molecule-
   templateUrl: './template-rubric-create-criterion.component.html',
   styleUrl: './template-rubric-create-criterion.component.css'
 })
-export class TemplateRubricCreateCriterionComponent  {
+export class TemplateRubricCreateCriterionComponent   {
   
-  weight:number =  0;
+  weight:number =  10;
   name:string = ''; 
   errors = {
     name: '',
     value: '',
-    levelError:  ''
+    levelError:  '',
+    valueCriterion: ''
   };
   touched = {
     name: false,
@@ -36,10 +37,17 @@ export class TemplateRubricCreateCriterionComponent  {
     {  description: 'Nivel Avanzado', percentage: 34 }
   ];
   @Input() idRubric: number = 38;
+  @Input() criterionToEdit?: CriterionEntity;
   @Output() criterionAdded = new EventEmitter<CriterionEntity>();
 
   
-  
+  ngOnInit() {
+    if ( this.criterionToEdit) {
+      this.name = this.criterionToEdit.name;
+      this.weight = this.criterionToEdit.weight;
+      this.Levels = [...this.criterionToEdit.levels];
+    }
+  }
   constructor(private criterionService: CriterionService,
     private levelService: LevelService,
   ) {}
@@ -51,8 +59,8 @@ export class TemplateRubricCreateCriterionComponent  {
   validateInputs(): boolean {
     let isValid = true;
     
-    if (this.name.length > 100) {
-      this.errors.name = 'El nombre no puede exceder los 100 caracteres';
+    if (this.name.length >= 60) {
+      this.errors.name = 'El nombre no puede exceder los 60 caracteres';
       isValid = false;
     } else if (!this.name.trim()) {
       this.errors.name = 'El nombre es requerido';
@@ -61,7 +69,7 @@ export class TemplateRubricCreateCriterionComponent  {
       this.errors.name = '';
     }
 
-    if (this.weight < 0 || this.weight > 100) {
+    if (this.weight < 1 || this.weight > 100) {
       this.errors.value = 'El valor debe estar entre 0 y 100';
       isValid = false;
     } else {
@@ -70,8 +78,25 @@ export class TemplateRubricCreateCriterionComponent  {
 
     return isValid;
   }
+  validateCorrectValue(): boolean {
+    let totalPercentage = 0;
+    for (const level of this.Levels) {
+        if(level.percentage <= 0 || level.percentage > 100) {
+            this.errors.levelError = 'El porcentaje de cada nivel debe estar entre 1 y 100';
+            return false; // Return false when validation fails
+          }
+        totalPercentage += level.percentage;
+    }
+    if (totalPercentage !== 100) {
+        this.errors.levelError = 'La suma de los porcentajes debe ser igual a 100';
+        return false; // Return false when validation fails
+    }if(this.Levels.length == 0) {
+      this.errors.levelError = 'Debe haber al menos un nivel';
+    }
 
-
+    this.errors.levelError = ''; // Clear error when validation passes
+    return true;
+}
   createNewLevel(): LevelEntity {
     const newLevel: LevelEntity  = {
       description: '',
@@ -130,7 +155,7 @@ export class TemplateRubricCreateCriterionComponent  {
     return newCriteron;
   }
   addCriterionWithLevels(): void {
-    if (!this.validateInputs()) {
+    if (!this.validateInputs() || !this.validateCorrectValue()) {
       return;
     } 
     const newCriterion:CriterionEntity = this.createNewCriterion();
@@ -144,7 +169,7 @@ export class TemplateRubricCreateCriterionComponent  {
       { description: 'Nivel Intermedio', percentage: 33 },
       { description: 'Nivel Avanzado', percentage: 34 }
     ];
-    this.errors = { name: '', value: '', levelError: '' };
+    this.errors = { name: '', value: '', levelError: '' , valueCriterion: '' };
   }
   deleteLevel(index: number): void {
     if (this.Levels.length > 1) {

@@ -2,7 +2,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 300ch;
+    height: auto;
     background-color: #1E1E1E;
     z-index: 9999;
     backdrop-filter: blur(5px);
