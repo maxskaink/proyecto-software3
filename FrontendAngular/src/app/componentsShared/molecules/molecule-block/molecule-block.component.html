@@ -1,7 +1,15 @@
-<div class="card card__Body_small" [style.backgroundColor]="bodyColor">
-    <div class="card Card__blockTitle" [style.backgroundColor]="titleColor">
+<!-- Primary State - Full Block -->
+<div *ngIf="state === 'primary'" class="card card__Body" [style.backgroundColor]="bodyColor">
+  <div class="card Card__blockTitle" [style.backgroundColor]="titleColor">
       <h3 #titleElement>{{title}}</h3>
-    </div>
-    <div class="divider"></div>
-    <p class="description">{{ description }}</p>
+  </div>
+  <div class="divider"></div>
+  <p class="description">{{ description }}</p>
+</div>
+
+<!-- Secondary State - Empty Block with Plus Icon -->
+<div *ngIf="state === 'secondary'" class="card__Body--smal empty-block">
+  <div class="circle-icon">
+      <i class="bi bi-plus-lg"></i>
+  </div>
 </div>

@@ -9,9 +9,10 @@ import { MoleculeRubricLevelForCreateComponent } from '../../molecules/molecule-
 import { LevelDTO } from '../../../models/LevelDTO';
 import { LevelEntity } from '../../../models/LevelEntity';
 import { CriterionEntity} from '../../../models/CriterionEntity';
+import { MoleculeBlockComponent } from '../../molecules/molecule-block/molecule-block.component';
 @Component({
   selector: 'app-template-rubric-create-criterion',
-  imports: [CommonModule, FormsModule, MoleculeRubricLevelForCreateComponent],
+  imports: [CommonModule, FormsModule, MoleculeRubricLevelForCreateComponent,  MoleculeBlockComponent],
   templateUrl: './template-rubric-create-criterion.component.html',
   styleUrl: './template-rubric-create-criterion.component.css'
 })

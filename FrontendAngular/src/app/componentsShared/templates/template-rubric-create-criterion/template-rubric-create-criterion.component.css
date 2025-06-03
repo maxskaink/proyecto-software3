@@ -104,3 +104,8 @@
 .delete-overlay{
     background-color: black;
 }
+.placeholder-text{
+    color: #C5C5C5;
+    font-weight: 1000;
+
+}

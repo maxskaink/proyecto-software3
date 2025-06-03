@@ -3,7 +3,7 @@
   color: white;
   cursor: pointer;
 }
-.card__Body_small {
+.card__Body {
   width: 300px;
   height: 100%;
   
@@ -38,4 +38,55 @@
 .description{
   padding: 20px;
   font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+}
+/**
+======================= Secundary===============
+*/
+.card__Body--smal {
+  width: clamp(100px, 80%, 120px);
+  height: 100%;
+  
+}
+
+.empty-block {
+  border: 2px dashed #6B656A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  min-height: 200px;
+}
+
+.empty-block:hover {
+  background-color: #efefef;
+  border-color: #999;
+}
+
+.circle-icon {
+  border: 2px dashed #6b656a4d;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.circle-icon i {
+  color: white;
+  font-size: 2rem;
+}
+
+.empty-block:hover .circle-icon {
+  transform: scale(1.1);
+
+}
+
+.empty-text {
+  color: #666;
+  font-size: 1.1rem;
+  text-align: center;
 }

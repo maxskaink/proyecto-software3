@@ -35,10 +35,11 @@
                     </app-molecule-rubric-level-for-create>
                         <!-- Show placeholder only in the next available slot -->
                     <div class="empty-level-slot" *ngIf="!Levels[i] && i === Levels.length">
-                            <span class="placeholder-text">Nivel {{i + 1}}</span>
-                            <button class="btn btn--agregar" 
-                                    (click)="addNewLevel()"
-                                    [disabled]="Levels.length >= MAX_LEVEL">+</button>
+                        <app-molecule-block
+                        (click)="addNewLevel()" 
+                        [state]="'secondary'"
+                        >
+                    </app-molecule-block>
                     </div>
                    
                      <!-- Mostrar el placeholder solo si NO existe el nivel -->
