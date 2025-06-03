@@ -3,7 +3,7 @@ import { Auth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/a
 import { onAuthStateChanged } from 'firebase/auth';
 import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import {Firestore, doc, getDoc, collection, getDocs} from '@angular/fire/firestore';
 import { TeacherDTO } from '../models/TeacherDTO';
 
 @Injectable({ providedIn: 'root' })
@@ -82,7 +82,7 @@ export class AuthService {
   }
   /**
    * Receive the user for map to TeacherDTO
-   * 
+   *
    */
   private mapToTeacherDTO(userData: any): TeacherDTO {
     return {
@@ -104,12 +104,14 @@ export class AuthService {
     return new Observable<TeacherDTO[]>((subscriber) => {
       (async () => {
         try {
-          const usersCollection = doc(this.firestore, 'SERA');
-          const usersSnapshot = await getDoc(usersCollection);
-          if (usersSnapshot.exists()) {
-            const usersData = usersSnapshot.data();
-            const teachersDTO = Object.keys(usersData)
-              .map(key => this.mapToTeacherDTO(usersData[key]));
+          // Cambia esto: accede a la colección en lugar del documento
+          const usersCollection = collection(this.firestore, 'SERA');
+          const usersSnapshot = await getDocs(usersCollection);
+
+          if (!usersSnapshot.empty) {
+            const teachersDTO = usersSnapshot.docs.map(doc => {
+              return this.mapToTeacherDTO(doc.data());
+            });
             subscriber.next(teachersDTO);
           } else {
             subscriber.next([]);
