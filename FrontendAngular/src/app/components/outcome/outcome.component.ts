@@ -187,5 +187,12 @@ export class OutcomeComponent implements OnInit {
   handleBotonDos() {
     console.log('Se hizo clic en el botón 2');
   }
-
+  goToRubric() {
+    this.router.navigate(['/home/subject/competencySubject/outcome/create'], {
+        queryParams: {
+            outcomeId: this.outcomeId,
+            idRubric: this.currentRubric?.id || -1
+        }
+    });
+}
 }

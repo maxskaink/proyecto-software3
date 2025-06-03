@@ -35,7 +35,12 @@
       </div>
     </section>
   <section id="rubryc" class="sectionRubric ">
+    <button class="btn btn-primary mb-3"
+    (click)="goToRubric()"
+    *ngIf="currentRubric && currentRubric.id">
+    <i class="bi bi-plus-circle"></i> Editar Rubrica
 
+  </button>
     <app-template-rubric-table
     *ngIf="currentRubric && currentRubric.id"
     [rubric]="currentRubric">
@@ -43,6 +48,13 @@
 
     <!-- Mensaje de carga o estado vacío -->
     <div *ngIf="!currentRubric || !currentRubric.id" class="text-center p-4">
+      <p>Cargando rubrica</p>
+      <button class="btn btn-primary mb-3"
+      (click)="goToRubric()"
+      [disabled]="!currentRubric || !currentRubric.id">
+      <i class="bi bi-plus-circle"></i> Agregar Rubrica
+
+      </button>
     </div>
 
     <section class="m-4" id="evaluators">
