@@ -59,6 +59,9 @@ public class SubjectService implements SubjectInt {
         if(!authenticationService.userExists(uid))
             throw new Unauthorized("You have not permission");
 
+        //If the user is a coordinator, it will have access to all subjects
+        if(authenticationService.isCoordinator(uid))
+            return subjectRepository.listAll();
 
         return assignmentRepository.listByTeacherUid(uid).stream()
                 .map(TeacherAssignment::getSubject).toList();

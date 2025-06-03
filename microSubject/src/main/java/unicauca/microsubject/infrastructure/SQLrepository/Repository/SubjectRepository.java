@@ -72,9 +72,10 @@ public class SubjectRepository implements SubjectRepositoryOutInt {
     public OptionalWrapper<Subject> remove(Integer id) {
         return subjectRepository.findByIdAndIsActivatedTrue(id)
                 .map(entity -> {
-                    subjectRepository.delete(entity);
+                    entity.setActivated(false);
+                    subjectRepository.save(entity);
                     return new OptionalWrapper<>(SubjectMapper.toSubject(entity));
                 })
-                .orElseGet(() -> new OptionalWrapper<>(new Exception("Subject not found")));
+                .orElseGet(() -> new OptionalWrapper<>(new NotFound("Subject not found")));
     }
 }

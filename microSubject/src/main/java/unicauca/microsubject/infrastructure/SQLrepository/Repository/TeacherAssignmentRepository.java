@@ -62,7 +62,11 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
         Integer idActiveTerm = termRepository.getActiveTerm().getValue()
                 .orElseThrow(()->new RuntimeException("No active term")).getId();
         return teacherAssignmentRepository.findAll().stream().
-                filter(ta -> ta.getSubject() != null && ta.getSubject().getId().equals(subjectId) && ta.getTerm() != null && ta.getTerm().getId().equals(idActiveTerm))
+                filter(ta -> ta.getSubject() != null &&
+                        ta.getSubject().getId().equals(subjectId) &&
+                        ta.getTerm() != null &&
+                        ta.getTerm().getId().equals(idActiveTerm)&&
+                        ta.getSubject().isActivated())
                 .map(entity -> {
                     TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
                     teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
@@ -76,7 +80,9 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
         Integer idActiveTerm = termRepository.getActiveTerm().getValue()
                 .orElseThrow(()->new RuntimeException("No active term")).getId();
         return teacherAssignmentRepository.findAll().stream().
-                filter(ta -> ta.getTeacherUid().equals(teacherUid) && ta.getTerm().getId().equals(idActiveTerm))
+                filter(ta -> ta.getTeacherUid().equals(teacherUid) &&
+                        ta.getTerm().getId().equals(idActiveTerm) &&
+                        ta.getSubject().isActivated())
                 .map(entity -> {
                     TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
                     teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
@@ -91,7 +97,9 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
         Integer idActualterm = term.getValue().orElseThrow(term::getException).getId();
 
         return teacherAssignmentRepository.findAll().stream().
-                filter(ta -> ta.getTeacherUid().equals(teacherUid) && ta.getTerm().getId().equals(idActualterm))
+                filter(ta -> ta.getTeacherUid().equals(teacherUid) &&
+                        ta.getTerm().getId().equals(idActualterm) &&
+                        ta.getSubject().isActivated())
                 .map(entity -> {
                     TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
                     teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
@@ -144,7 +152,8 @@ public class TeacherAssignmentRepository implements TeacherAssignmentRepositoryO
         try{
             TeacherAssignmentEntity entity = teacherAssignmentRepository.findById(id)
                     .orElseThrow(() -> new NotFound("TeacherAssignment not found with id: " + id));
-
+            if(!entity.getSubject().isActivated())
+                throw new NotFound("Subject is not activated");
             TeacherAssignment teacherAssignment = TeacherAssignmentMapper.toTeacherAssignment(entity);
             teacherAssignment.setTerm(TermMapper.toTerm(entity.getTerm()));
             teacherAssignment.setSubject(SubjectMapper.toSubject(entity.getSubject()));
