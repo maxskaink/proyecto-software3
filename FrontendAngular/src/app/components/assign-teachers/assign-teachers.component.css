@@ -1,7 +1,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  background-color: #CDC6E5;
+  background-color: #E9E9E9;
 }
 
 .overlay {
@@ -11,7 +11,7 @@
   width: 100%;
   height: 100vh;
   min-height: 100vh;
-  background-color: #CDC6E5;
+  background-color: #E9E9E9;
   z-index: 9999;
   overflow-y: auto;
   padding: 10px 20px; /* Reduced top padding */
@@ -36,7 +36,7 @@ section {
 /* When teachers are selected, switch to horizontal layout */
 .has-selected-teachers {
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center; /* Changed from flex-start to center for vertical alignment */
   justify-content: space-between; /* Changed back to space-between */
   gap: 20px; /* Add gap between the two sections */
 }
@@ -63,7 +63,9 @@ section {
   margin: 20px auto 0;
   transition: all 0.3s ease;
   margin-bottom: 0;
-  align-self: flex-start; /* Ensure it stays left aligned */
+  /* IMPORTANT */
+  align-self: center; /* Changed from flex-start to center for vertical alignment */
+
   display: flex;
   flex-direction: column;
 }

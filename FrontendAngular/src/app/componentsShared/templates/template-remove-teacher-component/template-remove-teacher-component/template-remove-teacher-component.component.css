@@ -5,7 +5,7 @@
   gap: 12px;
   width: 100%;
   padding: 30px;
-  background-color: #ECF4F1;
+  background-color: #E7F2EB;
   border-radius: 8px;
   box-shadow: 0 3px 6px rgba(94, 158, 115, 0.1);
   margin: 15px 0;
@@ -228,3 +228,69 @@
   justify-content: center;
 }
 
+/* Estilo para cuando un elemento está seleccionado */
+.teacher-item.selected {
+  background-color: #A65256; /* Color verde */
+  border-left: 3px solid white !important; /* Cambio a borde blanco */
+  box-shadow: 0 4px 8px #a6525689;
+}
+
+/* Estilo para cuando pasamos el cursor por encima */
+.teacher-item:hover:not(.disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px #a6525689;
+  background-color: #A65256;
+  border-left: 3px solid white !important; /* Cambio a borde blanco */
+}
+
+/* Estilo adicional para cuando el elemento seleccionado tiene hover */
+.teacher-item.selected:hover {
+  background-color: #A65256;
+  box-shadow: 0 4px 10px #a6525689;
+  border-left: 3px solid white !important; /* Asegurar que siga siendo blanco */
+}
+
+/* Make text white on hover and when selected */
+.teacher-item:hover ::ng-deep *,
+.teacher-item.selected ::ng-deep * {
+  color: white !important;
+
+}
+
+/* Button wrapper to add proper positioning */
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.save-button {
+  width: 100%; /* Mismo ancho que los ítems de profesor */
+  padding: 12px 20px; /* Altura similar a los ítems de profesor */
+  border-radius: 6px; /* Mismo border-radius que los ítems */
+  background-color: rgba(94, 158, 115, 1); /* Color verde solicitado */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(94, 158, 115, 0.3);
+  font-weight: bold; /* Texto en negrita */
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Added hover effects for the save button */
+.save-button:hover {
+  background-color: rgba(78, 131, 95, 1); /* Versión más oscura del verde */
+  transform: translateY(-3px); /* Mismo efecto que los ítems de profesor */
+  box-shadow: 0 4px 8px rgba(94, 158, 115, 0.5);
+}
+
+.save-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(94, 158, 115, 0.4);
+}

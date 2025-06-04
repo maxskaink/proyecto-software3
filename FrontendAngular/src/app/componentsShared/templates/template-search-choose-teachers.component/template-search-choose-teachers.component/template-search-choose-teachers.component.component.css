@@ -105,7 +105,7 @@
   gap: 12px;
   width: 100%;
   padding: 50px 30px 30px; /* Reducido el padding superior de 65px a 50px */
-  background-color: #ECF4F1;
+  background-color:#ECF4F1;
   border-radius: 8px;
   box-shadow: 0 3px 6px rgba(94, 158, 115, 0.1);
   border: 1px solid rgba(94, 158, 115, 0.2);
@@ -135,24 +135,37 @@
   width: 100%;
 }
 
+/* Make text white on hover and when selected */
+.teacher-item:hover ::ng-deep *,
+.teacher-item.selected ::ng-deep * {
+  color: white !important;
+
+}
+
+/* Add selected state styling */
+.teacher-item.selected {
+  background-color: rgba(94, 158, 115, 0.5);
+  color: white;
+}
+
 .teacher-item.disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 .teacher-item.selected {
-  background-color: rgba(94, 158, 115, 0.2); /* Mantiene el color verde #5E9E73 con baja opacidad */
+  background-color: rgba(94, 158, 115); /* Mantiene el color verde #5E9E73 con baja opacidad */
   border-left: 5px solid #5E9E73; /* Mantiene el borde lateral verde */
 }
 
 .teacher-item:hover:not(.disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(94, 158, 115, 0.4);
-  background-color: rgba(94, 158, 115, 0.2); /* Mantiene el color #5E9E73 con baja opacidad */
+  box-shadow: 0 4px 8px rgba(94, 158, 115);
+  background-color: rgba(94, 158, 115); /* Mantiene el color #5E9E73 con baja opacidad */
 }
 
 .teacher-item.selected:hover {
-  background-color: rgba(94, 158, 115, 0.3); /* Mantiene el color #5E9E73 con mayor opacidad */
+  background-color: rgba(94, 158, 115); /* Mantiene el color #5E9E73 con mayor opacidad */
   box-shadow: 0 4px 10px rgba(94, 158, 115, 0.5);
 }
 
@@ -339,4 +352,26 @@
   :host ::ng-deep .user-icon {
     font-size: 40px;
   }
+}
+
+/* Estilo para cuando un elemento está seleccionado */
+.teacher-item.selected {
+  background-color: rgba(94, 158, 115); /* Color verde */
+  border-left: 3px solid white !important; /* Cambio a borde blanco */
+  box-shadow: 0 4px 8px rgba(94, 158, 115, 0.5);
+}
+
+/* Estilo para cuando pasamos el cursor por encima */
+.teacher-item:hover:not(.disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(94, 158, 115);
+  background-color: rgba(94, 158, 115);
+  border-left: 3px solid white !important; /* Cambio a borde blanco */
+}
+
+/* Estilo adicional para cuando el elemento seleccionado tiene hover */
+.teacher-item.selected:hover {
+  background-color: rgba(94, 158, 115);
+  box-shadow: 0 4px 10px rgba(94, 158, 115, 0.5);
+  border-left: 3px solid white !important; /* Asegurar que siga siendo blanco */
 }
