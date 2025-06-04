@@ -1,5 +1,7 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-molecule-back-header> </app-molecule-back-header>
+<app-molecule-back-header
+  [confirmBack]="this.isEdit"
+> </app-molecule-back-header>
 <div class="d-flex flex-column overflow-hidden">
   <section class="row sectionInfo">
     <!-- Left column - will stack on small screens -->
