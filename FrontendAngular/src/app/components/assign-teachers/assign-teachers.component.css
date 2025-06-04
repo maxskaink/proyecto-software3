@@ -1,0 +1,154 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #CDC6E5;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  background-color: #CDC6E5;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 10px 20px; /* Reduced top padding */
+}
+
+/* Main section container with margins */
+section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 ;
+}
+
+/* Split layout container that activates when teachers are selected */
+.section-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0; /* Ensure no bottom margin */
+}
+
+/* When teachers are selected, switch to horizontal layout */
+.has-selected-teachers {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between; /* Changed back to space-between */
+  gap: 20px; /* Add gap between the two sections */
+}
+
+/* Available teachers section - centered by default */
+.section-available-teachers {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+  margin-bottom: 10px; /* Reduced spacing */
+}
+
+/* When teachers are selected, adjust width to 70% */
+.has-selected-teachers .section-available-teachers {
+  width: 68%;
+  margin: 0;
+}
+
+/* Selected teachers section */
+.section-selected-teachers {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0;
+  transition: all 0.3s ease;
+  margin-bottom: 0;
+  align-self: flex-start; /* Ensure it stays left aligned */
+  display: flex;
+  flex-direction: column;
+}
+
+/* When teachers are selected, adjust width to 30% */
+.has-selected-teachers .section-selected-teachers {
+  width: 28%;
+  margin: 0;
+}
+
+/* Titles for sections */
+.available-title {
+  text-align: center;
+  margin-bottom: 10px; /* Reduced from 20px */
+}
+
+/* Action buttons container */
+.section-action-buttons {
+  width: 28%; /* Match width of selected teachers section */
+  margin-top: 15px; /* Reduced from 30px */
+  display: flex;
+  justify-content: center; /* Center in its container */
+  position: relative; /* Changed from sticky to relative */
+  z-index: 100;
+  align-self: flex-end; /* Align to right side */
+}
+
+/* Make action buttons container match section width */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Button wrapper to add proper positioning */
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.save-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #6750A4;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.save-button:disabled {
+  background-color: #A9A9A9;
+  cursor: not-allowed;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  /* Stack elements vertically on small screens */
+  .has-selected-teachers {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Full width for available teachers on small screens */
+  .has-selected-teachers .section-available-teachers {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Full width for selected teachers on small screens */
+  .has-selected-teachers .section-selected-teachers {
+    width: 100%;
+    margin-top: 0;
+  }
+  
+  /* Full width for action buttons on small screens */
+  .section-action-buttons {
+    width: 100%;
+    align-self: center;
+    margin-top: 20px;
+  }
+  
+  /* Add some space between sections */
+  .section-content {
+    gap: 15px;
+  }
+}
+

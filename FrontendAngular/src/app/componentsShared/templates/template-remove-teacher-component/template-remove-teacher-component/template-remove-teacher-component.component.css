@@ -1,0 +1,186 @@
+/* Heredar los estilos base del template-choose-teachers */
+.teachers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 30px;
+  background-color: #ECF4F1;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(94, 158, 115, 0.1);
+  margin: 15px 0;
+  border: 1px solid rgba(94, 158, 115, 0.2);
+}
+
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+}
+
+.teacher-item {
+  background-color: white;
+  border-left: 5px solid #5E9E73;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-bottom: 8px;
+  background-color: rgba(94, 158, 115, 0.2);
+}
+
+.teacher-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(94, 158, 115, 0.4);
+  background-color: rgba(94, 158, 115, 0.3);
+}
+
+.user-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.action-cell {
+  width: 48px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.ra-action-icon {
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 48px;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+/* Estilo específico para el botón de eliminación */
+.remove-icon {
+  background-color: #A65256;
+  color: white;
+}
+
+.remove-icon:hover {
+  background-color: #B83238;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Efecto de escala al hacer hover */
+.teacher-item:hover .ra-action-icon {
+  transform: scale(1.1);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .teachers-container {
+    padding: 20px;
+  }
+
+  .teacher-item {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  :host ::ng-deep .user-icon {
+    font-size: 40px;
+  }
+}
+
+/* Estilos del contenedor principal */
+.search-teachers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Estilos para la sección de búsqueda sin barra de búsqueda */
+.search-section {
+  background-color: #1F0D1E; /* Color morado oscuro */
+  padding: 15px 20px; /* Padding ajustado para título */
+  border-radius: 35px; /* Esquinas muy redondeadas */
+  box-shadow: 0 4px 8px rgba(31, 13, 30, 0.3);
+  margin-bottom: -30px; /* Superposición con el contenedor inferior */
+  position: relative;
+  z-index: 2; /* Mayor z-index para estar por encima */
+  color: white;
+}
+
+/* Estilos para el título de la sección */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: white;
+}
+
+/* Ajuste del contenedor de profesores para la superposición */
+.teachers-container {
+  padding-top: 45px; /* Ajustado para compensar el margin-bottom negativo de search-section */
+  position: relative;
+  z-index: 1; /* Menor z-index para estar por debajo */
+}
+
+/* Estilo para cuando no hay profesores */
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+}
+
+/* Media queries para mantener la responsividad */
+@media (max-width: 768px) {
+  .search-section {
+    padding: 12px 15px;
+    margin-bottom: -25px;
+  }
+
+  .teachers-container {
+    padding-top: 40px;
+  }
+
+  .section-title h4 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-section {
+    padding: 10px 15px;
+    margin-bottom: -20px;
+  }
+
+  .teachers-container {
+    padding-top: 35px;
+  }
+}

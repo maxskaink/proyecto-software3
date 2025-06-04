@@ -90,7 +90,7 @@ export class AuthService {
       academicTitle: userData.academicTitle || '',
       identification: userData.identification || 0,
       identificationType: userData.identificationType || '',
-      lastName: userData.lastName || '',
+      lastName: userData.lastname || '',
       name: userData.name || '',
       role: userData.role || '',
       typeTeacher: userData.typeTeacher || ''
