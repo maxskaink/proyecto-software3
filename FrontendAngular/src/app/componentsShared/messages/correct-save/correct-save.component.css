@@ -1,0 +1,54 @@
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    animation: slideIn 0.5s ease-out;
+}
+
+.alert {
+    background-color: #5E9E73;
+    color: white;
+    padding: 1rem 1.5rem;
+    border: none;
+    clip-path: polygon(
+        0 0,                    /* top left (recto) */
+        100% 0,                 /* top right (recto) */
+        100% calc(100% - 20px), /* bottom right start */
+        calc(100% - 30px) 100%, /* bottom right corner */
+        20px 100%,              /* bottom left corner */
+        0 calc(100% - 20px)     /* bottom left start */
+    );
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alert-heading {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+}
+
+.bi-save-fill {
+    font-size: 1.5rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
