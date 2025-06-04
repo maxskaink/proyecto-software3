@@ -1,0 +1,35 @@
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div class="overlay">
+  <app-molecule-back-header></app-molecule-back-header>
+  <section>
+    <!-- Main content with conditional layout -->
+    <div class="section-content" [class.has-selected-teachers]="((selectedEvaluators$ | async) ?? []).length > 0">
+      <!-- SECTION: Available Teachers -->
+      <div class="section-available-teachers">
+        <h1 class="fw-bold title mb-1" id="title">Evaluadores Disponibles</h1>
+        <label for="title" class="form-label small text-muted mb-3">
+          &lt;Selecciona los evaluadores que van a evaluar tu Resultado de Aprendizaje&gt;
+        </label>
+        <app-template-search-choose-evaluators
+          [listEvaluators]="teachers"
+          [selectedEvaluators]="(selectedEvaluators$ | async) || []"
+          [maxEvaluators]="5"
+          (evaluatorSelectionChange)="onEvaluatorSelectionChange($event)"
+        ></app-template-search-choose-evaluators>
+      </div>
+
+      <!-- SECTION: Selected Teachers -->
+      <div class="section-selected-teachers">
+        <ng-container *ngIf="((selectedEvaluators$ | async) ?? []).length > 0">
+          <app-template-remove-evaluator
+            [selectedEvaluators]="(selectedEvaluators$ | async) || []"
+            (evaluatorRemoved)="onEvaluatorRemoved($event)"
+            [originalEvaluatorsUID]="originalEvaluatorsUID"
+            [subjectOutcomeId]="getSubjectOutcomeId()"
+          ></app-template-remove-evaluator>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+</div>

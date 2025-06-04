@@ -86,7 +86,14 @@ export class OutcomeComponent implements OnInit {
           value: 'evaluators'
         },
         showButtonTwo: true,
-        buttonTextTwo: 'Gestionar Evaluadores'
+        buttonTextTwo: 'Gestionar Evaluadores',
+        actionTwo:{
+          type: 'navigate',
+          value: '/home/subject/competencySubject/outcome/assignEvaluators',
+          queryParams: {
+            outcomeId: this.outcomeId
+          }
+        }
       },
       {
         title: 'Rubrica',
