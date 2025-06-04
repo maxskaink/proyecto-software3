@@ -8,7 +8,7 @@ import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecul
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
-import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
+
 
 
 @Component({
@@ -20,7 +20,7 @@ import { AlertmessageComponent } from '../../componentsShared/messages/alertmess
         CommonModule,
         FormsModule,
         LoadingComponent,
-        AlertmessageComponent
+        
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'

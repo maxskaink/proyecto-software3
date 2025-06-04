@@ -7,6 +7,8 @@ import { MoleculeLevelBoxComponent } from '../../molecules/molecule-level-box/mo
 import { FormsModule } from '@angular/forms';
 import { CriterionEntity } from '../../../models/CriterionEntity';
 import { LevelEntity } from '../../../models/LevelEntity';
+import { ModalConfirmComponent } from '../../messages/modal-confirm/modal-confirm.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-template-rubric-row',
@@ -22,7 +24,21 @@ export class TemplateRubricRowComponent implements OnInit{
   levels: LevelEntity[] | null = {} as LevelEntity[]; 
   name: string = '';
   weight: number = 0; 
-  constructor(){} 
+  constructor(private dialog: MatDialog) {} 
+
+  handleDelete() {
+    const dialogRef = this.dialog.open(ModalConfirmComponent, {
+      data: {
+        message: '¿Está seguro que desea eliminar este criterio?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onDelete.emit();
+      }
+    });
+  }
   ngOnInit(): void {
     if (this.criterion && this.criterion.name) {
       this.name= this.criterion.name;
