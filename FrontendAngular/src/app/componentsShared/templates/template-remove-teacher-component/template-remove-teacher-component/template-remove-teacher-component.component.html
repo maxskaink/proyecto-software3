@@ -1,0 +1,44 @@
+<div class="search-section">
+  <div class="section-title">
+    <!-- Puedes agregar algún ícono o información adicional aquí si lo deseas -->
+  </div>
+</div>
+
+<div class="teachers-container">
+  <div *ngIf="(teachers$ | async)?.length === 0" class="empty-state">
+    <p class="text-center text-muted">No hay profesores seleccionados</p>
+  </div>
+
+  <div
+    *ngFor="let teacher of teachers$ | async"
+    class="teacher-item selected"
+  >
+    <div class="user-container">
+      <app-molecule-block-user [name]="teacher.name" [role]="teacher.role"></app-molecule-block-user>
+    </div>
+
+    <div class="action-cell">
+      <button
+        class="ra-action-icon remove-icon"
+        (click)="removeTeacher(teacher)"
+      >
+        ×
+      </button>
+    </div>
+  </div>
+
+
+    <!-- SECTION: Action Buttons - Only visible when teachers are selected -->
+    <div class="section-action-buttons">
+      <div class="action-buttons">
+        <button
+          class="save-button"
+          (click)="saveAssignedTeachers()"
+        >
+          Guardar Asignación
+        </button>
+      </div>
+    </div>
+</div>
+
+

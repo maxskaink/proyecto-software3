@@ -1,48 +1,46 @@
 import {
   Component,
-  viewChild,
-  ElementRef,
-  ViewChild,
-  EventEmitter,
-  Inject,
-  PLATFORM_ID,
   OnInit,
-  AfterViewInit,
 } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SubjectDTO } from '../../models/SubjectDTO';
-import { SubjectService } from '../../services/subject.service';
-import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { SubjectCompetencyService } from '../../services/subject_competency.service';
-import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
-import { TemplateCompetencyComponent } from '../../componentsShared/templates/template-competency/template-competency.component';
-import { TemplateCompetencyEditComponent } from '../../componentsShared/templates/template-competency-edit/template-competency-edit.component';
-import { AuthService } from '../../services/auth.service';
-import { EditStateService } from '../../services/edit-state.service';
-import { Carousel } from 'bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
-import { forkJoin, Observable } from 'rxjs';
-import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
-import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
-import { TeacherAssignment } from '../../models/TeacherAssignmentDTO';
 import { TeacherDTO } from '../../models/TeacherDTO';
-import { TemplateChooseTeachersComponent } from '../../componentsShared/templates/template-choose-teachers/template-choose-teachers/template-choose-teachers.component';
-
+import { TemplateRemoveTeacherComponentComponent } from '../../componentsShared/templates/template-remove-teacher-component/template-remove-teacher-component/template-remove-teacher-component.component';
+import { AuthService } from '../../services/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { TemplateSearchChooseTeachersComponentComponent } from "../../componentsShared/templates/template-search-choose-teachers.component/template-search-choose-teachers.component/template-search-choose-teachers.component.component";
 
 @Component({
   selector: 'app-assign-teachers',
-  imports: [CommonModule, LoadingComponent, MoleculeBackHeaderComponent, TemplateChooseTeachersComponent],
+  imports: [
+    CommonModule,
+    LoadingComponent,
+    MoleculeBackHeaderComponent,
+    TemplateRemoveTeacherComponentComponent,
+    TemplateSearchChooseTeachersComponentComponent
+],
   templateUrl: './assign-teachers.component.html',
   styleUrl: './assign-teachers.component.css',
 })
-export class AssignTeachersComponent {
+export class AssignTeachersComponent implements OnInit {
   isLoading: boolean = false;
   subjectId: number = -1;
   teachers: TeacherDTO[] = [];
 
-  constructor(private route: ActivatedRoute,     private auth: AuthService) {}
+  // Usamos BehaviorSubject para manejar las actualizaciones en tiempo real
+  private selectedTeachersSubject = new BehaviorSubject<TeacherDTO[]>([]);
+  selectedTeachers$ = this.selectedTeachersSubject.asObservable();
+Selecciona: any;
+
+  // Mantenemos una propiedad para acceder fácilmente al valor actual
+  get selectedTeachers(): TeacherDTO[] {
+    return this.selectedTeachersSubject.getValue();
+  }
+
+  constructor(private route: ActivatedRoute, private auth: AuthService) {}
+
   ngOnInit() {
     this.isLoading = true;
     const response = this.route.snapshot.paramMap.get('id');
@@ -65,7 +63,47 @@ export class AssignTeachersComponent {
       error: (err) => {
         console.error('Error loading teachers:', err);
         this.isLoading = false;
-      }
+      },
     });
   }
+
+  // Método para manejar la selección de profesores desde template-choose-teachers
+  onTeacherSelectionChange(event: { teacher: TeacherDTO; isSelected: boolean }): void {
+    const currentSelected = this.selectedTeachersSubject.getValue();
+
+    if (event.isSelected) {
+      // Si el profesor se seleccionó, añadirlo a la lista si no está ya
+      if (!this.isTeacherSelected(event.teacher)) {
+        const updatedList = [...currentSelected, event.teacher];
+        this.selectedTeachersSubject.next(updatedList);
+      }
+    } else {
+      // Si el profesor se deseleccionó, quitarlo de la lista
+      const updatedList = currentSelected.filter(
+        t => t.identification !== event.teacher.identification
+      );
+      this.selectedTeachersSubject.next(updatedList);
+    }
+  }
+
+  // Método para manejar la eliminación de profesores desde template-remove-teacher
+  onTeacherRemoved(teacher: TeacherDTO): void {
+    const currentSelected = this.selectedTeachersSubject.getValue();
+
+    // Quitar el profesor de la lista de seleccionados
+    const updatedList = currentSelected.filter(
+      t => t.identification !== teacher.identification
+    );
+
+    this.selectedTeachersSubject.next(updatedList);
+  }
+
+  // Método auxiliar para verificar si un profesor ya está seleccionado
+  private isTeacherSelected(teacher: TeacherDTO): boolean {
+    return this.selectedTeachersSubject.getValue().some(
+      t => t.identification === teacher.identification
+    );
+  }
+
+
 }
