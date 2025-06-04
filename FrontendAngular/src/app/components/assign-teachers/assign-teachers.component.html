@@ -1,6 +1,33 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-molecule-back-header>
-</app-molecule-back-header>
-<app-template-choose-teachers
-    [listTeachers]="teachers"
-></app-template-choose-teachers>
+
+<div class="overlay">
+  <app-molecule-back-header></app-molecule-back-header>
+  <section>
+    <!-- Main content with conditional layout -->
+    <div class="section-content" [class.has-selected-teachers]="((selectedTeachers$ | async) ?? []).length > 0">
+      <!-- SECTION: Available Teachers -->
+      <div class="section-available-teachers">
+        <h1 class="fw-bold title mb-1" id="title">Profesores Disponibles</h1>
+        <label for="title" class="form-label small text-muted mb-3">
+          &lt;Selecciona los docentes que van a dictar tu asignatura&gt;
+        </label>
+        <app-template-search-choose-teachers
+          [listTeachers]="teachers"
+          [selectedTeachers]="(selectedTeachers$ | async) || []"
+          [maxTeachers]="5"
+          (teacherSelectionChange)="onTeacherSelectionChange($event)"
+        ></app-template-search-choose-teachers>
+      </div>
+
+      <!-- SECTION: Selected Teachers -->
+      <div class="section-selected-teachers">
+        <ng-container *ngIf="((selectedTeachers$ | async) ?? []).length > 0">
+          <app-template-remove-teacher
+            [selectedTeachers]="(selectedTeachers$ | async) || []"
+            (teacherRemoved)="onTeacherRemoved($event)"
+          ></app-template-remove-teacher>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+</div>
