@@ -7,11 +7,14 @@ import { CommonModule } from '@angular/common';
 import { ProgramOutcome } from '../../models/ProgramOutcomeDTO';
 import { ProgramCompetencyService } from '../../services/program-competency.service';
 import { FormsModule } from '@angular/forms';
+import {
+  MoleculeBackHeaderComponent
+} from "../../componentsShared/molecules/molecule-back-header/molecule-back-header.component";
 
 @Component({
   selector: 'app-program-competency',
   imports: [CommonModule, TemplateSelectInputBoxtextComponent,
-    TemplateHeaderTitleComponent, MoleculeOutComeComponent, FormsModule],
+    TemplateHeaderTitleComponent, MoleculeOutComeComponent, FormsModule, MoleculeBackHeaderComponent],
   templateUrl: './program-competency.component.html',
   styleUrl: './program-competency.component.css'
 })
