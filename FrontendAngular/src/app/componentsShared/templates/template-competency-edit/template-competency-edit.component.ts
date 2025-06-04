@@ -35,7 +35,7 @@ export class TemplateCompetencyEditComponent {
   @Input() competency!: SubjectCompetency;
   @Input() subjectId!: number;
   @Output() editStateChange = new EventEmitter<boolean>();
-
+  @Output() saveSuccess = new EventEmitter<void>();
   // Competency data
   editedCompetency: SubjectCompetency = {} as SubjectCompetency;
   programCompetency$!: Observable<ProgramCompetency>;
@@ -194,6 +194,7 @@ export class TemplateCompetencyEditComponent {
       .updateCompetency(this.competency.id, this.editedCompetency)
       .subscribe({
         next: (updatedCompetency) => {
+          this.saveSuccess.emit();
           // 2. Process outcomes after competency is updated
           this.processOutcomes();
         },

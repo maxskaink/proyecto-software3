@@ -8,6 +8,7 @@ import { MoleculeBlockComponent } from '../../componentsShared/molecules/molecul
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
+import { CorrectSaveComponent } from '../../componentsShared/messages/correct-save/correct-save.component';
 
 @Component({
     selector: 'app-home',
@@ -17,7 +18,8 @@ import { LoadingComponent } from '../../componentsShared/loading/loading.compone
         MoleculeSearchBarComponent,
         CommonModule,
         FormsModule,
-        LoadingComponent
+        LoadingComponent,
+        CorrectSaveComponent
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'

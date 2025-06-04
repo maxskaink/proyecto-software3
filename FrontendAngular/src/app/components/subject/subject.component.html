@@ -39,6 +39,11 @@
         <div *ngFor="let competency of listCompetency; let i = index"
              class="carousel-item"
              [class.active]="i === currentIndex">
+             <app-correct-save 
+                *ngIf="showSuccessMessage"
+                [message]="'Competencia guardada exitosamente'">
+            </app-correct-save>
+
           <app-template-competency
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
@@ -47,6 +52,7 @@
           <app-template-competency-edit
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
+            (saveSuccess)="onSaveSuccess()"
             [subjectId]="getSubjectId()"
             *ngIf="isEdit">
           </app-template-competency-edit>

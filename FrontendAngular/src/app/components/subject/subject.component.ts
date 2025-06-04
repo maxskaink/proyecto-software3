@@ -20,6 +20,7 @@ import {
 import {TeacherAssignmentService} from "../../services/teacher_assignment.service";
 import {TeacherAssignment} from "../../models/TeacherAssignmentDTO";
 import {TeacherDTO} from "../../models/TeacherDTO";
+import { CorrectSaveComponent } from '../../componentsShared/messages/correct-save/correct-save.component';
 declare var bootstrap: any;
 
 
@@ -32,7 +33,8 @@ declare var bootstrap: any;
       TemplateCompetencyEditComponent,
       TemplateListTeachersComponent,
       CommonModule,
-      LoadingComponent
+      LoadingComponent,
+      CorrectSaveComponent
 
   ],
   templateUrl: './subject.component.html',
@@ -52,7 +54,7 @@ export class SubjectComponent {
   isCompetencySectionVisible = false;
   isEdit: boolean = true;
   currentIndex: number = 0; // Añadir variable para el índice actual
-
+  showSuccessMessage = false;
   teacherAssignments: TeacherDTO[] = [];
 
   constructor(
@@ -85,7 +87,12 @@ export class SubjectComponent {
   }
 
 
-
+  onSaveSuccess(): void {
+    this.showSuccessMessage = true;
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+    }, 3000);
+  }
   private loadInitialData(): void {
 
     this.editStateService.editState$.subscribe(state => {
