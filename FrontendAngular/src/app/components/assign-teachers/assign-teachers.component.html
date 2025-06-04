@@ -25,6 +25,8 @@
           <app-template-remove-teacher
             [selectedTeachers]="(selectedTeachers$ | async) || []"
             (teacherRemoved)="onTeacherRemoved($event)"
+            [originalTeachersUID]="originalTeachersUID"
+            [subjectId]="getSubjectId()"
           ></app-template-remove-teacher>
         </ng-container>
       </div>

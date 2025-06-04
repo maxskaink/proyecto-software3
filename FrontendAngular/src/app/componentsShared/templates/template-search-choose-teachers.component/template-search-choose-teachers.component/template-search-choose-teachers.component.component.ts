@@ -37,7 +37,6 @@ export class TemplateSearchChooseTeachersComponentComponent implements OnChanges
   // BehaviorSubject para los profesores
   private teachersSubject = new BehaviorSubject<SelectableTeacher[]>([]);
 
-  // Observable filtrado con la búsqueda
   teachers$: Observable<SelectableTeacher[]>;
 
   selectedCount: number = 0;
@@ -69,16 +68,26 @@ export class TemplateSearchChooseTeachersComponentComponent implements OnChanges
         );
       })
     );
-    // Iniciar la búsqueda con cadena vacía
-    this.searchControl.setValue('');
   }
 
+
+  ngOnInit(): void {
+    // Asegurar que los datos se inicialicen al cargar el componente
+    this.initializeData();
+
+    // Forzar la renderización inicial con un valor vacío
+    // Lo hacemos en ngOnInit para asegurar que ocurra después de la detección de cambios inicial
+    setTimeout(() => {
+      this.searchControl.setValue('');
+    }, 0);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['listTeachers'] || changes['selectedTeachers']) {
       this.initializeData();
     }
   }
+
 
   private initializeData(): void {
     this.allSelectedTeachers = [...this.selectedTeachers];
@@ -100,6 +109,7 @@ export class TemplateSearchChooseTeachersComponentComponent implements OnChanges
   private isTeacherInList(teacher: TeacherDTO, list: TeacherDTO[]): boolean {
     return list.some(t => t.identification === teacher.identification);
   }
+
 
   isTeacherSelected(teacher: TeacherDTO): boolean {
     return this.isTeacherInList(teacher, this.allSelectedTeachers);
