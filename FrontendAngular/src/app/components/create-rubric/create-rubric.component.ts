@@ -91,13 +91,24 @@ export class CreateRubricComponent {
    */
   async saveRubric(): Promise<void> {
     try {
-      if(!this.isEdit){
-        await this.createRubric();
+
+      if (!this.validateCriterions()) {
+        return;
       }
-      await this.saveCriterions();
-      await this.saveLevels();
-      this.showAlert = true; // Show alert on success
-      console.log('Rubric created successfully with ID:', this.idRubric);
+      if(this.isEdit){
+        await this.editRubric();
+        this.showAlert = true;
+      }
+
+      else{
+        await this.createRubric();
+        await this.saveCriterions();
+        await this.saveLevels();
+        this.showAlert = true; // Show alert on success
+        console.log('Rubric created successfully with ID:', this.idRubric);
+      }
+
+    
     } catch (error) {
       console.error('Error in rubric creation process:', error);
       if (this.idRubric) {
@@ -106,6 +117,34 @@ export class CreateRubricComponent {
     }
 
   }
+
+  async editRubric(): Promise<void>{
+         // 1. Get existing criteria from DB
+         const existingCriteria = await firstValueFrom(
+          this.criterionService.getAllCriterionByRubric(this.idRubric)
+        );
+  
+        // 2. Delete all existing criteria
+        for (const criterion of existingCriteria) {
+          await firstValueFrom(
+            this.criterionService.deleteCriterion(criterion.id)
+          );
+        }
+  
+        // 3. Create new criteria and their levels
+        await this.saveCriterions();
+        await this.saveLevels();
+  
+        // 4. Update rubric description if changed
+        if (this.description !== this.RubricDTO.description) {
+          await firstValueFrom(
+              this.rubricService.updateRubric(this.idRubric, {
+                  description: this.description
+              } as Partial<RubricDTO>)
+          );
+      }
+  }
+
   onAlertClosed() {
     this.showAlert = false;
   }
