@@ -17,6 +17,7 @@ import unicauca.coreservice.infrastructure.SQLrepository.mapper.SubjectOutcomeMa
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -68,6 +69,10 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
                 .filter(assignment -> Objects.equals(conf.getActiveTerm().getId(), assignment.getTerm().getId()))
                 .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
                 .filter(SubjectOutcomeEntity::isActivated)
+                .peek(entity -> {
+                    if(entity.getRubric() != null && !entity.getRubric().isActivated())
+                        entity.setRubric(null);
+                })
                 .map(SubjectOutcomeMapper::toSubjectOutcome)
                 .toList();
         }
@@ -85,6 +90,10 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
                 .filter(assignment -> Objects.equals(idTerm, assignment.getTerm().getId()))
                 .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
                 .filter(SubjectOutcomeEntity::isActivated)
+                .peek(entity -> {
+                    if(entity.getRubric() != null && !entity.getRubric().isActivated())
+                        entity.setRubric(null);
+                })
                 .map(SubjectOutcomeMapper::toSubjectOutcome)
                 .toList();
     }
@@ -97,6 +106,10 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
                 .filter(assignment -> Objects.equals(conf.getActiveTerm().getId(), assignment.getTerm().getId()))
                 .flatMap(assignment -> assignment.getSubjectOutcomes().stream())
                 .filter(SubjectOutcomeEntity::isActivated)
+                .peek(entity -> {
+                    if(entity.getRubric() != null && !entity.getRubric().isActivated())
+                        entity.setRubric(null);
+                })
                 .map(SubjectOutcomeMapper::toSubjectOutcome)
                 .toList();
     }
@@ -104,10 +117,13 @@ public class SubjectOutcomeRepository implements SubjectOutcomeRepositoryOutInt 
     @Override
     public OptionalWrapper<SubjectOutcome> getById(Integer id) {
         try{
-            return new OptionalWrapper<>(SubjectOutcomeMapper.toSubjectOutcome(
-                    subjectOutcomeRepository.findActiveSubjectOutcomeById(id)
-                            .orElseThrow(() -> new NotFound("SubjectOutcome with id " + id + " was not found"))
-            ));
+            SubjectOutcomeEntity entity = subjectOutcomeRepository.findActiveSubjectOutcomeById(id)
+                    .orElseThrow(() -> new NotFound("SubjectOutcome with id " + id + " was not found"));
+
+            if(entity.getRubric() != null && !entity.getRubric().isActivated())
+                entity.setRubric(null);
+
+            return new OptionalWrapper<>(SubjectOutcomeMapper.toSubjectOutcome(entity));
         } catch (Exception e) {
             return new OptionalWrapper<>(e);
         }
