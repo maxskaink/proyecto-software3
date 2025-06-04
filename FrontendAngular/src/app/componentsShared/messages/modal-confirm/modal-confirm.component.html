@@ -1,0 +1,16 @@
+<div class="modal-container">
+    <div class="modal-header">
+        <h2 class="modal-title">¡Aviso!</h2>
+        <button class="close-button" (click)="onCancel()">×</button>
+    </div>
+
+    <div class="modal-content">
+        <p>{{data.message}}</p>
+        <div class="modal-footer">
+            <button class="btn btn-confirm" (click)="onConfirm()">Confirmar</button>
+            <button class="btn btn-cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+    </div>
+
+  
+</div>

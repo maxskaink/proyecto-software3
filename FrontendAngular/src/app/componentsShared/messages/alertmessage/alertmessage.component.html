@@ -1,0 +1,19 @@
+<section class="alert-container"
+    [class.hidding]="isHiding"
+    (click)="hideMessage()">
+    <div class="alert d-flex align-items-center" [ngClass]="{
+        'alert--save': state === 'save' || state === 'correct',
+        'alert--error': state === 'error'
+    }">
+        <div class="alert-content">
+            <h2 class="alert-heading">
+                {{ message }}
+            </h2>
+            <div class="icon-container">
+                <i *ngIf="state === 'save'" class="bi bi-save-fill"></i>
+                <i *ngIf="state === 'error'" class="bi bi-x-circle-fill"></i>
+                <i *ngIf="state === 'correct'" class="bi bi-check-circle-fill"></i>
+            </div>
+        </div>
+    </div>
+</section>

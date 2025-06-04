@@ -46,7 +46,7 @@ export class RubricService {
     }
 
     // PUT /rubric
-    updateRubric(id: number, data: RubricDTO): Observable<RubricDTO> {
+    updateRubric(id: number, data: Partial<RubricDTO>): Observable<RubricDTO> {
         return this.http.put<RubricDTO>(`${this.baseUrl}/rubric/${id}`, data)
         .pipe(
             catchError(this.handleError)

@@ -1,4 +1,9 @@
-
+<app-alertmessage 
+    *ngIf="showAlert"
+    [message]="'Rúbrica guardada exitosamente'"
+    [state]="'save'"
+    (closed)="onAlertClosed()">
+</app-alertmessage>
 <div class="overlay">
     <app-template-header-title [variant]="'secondary'" [title]="'Crear rubrica'" [description]="'Crea aqui tu rubrica'"></app-template-header-title>    
 
@@ -7,10 +12,17 @@
         <section class="sectionDescription p-4">
             <h2>
                 <span class="title angular-brackets">Rubrica</span>
-                <p>Escribe la description de tu rubrica </p>
-                <textarea class="description-input" name="description" id="description">
+                <p class="text-help"></p>
+                <textarea class="description-input"
+                 name="description"
+                 [(ngModel)]="description"
+                  id="description">
                     Escribe aqui la descripcion de tu rubrica
                 </textarea>
+                <div *ngIf="error.description" >
+                    <p class="text-danger">{{error.description}}</p>
+
+                </div>
             </h2>
         </section>
         <section class="row mb-5 sectionCriterions">
@@ -33,7 +45,7 @@
                 <div class="col-12">
                     <div class="p-4">
                         <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
-                        <p class="mb-4">Estos son los criterios que tienes creados hasta el momento</p>
+                        <p class="mb-4 text-help">Estos son los criterios que tienes creados hasta el momento</p>
                         <div *ngFor="let criterion of listCriterion" class="listCriterion">
                             <!-- Show row when not editing this criterion -->
                             <app-template-rubric-row
@@ -55,5 +67,20 @@
                     </div>
                 </div>
             </section>
+            <div *ngIf="error.weight" class="error-message">
+                <p class="text-danger">{{ error.weight }}</p>
+            </div>
+            <section class=" p-4">
+                <p class="text-help">¿Ya terminaste tu rubrica? </p>
+                <p class="text-help">Guarda tus cambios y sigue con tu proceso</p>
+                <div class="">
+                    <button class="btn_save" (click)="saveRubric()">
+                        Guardar
+                    </button>
+                    <button class="btn_cancel">
+                        cancelar
+                    </button>
+                </div>
+            </section >
     </div>
 </div>

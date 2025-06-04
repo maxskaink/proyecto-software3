@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TemplateModalReuseOutcomeComponent } from '../../templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
 import { TemplateModalCreateOutcomeComponent } from '../../templates/template-modal-create-outcome/template-modal-create-outcome/template-modal-create-outcome.component';
 import { forkJoin } from 'rxjs';
+import { ModalConfirmComponent } from '../../messages/modal-confirm/modal-confirm.component';
 
 /**
  * Component for editing subject competencies and their associated learning outcomes.
@@ -173,6 +174,7 @@ export class TemplateCompetencyEditComponent {
 
     this.outcomes$ = of(this.currentOutcomes); // Update the observable
   }
+
 
   /**
    * Handles save button click event

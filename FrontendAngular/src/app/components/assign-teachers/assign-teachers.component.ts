@@ -1,3 +1,4 @@
+import { TeacherAssignment } from './../../models/TeacherAssignmentDTO';
 import {
   Component,
   OnInit,
@@ -9,8 +10,10 @@ import { LoadingComponent } from '../../componentsShared/loading/loading.compone
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { TemplateRemoveTeacherComponentComponent } from '../../componentsShared/templates/template-remove-teacher-component/template-remove-teacher-component/template-remove-teacher-component.component';
 import { AuthService } from '../../services/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { TemplateSearchChooseTeachersComponentComponent } from "../../componentsShared/templates/template-search-choose-teachers.component/template-search-choose-teachers.component/template-search-choose-teachers.component.component";
+import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
+
 
 @Component({
   selector: 'app-assign-teachers',
@@ -28,18 +31,19 @@ export class AssignTeachersComponent implements OnInit {
   isLoading: boolean = false;
   subjectId: number = -1;
   teachers: TeacherDTO[] = [];
+  originalTeachersUID: string[] = [];
+  originalAssignments: TeacherAssignment[]  = [];
 
   // Usamos BehaviorSubject para manejar las actualizaciones en tiempo real
   private selectedTeachersSubject = new BehaviorSubject<TeacherDTO[]>([]);
   selectedTeachers$ = this.selectedTeachersSubject.asObservable();
-Selecciona: any;
 
   // Mantenemos una propiedad para acceder fácilmente al valor actual
   get selectedTeachers(): TeacherDTO[] {
     return this.selectedTeachersSubject.getValue();
   }
 
-  constructor(private route: ActivatedRoute, private auth: AuthService) {}
+  constructor(private route: ActivatedRoute, private auth: AuthService, private teacherService: TeacherAssignmentService) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -55,15 +59,32 @@ Selecciona: any;
   }
 
   loadInitialData(): void {
-    this.auth.getAllUsers().subscribe({
-      next: (teachers: TeacherDTO[]) => {
-        this.teachers = teachers;
+    this.isLoading = true;
+
+    // Cargar los profesores y las asignaciones en paralelo
+    forkJoin({
+      teachers: this.auth.getAllUsers(),
+      assignments: this.teacherService.getAssignmentsBySubject(this.subjectId)
+    }).subscribe({
+      next: (result) => {
+        this.teachers = result.teachers;
+        this.originalAssignments = result.assignments;
+        this.originalTeachersUID = result.assignments.map(a => a.teacherUid);
+
+        // Filtrar los profesores que ya están asignados
+        const selectedTeachers = this.teachers.filter(teacher =>
+          this.originalTeachersUID.includes(teacher.id || '')
+        );
+
+        // Actualizar la lista de profesores seleccionados
+        this.selectedTeachersSubject.next(selectedTeachers);
+
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error loading teachers:', err);
+        console.error('Error loading data:', err);
         this.isLoading = false;
-      },
+      }
     });
   }
 
@@ -105,5 +126,8 @@ Selecciona: any;
     );
   }
 
-
+  getSubjectId(): number {
+    return this.subjectId;
+  }
+  
 }

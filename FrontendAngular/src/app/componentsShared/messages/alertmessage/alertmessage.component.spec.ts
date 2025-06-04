@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CorrectSaveComponent } from './correct-save.component';
+import { AlertmessageComponent } from './alertmessage.component';
 
-describe('CorrectSaveComponent', () => {
-  let component: CorrectSaveComponent;
-  let fixture: ComponentFixture<CorrectSaveComponent>;
+describe('AlertmessageComponent', () => {
+  let component: AlertmessageComponent;
+  let fixture: ComponentFixture<AlertmessageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CorrectSaveComponent]
+      imports: [AlertmessageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CorrectSaveComponent);
+    fixture = TestBed.createComponent(AlertmessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
