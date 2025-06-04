@@ -1,7 +1,7 @@
 .user-icon {
-    font-size: 200px;            
-    color: #1F0D1E;               
-    
+    font-size: 200px;
+    color: #1F0D1E;
+
 }
 .section_options{
     margin-bottom: 4%;
@@ -9,11 +9,13 @@
 
 .section_options_value {
     transition: background-color 0.3s ease;
-    position: relative;  
+    position: relative;
     background-color: #8D538C;
     color: #ECF4F1;
   }
-  
+.sectiionTeachers{
+  width: clamp(20rem, 80%, 25rem);
+}
 .hover-square {
     width: 20px;
     height: 100%;
@@ -27,11 +29,11 @@
     border-bottom-left-radius: 0.5rem;
     margin-right: 20px;
   }
-  
+
   .section_options_value:hover .hover-square {
     opacity: 1;
   }
-  
+
 .welcome_text{
     padding: 3%;
     margin-top: 5%;

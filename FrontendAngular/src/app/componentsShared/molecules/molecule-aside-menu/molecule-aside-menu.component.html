@@ -3,6 +3,7 @@
       <div
         *ngFor="let item of menuItems; let i = index"
         class="menu-item"
+        [ngClass]="{'active': item.active}"
         (click)="onItemClick(item)"
       >
         {{ item.title }}

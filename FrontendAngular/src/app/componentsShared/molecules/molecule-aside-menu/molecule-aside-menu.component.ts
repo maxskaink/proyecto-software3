@@ -4,6 +4,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 interface MenuItem {
   title: string;
   action?: () => void; // Optional callback function for each item
+  active?: boolean; 
 }
 
 @Component({
@@ -21,7 +22,7 @@ export class MoleculeAsideMenuComponent {
     if (item.action) {
       item.action();
     }
-    
+
     // Also emit the event to maintain compatibility
     this.itemSelected.emit(item);
   }

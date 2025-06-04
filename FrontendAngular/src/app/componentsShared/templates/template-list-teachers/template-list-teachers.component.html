@@ -5,6 +5,6 @@
     </div>
 
     <div *ngFor="let user of listTeachers">
-        <app-molecule-block-user [name]="user.name" [role]="user.role"></app-molecule-block-user>
+        <app-molecule-block-user [name]="getFullName(user)" [role]="user.role" [editable]="editable"></app-molecule-block-user>
     </div>
   </div>

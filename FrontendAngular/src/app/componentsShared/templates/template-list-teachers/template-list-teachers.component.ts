@@ -14,6 +14,7 @@ export class TemplateListTeachersComponent implements OnInit{
   @Input() title?: string;
   @Input() description?: string;
   @Input() listTeachers?: TeacherDTO[] = [];
+  @Input() editable: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -31,5 +32,9 @@ export class TemplateListTeachersComponent implements OnInit{
         console.error('Error retrieving the users:', error);
       }
     });
+  }
+
+  getFullName(teacher: TeacherDTO): string {
+    return `${teacher.name} ${teacher.lastName}`;
   }
 }
