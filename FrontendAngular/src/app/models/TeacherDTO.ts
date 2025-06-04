@@ -1,4 +1,5 @@
 export interface TeacherDTO{
+    id?: string;
     academicTitle: string;
     identification: number;
     identificationType: string;
@@ -6,4 +7,5 @@ export interface TeacherDTO{
     name: string;
     role: string;
     typeTeacher: string;
+    email?: string;
 }

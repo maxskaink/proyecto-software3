@@ -12,6 +12,7 @@ import { ProgramCompetencyComponent } from './components/program-competency/prog
 import { RequiredParamsGuard } from './guards/required-params.guard';
 import { CreateRubricComponent } from './components/create-rubric/create-rubric.component';
 import { AssignTeachersComponent } from './components/assign-teachers/assign-teachers.component';
+import {TeacherCreateComponent} from "./components/teacher-create/teacher-create.component";
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -29,5 +30,7 @@ export const routes: Routes = [
   {path: 'settings/teacher', component: SettingsTeachersComponent},
   {path: 'home/subject/competency/subject/outcome', component: OutcomeComponent},
   {path: 'home/subject/competencySubject/create', component: SubjectCompetencyComponent},
-  {path: 'home/subject/competencySubject/outcome/create', component: CreateRubricComponent}
+  {path: 'home/subject/competencySubject/outcome/create', component: CreateRubricComponent},
+  {path: 'settings/teacher/create', component: TeacherCreateComponent},
+  {path: 'settings/teacher/update/:id', component: TeacherCreateComponent},
 ];

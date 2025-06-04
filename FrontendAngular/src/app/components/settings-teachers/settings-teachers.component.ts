@@ -5,6 +5,7 @@ import { TemplateListTeachersComponent } from '../../componentsShared/templates/
 import { MoleculeAsideMenuComponent } from '../../componentsShared/molecules/molecule-aside-menu/molecule-aside-menu.component';
 import {AuthService} from "../../services/auth.service";
 import {TeacherDTO} from "../../models/TeacherDTO";
+import {Router, Routes} from "@angular/router";
 
 @Component({
   selector: 'app-settings-teachers',
@@ -26,7 +27,7 @@ export class SettingsTeachersComponent implements OnInit{
 
   teachers: TeacherDTO[] =[];
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private routes: Router) {
   }
 
   ngOnInit(): void {
@@ -45,7 +46,7 @@ export class SettingsTeachersComponent implements OnInit{
   }
 
   createTeacher(): void {
-    console.log('Crear docentes selected');
+    this.routes.navigate(['/settings/teacher/create']).then();
   }
 
   goToOption(titleOption: string): void{
@@ -55,7 +56,7 @@ export class SettingsTeachersComponent implements OnInit{
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }else if(titleOption.toLowerCase().includes('crear')) {
-      console.log("Crear docentes selected");
+      this.createTeacher();
     }
   }
 }

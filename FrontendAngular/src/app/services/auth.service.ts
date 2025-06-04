@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {Firestore, doc, getDoc, collection, getDocs} from '@angular/fire/firestore';
 import { TeacherDTO } from '../models/TeacherDTO';
+import {setUserId} from "@angular/fire/analytics";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -110,8 +111,11 @@ export class AuthService {
 
           if (!usersSnapshot.empty) {
             const teachersDTO = usersSnapshot.docs.map(doc => {
-              return this.mapToTeacherDTO(doc.data());
+              let response = this.mapToTeacherDTO(doc.data());
+              response.id = doc.id;
+              return response;
             });
+
             subscriber.next(teachersDTO);
           } else {
             subscriber.next([]);
@@ -146,6 +150,15 @@ export class AuthService {
         }
       })();
     });
+  }
+
+  //TODO implement these methods
+  createUser(teacher: TeacherDTO): Observable<void> {
+    return new Observable<void>((subscriber) => subscriber.complete);
+  }
+
+  updateUser(teacher: TeacherDTO): Observable<void> {
+    return new Observable<void>((subscriber) => subscriber.complete);
   }
 
 }

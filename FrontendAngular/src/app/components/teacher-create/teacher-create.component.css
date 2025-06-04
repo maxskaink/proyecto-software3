@@ -1,0 +1,172 @@
+/* Títulos responsivos */
+.title {
+  font-size: clamp(24px, 5vw, 60px);
+  color: #1F0D1E;
+}
+
+.description {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Contenedor del formulario */
+.teacher-form-card {
+  background-color: #E9E9E9;
+  border-radius: 12px;
+  border: none;
+  box-shadow: none;
+}
+
+.form-container {
+  padding: 2rem;
+}
+
+/* Grupos de formulario */
+.form-group-custom {
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos de inputs - siguiendo el patrón de template-input-boxtext */
+.input__box {
+  height: 50px;
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  padding: 0.75rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.input__box:hover {
+  background-color: #C5C5C5;
+  border-color: #C5C5C5;
+}
+
+.input__box:focus {
+  outline: none;
+  background-color: #C5C5C5;
+  border-color: #532c58;
+  box-shadow: 0 0 0 0.25rem rgba(83, 44, 88, 0.25);
+}
+
+/* Estilos de select - siguiendo el patrón de template-select-input-boxtext */
+.custom-select-style {
+  background-color: #D9D9D9;
+  border: 1px solid #BFBFBF;
+  border-radius: 6px;
+  height: 50px;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  font-size: 1rem;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 16px 12px;
+  transition: all 0.3s ease;
+}
+
+.clickable-select {
+  cursor: pointer;
+}
+
+.clickable-select:hover {
+  background-color: #C5C5C5;
+  border-color: #0d6efd;
+}
+
+.clickable-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: #0d6efd;
+  background-color: #C5C5C5;
+}
+
+/* Labels */
+.form-label {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+/* Botones - siguiendo el patrón de template-input-boxtext */
+.button_save,
+.buton_cancel {
+  flex: 1 1 45%;
+  min-width: 100px;
+  height: 2.5rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_save {
+  background-color: #5E9E73;
+  color: white;
+}
+
+.button_save:hover {
+  background-color: #3C866A;
+}
+
+.button_save:disabled {
+  background-color: #8e8e8e;
+  cursor: not-allowed;
+}
+
+.buton_cancel {
+  background-color: #A65256;
+  color: white;
+}
+
+.buton_cancel:hover {
+  background-color: #B83238;
+}
+
+/* Alertas - siguiendo el patrón de otros componentes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.alert-danger {
+  border-left: 4px solid #dc3545;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Spinner */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+  
+  .description {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+  }
+}
