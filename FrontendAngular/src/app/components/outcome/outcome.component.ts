@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ValueChangeEvent } from '@angular/forms';
 import { MoleculeSectionOptionComponent } from '../../componentsShared/molecules/molecule-section-option/molecule-section-option.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
-import { Action, SectionOption } from '../../models/SectionOptions';
+import {  SectionOption } from '../../models/SectionOptions';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SubjectOutomeService } from '../../services/subject_outcome.service';
 import { SubjectOutcome } from '../../models/SubjectOutcomeDTO';
@@ -41,36 +41,8 @@ export class OutcomeComponent implements OnInit {
   outcomeId: number = 0;
   isEditDescription: boolean = false;
   isLoading:boolean= false;
-
-  options: SectionOption[] = [
-    {
-      title: 'Evaluadores',
-      description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
-      showButtonOne: true,
-      buttonTextOne: 'Ver evaluadores',
-      actionOne:{
-        type: 'scroll',
-        value: 'evaluators'
-      },
-      showButtonTwo: true,
-      buttonTextTwo: 'Gestionar Evaluadores',
-
-    },
-    {
-      title: 'Rubrica',
-      description: 'Nuestras rubricas se manejan por criterios y niveles, los criterios te indicaran  el tema evaluado mientras que los niveles que tanto los domina',
-      showButtonOne: true,
-      buttonTextOne: 'Ver rubrica',
-      actionOne:{
-        type: 'scroll',
-        value: 'rubryc'
-      },
-      showButtonTwo: true,
-      buttonTextTwo: 'Editar rubrica',
-
-    },
-  ];
-
+  options: SectionOption[] = [];
+  
   evaluators: TeacherDTO[] =[];
 
   constructor(private router: Router,
@@ -91,8 +63,8 @@ export class OutcomeComponent implements OnInit {
       if (params['outcomeId']) {
         this.outcomeId = +params['outcomeId'];
         this.getOutcome();
-        this.isLoading =false;
 
+        this.isLoading =false;
         this.getEvaluators();
 
       } else {
@@ -102,7 +74,42 @@ export class OutcomeComponent implements OnInit {
       }
     });
   }
-
+  private initializeOptions() {
+    this.options = [
+      {
+        title: 'Evaluadores',
+        description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
+        showButtonOne: true,
+        buttonTextOne: 'Ver evaluadores',
+        actionOne: {
+          type: 'scroll',
+          value: 'evaluators'
+        },
+        showButtonTwo: true,
+        buttonTextTwo: 'Gestionar Evaluadores'
+      },
+      {
+        title: 'Rubrica',
+        description: 'Nuestras rubricas se manejan por criterios y niveles...',
+        showButtonOne: true,
+        buttonTextOne: 'Ver rubrica',
+        actionOne: {
+          type: 'scroll',
+          value: 'rubryc'
+        },
+        showButtonTwo: true,
+        buttonTextTwo: 'Editar rubrica',
+        actionTwo: {
+          type: 'navigate',
+          value: '/home/subject/competencySubject/outcome/create',
+          queryParams: {
+            outcomeId: this.outcomeId,
+            idRubric: this.currentRubric?.id || -1
+          }
+        }
+      }
+    ];
+  }
   getEvaluators(){
     //Traer solo evaluadores asignados
     console.log('Obteniendo evaluadores para el outcome con ID:', this.outcomeId);
@@ -168,10 +175,7 @@ export class OutcomeComponent implements OnInit {
         }else{
           this.currentRubric = null;
         }
-
-//        console.log(data);
-//        console.log(this.currentOutcome);
-//        console.log("rubrica: " +this.currentRubric)
+        this.initializeOptions();
       },
       error: (error) => {
         console.error('Error al obtener el outcome:', error);
@@ -195,12 +199,5 @@ export class OutcomeComponent implements OnInit {
         }
     });
   }
-  goToEditRubric() {
-    this.router.navigate(['/home/subject/competencySubject/outcome/create'], {
-        queryParams: {
-            outcomeId: this.outcomeId,
-            idRubric: this.currentRubric?.id || -1
-        }
-    });
-  }
+
 }

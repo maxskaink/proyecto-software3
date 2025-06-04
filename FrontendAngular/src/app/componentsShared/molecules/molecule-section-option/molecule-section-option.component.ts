@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SectionOption } from '../../../models/SectionOptions';
+import {  SectionOption } from '../../../models/SectionOptions';
 import { Router } from '@angular/router';
+import { Action } from '../../../models/Action';
 @Component({
   selector: 'app-molecule-section-option',
   imports: [CommonModule, FormsModule],
@@ -23,10 +24,17 @@ export class MoleculeSectionOptionComponent {
     this.ejecutarAccion(action);
   }
   
-  ejecutarAccion(action: { type: string, value: string }) {
+  ejecutarAccion(action: Action) {
     switch (action.type) {
       case 'navigate':
-        this.router.navigateByUrl(action.value);
+        if (action.params || action.queryParams) {
+          this.router.navigate([action.value], {
+            queryParams: action.queryParams,
+            queryParamsHandling: 'merge'
+          });
+        } else {
+          this.router.navigateByUrl(action.value);
+        }
         break;
       case 'modal':
 

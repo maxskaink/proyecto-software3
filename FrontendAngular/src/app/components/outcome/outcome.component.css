@@ -66,6 +66,21 @@
 .iconEdit:hover{
     font-size: 35px;
 }
+
+
+.btn-edit{
+    background-color: #1E1E1E;
+    color: white;
+    height: 40px;
+    width: 10%;
+    transition: all 0.3s ease;
+}
+.btn-edit:hover{
+    width: 12%;
+    height: 50px;
+    font-weight: 700;
+    transition: all 0,3s ease; 
+}
 .btn-save{
     background-color: #5E9E73;
     color: white;

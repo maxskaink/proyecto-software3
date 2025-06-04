@@ -1,3 +1,5 @@
+import { Action } from "./Action";
+
 export interface SectionOption {
     title: string;
     description: string;
@@ -7,9 +9,4 @@ export interface SectionOption {
     showButtonTwo: boolean;
     buttonTextTwo?: string;
     actionTwo?: Action;
-  }
-  
- export interface Action {
-    type: 'navigate' | 'modal' | 'scroll';
-    value: string;
   }
