@@ -194,5 +194,13 @@ export class OutcomeComponent implements OnInit {
             idRubric: this.currentRubric?.id || -1
         }
     });
-}
+  }
+  goToEditRubric() {
+    this.router.navigate(['/home/subject/competencySubject/outcome/create'], {
+        queryParams: {
+            outcomeId: this.outcomeId,
+            idRubric: this.currentRubric?.id || -1
+        }
+    });
+  }
 }

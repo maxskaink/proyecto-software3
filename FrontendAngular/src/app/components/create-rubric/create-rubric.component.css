@@ -20,8 +20,18 @@
     height: clamp(50rem, 80%, 20rem);
 }
 .sectionDescription{
-    height: clamp(20rem, 80%, 10rem);
+    height: clamp(30rem, 80%, 40rem);
     width: clamp(100%, 80%, 100%);
+}
+.section_buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;   
+}
+.text-help{
+    color: #6B656A;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    margin-top: 10px;
 }
 .title{
     font-weight: 900;
@@ -41,6 +51,8 @@
     border-radius: 10px;
     padding: 10px;
     width: 100%;
+    font-size: clamp(1rem, 80%, 2rem);
+    color: #6B656A;
 }
 
 .description-input:hover {
@@ -53,4 +65,30 @@
 
 .angular-brackets::after {
     content: ">";
+}
+.btn_save {
+    background-color: #5E9E73;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    margin-right: 10px; ;
+}
+.btn_save:hover {
+    background-color: #3C866A;
+    transition: background-color 0.3s ease;}   
+.btn_cancel {
+    width: 200px;
+    background-color: #A65256;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn_cancel:hover {
+    background-color: #B83238;
+    transition: background-color 0.3s ease;
 }
