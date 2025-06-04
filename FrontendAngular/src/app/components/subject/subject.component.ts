@@ -1,4 +1,14 @@
-import { Component, viewChild, ElementRef, ViewChild, EventEmitter, Inject, PLATFORM_ID, OnInit, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  viewChild,
+  ElementRef,
+  ViewChild,
+  EventEmitter,
+  Inject,
+  PLATFORM_ID,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
@@ -14,38 +24,33 @@ import { EditStateService } from '../../services/edit-state.service';
 import { Carousel } from 'bootstrap';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
 import { forkJoin } from 'rxjs';
-import {
-  TemplateListTeachersComponent
-} from "../../componentsShared/templates/template-list-teachers/template-list-teachers.component";
-import {TeacherAssignmentService} from "../../services/teacher_assignment.service";
-import {TeacherAssignment} from "../../models/TeacherAssignmentDTO";
-import {TeacherDTO} from "../../models/TeacherDTO";
+import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
+import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
+import { TeacherAssignment } from '../../models/TeacherAssignmentDTO';
+import { TeacherDTO } from '../../models/TeacherDTO';
 declare var bootstrap: any;
-
-
 
 @Component({
   selector: 'app-asignature',
   imports: [
-      MoleculeBackHeaderComponent,
-      TemplateCompetencyComponent,
-      TemplateCompetencyEditComponent,
-      TemplateListTeachersComponent,
-      CommonModule,
-      LoadingComponent,
-
+    MoleculeBackHeaderComponent,
+    TemplateCompetencyComponent,
+    TemplateCompetencyEditComponent,
+    TemplateListTeachersComponent,
+    CommonModule,
+    LoadingComponent,
   ],
   templateUrl: './subject.component.html',
-  styleUrl: './subject.component.css'
+  styleUrl: './subject.component.css',
 })
 export class SubjectComponent {
   @ViewChild('competencyCarousel') carousel!: ElementRef;
   private carouselInstance: any;
   private readonly isBrowser: boolean;
 
-  isLoading: boolean  = false;
+  isLoading: boolean = false;
   description: string = 'description';
-  title: string= 'title';
+  title: string = 'title';
   actualAsignature: SubjectDTO | null = null;
   listCompetency: SubjectCompetency[] = [];
   id: number = -1;
@@ -59,10 +64,10 @@ export class SubjectComponent {
     @Inject(PLATFORM_ID) private platformId: Object,
     private asignatureService: SubjectService,
     private route: ActivatedRoute,
-    private competenciesSubject: SubjectCompetencyService ,
+    private competenciesSubject: SubjectCompetencyService,
     private editStateService: EditStateService,
     private auth: AuthService,
-    private assigmentService:TeacherAssignmentService,
+    private assigmentService: TeacherAssignmentService,
     private router: Router
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -84,10 +89,8 @@ export class SubjectComponent {
     }
   }
 
-
   private loadInitialData(): void {
-
-    this.editStateService.editState$.subscribe(state => {
+    this.editStateService.editState$.subscribe((state) => {
       this.isEdit = state;
     });
     this.asignatureService.getSubjectID(this.id).subscribe({
@@ -100,26 +103,25 @@ export class SubjectComponent {
       error: (error) => {
         console.error('Error loading subject:', error);
         this.isLoading = false;
-      }
+      },
     });
 
     this.assigmentService.getAssignmentsBySubject(this.id).subscribe({
       next: (assignments) => {
-
-        assignments.forEach(as => {
+        assignments.forEach((as) => {
           this.auth.getUserById(as.teacherUid).subscribe({
             next: (teacher) => {
               this.teacherAssignments.push(teacher);
             },
             error: (error) => {
               console.error('Error loading teacher:', error);
-            }
+            },
           });
         });
       },
       error: (error) => {
         console.error('Error loading assignments:', error);
-      }
+      },
     });
   }
 
@@ -129,19 +131,25 @@ export class SubjectComponent {
    */
   private initializeCarousel(): void {
     setTimeout(() => {
-      this.carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
-        interval: 5000,
-        ride: 'carousel',
-        wrap: true
-      });
+      this.carouselInstance = new bootstrap.Carousel(
+        this.carousel.nativeElement,
+        {
+          interval: 5000,
+          ride: 'carousel',
+          wrap: true,
+        }
+      );
       // Asegurar que las transiciones se mantienen
       const carouselElement = this.carousel.nativeElement;
       carouselElement.style.transition = 'none';
       // Escuchar eventos del carrusel
-      this.carousel.nativeElement.addEventListener('slide.bs.carousel', (event: any) => {
-        this.currentIndex = event.to;
-        console.log('Índice actual:', this.currentIndex);
-      });
+      this.carousel.nativeElement.addEventListener(
+        'slide.bs.carousel',
+        (event: any) => {
+          this.currentIndex = event.to;
+          console.log('Índice actual:', this.currentIndex);
+        }
+      );
     });
   }
 
@@ -168,7 +176,6 @@ export class SubjectComponent {
     }
   }
 
-
   /**
    * Retrieves the details of a specific subject by its ID and updates the component's state.
    *
@@ -179,10 +186,10 @@ export class SubjectComponent {
    * `title`, and `description` properties of the component with the fetched information.
    */
   getAsignatureID(id: number): void {
-    this.asignatureService.getSubjectID(id).subscribe(data => {
+    this.asignatureService.getSubjectID(id).subscribe((data) => {
       this.actualAsignature = data;
       this.title = this.actualAsignature.name;
-      this.description  = this.actualAsignature.description;
+      this.description = this.actualAsignature.description;
     });
   }
 
@@ -206,7 +213,7 @@ export class SubjectComponent {
       error: (error) => {
         console.error('Error loading competencies:', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -255,81 +262,90 @@ export class SubjectComponent {
     if (element) {
       element.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'start',
       });
     }
   }
   goToCreateCompetency(): void {
     this.router.navigate([`asignatures/${this.id}/subjectCompetency`], {
       queryParams: {
-        subjectId: this.id
-      }
+        subjectId: this.id,
+      },
+    });
+  }
+
+  goToAssignTeachers(): void {
+    this.router.navigate([`asignatures/${this.id}/assignTeachers`], {
+      queryParams: {
+        subjectId: this.id,
+      },
     });
   }
 
   /**
- * Returns the ID of the current subject.
- *
- * @returns The subject ID if available, or undefined if no subject is loaded.
- */
-getSubjectId(): number  {
-  if (this.actualAsignature) {
-    return this.actualAsignature.id;
-  }
-
-  // Si no hay asignatura cargada pero tenemos un ID de la URL
-  if (this.id !== -1) {
-    return this.id;
-  }
-
-  return 0;
-}
-
-/**
- * Configura un observador para detectar cuando la sección de competencias está visible
- * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
- */
-/**
- * Configura un observador para detectar cuando la sección de competencias está visible
- * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
- */
-private setupIntersectionObserver(): void {
-  if (!this.isBrowser) return;
-
-  let scrollTimer: any = null;
-
-  // Detector de scroll simplificado que muestra los indicadores solo cuando
-  // estamos en o por debajo de la sección de competencias
-  window.addEventListener('scroll', () => {
-    if (scrollTimer) clearTimeout(scrollTimer);
-
-    scrollTimer = setTimeout(() => {
-      const section = document.getElementById('competencySection');
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-
-      // Valor ajustado a 20px para coincidir exactamente con el comportamiento de scrollIntoView
-      // Muestra los indicadores cuando la sección está en o cerca del borde superior
-      if (rect.top <= 0) {
-        this.isCompetencySectionVisible = true;
-      } else {
-        // En cualquier otro caso (estamos por encima de la sección), ocultar
-        this.isCompetencySectionVisible = false;
-      }
-
-    }, 50);
-  });
-
-  // Verificación inicial con el mismo margen
-  setTimeout(() => {
-    const section = document.getElementById('competencySection');
-    if (section) {
-      const rect = section.getBoundingClientRect();
-      this.isCompetencySectionVisible = rect.top <= 20;
-    } else {
-      console.error('No se encontró la sección de competencias');
+   * Returns the ID of the current subject.
+   *
+   * @returns The subject ID if available, or undefined if no subject is loaded.
+   */
+  getSubjectId(): number {
+    if (this.actualAsignature) {
+      return this.actualAsignature.id;
     }
-  }, 500);
-}
+
+    // Si no hay asignatura cargada pero tenemos un ID de la URL
+    if (this.id !== -1) {
+      return this.id;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Configura un observador para detectar cuando la sección de competencias está visible
+   * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
+   */
+  /**
+   * Configura un observador para detectar cuando la sección de competencias está visible
+   * y gestionar la visibilidad de los indicadores basándose en la posición de scroll.
+   */
+  private setupIntersectionObserver(): void {
+    if (!this.isBrowser) return;
+
+    let scrollTimer: any = null;
+
+    // Detector de scroll simplificado que muestra los indicadores solo cuando
+    // estamos en o por debajo de la sección de competencias
+    window.addEventListener('scroll', () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+
+      scrollTimer = setTimeout(() => {
+        const section = document.getElementById('competencySection');
+        if (!section) return;
+
+        const rect = section.getBoundingClientRect();
+
+        // Valor ajustado a 20px para coincidir exactamente con el comportamiento de scrollIntoView
+        // Muestra los indicadores cuando la sección está en o cerca del borde superior
+        if (rect.top <= 0) {
+          this.isCompetencySectionVisible = true;
+        } else {
+          // En cualquier otro caso (estamos por encima de la sección), ocultar
+          this.isCompetencySectionVisible = false;
+        }
+      }, 50);
+    });
+
+    // Verificación inicial con el mismo margen
+    setTimeout(() => {
+      const section = document.getElementById('competencySection');
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        this.isCompetencySectionVisible = rect.top <= 20;
+      } else {
+        console.error('No se encontró la sección de competencias');
+      }
+    }, 500);
+  }
+
+
 }

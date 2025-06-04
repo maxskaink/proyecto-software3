@@ -1,66 +1,96 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-molecule-back-header>
-</app-molecule-back-header>
-<div class=" d-flex flex-column overflow-hidden">
+<app-molecule-back-header> </app-molecule-back-header>
+<div class="d-flex flex-column overflow-hidden">
   <section class="row sectionInfo">
     <!-- Left column - will stack on small screens -->
-    <div class="col-12 col-md-6 d-flex flex-column justify-content-center infoBasicAsignature">
+    <div
+      class="col-12 col-md-6 d-flex flex-column justify-content-center infoBasicAsignature"
+    >
       <h1 class="title">{{ title }}</h1>
       <p class="description">{{ description }}</p>
       <div class="d-flex flex-column gap-2">
         <button class="btn" (click)="goToCompetency()">Ver competencias</button>
-       <button class="btn" (click)="goToCreateCompetency()">Crear competencias</button>
+        <button class="btn" (click)="goToCreateCompetency()">
+          Crear competencias
+        </button>
       </div>
     </div>
-
     <!-- Right column - will stack on small screens -->
-    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center mt-4 mt-md-0">
-<!--      <app-molecule-block-user [name]="name" [role]="role"></app-molecule-block-user>-->
+    <div
+      class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center mt-md-0 teachers-container"
+    >
+      <!-- Título con menos margen -->
+
+      <!-- Lista de profesores con margen reducido -->
       <app-template-list-teachers
-        [description]="'Profesores asignados a la asignatura'"
+        class="w-100 teachers-list-compact"
         [listTeachers]="teacherAssignments"
+        [forceTeacherRole]="true"
       ></app-template-list-teachers>
+
+      <!-- Botón con margen superior reducido -->
+      <div class="text-center w-100 mt-2">
+        <button class="btn-teachers" (click)="goToAssignTeachers()">
+          Gestionar docentes
+        </button>
+      </div>
     </div>
   </section>
 
-  <section id="competencySection" class="sectionCompetency ">
+  <section id="competencySection" class="sectionCompetency">
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
-        <div class="carousel-indicators-fixed" [class.visible]="isCompetencySectionVisible">
-          <button *ngFor="let comp of listCompetency; let i = index"
-                  type="button"
-                  [class.active]="i === currentIndex"
-                  [attr.aria-current]="i === currentIndex"
-                  [attr.aria-label]="'Slide ' + (i + 1)"
-                  data-bs-target="#competencyCarousel"
-                  [attr.data-bs-slide-to]="i">
-          </button>
+        <div
+          class="carousel-indicators-fixed"
+          [class.visible]="isCompetencySectionVisible"
+        >
+          <button
+            *ngFor="let comp of listCompetency; let i = index"
+            type="button"
+            [class.active]="i === currentIndex"
+            [attr.aria-current]="i === currentIndex"
+            [attr.aria-label]="'Slide ' + (i + 1)"
+            data-bs-target="#competencyCarousel"
+            [attr.data-bs-slide-to]="i"
+          ></button>
         </div>
-        <div *ngFor="let competency of listCompetency; let i = index"
-             class="carousel-item"
-             [class.active]="i === currentIndex">
-
-
+        <div
+          *ngFor="let competency of listCompetency; let i = index"
+          class="carousel-item"
+          [class.active]="i === currentIndex"
+        >
           <app-template-competency
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
-            *ngIf="!isEdit">
+            *ngIf="!isEdit"
+          >
           </app-template-competency>
           <app-template-competency-edit
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
             [subjectId]="getSubjectId()"
-            *ngIf="isEdit">
+            *ngIf="isEdit"
+          >
           </app-template-competency-edit>
         </div>
       </div>
 
       <!-- Carousel controls -->
       <ng-container *ngIf="!isEdit">
-        <button class="carousel-control-prev" type="button" data-bs-target="#competencyCarousel" data-bs-slide="prev">
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#competencyCarousel"
+          data-bs-slide="prev"
+        >
           <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#competencyCarousel" data-bs-slide="next">
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#competencyCarousel"
+          data-bs-slide="next"
+        >
           <span class="carousel-control-next-icon"></span>
         </button>
       </ng-container>

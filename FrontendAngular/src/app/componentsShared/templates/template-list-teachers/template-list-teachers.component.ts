@@ -14,6 +14,7 @@ export class TemplateListTeachersComponent implements OnInit{
   @Input() title?: string;
   @Input() description?: string;
   @Input() listTeachers?: TeacherDTO[] = [];
+  @Input() forceTeacherRole?: boolean = false;
   @Input() editable: boolean = false;
 
   constructor(private authService: AuthService) {}

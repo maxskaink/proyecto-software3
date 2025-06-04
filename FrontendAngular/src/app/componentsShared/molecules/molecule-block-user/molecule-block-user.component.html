@@ -1,8 +1,8 @@
-<div class="d-flex justify-content-center align-items-center p-2 position-relative" [ngClass]="{'user-block': editable}">
+<div class="d-flex justify-content-center align-items-center position-relative" [ngClass]="{'user-block': editable}">
     <div class="d-flex align-items-center gap-3 p-1 user-block-inner" (click)="editable && handlerEdit()">
       <i class="bi bi-person-circle p-1 user-icon " [class.user-icon--secondary]="variant=='secondary'"></i>
-      <div class="me-2 box " [class.box--secondary]="variant=='secondary'">
-        <div  class="fw-bold role" [class.role--secondary]="variant=='secondary'" >{{ role }}</div>
+      <div class=" box " [class.box--secondary]="variant=='secondary'">
+        <div  class="fw-bold role" [class.role--secondary]="variant=='secondary'" >{{ translateRole() }}</div>
         <p class="name" [class.name--secondary]="variant=='secondary'" >{{ name }}</p>
       </div>
     </div>
