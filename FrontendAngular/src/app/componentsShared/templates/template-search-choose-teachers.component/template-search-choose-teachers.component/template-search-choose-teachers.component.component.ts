@@ -168,4 +168,8 @@ export class TemplateSearchChooseTeachersComponentComponent implements OnChanges
   clearSearch(): void {
     this.searchControl.setValue('');
   }
+
+  getFullName(teacher: TeacherDTO): string {
+    return `${teacher.name} ${teacher.lastName}`;
+  }
 }

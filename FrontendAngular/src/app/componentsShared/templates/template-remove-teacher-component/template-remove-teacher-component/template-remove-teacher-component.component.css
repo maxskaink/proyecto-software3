@@ -205,7 +205,7 @@
 
 /* Added hover effects for the save button */
 .save-button:hover {
-  background-color: #7B68B5;
+  background-color: #1F0D1E;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(103, 80, 164, 0.5);
 }

@@ -122,4 +122,8 @@ export class TemplateRemoveTeacherComponentComponent implements OnChanges {
       },
     });
   }
+
+  getFullName(teacher: TeacherDTO): string {
+    return `${teacher.name} ${teacher.lastName}`;
+  }
 }

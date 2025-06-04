@@ -14,7 +14,7 @@
     class="teacher-item selected"
   >
     <div class="user-container">
-      <app-molecule-block-user [name]="teacher.name" [role]="teacher.role"></app-molecule-block-user>
+      <app-molecule-block-user [name]="getFullName(teacher)" [role]="teacher.role"></app-molecule-block-user>
     </div>
 
     <div class="action-cell">
@@ -35,7 +35,7 @@
           class="save-button"
           (click)="saveAssignedTeachers()"
         >
-          Guardar Asignación
+          Confirmar Asignación
         </button>
       </div>
     </div>
