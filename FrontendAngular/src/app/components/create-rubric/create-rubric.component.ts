@@ -297,4 +297,12 @@ private async saveCriterions(): Promise<void> {
   getTotalWeight(): number {
     return this.listCriterion?.reduce((sum, criterion) => sum + criterion.weight, 0) || 0;
   }
+  cancel():void{
+      this.router.navigate(['home/subject/competency/subject/outcome'], {
+        queryParams: {
+          outcomeId: this.idOutcome
+        }
+      });
+    
+  }
 }

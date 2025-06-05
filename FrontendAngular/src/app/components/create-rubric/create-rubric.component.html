@@ -98,12 +98,11 @@
                 <button class="btn_save" 
                 (click)="saveRubric()" 
                 [disabled]="!description.trim() || 
-                           !listCriterion.length || 
-                           criterioIsEdit || 
-                           getTotalWeight() !== 100">
-            Guardar
-        </button>
-                <button class="btn_cancel">
+                        !listCriterion.length || 
+                        criterioIsEdit  ">
+                    Guardar
+                </button>
+                <button class="btn_cancel" (click)="cancel()">
                     cancelar
                 </button>
             </div>

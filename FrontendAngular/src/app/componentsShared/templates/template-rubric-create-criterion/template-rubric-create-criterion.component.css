@@ -15,7 +15,10 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-  }
+    overflow-x: auto;  /* Mantiene la funcionalidad de scroll */
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
 
 .level-slot {
     flex: 0 0 20%; /* 100% / 5 = 20% */
@@ -27,7 +30,7 @@
   }
 
 .form-control {
-    background-color: #D9D9D9;
+    background-color: #C5C5C5;
     border: #D9D9D9;
     color: #6B656A;
     min-height: 100px;
