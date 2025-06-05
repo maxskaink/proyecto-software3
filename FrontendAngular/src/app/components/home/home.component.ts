@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
 
-  private truncateText(text: string, maxLength: number = 50): string {
+  private truncateText(text: string, maxLength: number = 25): string {
     if (!text) return '';
     return text.length > maxLength
       ? text.substring(0, maxLength) + '...'
