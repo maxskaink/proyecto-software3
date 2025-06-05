@@ -1,6 +1,7 @@
 <div class="competency-container d-flex flex-column min-vh-100">
-  <app-template-header-title></app-template-header-title>
-
+  <app-molecule-back-header
+    [confirmBack]="true"
+  ></app-molecule-back-header>
   <div class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden">
     <div class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column">
       <h1 class="fw-bold title mb-3 mb-md-4">{{ getTitle() }}</h1>

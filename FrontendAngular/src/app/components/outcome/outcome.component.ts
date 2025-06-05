@@ -42,7 +42,7 @@ export class OutcomeComponent implements OnInit {
   isEditDescription: boolean = false;
   isLoading:boolean= false;
   options: SectionOption[] = [];
-  
+  confirmBack = false;
   evaluators: TeacherDTO[] =[];
 
   constructor(private router: Router,
@@ -134,6 +134,7 @@ export class OutcomeComponent implements OnInit {
 
   editDescription(): void{
     this.isEditDescription = !this.isEditDescription;
+    this.confirmBack = !this.confirmBack;
   }
   saveDescription(): void {
     // Validar que hay una descripción

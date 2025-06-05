@@ -21,6 +21,9 @@ import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/t
 import { MoleculeOutComeComponent } from '../../componentsShared/molecules/molecule-out-come/molecule-out-come.component';
 import { TemplateModalReuseOutcomeComponent } from '../../componentsShared/templates/template-modal-reuse-outcome/template-modal-reuse-outcome.component';
 import { TemplateModalCreateOutcomeComponent } from '../../componentsShared/templates/template-modal-create-outcome/template-modal-create-outcome/template-modal-create-outcome.component';
+import {
+  MoleculeBackHeaderComponent
+} from "../../componentsShared/molecules/molecule-back-header/molecule-back-header.component";
 
 @Component({
   selector: 'app-subject-competency',
@@ -28,8 +31,8 @@ import { TemplateModalCreateOutcomeComponent } from '../../componentsShared/temp
     CommonModule,
     FormsModule,
     TemplateSelectInputBoxtextComponent,
-    TemplateHeaderTitleComponent,
     MoleculeOutComeComponent,
+    MoleculeBackHeaderComponent,
   ],
   templateUrl: './subject-competency-create.component.html',
   styleUrl: './subject-competency-create.component.css',

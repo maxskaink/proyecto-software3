@@ -1,13 +1,18 @@
-<app-alertmessage 
+<app-alertmessage
     *ngIf="showAlert"
     [message]="'Rúbrica guardada exitosamente'"
     [state]="'save'"
     (closed)="onAlertClosed()">
 </app-alertmessage>
 <div class="overlay">
-    <app-template-header-title [variant]="'secondary'" [title]="'Crear rubrica'" [description]="'Crea aqui tu rubrica'"></app-template-header-title>    
+    <app-template-header-title
+      [variant]="'secondary'"
+      [title]="'Crear rubrica'"
+      [description]="'Crea aqui tu rubrica'"
+      [confirmBack]="confirmBack"
+    ></app-template-header-title>
 
-    
+
     <div class=" bodyContent">
         <section class="sectionDescription p-4">
             <h2>
@@ -34,7 +39,7 @@
                         [idRubric]="idRubric"
                         (criterionAdded)="onCriterionAdded($event)">>
                         </app-template-rubric-create-criterion>
-                        
+
                     </div>
                 </div>
             </div>
@@ -55,7 +60,7 @@
                                 (onEdit)="handleEditCriterion(criterion)"
                                 (onDelete)="handleDeleteCriterion(criterion)">
                             </app-template-rubric-row>
-            
+
                             <!-- Show edit form when editing this criterion -->
                             <app-template-rubric-create-criterion
                             *ngIf="criterioIsEdit && editingCriterion === criterion"

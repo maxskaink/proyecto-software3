@@ -12,4 +12,5 @@ export class TemplateHeaderTitleComponent {
   @Input() title: string = '';
   @Input() description: string ='';
   @Input() variant: 'primary' | 'secondary' = 'primary';
+  @Input() confirmBack:boolean = false;
 }

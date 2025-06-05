@@ -8,6 +8,7 @@ import {TermService} from "../../services/term.service";
 import {SubjectService} from "../../services/subject.service";
 import {SubjectDTO} from "../../models/SubjectDTO";
 import { FormsModule } from '@angular/forms';
+import {AlertmessageComponent} from "../../componentsShared/messages/alertmessage/alertmessage.component";
 
 
 @Component({
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     MoleculeBackHeaderComponent,
     TemplateListboxCompleteComponent,
     TemplateInputBoxtextComponent,
-    FormsModule
+    FormsModule,
+    AlertmessageComponent
   ],
   templateUrl: './settings-asignature.component.html',
   styleUrl: './settings-asignature.component.css'
@@ -40,6 +42,9 @@ export class SettingsAsignatureComponent implements OnInit{
   subjectName: string = '';
   subjectNameTouched: boolean = false;
 
+  typeAlert: "save" |  "error" = "save";
+  messageAlert: string = "Asignatura creada correctamente";
+  showAlert: boolean = false;
 
   constructor(
     private router: Router,
@@ -82,9 +87,17 @@ export class SettingsAsignatureComponent implements OnInit{
         });
       },
       error: (error) => {
+        this.typeAlert = "error";
+        this.messageAlert = "Error al crear la asignatura." + (error.error?.message || '');
+        this.showAlert = true;
+
         console.error('Error al crear asignatura:', error);
       }
       });
+    }
+
+    handleHideMessage() {
+    this.showAlert = false;
     }
 
   private getActiveTerm() {

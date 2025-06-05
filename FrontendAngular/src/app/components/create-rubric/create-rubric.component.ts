@@ -18,9 +18,9 @@ import { AlertmessageComponent } from '../../componentsShared/messages/alertmess
 
 @Component({
   selector: 'app-create-rubric',
-  imports: [CommonModule, 
-    TemplateHeaderTitleComponent, 
-    FormsModule, 
+  imports: [CommonModule,
+    TemplateHeaderTitleComponent,
+    FormsModule,
     TemplateRubricCreateCriterionComponent,
     TemplateRubricRowComponent,
     AlertmessageComponent
@@ -35,17 +35,18 @@ export class CreateRubricComponent {
   criterioIsEdit: boolean = false;
   description: string = 'Escribe aqui la descripción de tu rubrica';
   idCriterion: number = -1;
+  confirmBack:boolean =false;
   readonly MAX_CRITERIA: number = 5; // Add constant for max criteria
-  
+
   editingCriterion: CriterionEntity | null = null; // Add this to track which criterion is being edited
-  
-  constructor(private route: ActivatedRoute, 
+
+  constructor(private route: ActivatedRoute,
     private rubricService: RubricService,
     private criterionService: CriterionService,
     private levelSerice: LevelService) {}
   listCriterion: CriterionEntity[] = [];
   listCriterionExist: CriterionDTO[] = [];
-  isEdit:boolean = false; 
+  isEdit:boolean = false;
   showAlert: boolean = false;
   error= {
     weight: '',
@@ -77,12 +78,12 @@ export class CreateRubricComponent {
         });
       }
     });
-    
+
     if(this.RubricDTO.id) {
       this.idRubric = this.RubricDTO.id;
       this.description = this.RubricDTO.description || '';
       this.listCriterion = this.RubricDTO.criteria || [];
-      this.isEdit = true; 
+      this.isEdit = true;
     }
   }
   /**
@@ -108,7 +109,7 @@ export class CreateRubricComponent {
         console.log('Rubric created successfully with ID:', this.idRubric);
       }
 
-    
+
     } catch (error) {
       console.error('Error in rubric creation process:', error);
       if (this.idRubric) {
@@ -123,18 +124,18 @@ export class CreateRubricComponent {
          const existingCriteria = await firstValueFrom(
           this.criterionService.getAllCriterionByRubric(this.idRubric)
         );
-  
+
         // 2. Delete all existing criteria
         for (const criterion of existingCriteria) {
           await firstValueFrom(
             this.criterionService.deleteCriterion(criterion.id)
           );
         }
-  
+
         // 3. Create new criteria and their levels
         await this.saveCriterions();
         await this.saveLevels();
-  
+
         // 4. Update rubric description if changed
         if (this.description !== this.RubricDTO.description) {
           await firstValueFrom(
@@ -149,23 +150,23 @@ export class CreateRubricComponent {
     this.showAlert = false;
   }
   /**
-   * create the rubric if the validates of rubric is true 
+   * create the rubric if the validates of rubric is true
    */
   private async createRubric(): Promise<void> {
     if (!this.validateCriterions()) {
       throw new Error('Validation failed');
     }
-    
+
     const response = await firstValueFrom(
       this.rubricService.assignRubricToSubjectOutcome(this.idOutcome, {
         description: this.description
       })
     );
-    
+
     this.idRubric = response.id;
   }
   /**
-   * Save criterion in a new rubric 
+   * Save criterion in a new rubric
    */
   private async saveCriterions(): Promise<void> {
     for (const criterion of this.listCriterion) {
@@ -204,8 +205,8 @@ export class CreateRubricComponent {
   }
 
   private validateCriteriaCoherence(criteriaFromDB: CriterionDTO[]): boolean {
-    return this.listCriterion && 
-           this.listCriterion.length > 0 && 
+    return this.listCriterion &&
+           this.listCriterion.length > 0 &&
            this.listCriterionExist.length === this.listCriterion.length;
   }
 
@@ -226,7 +227,7 @@ export class CreateRubricComponent {
     console.log('Rubric deleted due to error');
   }
   validateCriterions():boolean{
-    let totalPercentage: number = 0; 
+    let totalPercentage: number = 0;
     for(const criterion of this.listCriterion){
        totalPercentage += criterion.weight;
     }
@@ -236,9 +237,9 @@ export class CreateRubricComponent {
     }
     if(!this.description.trim()){
       this.error.description = 'La descripcion es obligatoria, no puede quedar vacia'
-      return false; 
+      return false;
     }
-      
+
     return true;
   }
 
@@ -250,6 +251,7 @@ export class CreateRubricComponent {
       }
       this.editingCriterion = null;
       this.criterioIsEdit = false;
+      this.confirmBack =false;
     } else {
       if (this.listCriterion.length >= this.MAX_CRITERIA) {
         this.error.maxCriteria = 'No se pueden agregar más de 5 criterios';
@@ -261,6 +263,7 @@ export class CreateRubricComponent {
   handleEditCriterion(criterion: CriterionEntity): void {
     this.criterioIsEdit = true; // Set the flag to indicate editing mode
     this.editingCriterion = criterion; // Store the criterion being edited
+    this.confirmBack = true;
   }
   handleDeleteCriterion(criterion: CriterionEntity): void {
     // Lógica para eliminar el criterio
