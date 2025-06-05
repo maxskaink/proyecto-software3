@@ -44,7 +44,7 @@
     </div>
   </section>
 
-  <section id="competencySection" class="sectionCompetency">
+  <section *ngIf="listCompetency && listCompetency.length > 0" id="competencySection" class="sectionCompetency">
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div
