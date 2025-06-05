@@ -36,8 +36,9 @@
                     <h2 class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
                     <div class="">
                         <app-template-rubric-create-criterion
+                        *ngIf="listCriterion.length < MAX_CRITERIA"
                         [idRubric]="idRubric"
-                        (criterionAdded)="onCriterionAdded($event)">>
+                        (criterionAdded)="onCriterionAdded($event)">
                         </app-template-rubric-create-criterion>
 
                     </div>

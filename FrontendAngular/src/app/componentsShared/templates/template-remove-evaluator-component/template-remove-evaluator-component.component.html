@@ -1,0 +1,36 @@
+<div class="search-teachers-container">
+  <div class="search-section">
+    <div class="section-title">
+    </div>
+  </div>
+
+  <div class="teachers-container">
+    <div *ngIf="(evaluators$ | async)?.length === 0" class="empty-state">
+      <p class="text-center text-muted">No hay evaluadores seleccionados</p>
+    </div>
+
+    <div
+      *ngFor="let evaluator of evaluators$ | async"
+      class="teacher-item selected"
+    >
+      <div class="user-container">
+        <app-molecule-block-user [name]="getFullName(evaluator)" [role]="evaluator.role"></app-molecule-block-user>
+      </div>
+
+      <div class="action-cell">
+        <button
+          class="ra-action-icon remove-icon"
+          (click)="removeEvaluator(evaluator)"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+
+    <div class="button-wrapper" style="padding: 0; margin-top: 15px;">
+      <button class="save-button" (click)="saveAssignedEvaluators()">
+        Confirmar Asignación
+      </button>
+    </div>
+  </div>
+</div>
