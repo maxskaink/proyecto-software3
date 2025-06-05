@@ -95,4 +95,31 @@
 .btn_cancel:hover {
     background-color: #B83238;
     transition: background-color 0.3s ease;
-}
+}.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .sectionTitle {
+      padding: clamp(1rem, 5vw, 2rem);
+    }
+    
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+    
+    .description {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      width: 100%;
+    }
+  
+    .form-control {
+      width: 100%;
+    }
+    
+    .empty {
+      padding: 2rem 1rem;
+    }
+  }

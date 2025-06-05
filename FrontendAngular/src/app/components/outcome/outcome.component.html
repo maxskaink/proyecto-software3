@@ -1,16 +1,12 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-alertmessage
-  *ngIf="showAlert"
-  [message]="messageAlert"
-  [state]="stateAlert"
-  (closed)="hideAlert()"
->
-</app-alertmessage>
+<app-alertmessage *ngIf="showAlert" [message]="messageAlert" [state]="stateAlert" (closed)="hideAlert()"></app-alertmessage>
 <app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'" [confirmBack]="confirmBack"></app-template-header-title>
-<div>
-  <section class="sectionTitle">
 
-    <div *ngIf="!isEditDescription">
+<div class="content-wrapper">
+  <!-- Sección Título -->
+  <section class="sectionTitle">
+    <!-- Vista normal -->
+    <div *ngIf="!isEditDescription" class="title-content">
       <h1 class="title">{{title}}</h1>
       <div class="d-flex align-items-center gap-3">
         <p class="description mb-0">{{description}}</p>
@@ -18,67 +14,51 @@
       </div>
     </div>
 
-    <div *ngIf="isEditDescription">
+    <!-- Vista edición -->
+    <div *ngIf="isEditDescription" class="edit-content">
       <h1 class="title">{{title}}</h1>
       <div class="d-flex flex-column gap-3">
-        <input type="text"
-              class="form-control"
-              [(ngModel)]="description"
-              placeholder="Ingrese la descripción">
-        <div class="d-flex gap-2">
+        <textarea class="form-control" [(ngModel)]="description" placeholder="Ingrese la descripción" rows="3"></textarea>
+        <div class="d-flex gap-2 justify-content-end">
           <button class="btn btn-save" (click)="saveDescription()">Guardar</button>
           <button class="btn btn-cancel" (click)="editDescription()">Cancelar</button>
         </div>
       </div>
     </div>
   </section>
-  <section class="sectionOtions">
-      <div *ngFor="let option of options">
-        <app-molecule-section-option
-        [data]="option"
-        (buttonOneClick)="handleBotonUno()"
-        (buttonTwoClick)="handleBotonDos()">
-        </app-molecule-section-option>
-      </div>
-    </section>
-  <section id="rubryc" class="sectionRubric ">
 
-    <app-template-rubric-table
-    *ngIf="currentRubric && currentRubric.id"
-    [rubric]="currentRubric">
-    </app-template-rubric-table>
-    
-    <div class="d-flex justify-content-center">
-      <button class="btn btn-edit mb-3"
-        (click)="goToRubric()"
-        *ngIf="currentRubric && currentRubric.id">
-        <i class="bi bi-pencil-square"></i> 
-        <span>Editar</span>
-      </button>
-    </div>
-    <!-- Mensaje de carga o estado vacío -->
-    <div *ngIf="!currentRubric || !currentRubric.id" class="text-center d-flex align-items-center justify-content-center p-4 empty" (click)="goToRubric()">
-      <div>
-        <p class="text-help">Necesitas una rubrica para esta secccion</p>
-        <button class="btn ">
-        <i class="bi bi-plus-circle"></i> Agregar Rubrica
+  <!-- Sección Rúbrica -->
+  <section id="rubryc" class="sectionRubric">
+    <!-- Rúbrica existente -->
+    <div *ngIf="currentRubric && currentRubric.id" class="rubric-content">
+      <app-template-rubric-table [rubric]="currentRubric"></app-template-rubric-table>
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-edit" (click)="goToRubric()">
+          <i class="bi bi-pencil-square"></i> 
+          <span>Editar</span>
         </button>
       </div>
-      
     </div>
 
-    <section class="m-4" id="evaluators">
-<!--      <h2 class="subtitle">
-        Evaludadores
-      </h2>-->
+    <!-- Estado vacío -->
+    <div *ngIf="!currentRubric || !currentRubric.id" 
+         class="empty d-flex align-items-center justify-content-center" 
+         (click)="goToRubric()">
+      <div class="text-center">
+        <p class="text-help mb-3">Necesitas una rúbrica para esta sección</p>
+        <button class="btn">
+          <i class="bi bi-plus-circle"></i> Agregar Rúbrica
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección Evaluadores -->
+    <section id="evaluators" class="mt-5">
       <app-template-list-teachers
         [title]="'Evaluadores asignados'"
         [description]="'Lista de evaluadores asignados a la RA'"
-        [listTeachers]="evaluators"
-      >
+        [listTeachers]="evaluators">
       </app-template-list-teachers>
-
     </section>
-
   </section>
 </div>

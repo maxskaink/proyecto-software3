@@ -13,7 +13,7 @@
     background-color: green;
 }
 .description {
-    width: clamp(140px, 2vh, 145px);
+    width: clamp(130px, 2vh, 140px);
     height: 110px;
     overflow-y: auto;
     font-size: clamp(0.5rem, 4vh, 0.8rem);
