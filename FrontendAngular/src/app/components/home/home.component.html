@@ -4,23 +4,26 @@
 <div class="container py-4 container--search">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
-      <app-molecule-search-bar
-        placeholder="Buscar asignatura..."
-        (search)="onSearch($event)"
-        class="d-flex justify-content-center">
-      </app-molecule-search-bar>
+      <div class="d-flex align-items-center justify-content-between">
+        <app-molecule-aside-menu
+          [menuItems]="menuItems"
+          (itemSelected)="onMenuItemSelected($event)"
+          class="flex-grow-0 me-3"
+        ></app-molecule-aside-menu>
+
+        <app-molecule-search-bar
+          placeholder="Buscar asignatura..."
+          (search)="onSearch($event)"
+          class="flex-grow-1"
+        ></app-molecule-search-bar>
+      </div>
     </div>
   </div>
 </div>
-
 <div class="container-fluid main-content">
   <div class="carousel-wrapper" *ngIf="isDesktop">
-    
     <!-- Botón Izquierdo -->
-    <button 
-      class="nav left" 
-      (click)="scrollLeft()" 
-      [disabled]="!canScrollLeft">
+    <button class="nav left" (click)="scrollLeft()" [disabled]="!canScrollLeft">
       &lt;
     </button>
 
@@ -28,35 +31,39 @@
     <div class="carousel-container">
       <div class="carousel-scroll" #carousel>
         <app-molecule-block
-          *ngFor="let asignature of asignaturesFilters"
-          [title]="asignature.name"
-          [description]="asignature.description"
+          *ngFor="let item of listItems"
+          [title]="item.title"
+          [description]="item.description"
           class="card-item"
-          (click)="goToAsignature(asignature.id)">
+          (click)="onItemClick(item)"
+        >
         </app-molecule-block>
       </div>
     </div>
 
     <!-- Botón Derecho -->
-    <button 
-      class="nav right" 
-      (click)="scrollRight()" 
-      [disabled]="!canScrollRight">
+    <button
+      class="nav right"
+      (click)="scrollRight()"
+      [disabled]="!canScrollRight"
+    >
       &gt;
     </button>
-    
   </div>
   <div class="grid-view" *ngIf="!isDesktop">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 mb-4" *ngFor="let asignature of asignaturesFilters">
+        <div
+          class="col-12 col-md-8 col-lg-6 mb-4"
+          *ngFor="let asignature of asignaturesFilters"
+        >
           <div class="d-flex justify-content-center container-subject">
             <app-molecule-block
               [title]="asignature.name"
               [description]="asignature.description"
               (click)="goToAsignature(asignature.id)"
-              class="card-item--list">
-              
+              class="card-item--list"
+            >
             </app-molecule-block>
           </div>
         </div>

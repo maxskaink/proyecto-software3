@@ -12,10 +12,10 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    
+
     gap: 1rem;
   }
-  
+
   .carousel-container {
     max-width: 90vw;
     overflow: hidden;
@@ -29,7 +29,7 @@
     gap: 1rem;
     margin-top: 3%;
   }
-  
+
   .carousel-scroll {
     display: flex;
     gap: 4rem;
@@ -38,11 +38,11 @@
     scrollbar-width: none;
     height: 25rem;
   }
-  
+
   .carousel-scroll::-webkit-scrollbar {
     display: none;
   }
-  
+
   .card-item {
     margin-top:10px;
     flex: 0 0 auto;
@@ -74,11 +74,11 @@
     transition: background-color 0.2s ease;
     z-index: 1;
   }
-  
+
   .nav:hover {
     background-color: #f0f0f0;
   }
-  
+
   .nav:disabled {
   background-color: #ccc;
   cursor: not-allowed;
@@ -98,4 +98,22 @@
 .grid-view app-molecule-block {
   height: 100%;
   display: block;
+}
+
+/* Add this to your existing CSS file */
+app-molecule-aside-menu {
+  display: inline-flex;
+}
+
+/* Make search bar responsive */
+@media (max-width: 576px) {
+  .d-flex.align-items-center.justify-content-between {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 1rem;
+  }
+
+  app-molecule-aside-menu {
+    margin-right: 0 !important;
+  }
 }

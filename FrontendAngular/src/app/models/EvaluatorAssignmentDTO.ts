@@ -1,6 +1,8 @@
+import { SubjectOutcome } from "./SubjectOutcomeDTO";
+
 export interface EvaluatorAssignment {
     id: number;
     termId: number;
-    subjectOutcomeId: number;
+    subjectOutcome: SubjectOutcome;
     evaluatorUid: string;
 }

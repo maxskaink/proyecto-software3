@@ -67,6 +67,14 @@ export class AuthService {
     return this.name$.asObservable();
   }
 
+  get uid(): Observable<string | null> {
+    return this.currentUser.pipe(
+      filter((user): user is User => user !== null),
+      (source) => new Observable(subscriber => {
+        source.subscribe(user => subscriber.next(user.uid));
+      })
+    );
+  }
   logout() {
     return signOut(this.afAuth);
   }

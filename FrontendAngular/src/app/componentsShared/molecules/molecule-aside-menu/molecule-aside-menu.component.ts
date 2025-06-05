@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-interface MenuItem {
+export interface MenuItem {
   title: string;
   action?: () => void; // Optional callback function for each item
-  active?: boolean; 
+  active?: boolean;
 }
 
 @Component({
