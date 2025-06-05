@@ -44,6 +44,7 @@ export class OutcomeComponent implements OnInit {
   options: SectionOption[] = [];
   confirmBack = false;
   evaluators: TeacherDTO[] =[];
+  isViewOnly: boolean = false;
 
   //Variables for alert
   messageAlert:string = "";
@@ -60,26 +61,29 @@ export class OutcomeComponent implements OnInit {
   ){
     }
 
-  ngOnInit(): void {
-    // Scroll to top when component initializes
-     // Scroll to top when component initializes
-    this.viewportScroller.scrollToPosition([0, 0]);
-    this.isLoading= true;
-    this.route.queryParams.subscribe(params => {
-      if (params['outcomeId']) {
-        this.outcomeId = +params['outcomeId'];
-        this.getOutcome();
-        this.getSubjectId();
-        this.isLoading =false;
-        this.getEvaluators();
+    ngOnInit(): void {
+      // Scroll to top when component initializes
+      this.viewportScroller.scrollToPosition([0, 0]);
+      this.isLoading = true;
 
-      } else {
-        console.error('No outcome ID provided');
-        this.router.navigate(['/home']); // or handle missing ID case
-        this.isLoading =false;
-      }
-    });
-  }
+      this.route.queryParams.subscribe(params => {
+        // Check if viewOnly parameter exists and set the mode
+        this.isViewOnly = params['viewOnly'] === 'true';
+        if (params['outcomeId']) {
+          this.outcomeId = +params['outcomeId'];
+          this.getOutcome();
+          this.getSubjectId();
+          this.isLoading = false;
+          this.getEvaluators();
+        } else {
+          console.error('No outcome ID provided');
+          this.router.navigate(['/home']); // or handle missing ID case
+          this.isLoading = false;
+        }
+      });
+    }
+
+
   private getSubjectId() {
     // Obtén el subjectId desde tu servicio o donde lo tengas almacenado
     this.outComeService.getOutcomeById(this.outcomeId).subscribe({
@@ -104,49 +108,51 @@ export class OutcomeComponent implements OnInit {
     this.showAlert= true;
   }
 
-  private initializeOptions() {
-    this.options = [
-      {
-        title: 'Evaluadores',
-        description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
-        showButtonOne: true,
-        buttonTextOne: 'Ver evaluadores',
-        actionOne: {
-          type: 'scroll',
-          value: 'evaluators'
-        },
-        showButtonTwo: true,
-        buttonTextTwo: 'Gestionar Evaluadores',
-        actionTwo:{
-          type: 'navigate',
-          value: '/home/subject/competencySubject/outcome/assignEvaluators',
-          queryParams: {
-            outcomeId: this.outcomeId
-          }
-        }
+private initializeOptions() {
+  this.options = [
+    {
+      title: 'Evaluadores',
+      description: 'Toda RA tiene sus propios evaluadores, ¡Dales un vistazo!',
+      showButtonOne: true,
+      buttonTextOne: 'Ver evaluadores',
+      actionOne: {
+        type: 'scroll',
+        value: 'evaluators'
       },
-      {
-        title: 'Rubrica',
-        description: 'Nuestras rubricas se manejan por criterios y niveles...',
-        showButtonOne: true,
-        buttonTextOne: 'Ver rubrica',
-        actionOne: {
-          type: 'scroll',
-          value: 'rubryc'
-        },
-        showButtonTwo: true,
-        buttonTextTwo: 'Editar rubrica',
-        actionTwo: {
-          type: 'navigate',
-          value: '/home/subject/competencySubject/outcome/create',
-          queryParams: {
-            outcomeId: this.outcomeId,
-            idRubric: this.currentRubric?.id || -1
-          }
+      // Only show manage button if not in view-only mode
+      showButtonTwo: !this.isViewOnly,
+      buttonTextTwo: 'Gestionar Evaluadores',
+      actionTwo:{
+        type: 'navigate',
+        value: '/home/subject/competencySubject/outcome/assignEvaluators',
+        queryParams: {
+          outcomeId: this.outcomeId
         }
       }
-    ];
-  }
+    },
+    {
+      title: 'Rubrica',
+      description: 'Nuestras rubricas se manejan por criterios y niveles...',
+      showButtonOne: true,
+      buttonTextOne: 'Ver rubrica',
+      actionOne: {
+        type: 'scroll',
+        value: 'rubryc'
+      },
+      // Only show edit button if not in view-only mode
+      showButtonTwo: !this.isViewOnly,
+      buttonTextTwo: 'Editar rubrica',
+      actionTwo: {
+        type: 'navigate',
+        value: '/home/subject/competencySubject/outcome/create',
+        queryParams: {
+          outcomeId: this.outcomeId,
+          idRubric: this.currentRubric?.id || -1
+        }
+      }
+    }
+  ];
+}
   getEvaluators(){
     //Traer solo evaluadores asignados
     console.log('Obteniendo evaluadores para el outcome con ID:', this.outcomeId);
@@ -170,6 +176,11 @@ export class OutcomeComponent implements OnInit {
   }
 
   editDescription(): void{
+    // Don't allow editing in view-only mode
+    if (this.isViewOnly) {
+      return;
+    }
+
     this.isEditDescription = !this.isEditDescription;
     this.confirmBack = !this.confirmBack;
   }

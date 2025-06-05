@@ -22,9 +22,11 @@ import { EvaluatorAssignmentService } from '../../services/evaluator_assignment.
 import { Observable, forkJoin } from 'rxjs';
 
 export interface listItem {
+  id?: number;  // Add this line - optional ID for the item
   title: string;
   description: string;
 }
+
 
 @Component({
   selector: 'app-home',
@@ -101,14 +103,37 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Lifecycle methods
   ngOnInit(): void {
-    this.authService.uid.subscribe((uid) => {
-      if (uid) {
-        this.userID = uid;
-      } else {
-        console.error('User ID not available');
+    this.isLoading = true;
+
+    // Get user ID and then load appropriate data
+    this.authService.uid.subscribe({
+      next: (uid) => {
+        if (uid) {
+          this.userID = uid;
+          console.log('User ID loaded:', uid);
+
+          // Load initial view data based on active view
+          if (this.activeView === 'subjects') {
+            this.loadAsignatures();
+          } else {
+            this.loadOutcomes();
+          }
+        } else {
+          console.error('User ID not available');
+          this.isLoading = false;
+
+          // Default to loading subjects if no user ID
+          this.loadAsignatures();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading user ID:', error);
+        this.isLoading = false;
+
+        // Default to loading subjects on error
+        this.loadAsignatures();
       }
     });
-    this.loadAsignatures();
   }
 
   ngAfterViewInit(): void {
@@ -151,20 +176,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private loadOutcomes(): void {
     this.isLoading = true;
+    this.listItems = []; // Clear previous items
 
     // First, check if we have a valid user ID
     if (!this.userID) {
       console.error('Cannot load outcomes: User ID not available');
       this.isLoading = false;
-      this.listItems = [];
       return;
     }
+
+    console.log('Loading outcomes for user:', this.userID);
 
     // Get evaluator assignments for the current user
     this.evaluatorAssignmentService.getAssignmentsByevaluator(this.userID).subscribe({
       next: (assignments) => {
         console.log('Evaluator assignments loaded:', assignments.length);
-        console.log('Assignments:', assignments);
 
         if (assignments.length === 0) {
           // No assignments found
@@ -174,44 +200,69 @@ export class HomeComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        // Extract outcome IDs from assignments
-        const outcomeIds = assignments.map(assignment => assignment.subjectOutcome.id);
+        try {
+          // Extract outcome IDs from assignments with proper error handling
+          const outcomeIds = assignments
+            .filter(assignment => assignment && assignment.subjectOutcome)
+            .map(assignment => {
+              if (!assignment.subjectOutcome.id) {
+                console.warn('Assignment missing outcome ID:', assignment);
+              }
+              return assignment.subjectOutcome.id;
+            })
+            .filter(id => id); // Filter out any undefined/null IDs
 
+          console.log('Found outcome IDs:', outcomeIds);
 
-        // Create an array to store all outcome promises
-        const outcomeObservables: Observable<any>[] = [];
-
-        // For each assignment, get the corresponding outcome
-        outcomeIds.forEach(outcomeId => {
-          outcomeObservables.push(
-            this.subjectOutcomeService.getOutcomeById(outcomeId)
-          );
-        });
-
-        // Wait for all outcome requests to complete
-        forkJoin(outcomeObservables).subscribe({
-          next: (outcomesData) => {
-            this.outcomes = outcomesData;
-
-            // Map outcomes to listItems format
-            this.listItems = this.outcomes.map(outcome => ({
-              title: this.truncateText(outcome.description),
-              description: `${outcome.rubric?.description || 'Sin rúbrica'}`
-            }));
-
-
-            this.isLoading = false;
-
-            setTimeout(() => {
-              this.updateScrollButtons();
-            }, 100);
-          },
-          error: (error) => {
-            console.error('Error loading outcome details:', error);
-            this.isLoading = false;
+          if (outcomeIds.length === 0) {
+            console.warn('No valid outcome IDs found in assignments');
+            this.outcomes = [];
             this.listItems = [];
+            this.isLoading = false;
+            return;
           }
-        });
+
+          // Create an array to store all outcome observables
+          const outcomeObservables: Observable<any>[] = [];
+
+          // For each assignment, get the corresponding outcome
+          outcomeIds.forEach(outcomeId => {
+            outcomeObservables.push(
+              this.subjectOutcomeService.getOutcomeById(outcomeId)
+            );
+          });
+
+          // Wait for all outcome requests to complete
+          forkJoin(outcomeObservables).subscribe({
+            next: (outcomesData) => {
+              console.log('Outcomes loaded successfully:', outcomesData.length);
+              this.outcomes = outcomesData;
+
+              // Map outcomes to listItems format
+              this.listItems = this.outcomes.map(outcome => ({
+                id: outcome.id,  // Store the outcome ID directly
+                title: this.truncateText(outcome.description),
+                description: `${outcome.subjectName || ''} ${outcome.rubric?.description || 'Sin rúbrica'}`
+              }));
+
+
+              this.isLoading = false;
+
+              setTimeout(() => {
+                this.updateScrollButtons();
+              }, 100);
+            },
+            error: (error) => {
+              console.error('Error loading outcome details:', error);
+              this.isLoading = false;
+              this.listItems = [];
+            }
+          });
+        } catch (err) {
+          console.error('Error processing assignments:', err);
+          this.isLoading = false;
+          this.listItems = [];
+        }
       },
       error: (error) => {
         console.error('Error loading evaluator assignments:', error);
@@ -254,10 +305,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.goToAsignature(asignature.id);
       }
     } else {
-      // Find the corresponding outcome to get its ID
-      const outcome = this.outcomes?.find(o => o.description === item.title);
-      if (outcome) {
-        this.goToOutcome(outcome.id);
+      console.log('Outcome item clicked:', item);
+
+      // Use the stored ID directly if available
+      if (item.id) {
+        console.log('Navigating to outcome with ID:', item.id);
+        this.goToOutcome(item.id);
+      } else {
+        // Fallback to the previous approach if no ID is stored
+        const outcome = this.outcomes?.find(o => o.description === item.title);
+        if (outcome) {
+          console.log('Found outcome by description:', outcome);
+          this.goToOutcome(outcome.id);
+        } else {
+          console.error('Could not find matching outcome for:', item.title);
+        }
       }
     }
   }
@@ -267,10 +329,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/asignatures', id]);
   }
 
-  goToOutcome(id: number): void {
-    this.router.navigate(['/outcomes', id]);
-  }
 
+  goToOutcome( outcomeId: number): void {
+    // Usar el ID real del outcome si está disponible
+
+    this.router
+      .navigate(['/home/subject/competency/subject/outcome'], {
+        queryParams: {
+          outcomeId: outcomeId,
+          viewOnly: true
+        },
+      })
+      .then(() => {
+        console.log('Navegando al outcome:', outcomeId);
+      })
+      .catch((error) => {
+        console.error('Error en la navegación:', error);
+      });
+  }
   // Utility methods
   private checkScreenSize() {
     this.isDesktop = window.innerWidth > 768; // 768px is typical medium breakpoint
@@ -313,6 +389,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       // Handle filtering for outcomes view
       if (!this.wordSearch) {
         this.listItems = this.outcomes.map(outcome => ({
+          id: outcome.id,
           title: this.truncateText(outcome.description),
           description: ` ${outcome.rubric?.description || 'Sin rubrica'}`
         }));
@@ -323,11 +400,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const filteredOutcomes = this.outcomes.filter((outcome) =>
           outcome.description.toLowerCase().includes(termino)
         );
-
         this.listItems = filteredOutcomes.map(outcome => ({
+          id: outcome.id,
           title: this.truncateText(outcome.description),
           description: `${outcome.rubric?.description || 'Sin rubrica'}`
         }));
+
 
       }
     }

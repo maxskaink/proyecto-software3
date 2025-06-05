@@ -1,11 +1,14 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-alertmessage *ngIf="showAlert" [message]="messageAlert" [state]="stateAlert" (closed)="hideAlert()"></app-alertmessage>
+
+  <app-alertmessage *ngIf="showAlert " [message]="messageAlert" [state]="stateAlert " (closed)="hideAlert()"></app-alertmessage>
+
+
 <!-- Para navegación específica -->
 <app-template-header-title
     [title]="'RA'"
-    [description]="'Aqui podras configurar tu RA'"
-    [confirmBack]="true"
-    [customBackRoute]="'/asignatures/' + subjectId"
+    [description]="'Aqui podras ' + (isViewOnly ? 'visualizar' : 'configurar') + ' tu RA'"
+    [confirmBack]=" !isViewOnly"
+    [customBackRoute]="'/home'"
     [customBackQueryParams]="{}">
 </app-template-header-title>
 
@@ -13,11 +16,12 @@
   <!-- Sección Título -->
   <section class="sectionTitle">
     <!-- Vista normal -->
-    <div *ngIf="!isEditDescription" class="title-content">
+    <div *ngIf="!isEditDescription " class="title-content">
       <h1 class="title">{{title}}</h1>
       <div class="d-flex align-items-center gap-3">
         <p class="description mb-0">{{description}}</p>
-        <i class="bi bi-pencil-square iconEdit" (click)="editDescription()"></i>
+        <!-- Hide edit icon in view-only mode -->
+        <i *ngIf="!isViewOnly" class="bi bi-pencil-square iconEdit" (click)="editDescription()"></i>
       </div>
     </div>
 
@@ -32,44 +36,50 @@
         </div>
       </div>
     </div>
-
   </section>
-  <section class="sectionOtions">
+
+  <section class="sectionOtions" *ngIf="!isViewOnly">
     <div *ngFor="let option of options">
       <app-molecule-section-option
-      [data]="option"
-      (buttonOneClick)="handleBotonUno()"
-      (buttonTwoClick)="handleBotonDos()">
+        [data]="option"
+        (buttonOneClick)="handleBotonUno()"
+        (buttonTwoClick)="handleBotonDos()">
       </app-molecule-section-option>
     </div>
   </section>
+
   <!-- Sección Rúbrica -->
   <section id="rubryc" class="sectionRubric">
     <!-- Rúbrica existente -->
     <div *ngIf="currentRubric && currentRubric.id" class="rubric-content">
       <app-template-rubric-table [rubric]="currentRubric"></app-template-rubric-table>
-      <div class="d-flex justify-content-center mt-3">
+      <!-- Hide edit button in view-only mode -->
+      <div *ngIf="!isViewOnly" class="d-flex justify-content-center mt-3">
         <button class="btn btn-edit" (click)="goToRubric()">
-          <i class="bi bi-pencil-square"></i> 
+          <i class="bi bi-pencil-square"></i>
           <span>Editar</span>
         </button>
       </div>
     </div>
 
-    <!-- Estado vacío -->
-    <div *ngIf="!currentRubric || !currentRubric.id" 
-         class="empty d-flex align-items-center justify-content-center" 
-         (click)="goToRubric()">
+    <!-- Estado vacío - hide add button in view-only mode -->
+    <div *ngIf="!currentRubric || !currentRubric.id"
+         class="empty d-flex align-items-center justify-content-center"
+         [class.cursor-pointer]="!isViewOnly"
+         (click)="!isViewOnly && goToRubric()">
       <div class="text-center">
-        <p class="text-help mb-3">Necesitas una rúbrica para esta sección</p>
-        <button class="btn">
+        <p class="text-help mb-3">
+          {{ isViewOnly ? 'No hay rúbrica definida para esta RA' : 'Necesitas una rúbrica para esta sección' }}
+        </p>
+        <!-- Hide add button in view-only mode -->
+        <button *ngIf="!isViewOnly" class="btn">
           <i class="bi bi-plus-circle"></i> Agregar Rúbrica
         </button>
       </div>
     </div>
 
     <!-- Sección Evaluadores -->
-    <section id="evaluators" class="mt-5">
+    <section id="evaluators" class="mt-5" *ngIf="!isViewOnly">
       <app-template-list-teachers
         [title]="'Evaluadores asignados'"
         [description]="'Lista de evaluadores asignados a la RA'"
