@@ -18,8 +18,23 @@
       <h1 class="title">{{ title }}</h1>
       <p class="description">{{ description }}</p>
       <div class="d-flex flex-column gap-2">
-        <button class="btn" (click)="goToCompetency()">Ver competencias</button>
-        <button class="btn" (click)="goToCreateCompetency()">
+        <!-- Disable "Ver competencias" button if there are no competencies -->
+        <button
+          class="btn"
+          (click)="goToCompetency()"
+          [disabled]="!listCompetency || listCompetency.length === 0"
+          [title]="(!listCompetency || listCompetency.length === 0) ? 'No hay competencias para ver' : 'Ver competencias'"
+        >
+          Ver competencias
+        </button>
+
+        <!-- Disable "Crear competencias" button if there are 3 or more competencies -->
+        <button
+          class="btn"
+          (click)="goToCreateCompetency()"
+          [disabled]="listCompetency && listCompetency.length >= 3"
+          [title]="(listCompetency && listCompetency.length >= 3) ? 'Máximo de 3 competencias alcanzado' : 'Crear competencias'"
+        >
           Crear competencias
         </button>
       </div>
@@ -44,7 +59,7 @@
     </div>
   </section>
 
-  <section id="competencySection" class="sectionCompetency">
+  <section *ngIf="listCompetency && listCompetency.length > 0" id="competencySection" class="sectionCompetency">
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div
@@ -69,6 +84,7 @@
           <app-template-competency
             [competency]="competency"
             (editStateChange)="onEditStateChange($event)"
+            (competencyDeleted)="onCompetencyDeleted($event)"
             *ngIf="!isEdit"
           >
           </app-template-competency>

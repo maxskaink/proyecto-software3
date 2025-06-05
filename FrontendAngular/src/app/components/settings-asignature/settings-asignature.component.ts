@@ -16,7 +16,6 @@ import {AlertmessageComponent} from "../../componentsShared/messages/alertmessag
   imports: [
     CommonModule,
     MoleculeBackHeaderComponent,
-    TemplateListboxCompleteComponent,
     TemplateInputBoxtextComponent,
     FormsModule,
     AlertmessageComponent

@@ -20,7 +20,7 @@ export class SettingsComponent {
     },
     {
       title: 'Asignatura',
-      description: 'En esta sección podrás listar y crear competencias de asignatura',
+      description: 'En esta sección podrás crear competencias de asignatura',
       route: 'settings/asignatures'
     },
     {

@@ -28,7 +28,7 @@ import { TemplateListTeachersComponent } from '../../componentsShared/templates/
 import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
 import { TeacherAssignment } from '../../models/TeacherAssignmentDTO';
 import { TeacherDTO } from '../../models/TeacherDTO';
-import { AlertmessageComponent } from "../../componentsShared/messages/alertmessage/alertmessage.component";
+import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
 declare var bootstrap: any;
 
 @Component({
@@ -40,8 +40,8 @@ declare var bootstrap: any;
     TemplateListTeachersComponent,
     CommonModule,
     LoadingComponent,
-    AlertmessageComponent
-],
+    AlertmessageComponent,
+  ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.css',
 })
@@ -63,9 +63,9 @@ export class SubjectComponent {
   teacherAssignments: TeacherDTO[] = [];
 
   //Variable for alert
-  messageAlert:string ="";
+  messageAlert: string = '';
   stateAlert: 'save' | 'error' | 'correct' = 'save';
-  showAlert:boolean = false;
+  showAlert: boolean = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -96,12 +96,12 @@ export class SubjectComponent {
     }
   }
 
-  hideAlert(){
+  hideAlert() {
     this.showAlert = false;
   }
 
-  saveAlert(){
-    this.messageAlert= "Guardado con exito";
+  saveAlert() {
+    this.messageAlert = 'Guardado con exito';
     this.stateAlert = 'save';
     this.showAlert = true;
   }
@@ -364,5 +364,20 @@ export class SubjectComponent {
     }, 500);
   }
 
+  // Add this method to the SubjectComponent class
+  onCompetencyDeleted(competencyId: number): void {
+    console.log('Competency deleted:', competencyId);
 
+    // Show success message
+    this.messageAlert = 'Competencia eliminada con éxito';
+    this.stateAlert = 'save';
+    this.showAlert = true;
+
+    // Reload competencies
+    this.loadCompetencies();
+
+    // Reset edit state if needed
+    this.editStateService.setEditState(false);
+    this.isEdit = false;
+  }
 }
