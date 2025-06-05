@@ -57,14 +57,14 @@
       </button>
     </div>
     <!-- Mensaje de carga o estado vacío -->
-    <div *ngIf="!currentRubric || !currentRubric.id" class="text-center p-4">
-      <p>Cargando rubrica</p>
-      <button class="btn btn-primary mb-3"
-      (click)="goToRubric()"
-      >
-      <i class="bi bi-plus-circle"></i> Agregar Rubrica
-
-      </button>
+    <div *ngIf="!currentRubric || !currentRubric.id" class="text-center d-flex align-items-center justify-content-center p-4 empty" (click)="goToRubric()">
+      <div>
+        <p class="text-help">Necesitas una rubrica para esta secccion</p>
+        <button class="btn ">
+        <i class="bi bi-plus-circle"></i> Agregar Rubrica
+        </button>
+      </div>
+      
     </div>
 
     <section class="m-4" id="evaluators">

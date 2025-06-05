@@ -122,3 +122,38 @@
     line-height: 1.5; /* Espaciado entre líneas */
     padding: 0.75rem; /* Espaciado interno */
 }
+.empty {
+    border: 2px dashed #6B656A;
+    height: clamp(30rem, 3vh, 40rem);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.empty:hover {
+    background-color: rgba(217, 217, 217, 0.1);
+    border-color: #1F0D1E;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(31, 13, 30, 0.1);
+}
+
+.empty::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(217, 217, 217, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.empty:hover::before {
+    left: 100%;
+}
