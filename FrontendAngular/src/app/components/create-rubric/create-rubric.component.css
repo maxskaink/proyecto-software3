@@ -17,7 +17,11 @@
     height: clamp(150rem, 80%, 200rem);
 }
 .sectionCriterions{
-    height: clamp(50rem, 80%, 20rem);
+    min-height: 5rem;
+    height: auto;
+}
+.sectionCreateCriterion{
+    height: clamp(40rem, 4vh, 60rem);
 }
 .sectionDescription{
     height: clamp(30rem, 80%, 40rem);
@@ -29,7 +33,7 @@
     margin-top: 20px;   
 }
 .text-help{
-    color: #6B656A;
+    color: #C5C5C5;
     font-size: clamp(0.8rem, 1.5vw, 1rem);
     margin-top: 10px;
 }

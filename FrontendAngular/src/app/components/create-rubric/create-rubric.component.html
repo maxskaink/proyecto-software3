@@ -14,78 +14,94 @@
 
 
     <div class=" bodyContent">
+        
         <section class="sectionDescription p-4">
+
             <h2>
                 <span class="title angular-brackets">Rubrica</span>
                 <p class="text-help"></p>
-                <textarea class="description-input"
-                 name="description"
-                 [(ngModel)]="description"
-                  id="description">
-                    Escribe aqui la descripcion de tu rubrica
-                </textarea>
                 <div *ngIf="error.description" >
                     <p class="text-danger">{{error.description}}</p>
-
                 </div>
             </h2>
+            <p class="text-help angular-brackets">Escribe en esta caja tu descripcion de la rubrica, es importante para una mejor lectura</p>
+            <textarea class="description-input"
+            name="description"
+            [(ngModel)]="description"
+             id="description">
+               Escribe aqui la descripcion de tu rubrica
+           </textarea>
+         
         </section>
         <section class="row mb-5 sectionCriterions">
             <div class="col-12">
-                <div class=" p-4">
-                    <h2 *ngIf="!shouldHideCreateCriterion" class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
+                <div class=" sectionCreateCriterion p-4" *ngIf="!shouldHideCreateCriterion">
+                    <h2  class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
                     <div class="">
                         <app-template-rubric-create-criterion
-                        *ngIf="!shouldHideCreateCriterion"
+                        
                         [idRubric]="idRubric"
+                        (criterionAdded)="onCriterionAdded($event)">
+                        </app-template-rubric-create-criterion>
+                    </div>
+                </div>
+                <div class=" p-2 d-flex aling-items-center justify-content-center" *ngIf="shouldHideCreateCriterion">
+                    <p class="text-help angular-brackets">Tienes el maximo de criterios disponibles o tus criterios ya cupmlen con un 100%, estas mas cerca de acabar tu rubrica</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
+            <p class="mb-4 text-help">Estos son los criterios que tienes creados hasta el momento</p>
+            
+        </section>
+            <!-- Sección de Lista de Criterios -->
+        <section class="row">
+            <div class="col-12">
+                <div class="p-4">
+                    <div *ngFor="let criterion of listCriterion" class="listCriterion">
+                        <!-- Show row when not editing this criterion -->
+                        <app-template-rubric-row
+                            *ngIf="!criterioIsEdit || editingCriterion !== criterion"
+                            [criterion]="criterion"
+                            [state]="'secondary'"
+                            (onEdit)="handleEditCriterion(criterion)"
+                            (onDelete)="handleDeleteCriterion(criterion)">
+                        </app-template-rubric-row>
+
+                        <!-- Show edit form when editing this criterion -->
+                        <app-template-rubric-create-criterion
+                        *ngIf="criterioIsEdit && editingCriterion === criterion"
+                        [idRubric]="idRubric"
+                        [criterionToEdit]="editingCriterion"
                         (criterionAdded)="onCriterionAdded($event)">
                         </app-template-rubric-create-criterion>
                     </div>
                 </div>
             </div>
         </section>
-
-            <!-- Sección de Lista de Criterios -->
-            <section class="row">
-                <div class="col-12">
-                    <div class="p-4">
-                        <h2 class="mb-3 title angular-brackets">Lista de Criterios Creados</h2>
-                        <p class="mb-4 text-help">Estos son los criterios que tienes creados hasta el momento</p>
-                        <div *ngFor="let criterion of listCriterion" class="listCriterion">
-                            <!-- Show row when not editing this criterion -->
-                            <app-template-rubric-row
-                                *ngIf="!criterioIsEdit || editingCriterion !== criterion"
-                                [criterion]="criterion"
-                                [state]="'secondary'"
-                                (onEdit)="handleEditCriterion(criterion)"
-                                (onDelete)="handleDeleteCriterion(criterion)">
-                            </app-template-rubric-row>
-
-                            <!-- Show edit form when editing this criterion -->
-                            <app-template-rubric-create-criterion
-                            *ngIf="criterioIsEdit && editingCriterion === criterion"
-                            [idRubric]="idRubric"
-                            [criterionToEdit]="editingCriterion"
-                            (criterionAdded)="onCriterionAdded($event)">
-                            </app-template-rubric-create-criterion>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div *ngIf="error.weight" class="error-message">
-                <p class="text-danger">{{ error.weight }}</p>
+            <!-- Enhanced validation message -->
+        <div *ngIf="error.weight"
+            class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+            <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <span><strong>¡Atención!</strong>{{error.weight}}</span>
+        </div>
+        
+        <section class=" p-4">
+            <p class="text-help">¿Ya terminaste tu rubrica? </p>
+            <p class="text-help">Guarda tus cambios y sigue con tu proceso</p>
+            <div class="">
+                <button class="btn_save" (click)="saveRubric()">
+                    Guardar
+                </button>
+                <button class="btn_cancel">
+                    cancelar
+                </button>
             </div>
-            <section class=" p-4">
-                <p class="text-help">¿Ya terminaste tu rubrica? </p>
-                <p class="text-help">Guarda tus cambios y sigue con tu proceso</p>
-                <div class="">
-                    <button class="btn_save" (click)="saveRubric()">
-                        Guardar
-                    </button>
-                    <button class="btn_cancel">
-                        cancelar
-                    </button>
-                </div>
-            </section >
+        </section >
     </div>
 </div>
