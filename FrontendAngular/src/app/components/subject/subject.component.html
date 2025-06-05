@@ -1,4 +1,11 @@
 <app-loading [isLoading]="isLoading"></app-loading>
+<app-alertmessage
+  *ngIf="showAlert"
+  [message]="messageAlert"
+  [state]="stateAlert"
+  (closed)="hideAlert()"
+>
+</app-alertmessage>
 <app-molecule-back-header
   [confirmBack]="this.isEdit"
 > </app-molecule-back-header>
@@ -72,6 +79,7 @@
             (editStateChange)="onEditStateChange($event)"
             [subjectId]="getSubjectId()"
             *ngIf="isEdit"
+            (saveSuccess)="saveAlert()"
           >
           </app-template-competency-edit>
         </div>

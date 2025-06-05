@@ -1,4 +1,11 @@
 <app-loading [isLoading]="isLoading"></app-loading>
+<app-alertmessage
+  *ngIf="showAlert"
+  [message]="messageAlert"
+  [state]="stateAlert"
+  (closed)="hideAlert()"
+>
+</app-alertmessage>
 <app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'" [confirmBack]="confirmBack"></app-template-header-title>
 <div>
   <section class="sectionTitle">

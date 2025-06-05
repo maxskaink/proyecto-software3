@@ -14,6 +14,7 @@ import { BehaviorSubject, forkJoin } from 'rxjs';
 import { TemplateSearchChooseEvaluatorsComponent } from '../../componentsShared/templates/template-search-choose-evaluators.component /template-search-choose-teachers.component/template-search-choose-evaluators.component.component';
 import { EvaluatorAssignmentService } from '../../services/evaluator_assignment.service';
 import { TemplateRemoveEvaluatorAssignment } from "../../componentsShared/templates/template-remove-evaluator-component/template-remove-evaluator-component.component";
+import { AlertmessageComponent } from "../../componentsShared/messages/alertmessage/alertmessage.component";
 
 @Component({
   selector: 'app-assign-evaluators',
@@ -22,7 +23,8 @@ import { TemplateRemoveEvaluatorAssignment } from "../../componentsShared/templa
     LoadingComponent,
     MoleculeBackHeaderComponent,
     TemplateSearchChooseEvaluatorsComponent,
-    TemplateRemoveEvaluatorAssignment
+    TemplateRemoveEvaluatorAssignment,
+    AlertmessageComponent
 ],
   templateUrl: './assign-evaluators.component.html',
   styleUrl: './assign-evaluators.component.css',
@@ -42,6 +44,12 @@ export class AssignEvaluatorsComponent implements OnInit {
   get selectedEvaluators(): TeacherDTO[] {
     return this.selectedEvaluatorsSubject.getValue();
   }
+
+  //Variables for alert
+  messageAlert:string = "";
+  stateAlert: 'save' | 'error' | 'correct' = 'save';
+  showAlert:boolean= false;
+
 
   constructor(
     private route: ActivatedRoute, 
@@ -64,6 +72,21 @@ export class AssignEvaluatorsComponent implements OnInit {
       this.subjectOutcomeId = Number(outcomeId);
       this.loadInitialData();
     });
+  }
+  hideAlert(){
+    this.showAlert = false;
+  }
+
+  succesAlert(){
+    this.messageAlert = "Guardado con exito";
+    this.stateAlert = 'save';
+    this.showAlert= true;
+  }
+
+  errorAlert(message:string){
+    this.messageAlert = `Error al guardar ${message!=undefined?message:''}`;
+    this.stateAlert = 'error';
+    this.showAlert= true;
   }
 
   loadInitialData(): void {

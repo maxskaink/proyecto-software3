@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { TemplateSearchChooseTeachersComponentComponent } from "../../componentsShared/templates/template-search-choose-teachers.component/template-search-choose-teachers.component/template-search-choose-teachers.component.component";
 import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
+import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { TeacherAssignmentService } from '../../services/teacher_assignment.serv
     LoadingComponent,
     MoleculeBackHeaderComponent,
     TemplateRemoveTeacherComponentComponent,
-    TemplateSearchChooseTeachersComponentComponent
+    TemplateSearchChooseTeachersComponentComponent,
+    AlertmessageComponent
 ],
   templateUrl: './assign-teachers.component.html',
   styleUrl: './assign-teachers.component.css',
@@ -33,6 +35,11 @@ export class AssignTeachersComponent implements OnInit {
   teachers: TeacherDTO[] = [];
   originalTeachersUID: string[] = [];
   originalAssignments: TeacherAssignment[]  = [];
+
+  //For alert
+  stateAlert: 'save' | 'error' | 'correct' = 'save';
+  messageAlert: string='';
+  showAlert:boolean=false;
 
   // Usamos BehaviorSubject para manejar las actualizaciones en tiempo real
   private selectedTeachersSubject = new BehaviorSubject<TeacherDTO[]>([]);
@@ -56,6 +63,29 @@ export class AssignTeachersComponent implements OnInit {
 
     this.subjectId = Number(response);
     this.loadInitialData();
+  }
+
+  hideAlert(){
+    this.showAlert = false;
+  }
+
+  showConfirmAlert(){
+    this.stateAlert='save';
+    this.messageAlert='Asignaciones confirmadas'
+    this.showAlert=true;
+  }
+
+  showErrorAlert(){
+    this.stateAlert='error';
+    this.messageAlert='Error asignando: ';
+    this.showAlert=true;
+  }
+
+  handleSaved(allGood:boolean){
+    if(allGood)
+      this.showConfirmAlert();
+    else 
+      this.showErrorAlert();
   }
 
   loadInitialData(): void {

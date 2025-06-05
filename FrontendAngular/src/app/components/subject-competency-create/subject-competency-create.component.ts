@@ -24,6 +24,8 @@ import { TemplateModalCreateOutcomeComponent } from '../../componentsShared/temp
 import {
   MoleculeBackHeaderComponent
 } from "../../componentsShared/molecules/molecule-back-header/molecule-back-header.component";
+import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-subject-competency',
@@ -33,6 +35,7 @@ import {
     TemplateSelectInputBoxtextComponent,
     MoleculeOutComeComponent,
     MoleculeBackHeaderComponent,
+    AlertmessageComponent
   ],
   templateUrl: './subject-competency-create.component.html',
   styleUrl: './subject-competency-create.component.css',
@@ -58,6 +61,11 @@ export class SubjectCompetencyComponent implements OnInit {
   modalCreateDescription: string = 'Ingresa la descripcion del nuevo resultado de aprendizaje';
   outcomeTouched: boolean = false;
 
+  //Variables for alert
+  messageAlert:string = '';
+  stateAlert:'save' | 'error' | 'correct'='save';
+  showAlert:boolean=false;
+
   constructor(
     private route: ActivatedRoute,
     private subjectOutcomeService: SubjectOutomeService,
@@ -73,6 +81,22 @@ export class SubjectCompetencyComponent implements OnInit {
       this.subjectId = +params['subjectId'];
       this.loadInitialData();
     });
+  }
+
+  hideAlert(){
+    this.showAlert=false;
+  }
+
+  errorAlert(message: string){
+    this.messageAlert = `Error creando la competencia: ${message}`;
+    this.stateAlert = "error";
+    this.showAlert = true;
+  }
+
+  saveAlert(){
+    this.messageAlert = `Competencia guardada, se redirigira a la asignatura`;
+    this.stateAlert = "save";
+    this.showAlert = true;
   }
 
   // Data loading methods
@@ -145,9 +169,14 @@ export class SubjectCompetencyComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loadSubjectOutcomes();
-          this.location.back();
+          this.saveAlert();
+          setTimeout(()=>{
+            this.location.back();
+          },3000)
         },
-        error: () => {}  // Silent error handling
+        error: (error) => {
+          this.errorAlert(error.error)
+        }
       });
 
     return true;

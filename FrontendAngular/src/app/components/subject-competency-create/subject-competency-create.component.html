@@ -1,3 +1,9 @@
+<app-alertmessage
+  *ngIf="showAlert"
+  [message]="messageAlert"
+  [state]="stateAlert"
+  (closed)="hideAlert()"
+></app-alertmessage>
 <div class="competency-container d-flex flex-column min-vh-100">
   <app-molecule-back-header
     [confirmBack]="true"

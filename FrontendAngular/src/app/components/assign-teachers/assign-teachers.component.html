@@ -1,5 +1,11 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-
+<app-alertmessage
+  *ngIf="showAlert"
+  [state]="stateAlert"
+  [message]="messageAlert"
+  (closed)="hideAlert()"
+>
+</app-alertmessage>
 <div class="overlay">
   <app-molecule-back-header
     [confirmBack]="true"
@@ -29,6 +35,7 @@
             (teacherRemoved)="onTeacherRemoved($event)"
             [originalTeachersUID]="originalTeachersUID"
             [subjectId]="getSubjectId()"
+            (saveCompleted)="handleSaved($event)"
           ></app-template-remove-teacher>
         </ng-container>
       </div>

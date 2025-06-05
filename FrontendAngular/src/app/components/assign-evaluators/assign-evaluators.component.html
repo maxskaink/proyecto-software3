@@ -1,5 +1,10 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-
+<app-alertmessage
+  *ngIf="showAlert"
+  [message]="messageAlert"
+  [state]="stateAlert"
+  (closed)="hideAlert()"
+></app-alertmessage>
 <div class="overlay">
   <app-molecule-back-header></app-molecule-back-header>
   <section>
@@ -27,6 +32,7 @@
             (evaluatorRemoved)="onEvaluatorRemoved($event)"
             [originalEvaluatorsUID]="originalEvaluatorsUID"
             [subjectOutcomeId]="getSubjectOutcomeId()"
+            (saveCompleted)="succesAlert()"
           ></app-template-remove-evaluator>
         </ng-container>
       </div>

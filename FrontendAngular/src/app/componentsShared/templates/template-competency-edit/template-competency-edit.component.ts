@@ -44,6 +44,7 @@ export class TemplateCompetencyEditComponent {
   @Input() subjectId!: number;
   @Output() editStateChange = new EventEmitter<boolean>();
   @Output() saveSuccess = new EventEmitter<void>();
+  @Output() saveError = new EventEmitter<string>();
   // Competency data
   editedCompetency: SubjectCompetency = {} as SubjectCompetency;
   programCompetency$!: Observable<ProgramCompetency>;

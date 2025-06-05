@@ -17,6 +17,7 @@ import {TeacherDTO} from "../../models/TeacherDTO";
 import {AuthService} from "../../services/auth.service";
 import { ViewportScroller } from '@angular/common';
 import {EvaluatorAssignmentService} from "../../services/evaluator_assignment.service";
+import { AlertmessageComponent } from "../../componentsShared/messages/alertmessage/alertmessage.component";
 
 
 
@@ -28,8 +29,7 @@ import {EvaluatorAssignmentService} from "../../services/evaluator_assignment.se
     TemplateHeaderTitleComponent,
     TemplateRubricTableComponent,
     LoadingComponent,
-    TemplateListTeachersComponent
-    ],
+    TemplateListTeachersComponent, AlertmessageComponent],
   templateUrl: './outcome.component.html',
   styleUrl: './outcome.component.css'
 })
@@ -44,6 +44,11 @@ export class OutcomeComponent implements OnInit {
   options: SectionOption[] = [];
   confirmBack = false;
   evaluators: TeacherDTO[] =[];
+
+  //Variables for alert
+  messageAlert:string = "";
+  stateAlert: 'save' | 'error' | 'correct' = 'save';
+  showAlert:boolean= false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -74,6 +79,23 @@ export class OutcomeComponent implements OnInit {
       }
     });
   }
+
+  hideAlert(){
+    this.showAlert = false;
+  }
+
+  succesAlert(){
+    this.messageAlert = "Guardado con exito";
+    this.stateAlert = 'save';
+    this.showAlert= true;
+  }
+
+  errorAlert(message:string){
+    this.messageAlert = `Error al guardar ${message!=undefined?message:''}`;
+    this.stateAlert = 'error';
+    this.showAlert= true;
+  }
+
   private initializeOptions() {
     this.options = [
       {
@@ -163,11 +185,13 @@ export class OutcomeComponent implements OnInit {
         this.currentOutcome = response;
         this.description = response.description;
         this.editDescription(); // Cerrar el modo edición
+        this.succesAlert();
       },
       error: (error) => {
         console.error('Error al actualizar el resultado de aprendizaje:', error);
         // Opcional: Revertir cambios en caso de error
         this.description = this.currentOutcome.description;
+        this.errorAlert(error.error);
       }
     });
   }

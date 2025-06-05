@@ -28,6 +28,7 @@ import { TemplateListTeachersComponent } from '../../componentsShared/templates/
 import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
 import { TeacherAssignment } from '../../models/TeacherAssignmentDTO';
 import { TeacherDTO } from '../../models/TeacherDTO';
+import { AlertmessageComponent } from "../../componentsShared/messages/alertmessage/alertmessage.component";
 declare var bootstrap: any;
 
 @Component({
@@ -39,7 +40,8 @@ declare var bootstrap: any;
     TemplateListTeachersComponent,
     CommonModule,
     LoadingComponent,
-  ],
+    AlertmessageComponent
+],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.css',
 })
@@ -59,6 +61,11 @@ export class SubjectComponent {
   currentIndex: number = 0; // Añadir variable para el índice actual
   showSuccessMessage = false;
   teacherAssignments: TeacherDTO[] = [];
+
+  //Variable for alert
+  messageAlert:string ="";
+  stateAlert: 'save' | 'error' | 'correct' = 'save';
+  showAlert:boolean = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -87,6 +94,16 @@ export class SubjectComponent {
     if (this.isBrowser) {
       setTimeout(() => this.initializeCarousel(), 0);
     }
+  }
+
+  hideAlert(){
+    this.showAlert = false;
+  }
+
+  saveAlert(){
+    this.messageAlert= "Guardado con exito";
+    this.stateAlert = 'save';
+    this.showAlert = true;
   }
 
   private loadInitialData(): void {
