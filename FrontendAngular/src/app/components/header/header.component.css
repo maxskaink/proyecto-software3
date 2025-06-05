@@ -90,4 +90,17 @@
     .section-title {
         gap: 0.5rem;
     }
+}.logout-icon {
+    font-size: clamp(50px, 2vh, 70px);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    color: #1F0D1E;
+}
+
+.logout-icon--secondary {
+    color: #D9D9D9;
+}
+
+.logout-icon:hover {
+    transform: scale(1.2);
 }

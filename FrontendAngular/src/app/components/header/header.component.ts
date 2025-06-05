@@ -41,5 +41,13 @@ export class HeaderComponent implements OnInit {
   isCoordinator(): boolean {
     return this.role?.toLowerCase() === 'coordinator';
   }
+  async logout() {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }
  
 }
