@@ -23,7 +23,12 @@
 <div class="container-fluid main-content">
   <div class="carousel-wrapper" *ngIf="isDesktop">
     <!-- Botón Izquierdo -->
-    <button class="nav left" (click)="scrollLeft()" [disabled]="!canScrollLeft">
+    <button
+      class="nav left"
+      (click)="scrollLeft()"
+      [disabled]="!canScrollLeft"
+      *ngIf="listItems.length > 0"
+    >
       &lt;
     </button>
 
@@ -46,6 +51,7 @@
       class="nav right"
       (click)="scrollRight()"
       [disabled]="!canScrollRight"
+      *ngIf="listItems.length > 0"
     >
       &gt;
     </button>
