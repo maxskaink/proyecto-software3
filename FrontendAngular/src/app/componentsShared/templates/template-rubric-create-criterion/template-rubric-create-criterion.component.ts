@@ -92,6 +92,7 @@ export class TemplateRubricCreateCriterionComponent   {
         return false; // Return false when validation fails
     }if(this.Levels.length == 0) {
       this.errors.levelError = 'Debe haber al menos un nivel';
+      return false;
     }
 
     this.errors.levelError = ''; // Clear error when validation passes

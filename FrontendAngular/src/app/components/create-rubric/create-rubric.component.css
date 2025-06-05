@@ -100,8 +100,23 @@
     margin: 0 auto;
     padding: 0 1rem;
   }
+  .sectionCreateNew{
+    height: 40rem;
+
+  }
   
   @media (max-width: 768px) {
+    .section2{
+        height: 50rem;
+    }
+    .sectionCriterions{
+        min-height: 50rem;
+        height: auto;
+    }
+    .sectionCreateNew{
+        height: 100rem;
+    
+      }
     .sectionTitle {
       padding: clamp(1rem, 5vw, 2rem);
     }
@@ -123,3 +138,4 @@
       padding: 2rem 1rem;
     }
   }
+ 
