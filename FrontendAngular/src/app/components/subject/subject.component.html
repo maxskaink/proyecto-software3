@@ -6,9 +6,8 @@
   (closed)="hideAlert()"
 >
 </app-alertmessage>
-<app-molecule-back-header
-  [confirmBack]="this.isEdit"
-> </app-molecule-back-header>
+<app-molecule-back-header [confirmBack]="this.isEdit">
+</app-molecule-back-header>
 <div class="d-flex flex-column overflow-hidden">
   <section class="row sectionInfo">
     <!-- Left column - will stack on small screens -->
@@ -23,7 +22,11 @@
           class="btn"
           (click)="goToCompetency()"
           [disabled]="!listCompetency || listCompetency.length === 0"
-          [title]="(!listCompetency || listCompetency.length === 0) ? 'No hay competencias para ver' : 'Ver competencias'"
+          [title]="
+            !listCompetency || listCompetency.length === 0
+              ? 'No hay competencias para ver'
+              : 'Ver competencias'
+          "
         >
           Ver competencias
         </button>
@@ -33,50 +36,61 @@
           class="btn"
           (click)="goToCreateCompetency()"
           [disabled]="listCompetency && listCompetency.length >= 3"
-          [title]="(listCompetency && listCompetency.length >= 3) ? 'Máximo de 3 competencias alcanzado' : 'Crear competencias'"
+          [title]="
+            listCompetency && listCompetency.length >= 3
+              ? 'Máximo de 3 competencias alcanzado'
+              : 'Crear competencias'
+          "
         >
           Crear competencias
         </button>
       </div>
     </div>
     <!-- Right column - will stack on small screens -->
+    <!-- Right column - will stack on small screens -->
     <div
-      class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center teachers-container"
+      class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center teachers-container clickable-container"
+      tabindex="0"
+      role="button"
+      aria-label="Gestionar docentes"
     >
       <!-- Lista de profesores con margen reducido -->
       <app-template-list-teachers
         class="w-100 teachers-list-compact"
         [listTeachers]="teacherAssignments"
         [forceTeacherRole]="true"
+        (click)="goToAssignTeachers()"
       ></app-template-list-teachers>
 
       <!-- Botón con margen adaptable -->
       <div class="text-center w-100 m md-3">
-        <button class="btn-teachers" (click)="goToAssignTeachers()">
-          Gestionar docentes
-        </button>
+        <button class="btn-teachers">Gestionar docentes</button>
       </div>
     </div>
   </section>
 
-  <section *ngIf="listCompetency && listCompetency.length > 0" id="competencySection" class="sectionCompetency">
+  <section
+    *ngIf="listCompetency && listCompetency.length > 0"
+    id="competencySection"
+    class="sectionCompetency"
+  >
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div
-        class="carousel-indicators-fixed"
-        [class.visible]="isCompetencySectionVisible"
-      >
-        <button
-          *ngFor="let comp of listCompetency; let i = index"
-          type="button"
-          [class.active]="i === currentIndex"
-          [attr.aria-current]="i === currentIndex"
-          [attr.aria-label]="'Slide ' + (i + 1)"
-          data-bs-target="#competencyCarousel"
-          [attr.data-bs-slide-to]="i"
-          (click)="currentIndex = i; cdr.detectChanges()"
-        ></button>
-      </div>
+          class="carousel-indicators-fixed"
+          [class.visible]="isCompetencySectionVisible"
+        >
+          <button
+            *ngFor="let comp of listCompetency; let i = index"
+            type="button"
+            [class.active]="i === currentIndex"
+            [attr.aria-current]="i === currentIndex"
+            [attr.aria-label]="'Slide ' + (i + 1)"
+            data-bs-target="#competencyCarousel"
+            [attr.data-bs-slide-to]="i"
+            (click)="currentIndex = i; cdr.detectChanges()"
+          ></button>
+        </div>
         <div
           *ngFor="let competency of listCompetency; let i = index"
           class="carousel-item"
@@ -122,15 +136,21 @@
     </div>
   </section>
 
-  <section *ngIf="listCompetency && listCompetency.length === 0" class="empty-competency-section">
+  <section
+    *ngIf="listCompetency && listCompetency.length === 0"
+    class="empty-competency-section"
+  >
     <div class="container-fluid">
-      <div class="divididerUp d-flex justify-content-between align-items-center">
+      <div
+        class="divididerUp d-flex justify-content-between align-items-center"
+      >
         <div class="title-container p-5">
           <h2 class="titleSection">Competencia</h2>
         </div>
       </div>
-      <div class="container d-flex align-items-center justify-content-center empty-content">
-
+      <div
+        class="container d-flex align-items-center justify-content-center empty-content"
+      >
         <button class="btn-create" (click)="goToCreateCompetency()">
           <i class="bi bi-plus-circle me-2"></i>
           Crear competencia
