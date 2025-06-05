@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicauca.coreservice.application.in.SubjectOutcomeInt;
@@ -32,7 +33,7 @@ public class SubjectOutcomeController {
                 subjectId,
                 uid
         );
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{subjectId}/outcome")
@@ -113,6 +114,6 @@ public class SubjectOutcomeController {
     ) throws Exception {
         String uid = authenticationService.extractUidFromRequest(request);
         SubjectOutcome response = serviceSubjectOutcome.copy(outcomeId, competencyId, subjectId, uid);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

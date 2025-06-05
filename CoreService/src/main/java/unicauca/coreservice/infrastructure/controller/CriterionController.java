@@ -2,6 +2,7 @@ package unicauca.coreservice.infrastructure.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,7 +60,7 @@ public class CriterionController {
     ) throws Exception {
         String uid = authenticationService.extractUidFromRequest(request);
         Criterion response = criterionService.add(criterionIn, rubricId,uid);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
     @PutMapping("{criterionId}")

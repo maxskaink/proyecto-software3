@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicauca.coreservice.application.in.ProgramCompetencyAndOutcomeInt;
@@ -24,7 +25,7 @@ public class ProgramCompetencyController {
     ) throws Exception {
         String uid = authenticationService.extractUidFromRequest(request);
         ProgramCompetency response = service.add(dtoIN, uid);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
