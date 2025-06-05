@@ -120,4 +120,21 @@
       </ng-container>
     </div>
   </section>
+
+  <section *ngIf="listCompetency && listCompetency.length === 0" class="empty-competency-section">
+    <div class="container-fluid">
+      <div class="divididerUp d-flex justify-content-between align-items-center">
+        <div class="title-container p-5">
+          <h2 class="titleSection">Competencia</h2>
+        </div>
+      </div>
+      <div class="container d-flex align-items-center justify-content-center empty-content">
+        
+        <button class="btn-create" (click)="goToCreateCompetency()">
+          <i class="bi bi-plus-circle me-2"></i>
+          Crear competencia
+        </button>
+      </div>
+    </div>
+  </section>
 </div>
