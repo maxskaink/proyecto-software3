@@ -1,35 +1,246 @@
+/* Main card container styles */
 .card__Body_small {
-    background-color: #c5c5c5;
-    color: black;
-    cursor: pointer;
-    width: 350px;
-    height: 100%;
-    position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #E9E9E9;
+  color: black;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  height: 380px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: none;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card hover effects */
+.card__Body_small:hover {
+  background-color: #1F0D1E;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Header section styles */
+.competency-header {
+  background-color: #E9E9E9;
+  transition: background-color 0.3s ease;
+  border-radius: 18px 18px 0 0;
+  border: none;
+  position: relative;
+  min-height: 90px; /* Increased to accommodate larger text */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add subtle header highlight */
+.competency-header:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+  border-radius: 18px 18px 0 0;
+}
+
+/* Title styling */
+.card__Body_small h2 {
+  padding: 1rem;
+  margin: 0;
+  text-align: center;
+  font-weight: 600; /* Made slightly bolder */
+  font-size: 1.25rem; /* Increased size */
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+/* Divider between sections */
+.competency-divider {
+  height: 2px;
+  width: 90%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+/* Content section styles */
+.competency-content {
+  background-color: #E9E9E9;
+  transition: background-color 0.3s ease;
+  border-radius: 0 0 18px 18px;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0 40px 0; /* Reserve space for button */
+}
+
+/* Content h2 (RA) */
+.competency-content h2 {
+  margin: 0.5rem 0;
+  text-align: center;
+  font-size: 1.1rem; /* Increased size */
+  font-weight: 600; /* Made slightly bolder */
+}
+
+/* Paragraph styling */
+.competency-content p {
+  padding: 0.5rem;
+  text-align: center;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  font-size: 1rem; /* Increased size */
+  line-height: 1.5; /* Increased for better readability */
+}
+
+/* Background color change on hover */
+.card__Body_small:hover .competency-header,
+.card__Body_small:hover .competency-content {
+  background-color: #1F0D1E;
+}
+
+/* General container */
+.competency-container {
+  margin: 0.75rem;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.05));
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Delete button */
+.delete-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  border-radius: 0 0 18px 18px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%);
+  opacity: 1;
+  transition: transform 0.3s ease;
+  z-index: 10;
+  font-size: 1.1rem; /* Increased size */
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Show button on hover */
+.card__Body_small:hover .delete-btn {
+  transform: translateY(0);
+}
+
+.delete-btn:hover {
+  background-color: #bd2130;
+}
+
+/* Create mode card styles */
+.card__Body_create {
+  background-color: transparent;
+  border: 3px dashed #888 !important; /* Increased width and darkened for better visibility */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+  height: 380px;
+  border-radius: 18px;
+}
+
+.card__Body_create:hover {
+  background-color: rgba(31, 13, 30, 0.05);
+  border-color: #1F0D1E !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Center plus icon */
+.create-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.create-content i {
+  font-size: 3rem; /* Increased size */
+  color: #888; /* Darkened for better visibility */
+  transition: all 0.3s ease;
+}
+
+.card__Body_create:hover .create-content i {
+  color: #1F0D1E;
+  transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card__Body_small,
+  .card__Body_create {
+    max-width: 250px;
+    height: 350px;
   }
   
-  .card__Body_small:hover {
-    background-color: #1E1E1E;
-    color: white;
+  .card__Body_small h2,
+  .competency-content h2 {
+    font-size: 1.1rem;
+    padding: 0.75rem;
   }
-  .card__Body_small h2{
-    padding: 20px;
+  
+  .competency-content p {
+    font-size: 0.95rem;
   }
-  .card__Body_small p{
-    padding: 10px;
+}
+
+@media (max-width: 480px) {
+  .card__Body_small,
+  .card__Body_create {
+    max-width: 220px;
+    height: 320px;
   }
+  
+  .competency-header {
+    min-height: 70px;
+  }
+  
+  .card__Body_small h2,
+  .competency-content h2 {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+  
+  .competency-content p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  
   .delete-btn {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
+    height: 35px;
   }
-  
-  .card__Body_small:hover .delete-btn {
-    display: block;
-  }
-  .divider{
-    height: px;
-    width: 70%;
-  }
+}

@@ -10,62 +10,72 @@ import { ProgramCompetency } from '../../models/ProgramCompetencyDTO';
 import { TextBlock } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
 
 // Components
-import { TemplateListboxCompleteComponent } from '../../componentsShared/templates/template-listbox-complete/template-listbox-complete.component';
 import { TemplateBlockGridComponent } from '../../componentsShared/templates/template-block-grid/template-block-grid.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
+
 
 @Component({
   selector: 'app-settings-comp-program',
   imports: [
-    CommonModule, 
-    TemplateListboxCompleteComponent, 
-    TemplateBlockGridComponent, 
+    CommonModule,
+    TemplateBlockGridComponent,
     TemplateHeaderTitleComponent
-  ],
+],
   templateUrl: './settings-comp-program.component.html',
   styleUrl: './settings-comp-program.component.css'
 })
 export class SettingsCompProgramComponent implements OnInit {
-  listCompetency: ProgramCompetency[] = [];
+  programCompetencies: ProgramCompetency[] = [];
   loading = false;
   error: string | null = null;
-  
-  textBlock: TextBlock[] = [
-    {
-      title: 'Listar competencias',
-      description: 'En esta sección se encontrarán las competencias de programa que hayas creado'
-    },
-    {
-      title: 'Crear competencias',
-      description: 'Crea las competencias de programa que necesites',
-      route: '/settings/competencyProgram/create'
-    },
-  ];
 
   constructor(
-    private serviceProgCompetency: ProgramCompetencyService, 
+    private programCompetencyService: ProgramCompetencyService, 
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getCompetency();
+    console.log('SettingsCompProgramComponent initialized');
+    this.loadInitialData();
   }
 
-  getCompetency(): void {
+  private loadInitialData(): void {
+    console.log('Loading initial data...');
+    this.loadProgramCompetencies();
+  }
+
+  private loadProgramCompetencies(): void {
+    console.log('Fetching program competencies...');
     this.loading = true;
     this.error = null;
     
-    this.serviceProgCompetency.getAll().subscribe({
+    this.programCompetencyService.getAll().subscribe({
       next: (data) => {
-        this.listCompetency = data;
+        console.log('Program competencies received:', data);
+        this.programCompetencies = data;
+        
+        // Check if we received data but the array is empty
+        if (data && Array.isArray(data) && data.length === 0) {
+          console.warn('Received empty array of program competencies');
+        }
+        
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error al obtener competencias:', error);
-        this.error = 'No se pudieron cargar las competencias';
+        console.error('Error loading program competencies:', error);
+        this.error = 'Unable to load program competencies';
         this.loading = false;
+      },
+      complete: () => {
+        console.log('Program competencies request completed');
       }
     });
+  }
+
+  // Force reload competencies method for debugging
+  reloadCompetencies(): void {
+    console.log('Manually reloading competencies...');
+    this.loadProgramCompetencies();
   }
 
   handleBlockClick(block: TextBlock): void {
@@ -76,6 +86,37 @@ export class SettingsCompProgramComponent implements OnInit {
       }
     } else if (block.route) {
       this.router.navigate([block.route]);
+    }
+  }
+
+  onCreateCompetency(): void {
+    console.log('Create competency event triggered');
+    this.router.navigate(['settings/competencyProgram/create']);
+  }
+
+  onDeleteCompetency(index: number): void {
+    console.log('Delete competency event triggered for index:', index);
+    const competency = this.programCompetencies[index];
+    
+    if (competency && competency.id) {
+      // Set loading state to true before delete operation
+      this.loading = true;
+      
+      this.programCompetencyService.delete(competency.id).subscribe({
+        next: () => {
+          console.log('Competency deleted successfully');
+          
+          // Reload all competencies from the server to ensure we have the most up-to-date list
+          this.loadProgramCompetencies();
+        },
+        error: (error) => {
+          console.error('Error deleting competency:', error);
+          this.error = 'Unable to delete competency';
+          this.loading = false; // Reset loading state on error
+        }
+      });
+    } else {
+      console.warn('Invalid competency or ID for deletion');
     }
   }
 }

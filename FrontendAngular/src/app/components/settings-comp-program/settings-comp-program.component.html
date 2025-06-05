@@ -1,16 +1,26 @@
-<app-template-header-title ></app-template-header-title>
+<app-template-header-title
+  [title]="'Competencias de programa'"
+  [description]="'Aquí puedes ver y gestionar las competencias asociadas a tu programa.'"
+></app-template-header-title>
 
-<h1 class="fw-bold title" >Configuración de programa</h1>
-<section class="options">
-    <app-template-listbox-complete 
-        [textBlock]  = "textBlock"
-        (blockClick)="handleBlockClick($event)">
-    </app-template-listbox-complete>
-    
-</section>
+<section id="createAsignature">
+    <!-- Show loading indicator while data is being fetched -->
+    <div *ngIf="loading" class="d-flex justify-content-center my-5">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
-<h1 class="fw-bold  title">Competencias de programa</h1>
-<section id="createAsignature" >
+    <!-- Only render the grid component when data is loaded and not loading -->
     <app-template-block-grid
+        *ngIf="!loading && programCompetencies.length > 0"
+        [ProgramCompetencies]="programCompetencies"
+        (createCompetencyEvent)="onCreateCompetency()"
+        (deleteCompetencyEvent)="onDeleteCompetency($event)"
     ></app-template-block-grid>
+
+    <!-- Show message when no competencies are found -->
+    <div *ngIf="!loading && programCompetencies.length === 0 && !error" class="alert alert-info my-3">
+        No se encontraron competencias de programa. Crea una nueva competencia.
+    </div>
 </section>

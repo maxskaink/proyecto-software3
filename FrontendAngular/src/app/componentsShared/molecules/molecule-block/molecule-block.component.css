@@ -4,7 +4,7 @@
   cursor: pointer;
 }
 .card__Body {
-  width: 300px;
+  width: 100%;
   height: 100%;
   
 }
@@ -31,7 +31,8 @@
 
 .divider {
   background-color: white; /* Color blanco */
-  height: 10px;        
+  height: 7px;
+  border-radius: 10px;        
   width: 100%;   /* Grosor de la línea (ajústalo a tu preferencia) */
 
 }

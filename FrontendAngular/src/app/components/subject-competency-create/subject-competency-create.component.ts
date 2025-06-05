@@ -35,8 +35,9 @@ import { timeout } from 'rxjs';
     TemplateSelectInputBoxtextComponent,
     MoleculeOutComeComponent,
     MoleculeBackHeaderComponent,
+    TemplateHeaderTitleComponent,
     AlertmessageComponent
-  ],
+],
   templateUrl: './subject-competency-create.component.html',
   styleUrl: './subject-competency-create.component.css',
 })

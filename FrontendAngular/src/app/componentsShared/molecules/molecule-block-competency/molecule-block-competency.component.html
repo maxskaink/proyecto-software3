@@ -1,11 +1,30 @@
-<div class="card card__Body_small">
-    <h2>{{ title }}</h2>
-    <div class="divider"></div>
-    <h2>RA</h2>
-    <p>{{ description }}</p>
-    <div class="my-4"></div>
-    <button class="btn btn-danger delete-btn" (click)="onDelete()">
-      Eliminar
-    </button>
+<div class="competency-container">
+  <!-- Normal mode - shows competency details -->
+  <div *ngIf="!isCreate" class="card card__Body_small">
+    <!-- Título de la competencia -->
+    <div class="competency-header">
+      <h2>{{ title }}</h2>
+    </div>
+    
+    <!-- Separador horizontal que divide el componente -->
+    <div class="competency-divider"></div>
+    
+    <!-- Sección de contenido -->
+    <div class="competency-content">
+      <h2>RA</h2>
+      <p>{{ description }}</p>
+      
+      <!-- Botón dentro del contenido -->
+      <button class="delete-btn" (click)="onDelete()">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
   </div>
-  
+
+  <!-- Create mode - shows plus sign with dotted border -->
+  <div *ngIf="isCreate" class="card card__Body_small card__Body_create" (click)="onCreate()">
+    <div class="create-content">
+      <i class="bi bi-plus-lg"></i>
+    </div>
+  </div>
+</div>
