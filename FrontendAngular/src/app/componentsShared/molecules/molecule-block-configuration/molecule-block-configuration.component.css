@@ -4,12 +4,14 @@
     color: #1F0D1E;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+  
 .card:hover {
   background-color: #1F0D1E;
   color: #ECF4F1;
-
+  transform: translateY(-15px);
 } 
   
 .card__Body {

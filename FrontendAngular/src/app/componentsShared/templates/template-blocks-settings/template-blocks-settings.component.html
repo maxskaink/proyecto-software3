@@ -1,10 +1,13 @@
-<section class="container-fluid d-flex body_template  ">
-    <div class="row flex-grow-1 ">
-      <div class="col-12 col-lg-4 block" *ngFor="let block of configBlocks">
-        <app-molecule-block-configuration
-          [title]="block.title"
-          [description]="block.description"
-          [route] = "block.route">
-        </app-molecule-block-configuration>
+<section class="container-fluid d-flex body_template settings-container">
+  <div class="row g-4 flex-grow-1  justify-content-center"> <!-- Added g-4 for gap and justify-content-center -->
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let block of configBlocks">
+          <div class="block-wrapper">
+              <app-molecule-block-configuration
+                  [title]="block.title"
+                  [description]="block.description"
+                  [route]="block.route">
+              </app-molecule-block-configuration>
+          </div>
       </div>
-    </div>
+  </div>
+</section>
