@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicauca.coreservice.application.in.TermInt;
@@ -18,7 +19,7 @@ public class TermController {
     @PostMapping
     public ResponseEntity<Term> add(@RequestBody Term newTerm) throws Exception {
         Term response = serviceTerm.add(newTerm);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping

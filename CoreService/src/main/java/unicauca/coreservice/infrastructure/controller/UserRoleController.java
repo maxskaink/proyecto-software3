@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class UserRoleController {
     public ResponseEntity<?> assignRole(@RequestBody UserRoleDTO request) 
     throws Exception {
             firebaseService.assignRole(request.getUid(), request.getRole());
-            return ResponseEntity.ok("Role '" + request.getRole() + "' assigned to user.");
+            return new ResponseEntity<>("Role '" + request.getRole() + "' assigned to user.", HttpStatus.CREATED);
     }
 }

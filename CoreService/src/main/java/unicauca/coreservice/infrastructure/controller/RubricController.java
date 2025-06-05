@@ -1,6 +1,7 @@
 package unicauca.coreservice.infrastructure.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,7 +73,7 @@ public class RubricController {
     ) throws Exception {
         String uid = authenticationService.extractUidFromRequest(request);
         Rubric response = serviceRubric.add(rubricIn, outcomeId, uid);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("{rubricId}")
