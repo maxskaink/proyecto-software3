@@ -57,7 +57,7 @@ export class SubjectComponent {
   listCompetency: SubjectCompetency[] = [];
   id: number = -1;
   isCompetencySectionVisible = false;
-  isEdit: boolean = true;
+  isEdit: boolean = false;
   currentIndex: number = 0; // Añadir variable para el índice actual
   showSuccessMessage = false;
   teacherAssignments: TeacherDTO[] = [];
@@ -93,6 +93,15 @@ export class SubjectComponent {
 
     if (this.isBrowser) {
       setTimeout(() => this.initializeCarousel(), 0);
+    }
+  }
+  ngOnDestroy() {
+    // Asegurarse de resetear el estado al destruir el componente
+    this.editStateService.setEditState(false);
+    
+    // Limpiar el listener del carrusel si existe
+    if (this.carousel?.nativeElement) {
+      this.carousel.nativeElement.removeEventListener('slide.bs.carousel', null);
     }
   }
 
@@ -151,9 +160,10 @@ export class SubjectComponent {
       this.carouselInstance = new bootstrap.Carousel(
         this.carousel.nativeElement,
         {
-          interval: 5000,
-          ride: 'carousel',
-          wrap: true,
+
+          interval: false,  // Deshabilita el auto-play
+          ride: false,     // Deshabilita el inicio automático
+          wrap: true,      // Mantiene la navegación cíclica
         }
       );
       // Asegurar que las transiciones se mantienen
