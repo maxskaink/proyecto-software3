@@ -1,6 +1,35 @@
+/* Add spacing to search bar */
+app-molecule-search-bar {
+  margin-bottom: 1.5rem;
+  display: block;
+  width: 100%;
+}
+
+/* Grid layout for competency cards */
 .competency-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
   padding: 20px;
+  margin-top: 1rem; /* Additional spacing between search and grid */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  app-molecule-search-bar {
+    margin-bottom: 1rem;
+  }
+  
+  .competency-grid {
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+/* Empty state message styling */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
 }
