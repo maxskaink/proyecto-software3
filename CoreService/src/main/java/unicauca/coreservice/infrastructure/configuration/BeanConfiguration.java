@@ -13,9 +13,10 @@ public class BeanConfiguration {
     @Bean
     public ProgramCompetencyAndOutcomeInt createProgramCompetencyAndOutcome(
             ProgramCompetencyAndOutcomeRepositoryOutInt repository,
-            IAuthenticationService authenticationService
+            IAuthenticationService authenticationService,
+            SubjectCompetencyInt subjectCompetencyService
     ){
-        return new ProgramCompetencyAndOutcomeService(repository, authenticationService);
+        return new ProgramCompetencyAndOutcomeService(repository, authenticationService, subjectCompetencyService);
     }
 
     @Bean
