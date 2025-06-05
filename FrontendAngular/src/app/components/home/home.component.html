@@ -1,7 +1,7 @@
 <app-loading [isLoading]="isLoading"></app-loading>
 <app-header></app-header>
 
-<div class="container py-4">
+<div class="container py-4 container--search">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
       <app-molecule-search-bar
@@ -14,7 +14,7 @@
 </div>
 
 <div class="container-fluid main-content">
-  <div class="carousel-wrapper">
+  <div class="carousel-wrapper" *ngIf="isDesktop">
     
     <!-- Botón Izquierdo -->
     <button 
@@ -45,5 +45,22 @@
       &gt;
     </button>
     
+  </div>
+  <div class="grid-view" *ngIf="!isDesktop">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 mb-4" *ngFor="let asignature of asignaturesFilters">
+          <div class="d-flex justify-content-center container-subject">
+            <app-molecule-block
+              [title]="asignature.name"
+              [description]="asignature.description"
+              (click)="goToAsignature(asignature.id)"
+              class="card-item--list">
+              
+            </app-molecule-block>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

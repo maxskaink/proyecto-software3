@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   asignaturesFilters: (SubjectDTO)[] = [];
   wordSearch: string = '';
   isLoading: boolean = true;
+   isDesktop: boolean = true;
   
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
   
@@ -41,8 +42,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private asignatureService: SubjectService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
-
+  ) {
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkScreenSize());
+  }
+  private checkScreenSize() {
+    this.isDesktop = window.innerWidth > 768; // 768px is typical medium breakpoint
+  }
   ngOnInit(): void {
     this.loadAsignatures();
   }
@@ -52,7 +58,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.updateScrollButtons();
     }, 200);
   }
-
+  ngOnDestroy() {
+    window.removeEventListener('resize', () => this.checkScreenSize());
+  }
   private loadAsignatures(): void {
     this.isLoading = true;
     this.asignatureService.getAssignedSubject().subscribe({
