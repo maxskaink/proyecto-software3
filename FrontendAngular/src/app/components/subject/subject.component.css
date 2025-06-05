@@ -247,7 +247,7 @@
     height: auto;
     min-height: 40rem;
   }
-  
+
   .teachers-container {
     padding: 1rem;
     margin-top: 0.5rem;
@@ -259,12 +259,12 @@
   .teachers-container {
     max-height: 350px;
   }
-  
+
   .btn-teachers {
     width: 80%;
     max-width: 280px;
   }
-  
+
   .teachers-list-compact {
     max-height: 250px;
     overflow-y: auto;
@@ -275,17 +275,17 @@
   .teachers-container {
     padding: 0.75rem 0.5rem;
   }
-  
+
   .btn-teachers {
     width: 90%;
     font-size: 0.9rem;
     padding: 6px 10px;
   }
-  
+
   :host ::ng-deep .teacher-item {
     font-size: 0.9rem;
   }
-  
+
   :host ::ng-deep .teacher-item .user-container {
     padding: 0.2rem 0.3rem !important;
   }
@@ -337,3 +337,4 @@
 .container-fluid{
   padding:0
 }
+

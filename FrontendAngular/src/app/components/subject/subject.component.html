@@ -63,19 +63,20 @@
     <div #competencyCarousel id="competencyCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div
-          class="carousel-indicators-fixed"
-          [class.visible]="isCompetencySectionVisible"
-        >
-          <button
-            *ngFor="let comp of listCompetency; let i = index"
-            type="button"
-            [class.active]="i === currentIndex"
-            [attr.aria-current]="i === currentIndex"
-            [attr.aria-label]="'Slide ' + (i + 1)"
-            data-bs-target="#competencyCarousel"
-            [attr.data-bs-slide-to]="i"
-          ></button>
-        </div>
+        class="carousel-indicators-fixed"
+        [class.visible]="isCompetencySectionVisible"
+      >
+        <button
+          *ngFor="let comp of listCompetency; let i = index"
+          type="button"
+          [class.active]="i === currentIndex"
+          [attr.aria-current]="i === currentIndex"
+          [attr.aria-label]="'Slide ' + (i + 1)"
+          data-bs-target="#competencyCarousel"
+          [attr.data-bs-slide-to]="i"
+          (click)="currentIndex = i; cdr.detectChanges()"
+        ></button>
+      </div>
         <div
           *ngFor="let competency of listCompetency; let i = index"
           class="carousel-item"
@@ -129,7 +130,7 @@
         </div>
       </div>
       <div class="container d-flex align-items-center justify-content-center empty-content">
-        
+
         <button class="btn-create" (click)="goToCreateCompetency()">
           <i class="bi bi-plus-circle me-2"></i>
           Crear competencia

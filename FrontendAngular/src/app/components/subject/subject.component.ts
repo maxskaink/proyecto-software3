@@ -1,19 +1,14 @@
 import {
   Component,
-  viewChild,
   ElementRef,
   ViewChild,
-  EventEmitter,
   Inject,
   PLATFORM_ID,
-  OnInit,
-  AfterViewInit,
 } from '@angular/core';
 import { MoleculeBackHeaderComponent } from '../../componentsShared/molecules/molecule-back-header/molecule-back-header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectDTO } from '../../models/SubjectDTO';
 import { SubjectService } from '../../services/subject.service';
-import { MoleculeBlockUserComponent } from '../../componentsShared/molecules/molecule-block-user/molecule-block-user.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SubjectCompetencyService } from '../../services/subject_competency.service';
 import { SubjectCompetency } from '../../models/SubjectCompetencyDTO';
@@ -21,14 +16,12 @@ import { TemplateCompetencyComponent } from '../../componentsShared/templates/te
 import { TemplateCompetencyEditComponent } from '../../componentsShared/templates/template-competency-edit/template-competency-edit.component';
 import { AuthService } from '../../services/auth.service';
 import { EditStateService } from '../../services/edit-state.service';
-import { Carousel } from 'bootstrap';
 import { LoadingComponent } from '../../componentsShared/loading/loading.component';
-import { forkJoin } from 'rxjs';
 import { TemplateListTeachersComponent } from '../../componentsShared/templates/template-list-teachers/template-list-teachers.component';
 import { TeacherAssignmentService } from '../../services/teacher_assignment.service';
-import { TeacherAssignment } from '../../models/TeacherAssignmentDTO';
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
+import { ChangeDetectorRef } from '@angular/core';
 
 declare var bootstrap: any;
 
@@ -76,16 +69,17 @@ export class SubjectComponent {
     private editStateService: EditStateService,
     private auth: AuthService,
     private assigmentService: TeacherAssignmentService,
-    private router: Router
+    private router: Router,
+    public cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
-  
+
   ngOnInit() {
-    this.auth.role.subscribe(role => {
+    this.auth.role.subscribe((role) => {
       this.role = role;
     });
-    
+
     this.isLoading = true;
     const response = this.route.snapshot.paramMap.get('id');
     if (!response) {
@@ -104,16 +98,19 @@ export class SubjectComponent {
   ngOnDestroy() {
     // Asegurarse de resetear el estado al destruir el componente
     this.editStateService.setEditState(false);
-    
+
     // Limpiar el listener del carrusel si existe
     if (this.carousel?.nativeElement) {
-      this.carousel.nativeElement.removeEventListener('slide.bs.carousel', null);
+      this.carousel.nativeElement.removeEventListener(
+        'slide.bs.carousel',
+        null
+      );
     }
   }
   isCoordinator(): boolean {
     return this.role?.toLowerCase() === 'coordinator';
   }
- 
+
   hideAlert() {
     this.showAlert = false;
   }
@@ -165,25 +162,44 @@ export class SubjectComponent {
    * @prvate
    */
   private initializeCarousel(): void {
+    if (!this.carousel?.nativeElement) return;
+
     setTimeout(() => {
+      // Create carousel instance
       this.carouselInstance = new bootstrap.Carousel(
         this.carousel.nativeElement,
         {
-          interval: false,  // Deshabilita el auto-play
-          ride: false,     // Deshabilita el inicio automático
-          wrap: true,      // Mantiene la navegación cíclica
+          interval: false,
+          ride: false,
+          wrap: true,
         }
       );
-  
-      const carouselElement = this.carousel.nativeElement;
-      // Escuchar eventos del carrusel
-      this.carousel.nativeElement.addEventListener(
-        'slid.bs.carousel',  // Cambiado de 'slide' a 'slid'
-        (event: any) => {
-          this.currentIndex = event.to;
-        }
-      );
-    });
+
+      // Remove any existing event listeners first
+      this.carousel.nativeElement.removeEventListener('slid.bs.carousel', null);
+
+      // Add proper event listener with bind to keep 'this' context
+      const handleCarouselSlide = (event: any) => {
+        console.log('Carousel slid to:', event.to);
+        this.currentIndex = event.to;
+        // Force Angular to detect changes
+        this.cdr.detectChanges();
+      };
+
+      // Listen to both slide events for maximum compatibility
+      this.carousel.nativeElement.addEventListener('slid.bs.carousel', handleCarouselSlide);
+
+      // Also manually set up click handlers for indicator buttons
+      const indicatorButtons = document.querySelectorAll('[data-bs-target="#competencyCarousel"]');
+      indicatorButtons.forEach((button: any, index: number) => {
+        button.addEventListener('click', () => {
+          setTimeout(() => {
+            this.currentIndex = index;
+            this.cdr.detectChanges();
+          }, 50);
+        });
+      });
+    }, 0);
   }
 
   /**
@@ -204,11 +220,23 @@ export class SubjectComponent {
   ngAfterViewInit() {
     if (this.isBrowser) {
       this.initializeCarousel();
-      // Agregar esta línea para configurar el observer
       this.setupIntersectionObserver();
+
+      // Add this new code to handle fixed indicator clicks
+      setTimeout(() => {
+        const fixedIndicators = document.querySelectorAll('.carousel-indicators-fixed button');
+        fixedIndicators.forEach((button: any, index: number) => {
+          button.addEventListener('click', () => {
+            if (this.carouselInstance) {
+              this.carouselInstance.to(index);
+              this.currentIndex = index;
+              this.cdr.detectChanges();
+            }
+          });
+        });
+      }, 500);
     }
   }
-
   /**
    * Retrieves the details of a specific subject by its ID and updates the component's state.
    *
