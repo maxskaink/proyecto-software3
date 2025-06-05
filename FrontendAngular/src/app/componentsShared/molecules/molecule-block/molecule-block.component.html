@@ -1,5 +1,8 @@
 <!-- Primary State - Full Block -->
-<div *ngIf="state === 'primary'" class="card card__Body" [style.backgroundColor]="bodyColor">
+<div *ngIf="state === 'primary'" class="card card__Body" [style.backgroundColor]="bodyColor" [ngStyle]="{'--title-color': titleColor, 
+'--body-color': bodyColor,
+'--hover-title-color': hoverColors?.titleColor,
+'--hover-body-color': hoverColors?.bodyColor}">
   <div class=" Card__blockTitle" [style.backgroundColor]="titleColor">
       <h3  class="title" #titleElement>{{title}}</h3>
   </div>

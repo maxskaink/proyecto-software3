@@ -8,6 +8,12 @@ const COLOR_PAIRS = [
   { titleColor: '#4E4D6E', bodyColor: '#7474BB' },
   { titleColor: '#A65256', bodyColor: '#CD676C' }, //rojo
 ];
+const HOVER_COLORS = [
+  { titleColor: '#553C53', bodyColor: '#6C3668' },
+  { titleColor: '#3C866A', bodyColor: '#3C866A' }, //verde
+  { titleColor: '#5647AB', bodyColor: '#4E4D6E' },
+  { titleColor: '#B83238', bodyColor: '#A65256' }, /// Para el par rojo
+];
 
 @Component({
   selector: 'app-molecule-block',
@@ -24,7 +30,7 @@ export class MoleculeBlockComponent {
   @Input() state: 'primary' | 'secondary' = 'primary';
   titleColor: string = '';
   bodyColor: string = '';
-
+  hoverColors: { titleColor: string, bodyColor: string } | null = null;
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
@@ -32,6 +38,7 @@ export class MoleculeBlockComponent {
       const colors = this.getColorPairForName(this.title);
       this.titleColor = colors.titleColor;
       this.bodyColor = colors.bodyColor;
+      this.hoverColors = colors.hoverColors;
     }
   }
 
@@ -41,10 +48,13 @@ export class MoleculeBlockComponent {
     }
   }
 
-  private getColorPairForName(name: string): {titleColor: string, bodyColor: string} {
+  private getColorPairForName(name: string): {titleColor: string, bodyColor: string, hoverColors: typeof HOVER_COLORS[0]} {
     const hash = this.hashString(name);
     const index = hash % COLOR_PAIRS.length;
-    return COLOR_PAIRS[index];
+    return {
+      ...COLOR_PAIRS[index],
+      hoverColors: HOVER_COLORS[index]
+    };
   }
 
   private hashString(str: string): number {

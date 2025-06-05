@@ -21,6 +21,7 @@
 }
 
 .card:hover {
+  background-color: var(--hover-body-color);
   transform: translateY(-5px);
 }
 
@@ -65,7 +66,9 @@
   border-bottom-right-radius: 0; /* Sin redondeo inferior derecho */
 }
 
-
+.Card__blockTitle:hover {
+  background-color: var(--hover-title-color);
+}
 .divider {
   background-color: white; /* Color blanco */
   height: 7px;

@@ -9,6 +9,7 @@
     overflow: hidden; /* Important for the circle animation */
 }
 
+
 /* Circle animation overlay */
 .headerStyle::before {
     content: '';
@@ -28,7 +29,11 @@
     width: 250%;
     height: 300%;
 }
-
+.title{
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: 600;
+    margin: 0;
+}
 /* Content container to stay above the animation */
 .section-title-one, 
 .section-user-one {
@@ -46,13 +51,13 @@
 }
 
 .block {
-    padding: 0.5rem;
+    padding: clamp(0rem, 0.2vh, 5rem);
 }
 .block--left{
-    margin-left: 4rem;
+    margin-left: clamp(1rem, 6vh, 1.5rem);
 }
 .block--right{
-    margin-right: 4rem;
+    margin-right:  clamp(2rem, 6vh, 4rem);;
 }
 
 .config-icon-one {
@@ -78,7 +83,10 @@
     .headerStyle {
         padding: 0.5rem;
     }
-    
+
+    .block--left{
+        margin-left: 0;
+    }
     .section-title {
         gap: 0.5rem;
     }
