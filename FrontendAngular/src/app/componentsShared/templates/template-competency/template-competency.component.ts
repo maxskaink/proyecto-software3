@@ -18,6 +18,8 @@ import { SubjectCompetencyService } from '../../../services/subject_competency.s
 import { MoleculeOutComeComponent } from '../../molecules/molecule-out-come/molecule-out-come.component';
 import { EditStateService } from '../../../services/edit-state.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalConfirmComponent } from '../../messages/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-template-competency',
@@ -53,7 +55,8 @@ export class TemplateCompetencyComponent {
     private competencyProgramService: ProgramCompetencyService,
     private subjectCompetencyService: SubjectCompetencyService,
     private editStateService: EditStateService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -179,24 +182,32 @@ export class TemplateCompetencyComponent {
     this.editStateChange.emit(true);
   }
   onDeletelClick(): void {
-    this.subjectCompetencyService.deleteCompetency(this.competency.id).subscribe({
-      next: (response) => {
-        console.log('Competency deleted successfully:', response);
-
-        // Emit that we're no longer in edit mode
-        this.editStateService.setEditState(false);
-        this.editStateChange.emit(false);
-
-        this.competencyDeleted.emit(this.competency.id);
-      },
-      error: (error) => {
-        console.error('Error deleting competency:', error);
-        // Here you could add error handling like showing a notification
-        // Or you could use a service to display an error message
-      },
-      complete: () => {
-        console.log('Delete operation completed');
+    this.dialog.open(ModalConfirmComponent, {
+      data: {
+        message: '¿Está seguro que desea borrar la competencia?'
       }
+    }).afterClosed().subscribe(result => {
+      if(!result)
+        return;
+      this.subjectCompetencyService.deleteCompetency(this.competency.id).subscribe({
+        next: (response) => {
+          console.log('Competency deleted successfully:', response);
+
+          // Emit that we're no longer in edit mode
+          this.editStateService.setEditState(false);
+          this.editStateChange.emit(false);
+
+          this.competencyDeleted.emit(this.competency.id);
+        },
+        error: (error) => {
+          console.error('Error deleting competency:', error);
+          // Here you could add error handling like showing a notification
+          // Or you could use a service to display an error message
+        },
+        complete: () => {
+          console.log('Delete operation completed');
+        }
+      });
     });
   }
   goToOutcome(outcome: SubjectOutcome, index: number): void {
