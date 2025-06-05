@@ -10,7 +10,7 @@ import {Router, Routes} from "@angular/router";
 @Component({
   selector: 'app-settings-teachers',
   imports: [CommonModule, MoleculeBackHeaderComponent,
-    TemplateListTeachersComponent, MoleculeAsideMenuComponent],
+    TemplateListTeachersComponent],
   templateUrl: './settings-teachers.component.html',
   styleUrl: './settings-teachers.component.css'
 })

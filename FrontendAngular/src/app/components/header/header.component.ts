@@ -38,5 +38,8 @@ export class HeaderComponent implements OnInit {
     this.authService.role.subscribe(role => this.role = role || 'Sin rol');
     this.authService.name.subscribe(name => this.name = name || 'Nombre no disponible');
   }
+  isCoordinator(): boolean {
+    return this.role?.toLowerCase() === 'coordinator';
+  }
  
 }

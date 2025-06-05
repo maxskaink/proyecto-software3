@@ -14,12 +14,13 @@ import { CreateRubricComponent } from './components/create-rubric/create-rubric.
 import { AssignTeachersComponent } from './components/assign-teachers/assign-teachers.component';
 import {TeacherCreateComponent} from "./components/teacher-create/teacher-create.component";
 import { AssignEvaluatorsComponent } from './components/assign-evaluators/assign-evaluators.component';
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'login', component: LoginComponent},
+  {path: '', component: LoginComponent, canActivate: [() => RoleGuard(['coordinator', 'teacher'])]},
+  {path: 'login', component: LoginComponent, canActivate: [() => RoleGuard(['coordinator', 'teacher'])]},
   {path: 'access-denied', component: LoginComponent, data: { accessDenied: true }},
-  {path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent, canActivate: [() => RoleGuard([ 'teacher'])]},
   {path: 'asignatures/:id', component: SubjectComponent},
   {path: 'asignatures/:id/assignTeachers', component: AssignTeachersComponent},
   {path: 'asignatures/:id/subjectCompetency', component: SubjectCompetencyComponent,

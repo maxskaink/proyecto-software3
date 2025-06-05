@@ -25,7 +25,6 @@ import { AlertmessageComponent } from "../../componentsShared/messages/alertmess
   selector: 'app-outcome',
   imports: [CommonModule,
     FormsModule,
-    MoleculeSectionOptionComponent,
     TemplateHeaderTitleComponent,
     TemplateRubricTableComponent,
     LoadingComponent,

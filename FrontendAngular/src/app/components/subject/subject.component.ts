@@ -50,7 +50,7 @@ export class SubjectComponent {
   @ViewChild('competencyCarousel') carousel!: ElementRef;
   private carouselInstance: any;
   private readonly isBrowser: boolean;
-
+  role: string | null = null;
   isLoading: boolean = false;
   description: string = 'description';
   title: string = 'title';
@@ -80,7 +80,12 @@ export class SubjectComponent {
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
+  
   ngOnInit() {
+    this.auth.role.subscribe(role => {
+      this.role = role;
+    });
+    
     this.isLoading = true;
     const response = this.route.snapshot.paramMap.get('id');
     if (!response) {
@@ -105,7 +110,10 @@ export class SubjectComponent {
       this.carousel.nativeElement.removeEventListener('slide.bs.carousel', null);
     }
   }
-
+  isCoordinator(): boolean {
+    return this.role?.toLowerCase() === 'coordinator';
+  }
+ 
   hideAlert() {
     this.showAlert = false;
   }

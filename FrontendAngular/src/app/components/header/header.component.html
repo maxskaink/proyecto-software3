@@ -2,7 +2,10 @@
      (mouseenter)="onHeaderHover(true)" 
      (mouseleave)="onHeaderHover(false)">
   <div class="block block--left section-title-one d-flex">
-    <i class="bi bi-gear-fill config-icon-one block" style="cursor: pointer;" (click)="goToSettings()"></i>
+    <i *ngIf="isCoordinator()" 
+       class="bi bi-gear-fill config-icon-one block" 
+       style="cursor: pointer;" 
+       (click)="goToSettings()"></i>
     <div>
       <h1 class="title">SERA</h1>
       <p class="subtitle">Periodo: </p>

@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service'; 
+import { AuthService } from '../services/auth.service';
 import { map, take } from 'rxjs/operators';
 
 export function RoleGuard(allowedRoles: string[]): CanActivateFn {
   return () => {
     const router = inject(Router);
-    const role = localStorage.getItem('userRole');
+    const authService = inject(AuthService);
 
-    if (role && allowedRoles.includes(role)) {
-      return true;
-    } else {
-      router.navigate(['/no-autorizado']);
-      return false;
-    }
+    return authService.role.pipe(
+      take(1),
+      map(role => {
+        const normalizedRole = role?.toLowerCase();
+        const normalizedAllowedRoles = allowedRoles.map(r => r.toLowerCase());
+        
+        if (normalizedRole && normalizedAllowedRoles.includes(normalizedRole)) {
+          return true;
+        }
+        
+        router.navigate(['/access-denied']);
+        return false;
+      })
+    );
   };
 }
