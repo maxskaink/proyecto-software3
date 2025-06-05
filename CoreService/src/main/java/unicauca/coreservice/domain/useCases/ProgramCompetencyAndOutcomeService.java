@@ -2,6 +2,7 @@ package unicauca.coreservice.domain.useCases;
 
 import lombok.AllArgsConstructor;
 import unicauca.coreservice.application.in.ProgramCompetencyAndOutcomeInt;
+import unicauca.coreservice.application.in.SubjectCompetencyInt;
 import unicauca.coreservice.application.out.IAuthenticationService;
 import unicauca.coreservice.application.out.IAuthorizationService;
 import unicauca.coreservice.application.out.ProgramCompetencyAndOutcomeRepositoryOutInt;
@@ -10,6 +11,7 @@ import unicauca.coreservice.domain.exception.Unauthorized;
 import unicauca.coreservice.domain.model.ProgramCompetency;
 import unicauca.coreservice.domain.model.OptionalWrapper;
 import unicauca.coreservice.domain.model.ProgramOutcome;
+import unicauca.coreservice.domain.model.SubjectCompetency;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class ProgramCompetencyAndOutcomeService implements ProgramCompetencyAndO
 
     private final ProgramCompetencyAndOutcomeRepositoryOutInt repository;
     private final IAuthenticationService authenticationService;
+    private final SubjectCompetencyInt subjectCompetencyService;
 
     @Override
     public ProgramCompetency add(ProgramCompetency newProgramCompetency, String uid) throws Exception {
@@ -75,8 +78,14 @@ public class ProgramCompetencyAndOutcomeService implements ProgramCompetencyAndO
         if(!authenticationService.isCoordinator(uid))
             throw new Unauthorized("You are not authorized to remove a program competency");
         OptionalWrapper<ProgramCompetency> response = repository.remove(id);
-        return response.getValue()
+        ProgramCompetency removedCompetency = response.getValue()
                 .orElseThrow(response::getException);
+
+        for(SubjectCompetency competency: removedCompetency.getSubjectCompetency()){
+            this.subjectCompetencyService.remove(competency.getId(), uid);
+        }
+
+        return removedCompetency;
     }
 
     @Override
