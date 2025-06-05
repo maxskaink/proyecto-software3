@@ -33,7 +33,8 @@ declare var bootstrap: any;
     TemplateListTeachersComponent,
     CommonModule,
     LoadingComponent,
-    AlertmessageComponent,TemplateHeaderTitleComponent
+    AlertmessageComponent,
+    TemplateHeaderTitleComponent,
   ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.css',
@@ -186,10 +187,15 @@ export class SubjectComponent {
       };
 
       // Listen to both slide events for maximum compatibility
-      this.carousel.nativeElement.addEventListener('slid.bs.carousel', handleCarouselSlide);
+      this.carousel.nativeElement.addEventListener(
+        'slid.bs.carousel',
+        handleCarouselSlide
+      );
 
       // Also manually set up click handlers for indicator buttons
-      const indicatorButtons = document.querySelectorAll('[data-bs-target="#competencyCarousel"]');
+      const indicatorButtons = document.querySelectorAll(
+        '[data-bs-target="#competencyCarousel"]'
+      );
       indicatorButtons.forEach((button: any, index: number) => {
         button.addEventListener('click', () => {
           setTimeout(() => {
@@ -223,7 +229,9 @@ export class SubjectComponent {
 
       // Add this new code to handle fixed indicator clicks
       setTimeout(() => {
-        const fixedIndicators = document.querySelectorAll('.carousel-indicators-fixed button');
+        const fixedIndicators = document.querySelectorAll(
+          '.carousel-indicators-fixed button'
+        );
         fixedIndicators.forEach((button: any, index: number) => {
           button.addEventListener('click', () => {
             if (this.carouselInstance) {
@@ -422,5 +430,45 @@ export class SubjectComponent {
     // Reset edit state if needed
     this.editStateService.setEditState(false);
     this.isEdit = false;
+  }
+
+  // Método para navegar a la diapositiva anterior
+  navigateToPrevSlide(): void {
+    // Calcular el índice anterior con lógica de wrap-around
+    const newIndex =
+      this.currentIndex > 0
+        ? this.currentIndex - 1
+        : this.listCompetency.length - 1;
+
+    // Actualizar el índice actual
+    this.currentIndex = newIndex;
+
+    // Forzar la detección de cambios para actualizar la UI
+    this.cdr.detectChanges();
+
+    console.log(
+      'Navegado a diapositiva anterior, nuevo índice:',
+      this.currentIndex
+    );
+  }
+
+  // Método para navegar a la diapositiva siguiente
+  navigateToNextSlide(): void {
+    // Calcular el índice siguiente con lógica de wrap-around
+    const newIndex =
+      this.currentIndex < this.listCompetency.length - 1
+        ? this.currentIndex + 1
+        : 0;
+
+    // Actualizar el índice actual
+    this.currentIndex = newIndex;
+
+    // Forzar la detección de cambios para actualizar la UI
+    this.cdr.detectChanges();
+
+    console.log(
+      'Navegado a diapositiva siguiente, nuevo índice:',
+      this.currentIndex
+    );
   }
 }

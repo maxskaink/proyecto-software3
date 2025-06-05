@@ -123,6 +123,7 @@
           type="button"
           data-bs-target="#competencyCarousel"
           data-bs-slide="prev"
+          (click)="navigateToPrevSlide()"
         >
           <span class="carousel-control-prev-icon"></span>
         </button>
@@ -131,6 +132,7 @@
           type="button"
           data-bs-target="#competencyCarousel"
           data-bs-slide="next"
+          (click)="navigateToNextSlide()"
         >
           <span class="carousel-control-next-icon"></span>
         </button>
