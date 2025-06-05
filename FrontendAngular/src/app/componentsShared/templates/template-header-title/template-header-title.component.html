@@ -1,4 +1,4 @@
-<section class="container-fluid body py-4">
+<section class="container-fluid body py-4 " [class.divider]="variant === 'primary'">
     <app-molecule-back-header [variant]="variant" [confirmBack]="confirmBack"></app-molecule-back-header>
 
     <div class="text-center text-md-start title  "    [class.title--secondary]="variant === 'secondary'">
@@ -6,3 +6,6 @@
       <p>{{ description }}</p>
     </div>
   </section>
+<div class="divider">
+
+</div>

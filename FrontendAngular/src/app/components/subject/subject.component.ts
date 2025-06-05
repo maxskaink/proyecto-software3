@@ -160,21 +160,18 @@ export class SubjectComponent {
       this.carouselInstance = new bootstrap.Carousel(
         this.carousel.nativeElement,
         {
-
           interval: false,  // Deshabilita el auto-play
           ride: false,     // Deshabilita el inicio automático
           wrap: true,      // Mantiene la navegación cíclica
         }
       );
-      // Asegurar que las transiciones se mantienen
+  
       const carouselElement = this.carousel.nativeElement;
-      carouselElement.style.transition = 'none';
       // Escuchar eventos del carrusel
       this.carousel.nativeElement.addEventListener(
-        'slide.bs.carousel',
+        'slid.bs.carousel',  // Cambiado de 'slide' a 'slid'
         (event: any) => {
           this.currentIndex = event.to;
-          console.log('Índice actual:', this.currentIndex);
         }
       );
     });

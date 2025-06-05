@@ -5,18 +5,7 @@
     margin-bottom: clamp(2rem, 7vw, 3rem);
 }
 
-.sectionTitle::before { /* Cambiamos ::after por ::before para que aparezca dentro */
-    content: "(Aquí puedes editar la descripción de tu RA)";
-     /* Cambiamos a relative para que se mantenga en el flujo del documento */
-    display: block; /* Para que ocupe su propia línea */
-    color: #6B656A; /* Color más sutil */
-    font-size: 0.875rem;
-    opacity: 0;
-    margin-top: 1rem; /* Espacio después del título */
-    text-align: center;
-    transition: opacity 0.3s ease;
 
-}
 
 .sectionTitle:hover {
     background-color: #c6c6c6;
@@ -68,18 +57,36 @@
 }
 
 
-.btn-edit{
-    background-color: #1E1E1E;
+.btn-edit {
+    background-color: #C5C5C5;
     color: white;
-    height: 40px;
-    width: 10%;
+    height: 50px;
+    width: 100%; /* Ancho inicial más pequeño, solo para el icono */
+    transition: all 0.3s ease;
+    overflow: hidden; /* Oculta el texto que sobresale */
+    white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* El span que contiene el texto */
+.btn-edit span {
+    
+    opacity: 0;
+    width: 0;
     transition: all 0.3s ease;
 }
-.btn-edit:hover{
-    width: 12%;
-    height: 50px;
+
+.btn-edit:hover {
+    background-color: #1E1E1E;
+    width: 100%;; /* O el ancho que necesites para el texto */
     font-weight: 700;
-    transition: all 0,3s ease; 
+}
+
+.btn-edit:hover span {
+    opacity: 1;
 }
 .btn-save{
     background-color: #5E9E73;

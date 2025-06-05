@@ -47,11 +47,15 @@
     *ngIf="currentRubric && currentRubric.id"
     [rubric]="currentRubric">
     </app-template-rubric-table>
-    <button class="btn btn-edit mb-3"
-      (click)="goToRubric()"
-      *ngIf="currentRubric && currentRubric.id">
-      <i class="bi bi-plus-circle"></i> Editar Rubrica
-    </button>
+    
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-edit mb-3"
+        (click)="goToRubric()"
+        *ngIf="currentRubric && currentRubric.id">
+        <i class="bi bi-pencil-square"></i> 
+        <span>Editar</span>
+      </button>
+    </div>
     <!-- Mensaje de carga o estado vacío -->
     <div *ngIf="!currentRubric || !currentRubric.id" class="text-center p-4">
       <p>Cargando rubrica</p>

@@ -200,7 +200,6 @@ export class OutcomeComponent implements OnInit {
     this.outComeService.getOutcomeById(this.outcomeId).subscribe({
       next: (data: SubjectOutcome) => {
         this.currentOutcome = data;
-        this.title = `RA ${this.outcomeId + 1}`; // Corrección aquí
         this.description = data.description;
         if(data.rubric){
           this.currentRubric = data.rubric;
