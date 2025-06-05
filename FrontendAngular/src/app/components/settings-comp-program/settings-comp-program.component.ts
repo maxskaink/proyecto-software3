@@ -12,6 +12,8 @@ import { TextBlock } from '../../componentsShared/templates/template-listbox-com
 // Components
 import { TemplateBlockGridComponent } from '../../componentsShared/templates/template-block-grid/template-block-grid.component';
 import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
+import { ModalConfirmComponent } from "../../componentsShared/messages/modal-confirm/modal-confirm.component";
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -19,7 +21,7 @@ import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/t
   imports: [
     CommonModule,
     TemplateBlockGridComponent,
-    TemplateHeaderTitleComponent
+    TemplateHeaderTitleComponent,
 ],
   templateUrl: './settings-comp-program.component.html',
   styleUrl: './settings-comp-program.component.css'
@@ -31,7 +33,8 @@ export class SettingsCompProgramComponent implements OnInit {
 
   constructor(
     private programCompetencyService: ProgramCompetencyService, 
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -99,22 +102,31 @@ export class SettingsCompProgramComponent implements OnInit {
     const competency = this.programCompetencies[index];
     
     if (competency && competency.id) {
-      // Set loading state to true before delete operation
-      this.loading = true;
-      
-      this.programCompetencyService.delete(competency.id).subscribe({
-        next: () => {
-          console.log('Competency deleted successfully');
-          
-          // Reload all competencies from the server to ensure we have the most up-to-date list
-          this.loadProgramCompetencies();
-        },
-        error: (error) => {
-          console.error('Error deleting competency:', error);
-          this.error = 'Unable to delete competency';
-          this.loading = false; // Reset loading state on error
+
+      this.dialog.open(ModalConfirmComponent, {
+        data: {
+          message: '¿Está seguro que desea borrar la competencia?'
         }
-      });
+      }).afterClosed().subscribe(result => {
+        if(!result)
+          return;
+        this.loading = true;
+        
+        this.programCompetencyService.delete(competency.id).subscribe({
+          next: () => {
+            console.log('Competency deleted successfully');
+            
+            // Reload all competencies from the server to ensure we have the most up-to-date list
+            this.loadProgramCompetencies();
+          },
+          error: (error) => {
+            console.error('Error deleting competency:', error);
+            this.error = 'Unable to delete competency';
+            this.loading = false; // Reset loading state on error
+          }
+        });
+      })
+
     } else {
       console.warn('Invalid competency or ID for deletion');
     }
