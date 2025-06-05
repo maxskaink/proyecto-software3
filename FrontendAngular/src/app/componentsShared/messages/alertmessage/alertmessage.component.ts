@@ -22,10 +22,10 @@ export class AlertmessageComponent implements OnInit {
 
   hideMessage() {
     if (!this.isHiding) {
-      this.isHiding = true;
+      //this.isHiding = true;
       setTimeout(() => {
         this.closed.emit();
-      }, 500);
+      }, 5000);
     }
   }
 }

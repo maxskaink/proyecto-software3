@@ -1,5 +1,5 @@
 <app-loading [isLoading]="isLoading"></app-loading>
-<app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'"></app-template-header-title>
+<app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'" [confirmBack]="confirmBack"></app-template-header-title>
 <div>
   <section class="sectionTitle">
 
@@ -35,7 +35,7 @@
       </div>
     </section>
   <section id="rubryc" class="sectionRubric ">
- 
+
     <app-template-rubric-table
     *ngIf="currentRubric && currentRubric.id"
     [rubric]="currentRubric">

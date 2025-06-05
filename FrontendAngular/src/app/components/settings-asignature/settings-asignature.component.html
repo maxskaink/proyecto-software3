@@ -1,4 +1,12 @@
-<app-molecule-back-header></app-molecule-back-header>
+<app-alertmessage
+  *ngIf="showAlert"
+  [state]="typeAlert"
+  [message]="messageAlert"
+  (closed)="handleHideMessage()"
+></app-alertmessage>
+<app-molecule-back-header
+  [confirmBack]="true"
+></app-molecule-back-header>
 <h1 class="fw-bold  title">Configuracion de asignaturas</h1>
 <section class="section__Options">
     <app-template-listbox-complete
@@ -16,10 +24,10 @@
         <label for="subjectName" class="form-label">
             <small class="text-muted">&lt;Nombre de la asignatura&gt;</small>
         </label>
-        <input 
-            type="text" 
-            id="subjectName" 
-            class="input__box w-100" 
+        <input
+            type="text"
+            id="subjectName"
+            class="input__box w-100"
             placeholder="Ingresa el nombre de la asignatura"
             [(ngModel)]="subjectName"
             (blur)="onSubjectNameBlur()"

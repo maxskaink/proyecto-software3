@@ -1,7 +1,9 @@
 <app-loading [isLoading]="isLoading"></app-loading>
 
 <div class="overlay">
-  <app-molecule-back-header></app-molecule-back-header>
+  <app-molecule-back-header
+    [confirmBack]="true"
+  ></app-molecule-back-header>
   <section>
     <!-- Main content with conditional layout -->
     <div class="section-content" [class.has-selected-teachers]="((selectedTeachers$ | async) ?? []).length > 0">

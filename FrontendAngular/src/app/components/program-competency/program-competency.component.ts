@@ -10,11 +10,15 @@ import { FormsModule } from '@angular/forms';
 import {
   MoleculeBackHeaderComponent
 } from "../../componentsShared/molecules/molecule-back-header/molecule-back-header.component";
+import {AlertmessageComponent} from "../../componentsShared/messages/alertmessage/alertmessage.component";
 
 @Component({
   selector: 'app-program-competency',
   imports: [CommonModule, TemplateSelectInputBoxtextComponent,
-    TemplateHeaderTitleComponent, MoleculeOutComeComponent, FormsModule, MoleculeBackHeaderComponent],
+    MoleculeOutComeComponent,
+    FormsModule,
+    MoleculeBackHeaderComponent,
+    AlertmessageComponent],
   templateUrl: './program-competency.component.html',
   styleUrl: './program-competency.component.css'
 })
@@ -28,18 +32,36 @@ export class ProgramCompetencyComponent  {
   levels: string[] = ["Basico", "Intermedio", "Avanzado"];
   emptyOutcome: boolean = false;
 
+  messageAlert: string = 'Competencia de programa creada correctamente';
+  stateAlert: 'save' | 'error' | 'correct' = 'save';
+  showAlert: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private programCompetencyService: ProgramCompetencyService,
   ) { }
 
+  handleCloseAlert(){
+    this.showAlert=false;
+  }
+
+  handleSavedAlert(){
+    this.messageAlert = "Competencia guardada con exito";
+    this.stateAlert = 'save';
+    this.showAlert=true;
+  }
+
+  handleErrorAlert(error:string){
+    this.messageAlert = "Competencia no se ha podido crear: "+ error;
+    this.stateAlert = 'error';
+    this.showAlert=true;
+  }
 
   setOutcomeDescription(text:string): string {
     this.outcomeDescription = text;
     this.emptyOutcome = false; // Reset empty outcome flag when description is set
     return this.outcomeDescription;
   }
-
 
   save(data: { description: string, option: string }): boolean {
     if (!data.description.trim() || data.option === '' ) {
@@ -69,10 +91,12 @@ export class ProgramCompetencyComponent  {
         next: (result) => {
           console.log('Program competency assigned successfully:', result);
           this.outcomeCreated = true;
+          this.handleSavedAlert()
           return true;
         },
         error: (error) => {
-          console.error('Error assigning program competency:', error);
+          console.log(error)
+          this.handleErrorAlert(error.error)
           return false;
         }
       });
