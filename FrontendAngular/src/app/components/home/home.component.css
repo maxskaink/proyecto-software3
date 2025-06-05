@@ -44,9 +44,11 @@
   }
   
   .card-item {
+    margin-top:10px;
     flex: 0 0 auto;
-    width: 300px
+    width: 300px;
   }
+
   .card-item--list{
     width: 100%;
     height: 800px;

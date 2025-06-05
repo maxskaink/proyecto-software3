@@ -1,7 +1,7 @@
-<div class="d-flex justify-content-around align-items-center p-2 headerStyle" 
+<div class="d-flex justify-content-between align-items-center p-2 headerStyle" 
      (mouseenter)="onHeaderHover(true)" 
      (mouseleave)="onHeaderHover(false)">
-  <div class="block section-title-one d-flex">
+  <div class="block block--left section-title-one d-flex">
     <i class="bi bi-gear-fill config-icon-one block" style="cursor: pointer;" (click)="goToSettings()"></i>
     <div>
       <h1 class="">SERA</h1>
@@ -9,7 +9,7 @@
     </div>
   </div>
   
-  <div class="d-flex align-items-center gap-3 block section-user-one">
+  <div class="d-flex align-items-center gap-3 block block--right section-user-one">
     <app-molecule-block-user [variant]="headerState" [name]="name" [role]="role"></app-molecule-block-user>
   </div>
   

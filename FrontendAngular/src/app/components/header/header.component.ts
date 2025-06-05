@@ -19,13 +19,13 @@ interface User {
 export class HeaderComponent implements OnInit {
   name = '';
   role = '';
-  headerState: 'primary' | 'secondary' = 'primary';
+
   constructor(
     private router: Router, 
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
-  
+  headerState: 'primary' | 'secondary' = 'primary';
   
   onHeaderHover(isHovering: boolean) {
     this.headerState = isHovering ? 'secondary' : 'primary';

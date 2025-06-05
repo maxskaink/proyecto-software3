@@ -1,7 +1,44 @@
-.card{
+.card {
   border-color: rgba(240, 248, 255, 0);
   color: white;
   cursor: pointer;
+  position: relative;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Efecto de elevación */
+.card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-radius: inherit;
+  box-shadow: 0 5px 15px rgba(83, 83, 83, 0.3);
+  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Efecto de resplandor en el borde */
+.card:hover {
+  box-shadow: 
+    0 5px 15px rgba(83, 83, 83, 0.3),
+    0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Efecto de escala suave al hacer click */
+.card:active {
+  transform: translateY(-2px);
+  transition: transform 0.1s;
 }
 .card__Body {
   width: 100%;
@@ -13,7 +50,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  font-weight: 1000;
+  font-weight: 300;
 }
 .Card__blockTitle {
   width: 100%;
@@ -35,6 +72,10 @@
   border-radius: 10px;        
   width: 100%;   /* Grosor de la línea (ajústalo a tu preferencia) */
 
+}
+
+.title{
+  font-weight: 3000;
 }
 .description{
   padding: 20px;
