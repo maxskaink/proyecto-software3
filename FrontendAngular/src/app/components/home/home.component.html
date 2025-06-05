@@ -21,7 +21,10 @@
   </div>
 </div>
 <div class="container-fluid main-content">
-  <div class="carousel-wrapper" *ngIf="isDesktop">
+  <div *ngIf="asignatures.length === 0" class="d-flex align-items-center container-fludid justify-content-center h-100">
+    <h2 class="text-help angular-brackets"> No tienes asingaturas asignadas</h2>
+  </div>
+  <div class="carousel-wrapper" *ngIf="isDesktop && asignatures.length>0 ">
     <!-- Botón Izquierdo -->
     <button
       class="nav left"
