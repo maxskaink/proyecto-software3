@@ -7,15 +7,7 @@
 <app-molecule-back-header
   [confirmBack]="true"
 ></app-molecule-back-header>
-<h1 class="fw-bold  title">Configuracion de asignaturas</h1>
-<section class="section__Options">
-    <app-template-listbox-complete
-    [textBlock]  = "textBlock"
-    (blockClick)="handleBlockClick($event)">
-    </app-template-listbox-complete>
-</section>
-<hr class="my-4 ">
-<section class=" container-fluid section_input_size mb-5" id="createAsignature">
+<section class=" container-fluid section_input_size " id="createAsignature">
 
     <p><{{periodo}}></p>
     <h2 class=" fs-1">Crear asignatura</h2>

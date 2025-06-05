@@ -1,3 +1,4 @@
+
 import {
   Component,
   EventEmitter,
@@ -34,6 +35,7 @@ export class TemplateCompetencyComponent {
   isButtonsVisible = false; // Propiedad para controlar la visibilidad de los botones
   private readonly isBrowser: boolean;
   private scrollListener: any;
+  @Output() competencyDeleted = new EventEmitter<number>();
 
   loading = {
     outcomes: false,
@@ -49,6 +51,7 @@ export class TemplateCompetencyComponent {
     @Inject(PLATFORM_ID) platformId: Object,
     private outcomeService: SubjectOutomeService,
     private competencyProgramService: ProgramCompetencyService,
+    private subjectCompetencyService: SubjectCompetencyService,
     private editStateService: EditStateService,
     private router: Router
   ) {
@@ -132,7 +135,7 @@ export class TemplateCompetencyComponent {
       }
     }, 500);
   }
-  
+
   loadOutcomes(): void {
     this.loading.outcomes = true;
     this.outcomes$ = this.outcomeService
@@ -175,7 +178,27 @@ export class TemplateCompetencyComponent {
     this.editStateService.setEditState(true);
     this.editStateChange.emit(true);
   }
-  onDeletelClick(): void {}
+  onDeletelClick(): void {
+    this.subjectCompetencyService.deleteCompetency(this.competency.id).subscribe({
+      next: (response) => {
+        console.log('Competency deleted successfully:', response);
+
+        // Emit that we're no longer in edit mode
+        this.editStateService.setEditState(false);
+        this.editStateChange.emit(false);
+
+        this.competencyDeleted.emit(this.competency.id);
+      },
+      error: (error) => {
+        console.error('Error deleting competency:', error);
+        // Here you could add error handling like showing a notification
+        // Or you could use a service to display an error message
+      },
+      complete: () => {
+        console.log('Delete operation completed');
+      }
+    });
+  }
   goToOutcome(outcome: SubjectOutcome, index: number): void {
     // Usar el ID real del outcome si está disponible
     const outcomeId = outcome.id;

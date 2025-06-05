@@ -1,30 +1,37 @@
-/* Estilos existentes */
-.title{
-    padding-left: 10%;
-    font-size: clamp(2rem, 5vw, 3.5rem);;
+/* Base styles */
+.title {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+  padding-left: 0; /* Remove left padding */
 }
-.section_input_size{
-    padding-top: 5%;
-    margin-bottom: 15%;
-    height: 30rem;
-    width: 70%;
-    margin-left: 10% ;
+
+.section_input_size {
+  padding-top: 2rem; /* Reduced from 5% */
+  margin-bottom: 3rem; /* Reduced from 15% */
+  height: auto; /* Remove fixed height */
+  width: 90%; /* Increased from 70% */
+  max-width: 900px; /* Add max-width for larger screens */
+  margin: 0 auto; /* Center the section */
 }
-.my-4{
-    width: 40%;
-    height: 3px;
-    margin-left: 10% ;
-    background-color: #000000;
-    border: none;
+
+.my-4 {
+  width: 100%; /* Full width instead of 40% */
+  height: 2px;
+  margin: 1.5rem 0; /* Centered margins */
+  background-color: #000000;
+  border: none;
 }
+
+/* Remove the empty space div */
 .page-bottom-space {
-  height: 17rem;
+  height: 2rem; /* Drastically reduced from 17rem */
   width: 100%;
 }
 
-/* Nuevos estilos para el input de nombre */
+/* Input styles */
 .input-container {
   width: 100%;
+  margin-bottom: 1rem; /* Consistent spacing */
 }
 
 .input__box {
@@ -49,7 +56,7 @@
   margin-bottom: 0.25rem;
 }
 
-/* Animación para el mensaje de error */
+/* Error message animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -57,4 +64,28 @@
 
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Compact layout for the create form */
+h2.fs-1 {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section_input_size {
+    width: 95%;
+    padding-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .page-bottom-space {
+    height: 1rem;
+  }
+
+  h2.fs-1 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1rem;
+  }
 }
