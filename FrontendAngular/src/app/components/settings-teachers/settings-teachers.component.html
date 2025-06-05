@@ -1,47 +1,42 @@
 <app-molecule-back-header></app-molecule-back-header>
 
+<!-- Welcome Section -->
 <div class="welcome_text d-flex container-fluid flex-column align-items-center text-center my-4">
-  <i class="bi bi-person-circle p-1 user-icon "></i>
+  <i class="bi bi-person-circle p-1 user-icon"></i>
   <h1 class="fw-bold title">Bienvenido a la gestión de docentes</h1>
 </div>
 
+<!-- Options Section -->
 <section class="section_options container my-4">
-  <div class="row g-4">
-    <div class="col-12 col-md-6" *ngFor="let option of options">
-
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-lg-6" *ngFor="let option of options">
       <div class="section_options_value p-4 rounded-3 h-100 position-relative" (click)="goToOption(option.title)">
-        <div class="hover-square"></div> <!-- Cuadrado que aparece con hover -->
-        <h2 class="fw-bold">{{ option.title }}</h2>
-        <p>{{ option.description }}</p>
+        <div class="hover-square"></div>
+        <h2 class="fw-bold fs-4">{{ option.title }}</h2>
+        <p class="mb-0">{{ option.description }}</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class=" text-center divider__big">
-    <p>
-      Aquí podrás encontrar toda la información y opciones relacionadas con la gestión de los docentes. <br>
-      “Lo mejor de lo mejor”
-    </p>
+<!-- Divider Section -->
+<div class="text-center divider__big my-5">
+  <p class="mx-auto" style="max-width: 600px;">
+    Aquí podrás encontrar toda la información y opciones relacionadas con la gestión de los docentes.<br>
+    "Lo mejor de lo mejor"
+  </p>
 </div>
 
+<!-- Main Content Section -->
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-2">
-      <app-molecule-aside-menu [menuItems]="asideMenuItems"></app-molecule-aside-menu>
-    </div>
-
-    <div class="col-12 col-md-9 d-flex flex-column justify-content-center align-items-center">
-      <section id="listTeachersSection" class="d-flex flex-column align-items-center text-center sectiionTeachers">
+  <div class="row justify-content-center g-4">
+      <section id="listTeachersSection" class="d-flex flex-column align-items-center">
         <app-template-list-teachers
           [title]="'Docentes'"
           [description]="'¡Docentes activos del programa!'"
           [listTeachers]="teachers"
-          [editable]="true"
-        ></app-template-list-teachers>
-<!--        <button class="button_evaluators">Gestionar evaluadores</button>-->
+          [editable]="true">
+        </app-template-list-teachers>
       </section>
-    </div>
   </div>
 </div>
-

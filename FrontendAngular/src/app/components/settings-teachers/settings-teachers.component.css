@@ -1,64 +1,80 @@
 .user-icon {
-    font-size: 200px;
-    color: #1F0D1E;
-
+  font-size: clamp(120px, 15vw, 200px);
+  color: #1F0D1E;
 }
-.section_options{
-    margin-bottom: 4%;
+
+.title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin-top: 1rem;
+}
+
+.section_options {
+  margin-bottom: 4%;
 }
 
 .section_options_value {
-    transition: background-color 0.3s ease;
-    position: relative;
-    background-color: #8D538C;
-    color: #ECF4F1;
-  }
-.sectiionTeachers{
-  width: clamp(20rem, 80%, 25rem);
+  transition: background-color 0.3s ease;
+  position: relative;
+  background-color: #8D538C;
+  color: #ECF4F1;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 .hover-square {
-    width: 20px;
-    height: 100%;
-    background-color: #30192f; /* Puedes usar tu color */
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    margin-right: 20px;
+  width: 20px;
+  height: 100%;
+  background-color: #30192f;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.section_options_value:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(141, 83, 140, 0.3);
+}
+
+.section_options_value:hover::after {
+  transform: translateX(100%);
+}
+/* Divider section with more spacing */
+.divider__big {
+  padding: 3rem 1rem;
+  margin: 4rem 0;
+  background-color: #8D538C;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(141, 83, 140, 0.2);
+}
+
+
+
+/* Teachers list section */
+#listTeachersSection {
+  padding: 3rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .section_options_value {
+    min-height: 120px;
   }
-
-  .section_options_value:hover .hover-square {
-    opacity: 1;
+  
+  .divider__big {
+    padding: 2rem 1rem;
+    margin: 3rem 0;
   }
-
-.welcome_text{
-    padding: 3%;
-    margin-top: 5%;
-    margin-bottom: 2%;
-}
-.divider__big{
-    background-color: #8D538C;
-    height: 8rem;
-    margin-top: 5%;
-    color: #ECF4F1;
-    padding: 2rem;
-}
-.title{
-    padding-left: 10%;
-    font-size: clamp(2rem, 5vw, 3.5rem);;
-}
-
-.button_evaluators {
-    background-color: #8e8e8e;
-    color: white;
-    flex: 1 1 45%;
-    min-width: 100px;
-    height: 2.5rem;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
+  
+  #listTeachersSection {
+    padding: 2rem 1rem;
+  }
 }

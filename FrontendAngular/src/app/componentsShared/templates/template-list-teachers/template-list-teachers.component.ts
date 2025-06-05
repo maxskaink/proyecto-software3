@@ -16,8 +16,14 @@ export class TemplateListTeachersComponent implements OnInit{
   @Input() listTeachers?: TeacherDTO[] = [];
   @Input() forceTeacherRole?: boolean = false;
   @Input() editable: boolean = false;
-
+  
   constructor(private authService: AuthService) {}
+  
+  hoveredStates: { [key: string]: boolean } = {};
+
+  onUserHover(userId: string, isHovered: boolean) {
+    this.hoveredStates[userId] = isHovered;
+  }
 
   ngOnInit(): void {
     if(!this.listTeachers)
