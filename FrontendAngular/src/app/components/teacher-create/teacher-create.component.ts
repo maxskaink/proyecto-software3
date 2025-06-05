@@ -6,11 +6,11 @@ import { MoleculeBackHeaderComponent } from "../../componentsShared/molecules/mo
 import { AuthService } from '../../services/auth.service';
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { Location } from '@angular/common';
-
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 @Component({
   selector: 'app-teacher-create',
   standalone: true,
-  imports: [MoleculeBackHeaderComponent, ReactiveFormsModule, CommonModule],
+  imports: [TemplateHeaderTitleComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './teacher-create.component.html',
   styleUrl: './teacher-create.component.css'
 })
@@ -39,72 +39,55 @@ export class TeacherCreateComponent implements OnInit {
       this.update = true;
       this.create = false;
       this.idUpdate = response;
-      this.loadTeacherData();
+      this.loadTeacherData(); // Load teacher data if editing
     }
 
     this.title = this.create ? "Crea un docente" : "Editar docente";
     this.description = this.create ? "En esta sección podrás crear un docente" : "En esta sección podrás editar un docente";
   }
 
-
+  
   createForm() {
     this.teacherForm = this.fb.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       identification: ['', Validators.required],
-      identificationType: ['', Validators.required],
+      identificationType: ['CC', Validators.required],
       academicTitle: ['', Validators.required],
-      role: ['', Validators.required],
-      typeTeacher: ['', Validators.required]
+      role: ['Teacher', Validators.required],
+      typeTeacher: ['pregrado', Validators.required]
     });
   }
-
-  loadTeacherData() {
-    this.authService.getUserById(this.idUpdate).subscribe({
-      next: (teacher) => {
-        console.log(teacher)
-        this.teacherForm.patchValue({
-          name: teacher.name,
-          lastName: teacher.lastName,
-          email: teacher.email,
-          identification: teacher.identification,
-          identificationType: teacher.identificationType,
-          academicTitle: teacher.academicTitle,
-          role: teacher.role,
-          typeTeacher: teacher.typeTeacher
-        });
-      },
-      error: (error) => {
-        console.error('Error cargando datos del docente:', error);
-      }
-    });
-  }
-
-  // Getters para simplificar el acceso en la plantilla
-  get name() { return this.teacherForm.get('name'); }
-  get lastName() { return this.teacherForm.get('lastName'); }
-  get email() { return this.teacherForm.get('email'); }
-  get identification() { return this.teacherForm.get('identification'); }
-  get identificationType() { return this.teacherForm.get('identificationType'); }
-  get academicTitle() { return this.teacherForm.get('academicTitle'); }
-  get role() { return this.teacherForm.get('role'); }
-  get typeTeacher() { return this.teacherForm.get('typeTeacher'); }
-
 
   onSubmit() {
     if (this.teacherForm.invalid) return;
 
     this.isSubmitting = true;
-    const teacherData: TeacherDTO = this.teacherForm.value;
-
+    const formData = this.teacherForm.value;
+      
+    const teacherData: TeacherDTO = {
+      academicTitle: formData.academicTitle,
+      identification: parseInt(formData.identification),
+      identificationType: formData.identificationType,
+      lastName: formData.lastName,
+      name: formData.name,
+      role: formData.role,
+      typeTeacher: formData.typeTeacher,
+      email: formData.email
+    };
+  
     if (this.create) {
       this.authService.createUser(teacherData).subscribe({
         next: () => {
+          // Show success message
+          alert(`Usuario creado exitosamente.\nContraseña temporal: Temp${teacherData.identification}#`);
           this.router.navigate(['/settings/teacher']);
         },
         error: (error) => {
           console.error('Error al crear docente:', error);
+          // Show error to user
+          alert(typeof error === 'string' ? error : 'Error al crear el docente');
           this.isSubmitting = false;
         }
       });
@@ -126,4 +109,24 @@ export class TeacherCreateComponent implements OnInit {
     this.location.back();
   }
 
+  private loadTeacherData() {
+    this.authService.getUserById(this.idUpdate).subscribe({
+      next: (teacher) => {
+        this.teacherForm.patchValue({
+          name: teacher.name,
+          lastName: teacher.lastName,
+          email: teacher.email,
+          identification: teacher.identification,
+          identificationType: teacher.identificationType,
+          academicTitle: teacher.academicTitle,
+          role: teacher.role,
+          typeTeacher: teacher.typeTeacher
+        });
+      },
+      error: (error) => {
+        console.error('Error loading teacher data:', error);
+        this.router.navigate(['/settings/teacher']);
+      }
+    });
+  }
 }
