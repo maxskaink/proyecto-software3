@@ -19,7 +19,7 @@
 }
 .divider{
     width: 100%;
-    box-shadow: 0 2px 8px rgba(83, 83, 83, 0.2); /* Sombra suave */
+    
 }
 .home-icon {
     font-size: clamp(3rem, 3vw, 4rem);
