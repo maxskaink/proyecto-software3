@@ -28,7 +28,8 @@ import { AlertmessageComponent } from "../../componentsShared/messages/alertmess
     TemplateHeaderTitleComponent,
     TemplateRubricTableComponent,
     LoadingComponent,
-    TemplateListTeachersComponent, AlertmessageComponent],
+    TemplateListTeachersComponent, AlertmessageComponent, MoleculeSectionOptionComponent
+  ],
   templateUrl: './outcome.component.html',
   styleUrl: './outcome.component.css'
 })

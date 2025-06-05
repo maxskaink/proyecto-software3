@@ -95,9 +95,14 @@
             <p class="text-help">¿Ya terminaste tu rubrica? </p>
             <p class="text-help">Guarda tus cambios y sigue con tu proceso</p>
             <div class="">
-                <button class="btn_save" (click)="saveRubric()">
-                    Guardar
-                </button>
+                <button class="btn_save" 
+                (click)="saveRubric()" 
+                [disabled]="!description.trim() || 
+                           !listCriterion.length || 
+                           criterioIsEdit || 
+                           getTotalWeight() !== 100">
+            Guardar
+        </button>
                 <button class="btn_cancel">
                     cancelar
                 </button>

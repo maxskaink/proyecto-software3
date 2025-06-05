@@ -124,6 +124,7 @@ export class CreateRubricComponent {
 
   async editRubric(): Promise<void>{
          // 1. Get existing criteria from DB
+         this.isEdit = true;
          const existingCriteria = await firstValueFrom(
           this.criterionService.getAllCriterionByRubric(this.idRubric)
         );
@@ -146,7 +147,10 @@ export class CreateRubricComponent {
                   description: this.description
               } as Partial<RubricDTO>)
           );
+          this.isEdit = false; // Reset editing state
       }
+      this.isEdit = false; // Reset editing state
+
   }
 
   onAlertClosed() {
@@ -290,5 +294,7 @@ private async saveCriterions(): Promise<void> {
       this.error[errorKey] = '';
     }, 2000);
   }
-
+  getTotalWeight(): number {
+    return this.listCriterion?.reduce((sum, criterion) => sum + criterion.weight, 0) || 0;
+  }
 }
