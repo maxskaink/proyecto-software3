@@ -50,16 +50,12 @@
     <!-- Right column - will stack on small screens -->
     <div
       class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center teachers-container clickable-container"
-      tabindex="0"
-      role="button"
-      aria-label="Gestionar docentes"
     >
       <!-- Lista de profesores con margen reducido -->
       <app-template-list-teachers
         class="w-100 teachers-list-compact"
         [listTeachers]="teacherAssignments"
         [forceTeacherRole]="true"
-        (click)="goToAssignTeachers()"
       ></app-template-list-teachers>
 
       <!-- Botón con margen adaptable -->

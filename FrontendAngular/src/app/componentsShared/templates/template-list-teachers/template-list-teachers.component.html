@@ -12,7 +12,7 @@
       [uid]="user.id"
       [variant]="hoveredStates[user.id || ''] ? 'secondary' : 'primary'"
       [forceTeacherRole]="forceTeacherRole || false"
-      (mouseenter)="onUserHover(user.id || '', true)"
+      (mouseenter)="onUserHover(user.id || '', false)"
       (mouseleave)="onUserHover(user.id || '', false)"
     ></app-molecule-block-user>
   </div>
