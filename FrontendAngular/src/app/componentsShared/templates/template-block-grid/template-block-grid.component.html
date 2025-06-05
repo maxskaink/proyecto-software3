@@ -1,5 +1,24 @@
 <app-molecule-search-bar 
-    class="d-flex justify-content-center "
+    class="d-flex justify-content-center"
     placeholder="Buscar competencias..."
     (search)="onSearch($event)"
 ></app-molecule-search-bar>
+
+<div class="competency-grid">
+  <!-- Create new competency card (always shown first) -->
+  <app-molecule-block-competency
+    [title]="''"
+    [description]="''"
+    [isCreate]="true"
+    (create)="onCreateCompetency()"
+  ></app-molecule-block-competency>
+  
+  <!-- List of existing competencies -->
+  <app-molecule-block-competency 
+    *ngFor="let competency of filteredCompetencies; let i = index"
+    [title]="competency.title"
+    [description]="competency.outcomeDescription"
+    [isCreate]="false"
+    (delete)="onDeleteCompetency(i)"
+  ></app-molecule-block-competency>
+</div>

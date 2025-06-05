@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-molecule-block-competency',
@@ -10,10 +10,17 @@ import { Component, Input, Output } from '@angular/core';
 export class MoleculeBlockCompetencyComponent {
   @Input() title: string = 'Ejemplo titulo';
   @Input() description: string = 'Ejemplo descripcion';
-  @Output() blockClick: any; 
-  onDelete() {
-    // lógica para eliminar el bloque
-    console.log('Eliminar bloque');
+  @Input() isCreate: boolean = false;
+  @Output() delete = new EventEmitter<void>();
+  @Output() create = new EventEmitter<void>();
+
+  onDelete(): void {
+    this.delete.emit();
   }
-  
+
+  onCreate(): void {
+    this.create.emit();
+  }
 }
+
+

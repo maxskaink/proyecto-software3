@@ -1,13 +1,39 @@
-.title{
-    padding-left: 10%;
-    font-size: clamp(2rem, 5vw, 2.5rem);
+/* Container and spacing system */
+:host {
+  display: block;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
 }
-.title--botom{
-    padding-left: 10%;
-    font-size: 60px;
-    margin-bottom: 5%;
-}
-.options{
 
-    border-radius: 20px;
+
+
+/* Spacing for sections */
+section {
+  padding: 1rem;
+  margin-top: 0; /* Ensure no top margin */
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 8px;
+
+}
+
+/* Loading indicator */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: #1F0D1E;
+}
+
+/* Responsive component spacing */
+app-template-header-title {
+  margin: 0; /* Removed all margin */
+  display: block;
+}
+
+app-template-block-grid {
+  display: block;
 }

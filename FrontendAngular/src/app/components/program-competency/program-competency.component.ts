@@ -14,11 +14,7 @@ import {AlertmessageComponent} from "../../componentsShared/messages/alertmessag
 
 @Component({
   selector: 'app-program-competency',
-  imports: [CommonModule, TemplateSelectInputBoxtextComponent,
-    MoleculeOutComeComponent,
-    FormsModule,
-    MoleculeBackHeaderComponent,
-    AlertmessageComponent],
+  imports: [CommonModule, TemplateSelectInputBoxtextComponent, MoleculeOutComeComponent, FormsModule, MoleculeBackHeaderComponent],
   templateUrl: './program-competency.component.html',
   styleUrl: './program-competency.component.css'
 })
