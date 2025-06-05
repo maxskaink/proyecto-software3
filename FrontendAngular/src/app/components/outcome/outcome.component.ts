@@ -49,6 +49,7 @@ export class OutcomeComponent implements OnInit {
   messageAlert:string = "";
   stateAlert: 'save' | 'error' | 'correct' = 'save';
   showAlert:boolean= false;
+  subjectId: number = -1;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -68,7 +69,7 @@ export class OutcomeComponent implements OnInit {
       if (params['outcomeId']) {
         this.outcomeId = +params['outcomeId'];
         this.getOutcome();
-
+        this.getSubjectId();
         this.isLoading =false;
         this.getEvaluators();
 
@@ -79,7 +80,14 @@ export class OutcomeComponent implements OnInit {
       }
     });
   }
-
+  private getSubjectId() {
+    // Obtén el subjectId desde tu servicio o donde lo tengas almacenado
+    this.outComeService.getOutcomeById(this.outcomeId).subscribe({
+      next: (outcome) => {
+        this.subjectId = outcome.idCompetencyAssignment;
+      }
+    });
+  }
   hideAlert(){
     this.showAlert = false;
   }

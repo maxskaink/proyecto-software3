@@ -7,7 +7,7 @@
     padding-right: 3%;
 }
 .title h1{
-    font-size: clamp(1rem, 5vw, 1.7rem);;
+    font-size: clamp(1rem, 5vw, 1.5rem);;
 }
 .title p{
     font-size: clamp(0.5rem, 5vw, 0.8rem);;
@@ -20,4 +20,19 @@
 .divider{
     width: 100%;
     box-shadow: 0 2px 8px rgba(83, 83, 83, 0.2); /* Sombra suave */
+}
+.home-icon {
+    font-size: clamp(3rem, 3vw, 4rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #1F0D1E;
+    padding-right: 10px;
+}
+
+.home-icon--secondary {
+    color: #D9D9D9;
+}
+
+.home-icon:hover {
+    transform: scale(1.1);
 }

@@ -1,4 +1,11 @@
 <app-loading [isLoading]="isLoading"></app-loading>
+<app-template-header-title
+    [title]="'Asignatura'"
+    [description]="'Aqui podras configurar tu asignatura'"
+    [confirmBack]="true"
+    [customBackRoute]="'/home'"
+    [customBackQueryParams]="{}">
+</app-template-header-title>
 <app-alertmessage
   *ngIf="showAlert"
   [message]="messageAlert"
@@ -6,8 +13,7 @@
   (closed)="hideAlert()"
 >
 </app-alertmessage>
-<app-molecule-back-header [confirmBack]="this.isEdit">
-</app-molecule-back-header>
+
 <div class="d-flex flex-column overflow-hidden">
   <section class="row sectionInfo">
     <!-- Left column - will stack on small screens -->

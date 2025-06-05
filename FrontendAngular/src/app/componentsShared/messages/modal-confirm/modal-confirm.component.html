@@ -1,16 +1,25 @@
 <div class="modal-container">
     <div class="modal-header">
-        <h2 class="modal-title">¡Aviso!</h2>
-        <button class="close-button" (click)="onCancel()">×</button>
+        <h2 class="modal-title">
+            <i class="bi bi-exclamation-triangle-fill warning-icon"></i>
+            ¡Aviso!
+        </h2>
+        <button class="close-button" (click)="onCancel()">
+            <i class="bi bi-x-lg"></i>
+        </button>
     </div>
 
     <div class="modal-content">
-        <p>{{data.message}}</p>
+        <p class="message">{{data.message}}</p>
         <div class="modal-footer">
-            <button class="btn btn-confirm" (click)="onConfirm()">Confirmar</button>
-            <button class="btn btn-cancel" (click)="onCancel()">Cancelar</button>
+            <button class="btn btn-confirm" (click)="onConfirm()">
+                <i class="bi bi-check-lg me-2"></i>
+                Confirmar
+            </button>
+            <button class="btn btn-cancel" (click)="onCancel()">
+                <i class="bi bi-x-lg me-2"></i>
+                Cancelar
+            </button>
         </div>
     </div>
-
-  
 </div>

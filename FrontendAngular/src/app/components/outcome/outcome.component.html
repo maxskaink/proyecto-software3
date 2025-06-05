@@ -1,6 +1,13 @@
 <app-loading [isLoading]="isLoading"></app-loading>
 <app-alertmessage *ngIf="showAlert" [message]="messageAlert" [state]="stateAlert" (closed)="hideAlert()"></app-alertmessage>
-<app-template-header-title [title]="'Configuracion de RA'" [description]="'Configura tu ra a tu gusto'" [confirmBack]="confirmBack"></app-template-header-title>
+<!-- Para navegación específica -->
+<app-template-header-title
+    [title]="'RA'"
+    [description]="'Aqui podras configurar tu RA'"
+    [confirmBack]="true"
+    [customBackRoute]="'/asignatures/' + subjectId"
+    [customBackQueryParams]="{}">
+</app-template-header-title>
 
 <div class="content-wrapper">
   <!-- Sección Título -->

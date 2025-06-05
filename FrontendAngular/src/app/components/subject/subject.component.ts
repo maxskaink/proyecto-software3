@@ -22,19 +22,18 @@ import { TeacherAssignmentService } from '../../services/teacher_assignment.serv
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-asignature',
   imports: [
-    MoleculeBackHeaderComponent,
     TemplateCompetencyComponent,
     TemplateCompetencyEditComponent,
     TemplateListTeachersComponent,
     CommonModule,
     LoadingComponent,
-    AlertmessageComponent,
+    AlertmessageComponent,TemplateHeaderTitleComponent
   ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.css',
