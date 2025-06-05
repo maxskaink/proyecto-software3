@@ -88,4 +88,35 @@ export class SettingsCompProgramComponent implements OnInit {
       this.router.navigate([block.route]);
     }
   }
+
+  onCreateCompetency(): void {
+    console.log('Create competency event triggered');
+    this.router.navigate(['settings/competencyProgram/create']);
+  }
+
+  onDeleteCompetency(index: number): void {
+    console.log('Delete competency event triggered for index:', index);
+    const competency = this.programCompetencies[index];
+    
+    if (competency && competency.id) {
+      // Set loading state to true before delete operation
+      this.loading = true;
+      
+      this.programCompetencyService.delete(competency.id).subscribe({
+        next: () => {
+          console.log('Competency deleted successfully');
+          
+          // Reload all competencies from the server to ensure we have the most up-to-date list
+          this.loadProgramCompetencies();
+        },
+        error: (error) => {
+          console.error('Error deleting competency:', error);
+          this.error = 'Unable to delete competency';
+          this.loading = false; // Reset loading state on error
+        }
+      });
+    } else {
+      console.warn('Invalid competency or ID for deletion');
+    }
+  }
 }

@@ -1,9 +1,11 @@
 <div class="competency-container d-flex flex-column min-vh-100">
-  <app-molecule-back-header
-    [confirmBack]="true"
-  ></app-molecule-back-header>
-  <div class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden">
-    <div class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column">
+  <app-molecule-back-header [confirmBack]="true"></app-molecule-back-header>
+  <div
+    class="gray-section-container p-3 p-lg-4 mx-2 mx-md-3 mx-lg-5 flex-grow-1 d-flex flex-column overflow-hidden"
+  >
+    <div
+      class="container-fluid py-3 py-md-4 general-container flex-grow-1 d-flex flex-column"
+    >
       <h1 class="fw-bold title mb-3 mb-md-4">{{ getTitle() }}</h1>
 
       <div class="row g-4 flex-grow-1">
@@ -12,9 +14,12 @@
           <app-template-select-input-boxtext
             [selectDescription]="selectLabelPlaceholder"
             [selectPlaceholder]="selectPlaceholder"
-            [textareaDescription]="'Ingresa la descripción de tu nueva competencia de asignatura'"
+            [textareaDescription]="
+              'Ingresa la descripción de tu nueva competencia de asignatura'
+            "
             [options]="getOptions()"
-            (saveClicked)="save($event)">
+            (saveClicked)="save($event)"
+          >
           </app-template-select-input-boxtext>
         </section>
 
@@ -23,7 +28,8 @@
           <div class="d-flex mb-3">
             <button
               class="btn btn-light custom-hover custom-btn w-50 me-2"
-              (click)="openModalReuse()">
+              (click)="openModalReuse()"
+            >
               <i class="bi bi-arrow-repeat me-2"></i>
               Reutilizar RA
             </button>
@@ -31,22 +37,40 @@
               class="btn btn-dark custom-btn w-50"
               [ngClass]="{ 'ms-auto': true }"
               [disabled]="hasMaxOutcomes()"
-              (click)="openModalCreate()">
+              (click)="openModalCreate()"
+            >
               <i class="bi bi-plus-lg me-2"></i>
               Crear RA
             </button>
           </div>
 
-                  <!-- Enhanced validation message -->
-        <div *ngIf="outcomeTouched && !hasOutcomes()" class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in" role="alert">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </svg>
-          <span><strong>¡Atención!</strong> Debes ingresar al menos un RA.</span>
-        </div>
+          <!-- Enhanced validation message -->
+          <div
+            *ngIf="outcomeTouched && !hasOutcomes()"
+            class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
+            role="alert"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-exclamation-triangle-fill me-2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+              />
+            </svg>
+            <span
+              ><strong>¡Atención!</strong> Debes ingresar al menos un RA.</span
+            >
+          </div>
           <!-- Empty state -->
           <div *ngIf="!hasOutcomes()" class="flex-grow-1 mt-2">
-            <div class="gray-box d-flex justify-content-center align-items-center">
+            <div
+              class="gray-box d-flex justify-content-center align-items-center"
+            >
               <span class="text-secondary fw-semibold">RA</span>
             </div>
           </div>
@@ -56,23 +80,22 @@
             <div
               *ngFor="let outcome of selectedOutcomes; let i = index"
               class="ra-row"
-              (click)="removeOutcome(outcome)">
+              (click)="removeOutcome(outcome)"
+            >
               <div class="outcome-cell">
                 <app-molecule-out-come
                   [outcome]="outcome.description"
-                  [outcomeNumber]="i + 1">
+                  [outcomeNumber]="i + 1"
+                >
                 </app-molecule-out-come>
               </div>
               <div class="action-cell">
-                <button
-                  class="ra-action-icon"
-                  (click)="removeOutcome(outcome)">
+                <button class="ra-action-icon" (click)="removeOutcome(outcome)">
                   ×
                 </button>
               </div>
             </div>
           </div>
-
         </section>
       </div>
     </div>
