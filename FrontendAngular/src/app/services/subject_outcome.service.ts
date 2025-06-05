@@ -50,6 +50,10 @@ export class SubjectOutomeService {
     return this.http.delete<SubjectOutcome>(`${this.baseUrl}/subject/outcome/${id}`).pipe(catchError(this.handleError));
   }
 
+  copyOutcome(outcomeId:number, competencyId:number, subjectId:number){
+    return this.http.post<SubjectOutcome>(`${this.baseUrl}/subject/${subjectId}/outcome/${outcomeId}/copy-to/competency/${competencyId}`,{})
+  }
+
   private handleError(error: any): Observable<never> {
     let err: ErrorResponse = { error: 'Error', message: 'Ocurrió un error inesperado' };
     if (error.error) {
