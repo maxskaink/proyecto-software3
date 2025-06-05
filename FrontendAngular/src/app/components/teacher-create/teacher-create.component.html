@@ -1,202 +1,137 @@
-<app-molecule-back-header
-  [confirmBack]="true"
-></app-molecule-back-header>
+<app-molecule-back-header [confirmBack]="true"></app-molecule-back-header>
+
 <div class="container mt-4">
+  <!-- Header Section -->
+  <section class="d-flex flex-column justify-content-center align-items-center mb-4">
+    <h1 class="fw-bold title">{{title}}</h1>
+    <p class="text-muted description">{{description}}</p>
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-info-circle me-2"></i>
+      Se generará una contraseña temporal con el formato: Temp[número de identificación]#
+    </div>
+  </section>
   <section class="d-flex flex-column justify-content-center align-items-center mb-4">
     <h1 class="fw-bold title">{{title}}</h1>
     <p class="text-muted description">{{description}}</p>
   </section>
 
+  <!-- Form Section -->
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
       <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="teacher-form-card">
-        <div class="form-container">
-
-          <div class="form-group-custom">
-            <label for="name" class="form-label small text-muted mb-0">
-              &lt;Nombre del docente&gt;
-            </label>
-            <input
-              type="text"
-              class="input__box w-100 mb-2 mt-1"
-              id="name"
-              formControlName="name"
-              placeholder="Ingresa el nombre">
-            <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> El nombre es obligatorio.</span>
-            </div>
+        <!-- Personal Information -->
+        <div class="form-group mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="name"
+                 formControlName="name"
+                 placeholder="Ingrese el nombre">
+          <div *ngIf="teacherForm.get('name')?.invalid && teacherForm.get('name')?.touched" 
+               class="text-danger small">
+            El nombre es requerido
           </div>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="lastName" class="form-label small text-muted mb-0">
-              &lt;Apellidos del docente&gt;
-            </label>
-            <input
-              type="text"
-              class="input__box w-100 mb-2 mt-1"
-              id="lastName"
-              formControlName="lastName"
-              placeholder="Ingresa los apellidos">
-            <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> Los apellidos son obligatorios.</span>
-            </div>
+        <div class="form-group mb-3">
+          <label for="lastName" class="form-label">Apellidos</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="lastName"
+                 formControlName="lastName"
+                 placeholder="Ingrese los apellidos">
+          <div *ngIf="teacherForm.get('lastName')?.invalid && teacherForm.get('lastName')?.touched" 
+               class="text-danger small">
+            Los apellidos son requeridos
           </div>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="email" class="form-label small text-muted mb-0">
-              &lt;Correo electrónico&gt;
-            </label>
-            <input
-              type="email"
-              class="input__box w-100 mb-2 mt-1"
-              id="email"
-              formControlName="email"
-              placeholder="ejemplo@correo.com">
-            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong>
-                <span *ngIf="email?.errors?.['required']">El correo es obligatorio.</span>
-                <span *ngIf="email?.errors?.['email']">Ingresa un correo válido.</span>
-              </span>
-            </div>
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Correo Electrónico</label>
+          <input type="email" 
+                 class="form-control" 
+                 id="email"
+                 formControlName="email"
+                 placeholder="ejemplo@correo.com">
+          <div *ngIf="teacherForm.get('email')?.invalid && teacherForm.get('email')?.touched" 
+               class="text-danger small">
+            Ingrese un correo válido
           </div>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="identificationType" class="form-label small text-muted mb-0">
-              &lt;Tipo de identificación&gt;
-            </label>
-            <select class="custom-select-style w-100 mb-2 mt-1 clickable-select"
-                    id="identificationType"
-                    formControlName="identificationType">
-              <option value="">Selecciona tipo de identificación</option>
-              <option value="CC">Cédula de Ciudadanía</option>
-              <option value="CE">Cédula de Extranjería</option>
-              <option value="TI">Tarjeta de Identidad</option>
-              <option value="PP">Pasaporte</option>
-            </select>
-            <div *ngIf="identificationType?.invalid && (identificationType?.dirty || identificationType?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> Debes seleccionar un tipo de identificación.</span>
-            </div>
-          </div>
+        <!-- Identification -->
+        <div class="form-group mb-3">
+          <label for="identificationType" class="form-label">Tipo de Identificación</label>
+          <select class="form-control" 
+                  id="identificationType"
+                  formControlName="identificationType">
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="PP">Pasaporte</option>
+          </select>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="identification" class="form-label small text-muted mb-0">
-              &lt;Número de identificación&gt;
-            </label>
-            <input
-              type="text"
-              class="input__box w-100 mb-2 mt-1"
-              id="identification"
-              formControlName="identification"
-              placeholder="Ingresa el número de identificación">
-            <div *ngIf="identification?.invalid && (identification?.dirty || identification?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> El número de identificación es obligatorio.</span>
-            </div>
+        <div class="form-group mb-3">
+          <label for="identification" class="form-label">Número de Identificación</label>
+          <input type="number" 
+                 class="form-control" 
+                 id="identification"
+                 formControlName="identification"
+                 placeholder="Ingrese el número de identificación">
+          <div *ngIf="teacherForm.get('identification')?.invalid && teacherForm.get('identification')?.touched" 
+               class="text-danger small">
+            La identificación es requerida
           </div>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="academicTitle" class="form-label small text-muted mb-0">
-              &lt;Título académico&gt;
-            </label>
-            <input
-              type="text"
-              class="input__box w-100 mb-2 mt-1"
-              id="academicTitle"
-              formControlName="academicTitle"
-              placeholder="Ingresa el título académico">
-            <div *ngIf="academicTitle?.invalid && (academicTitle?.dirty || academicTitle?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> El título académico es obligatorio.</span>
-            </div>
+        <!-- Professional Information -->
+        <div class="form-group mb-3">
+          <label for="academicTitle" class="form-label">Título Académico</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="academicTitle"
+                 formControlName="academicTitle"
+                 placeholder="Ingrese el título académico">
+          <div *ngIf="teacherForm.get('academicTitle')?.invalid && teacherForm.get('academicTitle')?.touched" 
+               class="text-danger small">
+            El título académico es requerido
           </div>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="role" class="form-label small text-muted mb-0">
-              &lt;Selecciona el rol&gt;
-            </label>
-            <select class="custom-select-style w-100 mb-2 mt-1 clickable-select"
-                    id="role"
-                    formControlName="role">
-              <option value="">Selecciona un rol</option>
-              <option value="Teacher">Docente</option>
-              <option value="Coordinator">Coordinador</option>
-              <option value="Director">Director</option>
-            </select>
-            <div *ngIf="role?.invalid && (role?.dirty || role?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> Debes seleccionar un rol.</span>
-            </div>
-          </div>
+        <div class="form-group mb-3">
+          <label for="role" class="form-label">Rol</label>
+          <select class="form-control" 
+                  id="role"
+                  formControlName="role">
+            <option value="Teacher">Docente</option>
+            <option value="Coordinator">Coordinador</option>
+          </select>
+        </div>
 
-          <div class="form-group-custom">
-            <label for="typeTeacher" class="form-label small text-muted mb-0">
-              &lt;Tipo de docente&gt;
-            </label>
-            <select class="custom-select-style w-100 mb-2 mt-1 clickable-select"
-                    id="typeTeacher"
-                    formControlName="typeTeacher">
-              <option value="">Selecciona tipo de docente</option>
-              <option value="pregrado">Pregrado</option>
-              <option value="posgrado">Posgrado</option>
-              <option value="ambos">Pregrado y Posgrado</option>
-            </select>
-            <div *ngIf="typeTeacher?.invalid && (typeTeacher?.dirty || typeTeacher?.touched)"
-                 class="alert alert-danger d-flex align-items-center p-2 mt-2 mb-2 fade-in"
-                 role="alert">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                   class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-              <span><strong>¡Atención!</strong> Debes seleccionar un tipo de docente.</span>
-            </div>
-          </div>
+        <div class="form-group mb-3">
+          <label for="typeTeacher" class="form-label">Tipo de Docente</label>
+          <select class="form-control" 
+                  id="typeTeacher"
+                  formControlName="typeTeacher">
+            <option value="pregrado">Pregrado</option>
+            <option value="postgrado">Postgrado</option>
+          </select>
+        </div>
 
-          <div class="d-flex w-100 gap-2 mt-4">
-            <button type="button" class="buton_cancel flex-grow-1" (click)="goBack()">Cancelar</button>
-            <button type="submit" class="button_save flex-grow-1" [disabled]="teacherForm.invalid || isSubmitting">
-              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-              {{ create ? 'Crear docente' : 'Actualizar docente' }}
-            </button>
-          </div>
+        <!-- Action Buttons -->
+        <div class="d-flex gap-3 mt-4">
+          <button type="button" 
+                  class="btn btn-secondary flex-grow-1" 
+                  (click)="goBack()">
+            Cancelar
+          </button>
+          <button type="submit" 
+                  class="btn btn-primary flex-grow-1" 
+                  [disabled]="teacherForm.invalid || isSubmitting">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
+            {{create ? 'Crear' : 'Actualizar'}} Docente
+          </button>
         </div>
       </form>
     </div>

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
-import { onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import {Firestore, doc, getDoc, collection, getDocs} from '@angular/fire/firestore';
+import {Firestore, doc, getDoc, collection, getDocs, setDoc} from '@angular/fire/firestore';
 import { TeacherDTO } from '../models/TeacherDTO';
 import {setUserId} from "@angular/fire/analytics";
 
@@ -162,7 +162,43 @@ export class AuthService {
 
   //TODO implement these methods
   createUser(teacher: TeacherDTO): Observable<void> {
-    return new Observable<void>((subscriber) => subscriber.complete);
+    return new Observable<void>((subscriber) => {
+      (async () => {
+        try {
+          // First create the authentication user
+          const userCredential = await createUserWithEmailAndPassword(
+            this.afAuth,
+            teacher.email ?? '',
+            // Generate a temporary password using identification number
+            `Temp${teacher.identification}#`
+          );
+
+          // Then create the user document in Firestore
+          const userDoc = doc(this.firestore, 'SERA', userCredential.user.uid);
+          const userData = {
+            academicTitle: teacher.academicTitle || '',
+            identification: teacher.identification || 0,
+            identificationType: teacher.identificationType || 'CC',
+            lastname: teacher.lastName || '',
+            name: teacher.name || '',
+            role: teacher.role || 'Teacher',
+            typeTeacher: teacher.typeTeacher || 'pregrado',
+            email: teacher.email || ''
+          };
+
+          await setDoc(userDoc, userData);
+          subscriber.next();
+          subscriber.complete();
+        } catch (error: any) {
+          // Handle Firebase auth errors
+          if (error.code === 'auth/email-already-in-use') {
+            subscriber.error('El correo electrónico ya está registrado');
+          } else {
+            subscriber.error(error);
+          }
+        }
+      })();
+    });
   }
 
   updateUser(teacher: TeacherDTO): Observable<void> {

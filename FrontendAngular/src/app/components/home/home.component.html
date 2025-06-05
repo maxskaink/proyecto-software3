@@ -11,8 +11,14 @@
           class="flex-grow-0 me-3"
         ></app-molecule-aside-menu>
 
-        <app-molecule-search-bar
+        <app-molecule-search-bar *ngIf="activeView === 'subjects'"
           placeholder="Buscar asignatura..."
+          (search)="onSearch($event)"
+          class="flex-grow-1"
+        ></app-molecule-search-bar>
+
+        <app-molecule-search-bar *ngIf="activeView === 'outcomes'"
+          placeholder="Buscar RA..."
           (search)="onSearch($event)"
           class="flex-grow-1"
         ></app-molecule-search-bar>
