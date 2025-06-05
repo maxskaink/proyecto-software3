@@ -28,14 +28,13 @@
         <section class="row mb-5 sectionCriterions">
             <div class="col-12">
                 <div class=" p-4">
-                    <h2 class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
+                    <h2 *ngIf="!shouldHideCreateCriterion" class="mb-4 title angular-brackets">Crear Nuevo Criterio</h2>
                     <div class="">
                         <app-template-rubric-create-criterion
-                        *ngIf="listCriterion.length < MAX_CRITERIA"
+                        *ngIf="!shouldHideCreateCriterion"
                         [idRubric]="idRubric"
                         (criterionAdded)="onCriterionAdded($event)">
                         </app-template-rubric-create-criterion>
-                        
                     </div>
                 </div>
             </div>

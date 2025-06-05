@@ -15,7 +15,7 @@ import { CriterionService } from '../../services/criterion.service';
 import { LevelDTO } from '../../models/LevelDTO';
 import { firstValueFrom } from 'rxjs';
 import { AlertmessageComponent } from '../../componentsShared/messages/alertmessage/alertmessage.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-rubric',
   imports: [CommonModule, 
@@ -42,6 +42,7 @@ export class CreateRubricComponent {
   constructor(private route: ActivatedRoute, 
     private rubricService: RubricService,
     private criterionService: CriterionService,
+    private router: Router, // Add Router
     private levelSerice: LevelService) {}
   listCriterion: CriterionEntity[] = [];
   listCriterionExist: CriterionDTO[] = [];
@@ -78,12 +79,7 @@ export class CreateRubricComponent {
       }
     });
     
-    if(this.RubricDTO.id) {
-      this.idRubric = this.RubricDTO.id;
-      this.description = this.RubricDTO.description || '';
-      this.listCriterion = this.RubricDTO.criteria || [];
-      this.isEdit = true; 
-    }
+
   }
   /**
    * Saves the rubric by creating it, saving its criteria, and levels.
@@ -108,7 +104,14 @@ export class CreateRubricComponent {
         console.log('Rubric created successfully with ID:', this.idRubric);
       }
 
-    
+      setTimeout(() => {
+        this.router.navigate(['home/subject/competency/subject/outcome'], {
+          queryParams: {
+            outcomeId: this.idOutcome
+          }
+        });
+      }, 1000);
+      
     } catch (error) {
       console.error('Error in rubric creation process:', error);
       if (this.idRubric) {
@@ -167,7 +170,7 @@ export class CreateRubricComponent {
   /**
    * Save criterion in a new rubric 
    */
-  private async saveCriterions(): Promise<void> {
+private async saveCriterions(): Promise<void> {
     for (const criterion of this.listCriterion) {
       const response = await firstValueFrom(
         this.criterionService.assignCriterionToRubric(this.idRubric, {
@@ -230,12 +233,14 @@ export class CreateRubricComponent {
     for(const criterion of this.listCriterion){
        totalPercentage += criterion.weight;
     }
-    if(totalPercentage != 100){
+    if(totalPercentage >100 || totalPercentage <100){
       this.error.weight = 'Los criterios deben sumar en total 100%'
+      this.clearErrorAfterDelay('weight');
       return false;
     }
     if(!this.description.trim()){
       this.error.description = 'La descripcion es obligatoria, no puede quedar vacia'
+      this.clearErrorAfterDelay('description');
       return false; 
     }
       
@@ -269,6 +274,18 @@ export class CreateRubricComponent {
       this.listCriterion.splice(index, 1);
     }
     console.log('Criterio eliminado:', criterion);
+  }
+  private calculateTotalWeight(): number {
+    return this.listCriterion.reduce((sum, criterion) => sum + criterion.weight, 0);
+  }
+  get shouldHideCreateCriterion(): boolean {
+    return this.listCriterion.length >= this.MAX_CRITERIA || 
+           this.calculateTotalWeight() >= 100;
+  }
+  private clearErrorAfterDelay(errorKey: keyof typeof this.error) {
+    setTimeout(() => {
+      this.error[errorKey] = '';
+    }, 2000);
   }
 
 }
