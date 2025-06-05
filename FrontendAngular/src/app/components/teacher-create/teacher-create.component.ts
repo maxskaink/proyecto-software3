@@ -6,10 +6,11 @@ import { MoleculeBackHeaderComponent } from "../../componentsShared/molecules/mo
 import { AuthService } from '../../services/auth.service';
 import { TeacherDTO } from '../../models/TeacherDTO';
 import { Location } from '@angular/common';
+import { TemplateHeaderTitleComponent } from '../../componentsShared/templates/template-header-title/template-header-title.component';
 @Component({
   selector: 'app-teacher-create',
   standalone: true,
-  imports: [MoleculeBackHeaderComponent, ReactiveFormsModule, CommonModule],
+  imports: [TemplateHeaderTitleComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './teacher-create.component.html',
   styleUrl: './teacher-create.component.css'
 })

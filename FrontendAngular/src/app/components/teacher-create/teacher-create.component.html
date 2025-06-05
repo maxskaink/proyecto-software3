@@ -1,4 +1,10 @@
-<app-molecule-back-header [confirmBack]="true"></app-molecule-back-header>
+<app-template-header-title
+    [title]="'Asignatura'"
+    [description]="'Aqui podras configurar tu asignatura'"
+    [confirmBack]="true"
+    [customBackRoute]="'/home'"
+    [customBackQueryParams]="{}">
+</app-template-header-title>
 
 <div class="container mt-4">
   <!-- Header Section -->
