@@ -11,6 +11,7 @@ import {
   MoleculeBackHeaderComponent
 } from "../../componentsShared/molecules/molecule-back-header/molecule-back-header.component";
 import {AlertmessageComponent} from "../../componentsShared/messages/alertmessage/alertmessage.component";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-program-competency',
@@ -35,6 +36,7 @@ export class ProgramCompetencyComponent  {
   constructor(
     private route: ActivatedRoute,
     private programCompetencyService: ProgramCompetencyService,
+    private location: Location
   ) { }
 
   handleCloseAlert(){
@@ -87,7 +89,10 @@ export class ProgramCompetencyComponent  {
         next: (result) => {
           console.log('Program competency assigned successfully:', result);
           this.outcomeCreated = true;
-          this.handleSavedAlert()
+          this.handleSavedAlert();
+          setTimeout(()=>{
+            this.location.back();
+          },1000);
           return true;
         },
         error: (error) => {

@@ -172,7 +172,7 @@ export class SubjectCompetencyComponent implements OnInit {
           this.saveAlert();
           setTimeout(()=>{
             this.location.back();
-          },3000)
+          },1000)
         },
         error: (error) => {
           this.errorAlert(error.error)
